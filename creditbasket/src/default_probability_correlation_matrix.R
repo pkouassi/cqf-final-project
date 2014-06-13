@@ -118,9 +118,12 @@ for (i in seq(1,nrow(myPDdiffMatrix))) {
   }
 }
 
+#linear measure (Pearson)
+#cor(x,y,method = "pearson")
+
 #Correlation for Student t copula
-
-
+#cor(x,y,method = "kendall")
+#rho = sin(0.5*Pi*rho_k)
 
 
 
