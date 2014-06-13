@@ -16,3 +16,6 @@ git add .
 git commit -m "Commit message"
 #pushing changes
 git push origin master
+
+#git status
+git status -s

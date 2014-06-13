@@ -80,39 +80,48 @@ hist(HP_USD_XR_PDdiff$DP_5Y_change, breaks=30)
 hist(BMY_USD_XR_PDdiff$DP_5Y_change, breaks=30)
 
 #correlation for gaussian copula
-X_BMY_USD_XR = BMY_USD_XR_PDdiff$DP_5Y_change
-fn_BMY_USD_XR = ecdf(X_BMY_USD_XR)
-U_BMY_USD_XR = fn_BMY_USD_XR(X_BMY_USD_XR)
-Z_BMY_USD_XR = qnorm(U_BMY_USD_XR)
+transform_pddiff_to_normal = function(X) {
+  fn = ecdf(X) 
+  U = fn(X)
+  Z = qnorm(U)
+  return(Z)
+}
 
-X_PFE_USD_XR = PFE_USD_XR_PDdiff$DP_5Y_change
-fn_PFE_USD_XR = ecdf(X_PFE_USD_XR)
-U_PFE_USD_XR = fn_PFE_USD_XR(X_PFE_USD_XR)
-Z_PFE_USD_XR = qnorm(U_PFE_USD_XR)
+#must clean data earlier
+Z_BMY_USD_XR = transform_pddiff_to_normal(BMY_USD_XR_PDdiff$DP_5Y_change)
+Z_PFE_USD_XR = transform_pddiff_to_normal(PFE_USD_XR_PDdiff$DP_5Y_change)
+Z_IBM_USD_XR = transform_pddiff_to_normal(IBM_USD_XR_PDdiff$DP_5Y_change)
+Z_DELL_USD_XR = transform_pddiff_to_normal(DELL_USD_XR_PDdiff$DP_5Y_change)
+Z_HP_USD_XR = transform_pddiff_to_normal(HP_USD_XR_PDdiff$DP_5Y_change)
 
-X_IBM_USD_XR = IBM_USD_XR_PDdiff$DP_5Y_change
-fn_IBM_USD_XR = ecdf(X_IBM_USD_XR)
-U_IBM_USD_XR = fn_IBM_USD_XR(X_PFE_USD_XR)
-Z_IBM_USD_XR = qnorm(U_IBM_USD_XR)
+correlation_exclude_spikes = function(Z1,Z2) {
+  #check for Inf
+  spikes_for_Z1 = !(Z1 != Inf)
+  spikes_for_Z2 = !(Z2 != Inf)
+  spikes_for_both = spikes_for_Z1 | spikes_for_Z2  
+  cat(sum(spikes_for_both == TRUE)," date(s) excluded in both time series...\n")
+  
+  return(cor(Z1[spikes_for_both==FALSE],Z2[spikes_for_both==FALSE]))
+}
 
-X_DELL_USD_XR = DELL_USD_XR_PDdiff$DP_5Y_change
-fn_DELL_USD_XR = ecdf(X_DELL_USD_XR)
-U_DELL_USD_XR = fn_DELL_USD_XR(X_DELL_USD_XR)
-Z_DELL_USD_XR = qnorm(U_DELL_USD_XR)
+myPDdiffMatrix = rbind(Z_BMY_USD_XR,Z_PFE_USD_XR,Z_IBM_USD_XR,Z_DELL_USD_XR,Z_HP_USD_XR)
 
-X_HP_USD_XR = HP_USD_XR_PDdiff$DP_5Y_change
-fn_HP_USD_XR = ecdf(X_HP_USD_XR)
-U_HP_USD_XR = fn_HP_USD_XR(X_PFE_USD_XR)
-Z_HP_USD_XR = qnorm(U_HP_USD_XR)
+#Correlation for Gaussian copula
+DefaultProbabilityMatrix = matrix(NA, 
+                           nrow=nrow(myPDdiffMatrix),
+                           ncol=nrow(myPDdiffMatrix),
+                           byrow = TRUE);
 
-BMY_USD_XR_PDdiff = ComputeDifference(BMY_USD_XR_HistCreditCurve)
-DELL_USD_XR_PDdiff = ComputeDifference(DELL_USD_XR_HistCreditCurve)
-HP_USD_XR_PDdiff = ComputeDifference(HP_USD_XR_HistCreditCurve)
-IBM_USD_XR_PDdiff = ComputeDifference(IBM_USD_XR_HistCreditCurve)
-PFE_USD_XR_PDdiff = ComputeDifference(PFE_USD_XR_HistCreditCurve)
+for (i in seq(1,nrow(myPDdiffMatrix))) {
+  for (j in seq(1,nrow(myPDdiffMatrix))) {
+    DefaultProbabilityMatrix[i,j] = correlation_exclude_spikes(myPDdiffMatrix[i,],myPDdiffMatrix[j,])
+  }
+}
+
+#Correlation for Student t copula
 
 
-#be carefull with Inf
-Z_BMY_USD_XR[Z_BMY_USD_XR != Inf]
-#as.Date(15876, origin="1970-01-01")
+
+
+
 
