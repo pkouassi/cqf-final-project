@@ -1,0 +1,18 @@
+#define http proxy
+git config --global https.proxy http://ocbcpnet.ocbc.local:8080
+git config --global http.proxy http://ocbcpnet.ocbc.local:8080
+
+#checkout a repository
+git clone https://github.com/lampalork/finalproject.git
+
+#add & commit
+git add <filename>
+git add *
+git add .
+
+#commiting
+#Now the file is committed to the HEAD, but not in your remote repository yet.
+#you must be in the folder of your repository (e.g. /d/Temp/git-root-test/finalproject)
+git commit -m "Commit message"
+#pushing changes
+git push origin master
