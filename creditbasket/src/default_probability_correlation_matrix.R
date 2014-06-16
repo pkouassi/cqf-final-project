@@ -119,19 +119,19 @@ correlation_exclude_spikes = function(Z1,Z2) {
 myPDdiffMatrix = rbind(Z_BMY_USD_XR,Z_PFE_USD_XR,Z_IBM_USD_XR,Z_DELL_USD_XR,Z_HP_USD_XR)
 
 #Correlation for Gaussian copula
-DefaultProbabilityMatrix = matrix(NA, 
+DefaultProbabilityMatrix_GaussianCopula = matrix(NA, 
                            nrow=nrow(myPDdiffMatrix),
                            ncol=nrow(myPDdiffMatrix),
                            byrow = TRUE);
 
 for (i in seq(1,nrow(myPDdiffMatrix))) {
   for (j in seq(1,nrow(myPDdiffMatrix))) {
-    DefaultProbabilityMatrix[i,j] = correlation_exclude_spikes(myPDdiffMatrix[i,],myPDdiffMatrix[j,])
+    DefaultProbabilityMatrix_GaussianCopula[i,j] = correlation_exclude_spikes(myPDdiffMatrix[i,],myPDdiffMatrix[j,])
   }
 }
 
 cat("Z_BMY_USD_XR,Z_PFE_USD_XR,Z_IBM_USD_XR,Z_DELL_USD_XR,Z_HP_USD_XR\n")
-DefaultProbabilityMatrix
+DefaultProbabilityMatrix_GaussianCopula
 
 #linear measure (Pearson)
 #cor(x,y,method = "pearson")
@@ -139,6 +139,8 @@ DefaultProbabilityMatrix
 #Correlation for Student t copula
 
 #since data is close to normal, ecdf should give acceptable results
+#explore alternative with mathematica / matlab
+#mathematica test -- not really conclusive
 transform_pddiff_to_uniform = function(X) {
   #ecdf does not rely on kernel density
   #ecdf (Empirical CDF) in R instead of kernel densities. It summarizes the data into something like a smooth CDF line while graphing all the data points
@@ -154,6 +156,27 @@ transform_pddiff_to_uniform_kerneldensity = function(X) {
   U = sapply(X,fn)
   return(U)
 }
+
+export_to_mathematica = function(arr) {
+  ret = "{"
+  for (i in seq(1,length(arr)-1)) {
+    ret = paste(ret,sprintf("%.15f",arr[i]),",")
+  }
+  ret = paste(ret,sprintf("%.15f",arr[length(arr)]),"}")
+  return(ret)
+}
+
+import_from_mathematica = function(str) {
+  #temp = str
+  #temp = gsub("{", "", temp)
+  #temp = gsub("}", "", temp)
+  tmp = strsplit(str, ",")[[1]]
+  tmp = gsub("\n", "", tmp)
+  tmp = as.numeric(tmp)
+  return(tmp)
+}
+
+export_to_mathematica(BMY_USD_XR_PDdiff$DP_5Y_change)
 
 U_BMY_USD_XR = transform_pddiff_to_uniform(BMY_USD_XR_PDdiff$DP_5Y_change)
 U_PFE_USD_XR = transform_pddiff_to_uniform(PFE_USD_XR_PDdiff$DP_5Y_change)
