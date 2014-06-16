@@ -31,36 +31,33 @@ BMY_USD_XR_MARGINAL_CREDIT_CURVE@hazardrate
 
 u = 1-exp(0.004)
 
-hazardtime = function(arr) {
-  result = rep(NA,length(arr))
+HazardExactDefaultTime = function(CreditCurve,arr) {
+  #determine the year of default
+  #by comparing abs(log(1-arr[i])) and sum (sum of lambda_i*delta_ti)
+  exacttimeofdefault = rep(NA,length(arr))
   for (i in seq(1,length(arr))) {
+    debug_string_array = rep(NA,length(CreditCurve@hazardrate))
     sum = 0
-    for (j in seq(1,5)) {
-      sum = sum + BMY_USD_XR_MARGINAL_CREDIT_CURVE@hazardrate[j] * 1
+    for (j in seq(1,length(CreditCurve@hazardrate))) {
+      sum = sum + CreditCurve@hazardrate[j] * 1
+      #debug_string_array[j] = paste("i=",i,"j=",j,"abs(log(1-arr[i])=",abs(log(1-arr[i]),"sum=",sum)
+      debug_string_array[j] = paste("i=",i,"j=",j,"abs(log(1-u))=",abs(log(1-arr[i])),"sum=",sum,"flag=",(abs(log(1-arr[i]))<=sum))
       if (abs(log(1-arr[i]))<=sum) {
-        result[i] = paste(j-1,"-",j)
+        year = j-1
+        deltat = (-1/CreditCurve@hazardrate[j])*log((1-arr[i])/CreditCurve@survivalprobability[j-1])
+        exacttimeofdefault[i] = year + deltat
+        
+        #for (k in seq(1,j)) {
+        #  cat(debug_string_array[k],"\n")
+        #}
         break
       } 
     }  
   }
-  return(result)  
+  print(exacttimeofdefault)
 }
 
-hazardtime(runif(100, min = 0, max = 1))
-
-
-sum = 0
-for (i in seq(1,5)) {
-  #cat("i=",i,"\n")
-  sum = sum + BMY_USD_XR_MARGINAL_CREDIT_CURVE@hazardrate[i] * 1
-  #cat("abs(log(1-u)):",abs(log(1-u))," // sum: ", sum,"\n")
-  #cat("==>", (abs(log(1-u))<=sum),"\n")
-  
-  if (abs(log(1-u))<=sum) {
-    return(paste(i-1,"-",i))
-    break
-  }
-  
-}
+aaa = runif(250, min = 0, max = 1)
+HazardExactDefaultTime(BMY_USD_XR_MARGINAL_CREDIT_CURVE,aaa)
 
 

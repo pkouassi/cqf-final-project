@@ -29,8 +29,23 @@ cbind(BMY_USD_XR$Date,DELL_USD_XR$Date,HP_USD_XR$Date,IBM_USD_XR$Date,PFE_USD_XR
 
 BootstrapHistoricCreditCurve = function(HistCDSData) {
   RecoveryRate = 0.40
-  HistCreditCurve = as.data.frame(matrix(ncol=4, nrow=nrow(HistCDSData)))
-  names(HistCreditCurve) = c("Date", "Ticker","SP_5Y", "DP_5Y")
+  
+  #HistCreditCurve = rep(list(),nrow(HistCDSData))
+  HistCreditCurve = matrix(list(),nrow(HistCDSData),3)
+  colnames(HistCreditCurve) = c("Date", "Ticker","CreditCurve")
+  
+  #HistCreditCurve = as.data.frame(matrix(list(),ncol=5, nrow=nrow(HistCDSData)))
+  #names(HistCreditCurve) = c("Date", "Ticker","SP_5Y", "DP_5Y","CreditCurve")
+  
+  #HistCreditCurve = data.frame(Date = Date = as.Date(rep(0,nrow(HistCDSData)), origin = "1900-01-01"),
+  #                             Ticker = rep(NA,nrow=nrow(HistCDSData)),
+  #                             SP_5Y = rep(NA,nrow=nrow(HistCDSData)),               
+  #                             DP_5Y = rep(NA,nrow=nrow(HistCDSData)),                 
+  #                             CreditCurve = rep(list(),nrow(HistCDSData)))                          
+  #                             )
+  
+  #StockReturns = data.frame(Date = as.Date(rep(0,nrow(stock.dataframe)-1), origin = "1900-01-01"),
+  #                          Return = rep(NA,nrow(stock.dataframe)-1))
   
   for (i in seq(1,nrow(HistCDSData)))
   {
@@ -43,20 +58,47 @@ BootstrapHistoricCreditCurve = function(HistCDSData) {
     YieldCurve = getYieldCurve(HistYieldCurveMatrix,HistCDSData[i,]$Date)
     tmp = BootstrapCreditCurve(CDScol,RecoveryRate,YieldCurve)
     
-    HistCreditCurve$Date[i] = HistCDSData[i,]$Date
-    HistCreditCurve$Ticker[i] = HistCDSData[i,]$Ticker
-    HistCreditCurve$SP_5Y[i] = tmp@survivalprobability[5]
-    HistCreditCurve$DP_5Y[i] = 1 - HistCreditCurve$SP_5Y[i]
+    #HistCreditCurve$Date[i] = HistCDSData[i,]$Date
+    #HistCreditCurve$Ticker[i] = HistCDSData[i,]$Ticker
+    #HistCreditCurve$SP_5Y[i] = tmp@survivalprobability[5]
+    #HistCreditCurve$DP_5Y[i] = 1 - tmp@survivalprobability[5]
+    #HistCreditCurve$CreditCurve[[i]] = tmp
+    HistCreditCurve[[i,"Date"]] = HistCDSData[i,]$Date
+    HistCreditCurve[[i,"Ticker"]] = HistCDSData[i,]$Ticker
+    HistCreditCurve[[i,"CreditCurve"]] = tmp
   }
   
   return(HistCreditCurve)
 }
 
+ConvertHistoricCreditCurveToDataframe = function(HistCreditCurve) {
+  #Extract specific info from the historical credit curve and store them in a dataframe
+  HistCreditCurveDataframe = as.data.frame(matrix(list(),ncol=4, nrow=nrow(HistCreditCurve)))
+  names(HistCreditCurveDataframe) = c("Date", "Ticker","SP_5Y", "DP_5Y")
+  
+  for (i in seq(1,nrow(HistCreditCurve))) {
+    HistCreditCurveDataframe$Date[i] = HistCreditCurve[i,"Date"]
+    HistCreditCurveDataframe$Ticker[i] = HistCreditCurve[i,"Ticker"]
+    HistCreditCurveDataframe$SP_5Y[i] = HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years SP
+    HistCreditCurveDataframe$DP_5Y[i] = 1 - HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years DP  
+  }
+  
+  return(HistCreditCurveDataframe)  
+}
+
+#arrays of CreditCurve Objects
 BMY_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(BMY_USD_XR)
 DELL_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(DELL_USD_XR)
 HP_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(HP_USD_XR)
 IBM_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(IBM_USD_XR)
 PFE_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(PFE_USD_XR)
+
+#dataframe with 5Y Survival Probability and Default Probability
+BMY_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(BMY_USD_XR_HistCreditCurve)
+DELL_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(DELL_USD_XR_HistCreditCurve)
+HP_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(HP_USD_XR_HistCreditCurve)
+IBM_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(IBM_USD_XR_HistCreditCurve)
+PFE_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(PFE_USD_XR_HistCreditCurve)
 
 #calculate default probability difference
 ComputeDifference = function(HistCreditCurve) {
