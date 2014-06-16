@@ -1,0 +1,2551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <dlws:retrieveGetHistoryResponse xmlns="http://services.bloomberg.com/datalicense/dlws/ps/20071001" xmlns:dlws="http://services.bloomberg.com/datalicense/dlws/ps/20071001" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+         <dlws:statusCode>
+            <dlws:code>0</dlws:code>
+            <dlws:description>Success</dlws:description>
+         </dlws:statusCode>
+         <dlws:requestId>b1bafde0-b3a8-43aa-9f26-a624a21057a5</dlws:requestId>
+         <dlws:responseId>1402469567-105442521</dlws:responseId>
+         <dlws:headers>
+            <dlws:rundate>20140611</dlws:rundate>
+            <dlws:programflag>oneshot</dlws:programflag>
+            <dlws:hist_period>weekly</dlws:hist_period>
+            <dlws:daterange>
+               <dlws:period>
+                  <dlws:start>2013-05-03</dlws:start>
+                  <dlws:end>2014-05-23</dlws:end>
+               </dlws:period>
+            </dlws:daterange>
+         </dlws:headers>
+         <dlws:fields>
+            <dlws:field>PX_LAST</dlws:field>
+         </dlws:fields>
+         <dlws:timestarted>2014-06-11T02:53:00-04:00</dlws:timestarted>
+         <dlws:instrumentDatas>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-03</dlws:date>
+               <dlws:data value="0.997062"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-10</dlws:date>
+               <dlws:data value="0.996987"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-17</dlws:date>
+               <dlws:data value="0.996859"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-24</dlws:date>
+               <dlws:data value="0.996834"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-31</dlws:date>
+               <dlws:data value="0.996592"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-07</dlws:date>
+               <dlws:data value="0.996608"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-14</dlws:date>
+               <dlws:data value="0.996835"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-21</dlws:date>
+               <dlws:data value="0.996321"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-28</dlws:date>
+               <dlws:data value="0.996418"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-05</dlws:date>
+               <dlws:data value="0.996193"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-12</dlws:date>
+               <dlws:data value="0.996425"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-19</dlws:date>
+               <dlws:data value="0.996649"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-26</dlws:date>
+               <dlws:data value="0.996651"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-02</dlws:date>
+               <dlws:data value="0.99671"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-09</dlws:date>
+               <dlws:data value="0.996715"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-16</dlws:date>
+               <dlws:data value="0.996619"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-23</dlws:date>
+               <dlws:data value="0.99653"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-30</dlws:date>
+               <dlws:data value="0.996641"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-06</dlws:date>
+               <dlws:data value="0.996591"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-13</dlws:date>
+               <dlws:data value="0.996598"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-20</dlws:date>
+               <dlws:data value="0.996901"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-27</dlws:date>
+               <dlws:data value="0.996887"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-04</dlws:date>
+               <dlws:data value="0.996872"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-11</dlws:date>
+               <dlws:data value="0.996728"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-18</dlws:date>
+               <dlws:data value="0.996952"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-25</dlws:date>
+               <dlws:data value="0.997063"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-01</dlws:date>
+               <dlws:data value="0.997123"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-08</dlws:date>
+               <dlws:data value="0.997164"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-15</dlws:date>
+               <dlws:data value="0.997274"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-22</dlws:date>
+               <dlws:data value="0.997366"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-29</dlws:date>
+               <dlws:data value="0.997325"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-06</dlws:date>
+               <dlws:data value="0.997325"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-13</dlws:date>
+               <dlws:data value="0.997127"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-20</dlws:date>
+               <dlws:data value="0.996959"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-27</dlws:date>
+               <dlws:data value="0.996931"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-03</dlws:date>
+               <dlws:data value="0.996929"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-10</dlws:date>
+               <dlws:data value="0.996977"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-17</dlws:date>
+               <dlws:data value="0.997027"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-24</dlws:date>
+               <dlws:data value="0.996958"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-31</dlws:date>
+               <dlws:data value="0.997176"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-07</dlws:date>
+               <dlws:data value="0.997313"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-14</dlws:date>
+               <dlws:data value="0.997386"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-21</dlws:date>
+               <dlws:data value="0.99737"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-28</dlws:date>
+               <dlws:data value="0.997345"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-07</dlws:date>
+               <dlws:data value="0.997235"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-14</dlws:date>
+               <dlws:data value="0.997246"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-21</dlws:date>
+               <dlws:data value="0.997123"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-28</dlws:date>
+               <dlws:data value="0.997229"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-04</dlws:date>
+               <dlws:data value="0.997308"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-11</dlws:date>
+               <dlws:data value="0.997439"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-18</dlws:date>
+               <dlws:data value="0.997383"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-25</dlws:date>
+               <dlws:data value="0.997359"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-02</dlws:date>
+               <dlws:data value="0.997337"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-09</dlws:date>
+               <dlws:data value="0.997442"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-16</dlws:date>
+               <dlws:data value="0.99746"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 1Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-23</dlws:date>
+               <dlws:data value="0.997354"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-03</dlws:date>
+               <dlws:data value="0.993064"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-10</dlws:date>
+               <dlws:data value="0.992767"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-17</dlws:date>
+               <dlws:data value="0.992372"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-24</dlws:date>
+               <dlws:data value="0.992067"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-31</dlws:date>
+               <dlws:data value="0.990696"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-07</dlws:date>
+               <dlws:data value="0.990574"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-14</dlws:date>
+               <dlws:data value="0.99152"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-21</dlws:date>
+               <dlws:data value="0.988938"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-28</dlws:date>
+               <dlws:data value="0.98989"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-05</dlws:date>
+               <dlws:data value="0.988503"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-12</dlws:date>
+               <dlws:data value="0.989555"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-19</dlws:date>
+               <dlws:data value="0.990553"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-26</dlws:date>
+               <dlws:data value="0.990612"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-02</dlws:date>
+               <dlws:data value="0.990676"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-09</dlws:date>
+               <dlws:data value="0.990554"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-16</dlws:date>
+               <dlws:data value="0.9895"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-23</dlws:date>
+               <dlws:data value="0.988737"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-30</dlws:date>
+               <dlws:data value="0.988974"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-06</dlws:date>
+               <dlws:data value="0.987737"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-13</dlws:date>
+               <dlws:data value="0.988178"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-20</dlws:date>
+               <dlws:data value="0.990376"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-27</dlws:date>
+               <dlws:data value="0.99079"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-04</dlws:date>
+               <dlws:data value="0.990919"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-11</dlws:date>
+               <dlws:data value="0.990611"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-18</dlws:date>
+               <dlws:data value="0.991168"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-25</dlws:date>
+               <dlws:data value="0.991457"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-01</dlws:date>
+               <dlws:data value="0.991547"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-08</dlws:date>
+               <dlws:data value="0.991615"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-15</dlws:date>
+               <dlws:data value="0.992238"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-22</dlws:date>
+               <dlws:data value="0.992571"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-29</dlws:date>
+               <dlws:data value="0.992592"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-06</dlws:date>
+               <dlws:data value="0.992162"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-13</dlws:date>
+               <dlws:data value="0.991586"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-20</dlws:date>
+               <dlws:data value="0.991102"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-27</dlws:date>
+               <dlws:data value="0.990453"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-03</dlws:date>
+               <dlws:data value="0.990058"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-10</dlws:date>
+               <dlws:data value="0.990191"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-17</dlws:date>
+               <dlws:data value="0.98986"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-24</dlws:date>
+               <dlws:data value="0.990201"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-31</dlws:date>
+               <dlws:data value="0.990925"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-07</dlws:date>
+               <dlws:data value="0.991584"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-14</dlws:date>
+               <dlws:data value="0.991186"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-21</dlws:date>
+               <dlws:data value="0.991087"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-28</dlws:date>
+               <dlws:data value="0.991087"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-07</dlws:date>
+               <dlws:data value="0.989942"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-14</dlws:date>
+               <dlws:data value="0.9905"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-21</dlws:date>
+               <dlws:data value="0.988736"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-28</dlws:date>
+               <dlws:data value="0.988772"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-04</dlws:date>
+               <dlws:data value="0.989299"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-11</dlws:date>
+               <dlws:data value="0.99032"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-18</dlws:date>
+               <dlws:data value="0.989173"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-25</dlws:date>
+               <dlws:data value="0.989212"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-02</dlws:date>
+               <dlws:data value="0.988816"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-09</dlws:date>
+               <dlws:data value="0.989664"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-16</dlws:date>
+               <dlws:data value="0.98992"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 2Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-23</dlws:date>
+               <dlws:data value="0.989853"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-03</dlws:date>
+               <dlws:data value="0.986241"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-10</dlws:date>
+               <dlws:data value="0.985116"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-17</dlws:date>
+               <dlws:data value="0.984501"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-24</dlws:date>
+               <dlws:data value="0.983347"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-31</dlws:date>
+               <dlws:data value="0.979825"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-07</dlws:date>
+               <dlws:data value="0.979208"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-14</dlws:date>
+               <dlws:data value="0.980907"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-21</dlws:date>
+               <dlws:data value="0.97389"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-28</dlws:date>
+               <dlws:data value="0.975782"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-05</dlws:date>
+               <dlws:data value="0.972117"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-12</dlws:date>
+               <dlws:data value="0.975149"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-19</dlws:date>
+               <dlws:data value="0.977699"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-26</dlws:date>
+               <dlws:data value="0.977562"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-02</dlws:date>
+               <dlws:data value="0.9774"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-09</dlws:date>
+               <dlws:data value="0.977009"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-16</dlws:date>
+               <dlws:data value="0.973189"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-23</dlws:date>
+               <dlws:data value="0.97112"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-30</dlws:date>
+               <dlws:data value="0.971877"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-06</dlws:date>
+               <dlws:data value="0.968678"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-13</dlws:date>
+               <dlws:data value="0.969798"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-20</dlws:date>
+               <dlws:data value="0.975378"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-27</dlws:date>
+               <dlws:data value="0.977017"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-04</dlws:date>
+               <dlws:data value="0.977058"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-11</dlws:date>
+               <dlws:data value="0.977172"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-18</dlws:date>
+               <dlws:data value="0.978283"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-25</dlws:date>
+               <dlws:data value="0.979249"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-01</dlws:date>
+               <dlws:data value="0.978694"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-08</dlws:date>
+               <dlws:data value="0.979007"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-15</dlws:date>
+               <dlws:data value="0.980558"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-22</dlws:date>
+               <dlws:data value="0.981055"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-29</dlws:date>
+               <dlws:data value="0.980741"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-06</dlws:date>
+               <dlws:data value="0.978585"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-13</dlws:date>
+               <dlws:data value="0.977542"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-20</dlws:date>
+               <dlws:data value="0.976124"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-27</dlws:date>
+               <dlws:data value="0.974347"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-03</dlws:date>
+               <dlws:data value="0.973682"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-10</dlws:date>
+               <dlws:data value="0.974105"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-17</dlws:date>
+               <dlws:data value="0.973281"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-24</dlws:date>
+               <dlws:data value="0.974439"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-31</dlws:date>
+               <dlws:data value="0.975744"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-07</dlws:date>
+               <dlws:data value="0.977237"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-14</dlws:date>
+               <dlws:data value="0.975695"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-21</dlws:date>
+               <dlws:data value="0.975679"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-28</dlws:date>
+               <dlws:data value="0.975832"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-07</dlws:date>
+               <dlws:data value="0.972997"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-14</dlws:date>
+               <dlws:data value="0.97474"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-21</dlws:date>
+               <dlws:data value="0.970107"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-28</dlws:date>
+               <dlws:data value="0.96961"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-04</dlws:date>
+               <dlws:data value="0.970413"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-11</dlws:date>
+               <dlws:data value="0.973153"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-18</dlws:date>
+               <dlws:data value="0.969977"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-25</dlws:date>
+               <dlws:data value="0.970249"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-02</dlws:date>
+               <dlws:data value="0.969909"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-09</dlws:date>
+               <dlws:data value="0.971393"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-16</dlws:date>
+               <dlws:data value="0.972474"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 3Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-23</dlws:date>
+               <dlws:data value="0.973097"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-03</dlws:date>
+               <dlws:data value="0.974015"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-10</dlws:date>
+               <dlws:data value="0.97147"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-17</dlws:date>
+               <dlws:data value="0.970731"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-24</dlws:date>
+               <dlws:data value="0.968344"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-31</dlws:date>
+               <dlws:data value="0.963679"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-07</dlws:date>
+               <dlws:data value="0.960632"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-14</dlws:date>
+               <dlws:data value="0.963424"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-21</dlws:date>
+               <dlws:data value="0.949827"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-28</dlws:date>
+               <dlws:data value="0.952907"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-05</dlws:date>
+               <dlws:data value="0.945371"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-12</dlws:date>
+               <dlws:data value="0.951898"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-19</dlws:date>
+               <dlws:data value="0.956308"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-26</dlws:date>
+               <dlws:data value="0.95476"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-02</dlws:date>
+               <dlws:data value="0.95504"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-09</dlws:date>
+               <dlws:data value="0.954754"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-16</dlws:date>
+               <dlws:data value="0.947532"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-23</dlws:date>
+               <dlws:data value="0.945028"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-30</dlws:date>
+               <dlws:data value="0.944856"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-06</dlws:date>
+               <dlws:data value="0.941218"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-13</dlws:date>
+               <dlws:data value="0.942938"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-20</dlws:date>
+               <dlws:data value="0.950813"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-27</dlws:date>
+               <dlws:data value="0.954064"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-04</dlws:date>
+               <dlws:data value="0.95366"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-11</dlws:date>
+               <dlws:data value="0.95391"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-18</dlws:date>
+               <dlws:data value="0.956134"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-25</dlws:date>
+               <dlws:data value="0.958006"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-01</dlws:date>
+               <dlws:data value="0.956239"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-08</dlws:date>
+               <dlws:data value="0.95602"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-15</dlws:date>
+               <dlws:data value="0.958988"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-22</dlws:date>
+               <dlws:data value="0.959448"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-29</dlws:date>
+               <dlws:data value="0.958708"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-06</dlws:date>
+               <dlws:data value="0.954943"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-13</dlws:date>
+               <dlws:data value="0.95309"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-20</dlws:date>
+               <dlws:data value="0.950083"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-27</dlws:date>
+               <dlws:data value="0.947666"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-03</dlws:date>
+               <dlws:data value="0.946733"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-10</dlws:date>
+               <dlws:data value="0.948713"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-17</dlws:date>
+               <dlws:data value="0.947829"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-24</dlws:date>
+               <dlws:data value="0.950068"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-31</dlws:date>
+               <dlws:data value="0.951898"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-07</dlws:date>
+               <dlws:data value="0.953422"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-14</dlws:date>
+               <dlws:data value="0.951111"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-21</dlws:date>
+               <dlws:data value="0.951107"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-28</dlws:date>
+               <dlws:data value="0.952163"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-07</dlws:date>
+               <dlws:data value="0.947462"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-14</dlws:date>
+               <dlws:data value="0.950585"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-21</dlws:date>
+               <dlws:data value="0.943931"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-28</dlws:date>
+               <dlws:data value="0.942654"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-04</dlws:date>
+               <dlws:data value="0.944165"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-11</dlws:date>
+               <dlws:data value="0.948209"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-18</dlws:date>
+               <dlws:data value="0.942794"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-25</dlws:date>
+               <dlws:data value="0.943589"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-02</dlws:date>
+               <dlws:data value="0.944606"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-09</dlws:date>
+               <dlws:data value="0.946203"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-16</dlws:date>
+               <dlws:data value="0.948264"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 4Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-23</dlws:date>
+               <dlws:data value="0.949735"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-03</dlws:date>
+               <dlws:data value="0.956373"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-10</dlws:date>
+               <dlws:data value="0.952162"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-17</dlws:date>
+               <dlws:data value="0.951249"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-24</dlws:date>
+               <dlws:data value="0.947453"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-05-31</dlws:date>
+               <dlws:data value="0.941037"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-07</dlws:date>
+               <dlws:data value="0.936896"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-14</dlws:date>
+               <dlws:data value="0.940253"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-21</dlws:date>
+               <dlws:data value="0.92003"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-06-28</dlws:date>
+               <dlws:data value="0.923895"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-05</dlws:date>
+               <dlws:data value="0.912038"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-12</dlws:date>
+               <dlws:data value="0.92191"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-19</dlws:date>
+               <dlws:data value="0.927892"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-07-26</dlws:date>
+               <dlws:data value="0.925006"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-02</dlws:date>
+               <dlws:data value="0.925553"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-09</dlws:date>
+               <dlws:data value="0.925709"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-16</dlws:date>
+               <dlws:data value="0.915254"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-23</dlws:date>
+               <dlws:data value="0.912506"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-08-30</dlws:date>
+               <dlws:data value="0.912483"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-06</dlws:date>
+               <dlws:data value="0.907792"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-13</dlws:date>
+               <dlws:data value="0.909922"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-20</dlws:date>
+               <dlws:data value="0.919497"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-09-27</dlws:date>
+               <dlws:data value="0.924507"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-04</dlws:date>
+               <dlws:data value="0.923555"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-11</dlws:date>
+               <dlws:data value="0.923718"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-18</dlws:date>
+               <dlws:data value="0.927074"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-10-25</dlws:date>
+               <dlws:data value="0.929954"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-01</dlws:date>
+               <dlws:data value="0.926502"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-08</dlws:date>
+               <dlws:data value="0.924966"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-15</dlws:date>
+               <dlws:data value="0.929365"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-22</dlws:date>
+               <dlws:data value="0.929248"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-11-29</dlws:date>
+               <dlws:data value="0.928251"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-06</dlws:date>
+               <dlws:data value="0.923431"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-13</dlws:date>
+               <dlws:data value="0.921325"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-20</dlws:date>
+               <dlws:data value="0.917297"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2013-12-27</dlws:date>
+               <dlws:data value="0.913873"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-03</dlws:date>
+               <dlws:data value="0.913205"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-10</dlws:date>
+               <dlws:data value="0.917012"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-17</dlws:date>
+               <dlws:data value="0.916047"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-24</dlws:date>
+               <dlws:data value="0.919192"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-01-31</dlws:date>
+               <dlws:data value="0.921913"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-07</dlws:date>
+               <dlws:data value="0.923146"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-14</dlws:date>
+               <dlws:data value="0.920166"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-21</dlws:date>
+               <dlws:data value="0.920285"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-02-28</dlws:date>
+               <dlws:data value="0.922289"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-07</dlws:date>
+               <dlws:data value="0.91615"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-14</dlws:date>
+               <dlws:data value="0.920709"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-21</dlws:date>
+               <dlws:data value="0.912985"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-03-28</dlws:date>
+               <dlws:data value="0.911676"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-04</dlws:date>
+               <dlws:data value="0.913249"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-11</dlws:date>
+               <dlws:data value="0.918265"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-18</dlws:date>
+               <dlws:data value="0.911235"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-04-25</dlws:date>
+               <dlws:data value="0.912692"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-02</dlws:date>
+               <dlws:data value="0.915218"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-09</dlws:date>
+               <dlws:data value="0.916834"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-16</dlws:date>
+               <dlws:data value="0.919783"/>
+            </dlws:instrumentData>
+            <dlws:instrumentData>
+               <dlws:code>0</dlws:code>
+               <dlws:instrument>
+                  <dlws:id>S0023D 5Y BLC2</dlws:id>
+                  <dlws:yellowkey>Curncy</dlws:yellowkey>
+               </dlws:instrument>
+               <dlws:date>2014-05-23</dlws:date>
+               <dlws:data value="0.921356"/>
+            </dlws:instrumentData>
+         </dlws:instrumentDatas>
+         <dlws:timefinished>2014-06-11T02:53:01-04:00</dlws:timefinished>
+      </dlws:retrieveGetHistoryResponse>
+   </soap:Body>
+</soap:Envelope>

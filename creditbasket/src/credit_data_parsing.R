@@ -40,24 +40,24 @@ parseData = function(pathname,ticker,ccy,docclause) {
 }
 
 
-BMY_USD_XR=parseData("D://temp//data","BMY","USD","XR")
-DELL_USD_XR=parseData("D://temp//data","DELLN","USD","XR")
-HP_USD_XR=parseData("D://temp//data","HPQ","USD","XR")
-IBM_USD_XR=parseData("D://temp//data","IBM","USD","XR")
-PFE_USD_XR=parseData("D://temp//data","PFE","USD","XR")
-
-write.table(BMY_USD_XR, file = "D://temp//data/BMY_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
-write.table(DELL_USD_XR, file = "D://temp//data/DELL_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
-write.table(HP_USD_XR, file = "D://temp//data/HP_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
-write.table(IBM_USD_XR, file = "D://temp//data/IBM_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
-write.table(PFE_USD_XR, file = "D://temp//data/PFE_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
-
-zz=read.csv("D://temp//data/BMY_USD_XR.csv", header = TRUE)
-
-par(mfrow=c(3,2))
-plot(BMY_USD_XR$Date,BMY_USD_XR$Spread5y,type="l")
-plot(DELL_USD_XR$Date,DELL_USD_XR$Spread5y,type="l")
-plot(HP_USD_XR$Date,HP_USD_XR$Spread5y,type="l")
-plot(IBM_USD_XR$Date,IBM_USD_XR$Spread5y,type="l")
-plot(PFE_USD_XR$Date,PFE_USD_XR$Spread5y,type="l")
+# BMY_USD_XR=parseData("D://temp//data","BMY","USD","XR")
+# DELL_USD_XR=parseData("D://temp//data","DELLN","USD","XR")
+# HP_USD_XR=parseData("D://temp//data","HPQ","USD","XR")
+# IBM_USD_XR=parseData("D://temp//data","IBM","USD","XR")
+# PFE_USD_XR=parseData("D://temp//data","PFE","USD","XR")
+# 
+# write.table(BMY_USD_XR, file = "D://temp//data/BMY_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
+# write.table(DELL_USD_XR, file = "D://temp//data/DELL_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
+# write.table(HP_USD_XR, file = "D://temp//data/HP_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
+# write.table(IBM_USD_XR, file = "D://temp//data/IBM_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
+# write.table(PFE_USD_XR, file = "D://temp//data/PFE_USD_XR.csv", sep = ",", qmethod = "double",row.names = FALSE)
+# 
+# zz=read.csv("D://temp//data/BMY_USD_XR.csv", header = TRUE)
+# 
+# par(mfrow=c(3,2))
+# plot(BMY_USD_XR$Date,BMY_USD_XR$Spread5y,type="l")
+# plot(DELL_USD_XR$Date,DELL_USD_XR$Spread5y,type="l")
+# plot(HP_USD_XR$Date,HP_USD_XR$Spread5y,type="l")
+# plot(IBM_USD_XR$Date,IBM_USD_XR$Spread5y,type="l")
+# plot(PFE_USD_XR$Date,PFE_USD_XR$Spread5y,type="l")
 

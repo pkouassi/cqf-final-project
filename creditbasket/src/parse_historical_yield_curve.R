@@ -5,7 +5,7 @@ setClass("YieldCurve",
 )
 
 #tmp=read.csv("P://CQF//FinalProject//FairSpreadBasketCDS//HistoricYieldCurve.csv", header = TRUE,stringsAsFactors = FALSE)
-tmp=read.csv("P://CQF//FinalProject//FairSpreadBasketCDS//HistoricYieldCurve1-5Y.csv", header = TRUE,stringsAsFactors = FALSE)
+tmp=read.csv("P://CQF//FinalProject//git-root//finalproject//creditbasket//data//HistoricYieldCurveWeekly1Y-2013-2014.csv", header = TRUE,stringsAsFactors = FALSE)
 
 HistYieldCurveMatrix = matrix(list(), 
                               nrow=length(unique(tmp$Date)),
