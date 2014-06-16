@@ -22,30 +22,13 @@ cbind(BMY_USD_XR$Date,DELL_USD_XR$Date,HP_USD_XR$Date,IBM_USD_XR$Date,PFE_USD_XR
 
 
 #gather historical yield curve
-
 #bootstrap credit curve for 1y data
-
 #IBM / first date
 
 BootstrapHistoricCreditCurve = function(HistCDSData) {
   RecoveryRate = 0.40
-  
-  #HistCreditCurve = rep(list(),nrow(HistCDSData))
   HistCreditCurve = matrix(list(),nrow(HistCDSData),3)
   colnames(HistCreditCurve) = c("Date", "Ticker","CreditCurve")
-  
-  #HistCreditCurve = as.data.frame(matrix(list(),ncol=5, nrow=nrow(HistCDSData)))
-  #names(HistCreditCurve) = c("Date", "Ticker","SP_5Y", "DP_5Y","CreditCurve")
-  
-  #HistCreditCurve = data.frame(Date = Date = as.Date(rep(0,nrow(HistCDSData)), origin = "1900-01-01"),
-  #                             Ticker = rep(NA,nrow=nrow(HistCDSData)),
-  #                             SP_5Y = rep(NA,nrow=nrow(HistCDSData)),               
-  #                             DP_5Y = rep(NA,nrow=nrow(HistCDSData)),                 
-  #                             CreditCurve = rep(list(),nrow(HistCDSData)))                          
-  #                             )
-  
-  #StockReturns = data.frame(Date = as.Date(rep(0,nrow(stock.dataframe)-1), origin = "1900-01-01"),
-  #                          Return = rep(NA,nrow(stock.dataframe)-1))
   
   for (i in seq(1,nrow(HistCDSData)))
   {
@@ -58,11 +41,6 @@ BootstrapHistoricCreditCurve = function(HistCDSData) {
     YieldCurve = getYieldCurve(HistYieldCurveMatrix,HistCDSData[i,]$Date)
     tmp = BootstrapCreditCurve(CDScol,RecoveryRate,YieldCurve)
     
-    #HistCreditCurve$Date[i] = HistCDSData[i,]$Date
-    #HistCreditCurve$Ticker[i] = HistCDSData[i,]$Ticker
-    #HistCreditCurve$SP_5Y[i] = tmp@survivalprobability[5]
-    #HistCreditCurve$DP_5Y[i] = 1 - tmp@survivalprobability[5]
-    #HistCreditCurve$CreditCurve[[i]] = tmp
     HistCreditCurve[[i,"Date"]] = HistCDSData[i,]$Date
     HistCreditCurve[[i,"Ticker"]] = HistCDSData[i,]$Ticker
     HistCreditCurve[[i,"CreditCurve"]] = tmp
@@ -73,7 +51,7 @@ BootstrapHistoricCreditCurve = function(HistCDSData) {
 
 ConvertHistoricCreditCurveToDataframe = function(HistCreditCurve) {
   #Extract specific info from the historical credit curve and store them in a dataframe
-  HistCreditCurveDataframe = as.data.frame(matrix(list(),ncol=4, nrow=nrow(HistCreditCurve)))
+  HistCreditCurveDataframe = as.data.frame(matrix(NA,ncol=4, nrow=nrow(HistCreditCurve)))
   names(HistCreditCurveDataframe) = c("Date", "Ticker","SP_5Y", "DP_5Y")
   
   for (i in seq(1,nrow(HistCreditCurve))) {
@@ -101,24 +79,24 @@ IBM_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(IBM_
 PFE_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(PFE_USD_XR_HistCreditCurve)
 
 #calculate default probability difference
-ComputeDifference = function(HistCreditCurve) {
-  HistDifference = as.data.frame(matrix(ncol=3, nrow=(nrow(HistCreditCurve)-1)))
+ComputeDifference = function(HistCreditCurveDataframe) {
+  HistDifference = as.data.frame(matrix(ncol=3, nrow=(nrow(HistCreditCurveDataframe)-1)))
   names(HistDifference) = c("Date", "Ticker","DP_5Y_change")
   
-  for (i in seq(2,nrow(HistCreditCurve))) {
-    HistDifference$Date[i-1] = HistCreditCurve$Date[i]       
-    HistDifference$Ticker[i-1] = HistCreditCurve$Ticker[i]
+  for (i in seq(2,nrow(HistCreditCurveDataframe))) {
+    HistDifference$Date[i-1] = HistCreditCurveDataframe$Date[i]       
+    HistDifference$Ticker[i-1] = HistCreditCurveDataframe$Ticker[i]
     #consider log difference (i.e. similar to hazard rate)
-    HistDifference$DP_5Y_change[i-1] = (HistCreditCurve$DP_5Y[i] - HistCreditCurve$DP_5Y[i-1])    
+    HistDifference$DP_5Y_change[i-1] = (HistCreditCurveDataframe$DP_5Y[i] - HistCreditCurveDataframe$DP_5Y[i-1])    
   }
   return(HistDifference)
 }
 
-BMY_USD_XR_PDdiff = ComputeDifference(BMY_USD_XR_HistCreditCurve)
-DELL_USD_XR_PDdiff = ComputeDifference(DELL_USD_XR_HistCreditCurve)
-HP_USD_XR_PDdiff = ComputeDifference(HP_USD_XR_HistCreditCurve)
-IBM_USD_XR_PDdiff = ComputeDifference(IBM_USD_XR_HistCreditCurve)
-PFE_USD_XR_PDdiff = ComputeDifference(PFE_USD_XR_HistCreditCurve)
+BMY_USD_XR_PDdiff = ComputeDifference(BMY_USD_XR_HistCreditCurveDataframe)
+DELL_USD_XR_PDdiff = ComputeDifference(DELL_USD_XR_HistCreditCurveDataframe)
+HP_USD_XR_PDdiff = ComputeDifference(HP_USD_XR_HistCreditCurveDataframe)
+IBM_USD_XR_PDdiff = ComputeDifference(IBM_USD_XR_HistCreditCurveDataframe)
+PFE_USD_XR_PDdiff = ComputeDifference(PFE_USD_XR_HistCreditCurveDataframe)
 
 #represent plot
 plot(BMY_USD_XR_PDdiff$Date,BMY_USD_XR_PDdiff$DP_5Y_change,type="l")
