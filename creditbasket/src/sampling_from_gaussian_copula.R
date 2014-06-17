@@ -8,12 +8,15 @@ t(A) %*% A
 
 NumberCDS = 5
 NumberSimulation = 300000
+RecoveryRate = 0.40
+YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
 
 ZMatrix = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
 XMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 UMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 TauMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 
+#we impose correlation
 for (i in seq(1,NumberSimulation)) {
   XMatrix[i,] = t(A %*% ZMatrix[i,]) # t() in order to keep X as a row vector
 }
@@ -21,23 +24,80 @@ for (i in seq(1,NumberSimulation)) {
 UMatrix = pnorm(XMatrix)
 
 for (i in seq(1,NumberCDS)) {
-  TauMatrix[,i] = HazardExactDefaultTime(BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL)[[1,"CreditCurve"]],UMatrix[,i])
+  CC = NULL
+  cat("i=",i,"\n")
+  if (i == 1) {
+    CC = BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+  }
+  else if (i == 2) {
+    CC = BootstrapHistoricCreditCurve(DELL_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+  }
+  else if (i == 3) {
+    CC = BootstrapHistoricCreditCurve(HP_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+  }
+  else if (i == 4) {
+    CC = BootstrapHistoricCreditCurve(IBM_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+  }
+  else if (i == 5) {
+    CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+  }
+  TauMatrix[,i] = HazardExactDefaultTime(CC,UMatrix[,i])
 }
+TauMatrix
 
-length(UMatrix[,i])
+LegCalculation = matrix(data = NA,ncol=2, nrow=NumberSimulation)
+colnames(LegCalculation) = c("DefaultLeg","PremiumLeg")
 
-HazardExactDefaultTime(BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL)[[1,"CreditCurve"]],UMatrix[,1])
+#1st to default basket CDS
+for (i in seq(1,NumberSimulation)) {
+  if (i%%(NumberSimulation/100) == 0) cat(i,"/",NumberSimulation,"\n")
+  min_tau = min(TauMatrix[i,])
+  
+  #default leg calculation
+  default_leg = 0
+  if (min_tau == Inf) {
+    #i.e. min_tau > 5. No default within the life of the contract
+    default_leg = 0
+  }
+  else {
+    default_leg = (1-RecoveryRate)*GetDiscountFactor(YieldCurve,min_tau) * (1/5)
+  }
+  
+  #premium leg calculation
+  #One coding solution is to create a variable that accumulates PL at each dt = 0.01 and will need a fiited discounting curve for this increment.
+  #integrate GetDiscountFactor from 0 to min_tau
+  premium_leg = 0
+  if (min_tau == Inf) {
+    #i.e. min_tau > 5. No default within the life of the contract
+    for (j in seq(1,5)) {
+      premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
+    }
+    premium_leg = premium_leg*(5/5)
+  }
+  else {
+    j=1
+    while (j<min_tau & j<5) {
+      premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
+      j = j+1
+    }
+    premium_leg = GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
+    premium_leg = premium_leg*(5/5)
+  }
+  
+  LegCalculation[i,"DefaultLeg"] = default_leg
+  LegCalculation[i,"PremiumLeg"] = premium_leg  
+}
+LegCalculation
 
-#   U = pnorm(X)
-#   Tau_1 = HazardExactDefaultTime(BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL)[[1,"CreditCurve"]],U[1,1])
-#   Tau_2 = HazardExactDefaultTime(BootstrapHistoricCreditCurve(DELL_USD_XR_MARGINAL)[[1,"CreditCurve"]],U[1,2])
-#   Tau_3 = HazardExactDefaultTime(BootstrapHistoricCreditCurve(HP_USD_XR_MARGINAL)[[1,"CreditCurve"]],U[1,3])
-#   Tau_4 = HazardExactDefaultTime(BootstrapHistoricCreditCurve(IBM_USD_XR_MARGINAL)[[1,"CreditCurve"]],U[1,4])
-#   Tau_5 = HazardExactDefaultTime(BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL)[[1,"CreditCurve"]],U[1,5])
-#   #Tau = matrix(data = c(Tau_1,Tau_2,Tau_3,Tau_4,Tau_5),ncol=NumberCDS, nrow=1)
-#   TauMatrix[i,] = c(Tau_1,Tau_2,Tau_3,Tau_4,Tau_5)
-# }
-# TauMatrix
+expectation_default_leg= mean(LegCalculation[,"DefaultLeg"])
+expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
+expectation_spread = expectation_default_leg/expectation_premium_leg
+expectation_spread
+
+
+
+
+
 
 
 
