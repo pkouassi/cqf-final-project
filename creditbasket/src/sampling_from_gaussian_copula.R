@@ -82,7 +82,7 @@ for (i in seq(1,NumberSimulation)) {
       premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
       j = j+1
     }
-    premium_leg = GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
+    premium_leg = premium_leg + GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
     #too slow using integrate
     #premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,min_tau)$value
     premium_leg = premium_leg*(5/5)
@@ -112,7 +112,7 @@ for (i in seq(1,nbobservation)) {
 plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 
 #kth to default basket CDS
-k=2
+k=1
 for (i in seq(1,NumberSimulation)) {
   if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
   tau_list = sort(TauMatrix[i,])
@@ -132,23 +132,15 @@ for (i in seq(1,NumberSimulation)) {
   #One coding solution is to create a variable that accumulates PL at each dt = 0.01 and will need a fiited discounting curve for this increment.
   #integrate GetDiscountFactor from 0 to min_tau
   premium_leg = 0
-  if (tau_k == Inf) {
-    #i.e. min_tau > 5. No default within the life of the contract
-    #for (j in seq(1,5)) {
-    #  premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
-    #}
-    premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,5)$value
+  if (tau_list[1] == Inf) {
+    #i.e. No default within the life of the contract
+    for (j in seq(1,5)) {
+      premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
+    }
     premium_leg = premium_leg*(5/5)
   }
   else {
-    #j=1
-    #while (j<min_tau & j<5) {
-    #  premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
-    #  j = j+1
-    #}
-    #premium_leg = GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
-    premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,min_tau)$value
-    premium_leg = premium_leg*(5/5)
+    premium_leg = compute_premium_leg(YieldCurve,k,tau_list)
   }
   
   LegCalculation[i,"DefaultLeg"] = default_leg
@@ -161,4 +153,11 @@ expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
 expectation_spread = expectation_default_leg/expectation_premium_leg
 expectation_spread
 
+
+truc = cbind(TauMatrix[1:250,1],TauMatrix[1:250,2],TauMatrix[1:250,3],TauMatrix[1:250,4],TauMatrix[1:250,5],LegCalculation[1:250,"DefaultLeg"],LegCalculation[1:250,"PremiumLeg"],LegCalculationBackup[1:250,"DefaultLeg"],LegCalculationBackup[1:250,"PremiumLeg"])
+
+#k=1 ==> 82bp // 0.0082433965
+#k=2 ==> 18bp
+#k=3 ==> 3.5bp
+#k=4 ==> 0.48bp
 
