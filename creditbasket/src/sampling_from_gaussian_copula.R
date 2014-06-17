@@ -50,7 +50,7 @@ colnames(LegCalculation) = c("DefaultLeg","PremiumLeg")
 
 #1st to default basket CDS
 for (i in seq(1,NumberSimulation)) {
-  if (i%%(NumberSimulation/100) == 0) cat(i,"/",NumberSimulation,"\n")
+  if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
   min_tau = min(TauMatrix[i,])
   
   #default leg calculation
@@ -72,6 +72,8 @@ for (i in seq(1,NumberSimulation)) {
     for (j in seq(1,5)) {
       premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
     }
+    #too slow using integrate
+    #premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,5)$value
     premium_leg = premium_leg*(5/5)
   }
   else {
@@ -81,6 +83,8 @@ for (i in seq(1,NumberSimulation)) {
       j = j+1
     }
     premium_leg = GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
+    #too slow using integrate
+    #premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,min_tau)$value
     premium_leg = premium_leg*(5/5)
   }
   
@@ -94,10 +98,67 @@ expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
 expectation_spread = expectation_default_leg/expectation_premium_leg
 expectation_spread
 
+#convergence diagram
+nbobservation = round(NumberSimulation/10)
+expectation_default_leg_array = rep(NA,nbobservation)
+expectation_premium_leg_array = rep(NA,nbobservation)
+expectation_spread_array = rep(NA,nbobservation)
 
+for (i in seq(1,nbobservation)) {
+  expectation_default_leg_array[i] = mean(LegCalculation[1:i,"DefaultLeg"])
+  expectation_premium_leg_array[i] = mean(LegCalculation[1:i,"PremiumLeg"])
+  expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
+}
+plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 
+#kth to default basket CDS
+k=2
+for (i in seq(1,NumberSimulation)) {
+  if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
+  tau_list = sort(TauMatrix[i,])
+  tau_k = tau_list[k]
+  
+  #default leg calculation
+  default_leg = 0
+  if (tau_k == Inf) {
+    #i.e. tau_k > 5. Number of default is below k during the life of the contract
+    default_leg = 0
+  }
+  else {
+    default_leg = (1-RecoveryRate)*GetDiscountFactor(YieldCurve,tau_k) * (1/5)
+  }
+  
+  #premium leg calculation
+  #One coding solution is to create a variable that accumulates PL at each dt = 0.01 and will need a fiited discounting curve for this increment.
+  #integrate GetDiscountFactor from 0 to min_tau
+  premium_leg = 0
+  if (tau_k == Inf) {
+    #i.e. min_tau > 5. No default within the life of the contract
+    #for (j in seq(1,5)) {
+    #  premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
+    #}
+    premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,5)$value
+    premium_leg = premium_leg*(5/5)
+  }
+  else {
+    #j=1
+    #while (j<min_tau & j<5) {
+    #  premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
+    #  j = j+1
+    #}
+    #premium_leg = GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
+    premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,min_tau)$value
+    premium_leg = premium_leg*(5/5)
+  }
+  
+  LegCalculation[i,"DefaultLeg"] = default_leg
+  LegCalculation[i,"PremiumLeg"] = premium_leg  
+}
+LegCalculation
 
-
-
+expectation_default_leg= mean(LegCalculation[,"DefaultLeg"])
+expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
+expectation_spread = expectation_default_leg/expectation_premium_leg
+expectation_spread
 
 

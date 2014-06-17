@@ -39,30 +39,37 @@ GetDiscountFactor = function(YieldCurve,t) {
   max_time_index = which.max(YieldCurve@time)
   
   result = NA
-  if (t < 0) {
-    cat("Warning: t is negative. discountfactor not calculated for this case")
-  }
-  else if (t == 0) {
-    result = 1 #df of t=0 is 1
-  }
-  else if (t>0 && t<min_time) {
-    #df of t=0 is 1
-    result = 1 + (YieldCurve@discountfactor[min_time_index]-1)*(t/min_time)
-  }
-  else if (t >= max_time) {
-    result = YieldCurve@discountfactor[max_time_index]
-  }
-  else {
-    #i.e t falls between 2 maturity for which we have the discount factor
-    for (i in seq(1,length(YieldCurve@time)-1)) {
-      if (t>= YieldCurve@time[i] && t<YieldCurve@time[i+1]) {
-        result = YieldCurve@discountfactor[i] + (YieldCurve@discountfactor[i+1]-YieldCurve@discountfactor[i])*((t-YieldCurve@time[i])/(YieldCurve@time[i+1]-YieldCurve@time[i]))
-      }                                                                                                                 
+  
+  if (length(t)==1) {
+    if (t < 0) {
+      cat("Warning: t is negative. discountfactor not calculated for this case")
     }
+    else if (t == 0) {
+      result = 1 #df of t=0 is 1
+    }
+    else if (t>0 && t<min_time) {
+      #df of t=0 is 1
+      result = 1 + (YieldCurve@discountfactor[min_time_index]-1)*(t/min_time)
+    }
+    else if (t >= max_time) {
+      result = YieldCurve@discountfactor[max_time_index]
+    }
+    else {
+      #i.e t falls between 2 maturity for which we have the discount factor
+      for (i in seq(1,length(YieldCurve@time)-1)) {
+        if (t>= YieldCurve@time[i] && t<YieldCurve@time[i+1]) {
+          result = YieldCurve@discountfactor[i] + (YieldCurve@discountfactor[i+1]-YieldCurve@discountfactor[i])*((t-YieldCurve@time[i])/(YieldCurve@time[i+1]-YieldCurve@time[i]))
+        }                                                                                                                 
+      }
+    }  
   }
   return (result)  
 }
 
+#Vectorized version of GetDiscountFactor
+GetDiscountFactorVector = function(YieldCurve,t_array){
+  return(sapply(t_array,GetDiscountFactor,YieldCurve=YieldCurve))
+}
 
 
 BootstrapCreditCurve = function (CDSCollection,RecoveryRate,YieldCurve) {
