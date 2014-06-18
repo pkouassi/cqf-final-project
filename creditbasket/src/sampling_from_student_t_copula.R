@@ -13,3 +13,6 @@ NumberCDS = 5
 NumberSimulation = 300000
 RecoveryRate = 0.40
 YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
+
+require(fOptions)
+ZMatrix = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)

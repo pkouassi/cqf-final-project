@@ -25,7 +25,7 @@ source("kthdefault_algorithm.R") #function loading
 source("sampling_from_gaussian_copula.R") #sampling from copula process
 
 #sampling from student t copula
-
+source("sampling_from_student_t_copula.R")
 
 
 
