@@ -15,15 +15,15 @@ HistYieldCurveMatrix = matrix(list(),
 k=1
 for (date in unique(tmp$Date)) {
   tmp2 = tmp[(tmp$Date == date),]
-  cat("date number ",k,"\n")
+  #cat("date number ",k,"\n")
   
   HistYieldCurveMatrix[[k,1]] = as.Date(date,"%Y-%m-%d") #format: 2014-04-23
   HistYieldCurveMatrix[[k,2]] = new ("YieldCurve", time = rep(NA,nrow(tmp2)), discountfactor = rep(NA,nrow(tmp2)))  
   
   for (i in seq(1,nrow(tmp2))) {
-    cat("-- record number ",i,"\n")
-    cat("-- Id= ",tmp2$Id[i],"\n")
-    cat("-- DF= ",tmp2$DiscountFactor[i],"\n")
+    #cat("-- record number ",i,"\n")
+    #cat("-- Id= ",tmp2$Id[i],"\n")
+    #cat("-- DF= ",tmp2$DiscountFactor[i],"\n")
     
     if (tmp2$Id[i] == "S0023D 1D BLC2") {
       HistYieldCurveMatrix[[k,2]]@time[i] = 1/365
@@ -86,13 +86,13 @@ for (date in unique(tmp$Date)) {
 #sort by date
 HistYieldCurveMatrix = HistYieldCurveMatrix[order(as.numeric(HistYieldCurveMatrix[,1])),]
 
-plot_x_lim = c(1,5);
-plot_y_lim = c(0.9,1);
-for (i in seq(1,nrow(HistYieldCurveMatrix))) {
-  data = HistYieldCurveMatrix[[i,2]]
-  par(new=TRUE);
-  plot(data@time,data@discountfactor,type="l",xlim=plot_x_lim, ylim=plot_y_lim)
-}
+#plot_x_lim = c(1,5);
+#plot_y_lim = c(0.9,1);
+#for (i in seq(1,nrow(HistYieldCurveMatrix))) {
+#  data = HistYieldCurveMatrix[[i,2]]
+#  par(new=TRUE);
+#  plot(data@time,data@discountfactor,type="l",xlim=plot_x_lim, ylim=plot_y_lim)
+#}
 
 getYieldCurve = function(histyieldcurve,date) {
   result = NA

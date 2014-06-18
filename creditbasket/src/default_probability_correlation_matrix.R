@@ -1,9 +1,9 @@
 #gather historical credit curve data
-BMY_USD_XR=parseData("C://temp//markit","BMY","USD","XR")
-DELL_USD_XR=parseData("C://temp//markit","DELLN","USD","XR")
-HP_USD_XR=parseData("C://temp//markit","HPQ","USD","XR")
-IBM_USD_XR=parseData("C://temp//markit","IBM","USD","XR")
-PFE_USD_XR=parseData("C://temp//markit","PFE","USD","XR")
+BMY_USD_XR=parseCreditData("C://temp//markit","BMY","USD","XR")
+DELL_USD_XR=parseCreditData("C://temp//markit","DELLN","USD","XR")
+HP_USD_XR=parseCreditData("C://temp//markit","HPQ","USD","XR")
+IBM_USD_XR=parseCreditData("C://temp//markit","IBM","USD","XR")
+PFE_USD_XR=parseCreditData("C://temp//markit","PFE","USD","XR")
 
 #only keep data from Monday 6-May-2013 to Friday 23-May-2014
 BMY_USD_XR = BMY_USD_XR[BMY_USD_XR$Date>=as.Date("06-MAY-2013","%d-%b-%Y") & BMY_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
@@ -169,34 +169,6 @@ transform_pddiff_to_uniform = function(X) {
   return(U)
 }
 
-transform_pddiff_to_uniform_kerneldensity = function(X) {
-  #ecdf does not rely on kernel density
-  #ecdf (Empirical CDF) in R instead of kernel densities. It summarizes the data into something like a smooth CDF line while graphing all the data points
-  fn = empirical_cdf_density(X) 
-  U = sapply(X,fn)
-  return(U)
-}
-
-export_to_mathematica = function(arr) {
-  ret = "{"
-  for (i in seq(1,length(arr)-1)) {
-    ret = paste(ret,sprintf("%.15f",arr[i]),",")
-  }
-  ret = paste(ret,sprintf("%.15f",arr[length(arr)]),"}")
-  return(ret)
-}
-
-import_from_mathematica = function(str) {
-  #temp = str
-  #temp = gsub("{", "", temp)
-  #temp = gsub("}", "", temp)
-  tmp = strsplit(str, ",")[[1]]
-  tmp = gsub("\n", "", tmp)
-  tmp = as.numeric(tmp)
-  return(tmp)
-}
-
-export_to_mathematica(BMY_USD_XR_PDdiff$DP_5Y_change)
 
 U_BMY_USD_XR = transform_pddiff_to_uniform(BMY_USD_XR_PDdiff$DP_5Y_change)
 U_PFE_USD_XR = transform_pddiff_to_uniform(PFE_USD_XR_PDdiff$DP_5Y_change)
@@ -204,55 +176,85 @@ U_IBM_USD_XR = transform_pddiff_to_uniform(IBM_USD_XR_PDdiff$DP_5Y_change)
 U_DELL_USD_XR = transform_pddiff_to_uniform(DELL_USD_XR_PDdiff$DP_5Y_change)
 U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
 
-U_BMY_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(BMY_USD_XR_PDdiff$DP_5Y_change)
-U_PFE_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(PFE_USD_XR_PDdiff$DP_5Y_change)
+
+#transform_pddiff_to_uniform_kerneldensity = function(X) {
+  #ecdf does not rely on kernel density
+  #ecdf (Empirical CDF) in R instead of kernel densities. It summarizes the data into something like a smooth CDF line while graphing all the data points
+#  fn = empirical_cdf_density(X) 
+#  U = sapply(X,fn)
+#  return(U)
+#}
+#U_BMY_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(BMY_USD_XR_PDdiff$DP_5Y_change)
+#U_PFE_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(PFE_USD_XR_PDdiff$DP_5Y_change)
+#hist(U_BMY_USD_XR_kerneldensity, breaks = 30)
+#hist(U_PFE_USD_XR_kerneldensity, breaks = 30)
+
+
+
+#export_to_mathematica = function(arr) {
+#  ret = "{"
+#  for (i in seq(1,length(arr)-1)) {
+#    ret = paste(ret,sprintf("%.15f",arr[i]),",")
+#  }
+#  ret = paste(ret,sprintf("%.15f",arr[length(arr)]),"}")
+#  return(ret)
+#}
+
+#export_to_mathematica(BMY_USD_XR_PDdiff$DP_5Y_change)
+
+#import_from_mathematica = function(str) {
+#  tmp = strsplit(str, ",")[[1]]
+#  tmp = gsub("\n", "", tmp)
+#  tmp = as.numeric(tmp)
+#  return(tmp)
+#}
+
+
 
 #using logspline package. not very uniform
 #install.packages("logspline")
-require(logspline)
-U_BMY_USD_XR_logspline = plogspline(BMY_USD_XR_PDdiff$DP_5Y_change,logspline(BMY_USD_XR_PDdiff$DP_5Y_change))
-U_PFE_USD_XR_logspline = plogspline(PFE_USD_XR_PDdiff$DP_5Y_change,logspline(PFE_USD_XR_PDdiff$DP_5Y_change))
-U_IBM_USD_XR_logspline = plogspline(IBM_USD_XR_PDdiff$DP_5Y_change,logspline(IBM_USD_XR_PDdiff$DP_5Y_change))
-U_DELL_USD_XR_logspline = plogspline(DELL_USD_XR_PDdiff$DP_5Y_change,logspline(DELL_USD_XR_PDdiff$DP_5Y_change))
-U_HP_USD_XR_logspline = plogspline(HP_USD_XR_PDdiff$DP_5Y_change,logspline(HP_USD_XR_PDdiff$DP_5Y_change))
-
-
-hist(U_BMY_USD_XR_logspline)
-hist(U_PFE_USD_XR_logspline)
-hist(U_IBM_USD_XR_logspline)
-hist(U_DELL_USD_XR_logspline)
-hist(U_HP_USD_XR_logspline)
+#require(logspline)
+#U_BMY_USD_XR_logspline = plogspline(BMY_USD_XR_PDdiff$DP_5Y_change,logspline(BMY_USD_XR_PDdiff$DP_5Y_change))
+#U_PFE_USD_XR_logspline = plogspline(PFE_USD_XR_PDdiff$DP_5Y_change,logspline(PFE_USD_XR_PDdiff$DP_5Y_change))
+#U_IBM_USD_XR_logspline = plogspline(IBM_USD_XR_PDdiff$DP_5Y_change,logspline(IBM_USD_XR_PDdiff$DP_5Y_change))
+#U_DELL_USD_XR_logspline = plogspline(DELL_USD_XR_PDdiff$DP_5Y_change,logspline(DELL_USD_XR_PDdiff$DP_5Y_change))
+#U_HP_USD_XR_logspline = plogspline(HP_USD_XR_PDdiff$DP_5Y_change,logspline(HP_USD_XR_PDdiff$DP_5Y_change))
+#hist(U_BMY_USD_XR_logspline)
+#hist(U_PFE_USD_XR_logspline)
+#hist(U_IBM_USD_XR_logspline)
+#hist(U_DELL_USD_XR_logspline)
+#hist(U_HP_USD_XR_logspline)
 
 
 #kernel smoothing CDF using density() -- alternative to ecdf
 #install.packages("sfsmisc")
-require(sfsmisc)
-empirical_cdf_density = function(data) {
-  density = density(data, n = 50)
-  func = function(x) {
-    if (x <= min(density$x)) {
-      return(0)
-    }
-    else {
-      integrate.xy(density$x,density$y,min(density$x),min(x,max(density$x)))
-    }      
-  }
-  return(func)
-}
+#require(sfsmisc)
+#empirical_cdf_density = function(data) {
+#  density = density(data, n = 50)
+#  func = function(x) {
+#    if (x <= min(density$x)) {
+#      return(0)
+#    }
+#    else {
+#      integrate.xy(density$x,density$y,min(density$x),min(x,max(density$x)))
+#    }      
+#  }
+#  return(func)
+#}
 
 #http://www.mathworks.com/help/stats/examples/nonparametric-estimates-of-cumulative-distribution-functions-and-their-inverses.html
-lulu = IBM_USD_XR_PDdiff$DP_5Y_change
+#lulu = IBM_USD_XR_PDdiff$DP_5Y_change
 #The ecdf function computes one type of nonparametric CDF estimate, the empirical CDF, which is a stairstep function
-fn_ecdf = ecdf(lulu)
-plot(fn_ecdf)
-fn_empirical_cdf_density = empirical_cdf_density(lulu)
+#fn_ecdf = ecdf(lulu)
+#plot(fn_ecdf)
+#fn_empirical_cdf_density = empirical_cdf_density(lulu)
 
-plot_x_lim = c(-0.003,0.005);
-plot_y_lim = c(0,1);
-plot(fn_ecdf,col="blue",xlim=plot_x_lim, ylim=plot_y_lim)
-par(new=TRUE);
-xxxx = seq(min(fn_density$x),max(fn_density$x),length=1000)
-plot(xxxx,sapply(xxxx,fn_empirical_cdf_density),type="l",col="red",xlim=plot_x_lim, ylim=plot_y_lim)
+#plot_x_lim = c(-0.003,0.005);
+#plot_y_lim = c(0,1);
+#plot(fn_ecdf,col="blue",xlim=plot_x_lim, ylim=plot_y_lim)
+#par(new=TRUE);
+#xxxx = seq(min(fn_density$x),max(fn_density$x),length=1000)
+#plot(xxxx,sapply(xxxx,fn_empirical_cdf_density),type="l",col="red",xlim=plot_x_lim, ylim=plot_y_lim)
 
 # empirical_cdf_density = function(data) {
 #   density = density(data)
@@ -278,19 +280,11 @@ plot(xxxx,sapply(xxxx,fn_empirical_cdf_density),type="l",col="red",xlim=plot_x_l
 # }
 
 #get good "uniform" result with ecdf
-hist(U_BMY_USD_XR)
-hist(U_PFE_USD_XR)
-hist(U_IBM_USD_XR)
-hist(U_DELL_USD_XR)
-hist(U_HP_USD_XR, breaks = 20)
-
-hist(U_BMY_USD_XR_kerneldensity, breaks = 30)
-hist(U_PFE_USD_XR_kerneldensity, breaks = 30)
-
-
-
-
-
+hist(U_BMY_USD_XR,breaks = 30)
+hist(U_PFE_USD_XR,breaks = 30)
+hist(U_IBM_USD_XR,breaks = 30)
+hist(U_DELL_USD_XR,breaks = 30)
+hist(U_HP_USD_XR, breaks = 30)
 
 myUnifMatrix = rbind(U_BMY_USD_XR,U_PFE_USD_XR,U_IBM_USD_XR,U_DELL_USD_XR,U_HP_USD_XR)
 
@@ -309,7 +303,7 @@ for (i in seq(1,nrow(myUnifMatrix))) {
 #convert kendall tau coeedficient to normal cooefficient
 #correlation matrix to be fed into copula 
 #(copula density fitting and sampling from copula procedure)
-rho_matrix = sin(0.5*pi*DefaultProbabilityMatrix_KendallTau)
+DefaultProbabilityMatrix_StudentTCopula = sin(0.5*pi*DefaultProbabilityMatrix_KendallTau)
 
 #Correlation Experiment: estimate rank correlation for changes in
 #credit spreads, survival probabilities, hazard rates. Rank measures
@@ -335,33 +329,32 @@ C = function (U,v,Sigma) {
 }
 
 #test of C
-C(myU[22,],2,rho_matrix)
+#C(myU[22,],2,DefaultProbabilityMatrix_StudentTCopula)
 
 loglikelyhoodfunc = function(UMatrix,v,Sigma) {
   value = 0
   for (i in seq(1,nrow(UMatrix))) {
     value = value + log(C(UMatrix[i,],v,Sigma))
-    cat("[i=",i,"] =>",value,"\n")
+    #cat("[i=",i,"] =>",value,"\n")
   }
   return(value)
 }
 
 #suppress row number 33, all ui = 1 
-loglikelyhoodfunc(myU[-33,],10,rho_matrix)
+loglikelyhoodfunc(myU[-33,],10,DefaultProbabilityMatrix_StudentTCopula)
 
 #plot of the log-lekelyhood funciton
 v_array = seq(1,50)
-loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=myU[-33,],Sigma=rho_matrix)
+loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=myU[-33,],Sigma=DefaultProbabilityMatrix_StudentTCopula)
 plot(v_array,loglikelyhood_array,type="l")
 
 #optimization to compute degree of freedom for student t
-degree_freedom = optimize(loglikelyhoodfunc, UMatrix = myU[-33,], Sigma = rho_matrix, interval=c(1, 50),maximum=TRUE)$maximum
-
+degree_freedom = optimize(loglikelyhoodfunc, UMatrix = myU[-33,], Sigma = DefaultProbabilityMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
 
 # 
 # UBLN = myU[22,]
 # nBLN = length(UBLN)
-# SigmaBLN = rho_matrix
+# SigmaBLN = DefaultProbabilityMatrix_StudentTCopula
 # vBLN = 10
 # (1 + ((qt(t(UBLN), df=vBLN) %*% solve(SigmaBLN) %*% qt(UBLN, df=vBLN))/vBLN))^(-(vBLN+nBLN)/2)
 # 

@@ -1,42 +1,4 @@
 
-DF = GetDiscountFactorVector(YieldCurve,seq(1,5))
-tau_list = c(0.8,1.45,3.6,Inf,Inf)
-
-premium_leg_part = rep(NA,5)
-l=1
-for (j in seq(1,5)) {
-  if (tau_list[l]>=j && tau_list[l]<(j+1)) {
-    
-  }
-}
-
-
-yeti = function(YieldCurve,t1,t2) {
-  result = 0
-  
-  if (ceiling(t1) != ceiling(t2)) {
-    #t1 and t2 are not part of same year    
-    cat("t1 and t2 not in the same year\n")
-    result = result + GetDiscountFactor(YieldCurve,t1)*(ceiling(t1)-t1)
-    cat("DF(0,",t1,")*",(ceiling(t1)-t1)," -- added:",GetDiscountFactor(YieldCurve,t1)*(ceiling(t1)-t1),"\n")
-
-    year_after_t1 = if (ceiling(t1)==t1) t1+1 else ceiling(t1)
-    year_before_t2 = floor(t2) 
-    for (i in seq(year_after_t1+1,year_before_t2)) {
-      result = result + GetDiscountFactor(YieldCurve,i)*1
-      cat("DF(0,",i,")*DeltaT -- added:",GetDiscountFactor(YieldCurve,i)*1,"\n")
-    }
-    result = result + GetDiscountFactor(YieldCurve,t2)*(t2-floor(t2))
-    cat("added:",GetDiscountFactor(YieldCurve,t2)*(t2-floor(t2)),"\n")
-  }
-  else {
-    cat("t1 and t2 in the same year\n")
-    result = result + GetDiscountFactor(YieldCurve,t2)*(t2-t1)
-  }
-  
-  return(result)
-}
-
 compute_premium_leg = function(YieldCurve,k,tau_arr) {
   #calculation is discretised per annum
   last_year = 5
