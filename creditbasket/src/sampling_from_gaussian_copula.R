@@ -11,7 +11,11 @@ NumberSimulation = 300000
 RecoveryRate = 0.40
 YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
 
-ZMatrix = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
+#ZMatrix = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
+#using sobol numbers
+require(fOptions)
+ZMatrix = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+
 XMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 UMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 TauMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
@@ -152,6 +156,19 @@ expectation_default_leg= mean(LegCalculation[,"DefaultLeg"])
 expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
 expectation_spread = expectation_default_leg/expectation_premium_leg
 expectation_spread
+
+#convergence diagram
+nbobservation = round(NumberSimulation/10)
+expectation_default_leg_array = rep(NA,nbobservation)
+expectation_premium_leg_array = rep(NA,nbobservation)
+expectation_spread_array = rep(NA,nbobservation)
+
+for (i in seq(1,nbobservation)) {
+  expectation_default_leg_array[i] = mean(LegCalculation[1:i,"DefaultLeg"])
+  expectation_premium_leg_array[i] = mean(LegCalculation[1:i,"PremiumLeg"])
+  expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
+}
+plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 
 
 truc = cbind(TauMatrix[1:250,1],TauMatrix[1:250,2],TauMatrix[1:250,3],TauMatrix[1:250,4],TauMatrix[1:250,5],LegCalculation[1:250,"DefaultLeg"],LegCalculation[1:250,"PremiumLeg"],LegCalculationBackup[1:250,"DefaultLeg"],LegCalculationBackup[1:250,"PremiumLeg"])
