@@ -27,6 +27,6 @@ print(expectation_spread_gaussian)
 
 #sampling from student t copula
 source("sampling_from_student_t_copula.R")
-print(expectation_spread)
+print(expectation_spread_studentt)
 
 

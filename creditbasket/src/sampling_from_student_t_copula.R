@@ -2,8 +2,8 @@
 
 #Test if correlation matrix is positive definite
 DefaultProbabilityMatrix_StudentTCopula
-rho_matrix
 degree_freedom
+#degree_freedom = 7
 
 A_studentt = chol(DefaultProbabilityMatrix_StudentTCopula)
 #verification
@@ -14,21 +14,24 @@ NumberSimulation = 300000
 RecoveryRate = 0.40
 YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
 
-require(fOptions)
-ZMatrix = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
-YMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
-XMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
-TauMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+
+ZMatrix_studentt = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
+#require(fOptions)
+#ZMatrix_studentt = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+YMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+XMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+TauMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 ChiSquare = rchisq(NumberSimulation, degree_freedom)
 
 #adjustment by the chi-squared number and apply correlation
 for (i in seq(1,NumberSimulation)) {
-  YMatrix[i,] = ZMatrix[i,]/(sqrt(ChiSquare[i]/degree_freedom))
-  XMatrix[i,] = t(A_studentt %*% YMatrix[i,])# t() in order to keep X as a row vector
+  YMatrix_studentt[i,] = ZMatrix_studentt[i,]/(sqrt(ChiSquare[i]/degree_freedom))
+  XMatrix_studentt[i,] = t(A_studentt %*% YMatrix_studentt[i,])# t() in order to keep X as a row vector
 }
 
 #convert to uniform correlated vector by applying the student t cdf
-UMatrix = pt(XMatrix)
+UMatrix_studentt = pt(XMatrix_studentt, df = degree_freedom)
+
 
 #convert U to Tau
 for (i in seq(1,NumberCDS)) {
@@ -49,15 +52,18 @@ for (i in seq(1,NumberCDS)) {
   else if (i == 5) {
     CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL)[[1,"CreditCurve"]]
   }
-  TauMatrix[,i] = HazardExactDefaultTime(CC,UMatrix[,i])
+  TauMatrix_studentt[,i] = HazardExactDefaultTime(CC,UMatrix_studentt[,i])
 }
-TauMatrix
+TauMatrix_studentt
+
+LegCalculation_studentt = matrix(data = NA,ncol=2, nrow=NumberSimulation)
+colnames(LegCalculation_studentt) = c("DefaultLeg","PremiumLeg")
 
 #kth to default basket CDS
-k=2
+k=1
 for (i in seq(1,NumberSimulation)) {
   if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
-  tau_list = sort(TauMatrix[i,])
+  tau_list = sort(TauMatrix_studentt[i,])
   tau_k = tau_list[k]
   
   #default leg calculation
@@ -85,15 +91,15 @@ for (i in seq(1,NumberSimulation)) {
     premium_leg = compute_premium_leg(YieldCurve,k,tau_list)
   }
   
-  LegCalculation[i,"DefaultLeg"] = default_leg
-  LegCalculation[i,"PremiumLeg"] = premium_leg  
+  LegCalculation_studentt[i,"DefaultLeg"] = default_leg
+  LegCalculation_studentt[i,"PremiumLeg"] = premium_leg  
 }
-LegCalculation
+LegCalculation_studentt
 
-expectation_default_leg= mean(LegCalculation[,"DefaultLeg"])
-expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
-expectation_spread = expectation_default_leg/expectation_premium_leg
-expectation_spread
+expectation_default_leg_studentt= mean(LegCalculation_studentt[,"DefaultLeg"])
+expectation_premium_leg_studentt= mean(LegCalculation_studentt[,"PremiumLeg"])
+expectation_spread_studentt = expectation_default_leg_studentt/expectation_premium_leg_studentt
+expectation_spread_studentt
 
 #convergence diagram
 nbobservation = round(NumberSimulation/10)
@@ -102,12 +108,13 @@ expectation_premium_leg_array = rep(NA,nbobservation)
 expectation_spread_array = rep(NA,nbobservation)
 
 for (i in seq(1,nbobservation)) {
-  expectation_default_leg_array[i] = mean(LegCalculation[1:i,"DefaultLeg"])
-  expectation_premium_leg_array[i] = mean(LegCalculation[1:i,"PremiumLeg"])
+  expectation_default_leg_array[i] = mean(LegCalculation_studentt[1:i,"DefaultLeg"])
+  expectation_premium_leg_array[i] = mean(LegCalculation_studentt[1:i,"PremiumLeg"])
   expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
 }
 plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 
 
-#k=1 ==> 0.0082775641
+#k=1 ==> 0.008064315
 #k=2 ==> 0.0018593256
+
