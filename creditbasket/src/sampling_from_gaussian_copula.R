@@ -2,30 +2,30 @@
 
 #Test if correlation matrix is positive definite
 DefaultProbabilityMatrix_GaussianCopula
-A = chol(DefaultProbabilityMatrix_GaussianCopula)
+A_gaussian = chol(DefaultProbabilityMatrix_GaussianCopula)
 #verification
-t(A) %*% A
+t(A_gaussian) %*% A_gaussian
 
 NumberCDS = 5
 NumberSimulation = 300000
 RecoveryRate = 0.40
 YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
 
-#ZMatrix = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
+#ZMatrix_gaussian = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
 #using sobol numbers
 require(fOptions)
-ZMatrix = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
 
-XMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
-UMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
-TauMatrix = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+XMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+UMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 
 #we impose correlation
 for (i in seq(1,NumberSimulation)) {
-  XMatrix[i,] = t(A %*% ZMatrix[i,]) # t() in order to keep X as a row vector
+  XMatrix_gaussian[i,] = t(A_gaussian %*% ZMatrix_gaussian[i,]) # t() in order to keep X as a row vector
 }
 
-UMatrix = pnorm(XMatrix)
+UMatrix_gaussian = pnorm(XMatrix_gaussian)
 
 for (i in seq(1,NumberCDS)) {
   CC = NULL
@@ -45,17 +45,17 @@ for (i in seq(1,NumberCDS)) {
   else if (i == 5) {
     CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL)[[1,"CreditCurve"]]
   }
-  TauMatrix[,i] = HazardExactDefaultTime(CC,UMatrix[,i])
+  TauMatrix_gaussian[,i] = HazardExactDefaultTime(CC,UMatrix_gaussian[,i])
 }
-TauMatrix
+TauMatrix_gaussian
 
-LegCalculation = matrix(data = NA,ncol=2, nrow=NumberSimulation)
-colnames(LegCalculation) = c("DefaultLeg","PremiumLeg")
+LegCalculation_gaussian = matrix(data = NA,ncol=2, nrow=NumberSimulation)
+colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg")
 
 #1st to default basket CDS
 for (i in seq(1,NumberSimulation)) {
   if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
-  min_tau = min(TauMatrix[i,])
+  min_tau = min(TauMatrix_gaussian[i,])
   
   #default leg calculation
   default_leg = 0
@@ -92,15 +92,15 @@ for (i in seq(1,NumberSimulation)) {
     premium_leg = premium_leg*(5/5)
   }
   
-  LegCalculation[i,"DefaultLeg"] = default_leg
-  LegCalculation[i,"PremiumLeg"] = premium_leg  
+  LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
+  LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
 }
-LegCalculation
+LegCalculation_gaussian
 
-expectation_default_leg= mean(LegCalculation[,"DefaultLeg"])
-expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
-expectation_spread = expectation_default_leg/expectation_premium_leg
-expectation_spread
+expectation_default_leg_gaussian= mean(LegCalculation_gaussian[,"DefaultLeg"])
+expectation_premium_leg_gaussian= mean(LegCalculation_gaussian[,"PremiumLeg"])
+expectation_spread_gaussian = expectation_default_leg_gaussian/expectation_premium_leg_gaussian
+expectation_spread_gaussian
 
 #convergence diagram
 nbobservation = round(NumberSimulation/10)
@@ -109,8 +109,8 @@ expectation_premium_leg_array = rep(NA,nbobservation)
 expectation_spread_array = rep(NA,nbobservation)
 
 for (i in seq(1,nbobservation)) {
-  expectation_default_leg_array[i] = mean(LegCalculation[1:i,"DefaultLeg"])
-  expectation_premium_leg_array[i] = mean(LegCalculation[1:i,"PremiumLeg"])
+  expectation_default_leg_array[i] = mean(LegCalculation_gaussian[1:i,"DefaultLeg"])
+  expectation_premium_leg_array[i] = mean(LegCalculation_gaussian[1:i,"PremiumLeg"])
   expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
 }
 plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
@@ -119,7 +119,7 @@ plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 k=1
 for (i in seq(1,NumberSimulation)) {
   if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
-  tau_list = sort(TauMatrix[i,])
+  tau_list = sort(TauMatrix_gaussian[i,])
   tau_k = tau_list[k]
   
   #default leg calculation
@@ -147,15 +147,15 @@ for (i in seq(1,NumberSimulation)) {
     premium_leg = compute_premium_leg(YieldCurve,k,tau_list)
   }
   
-  LegCalculation[i,"DefaultLeg"] = default_leg
-  LegCalculation[i,"PremiumLeg"] = premium_leg  
+  LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
+  LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
 }
-LegCalculation
+LegCalculation_gaussian
 
-expectation_default_leg= mean(LegCalculation[,"DefaultLeg"])
-expectation_premium_leg= mean(LegCalculation[,"PremiumLeg"])
-expectation_spread = expectation_default_leg/expectation_premium_leg
-expectation_spread
+expectation_default_leg_gaussian= mean(LegCalculation_gaussian[,"DefaultLeg"])
+expectation_premium_leg_gaussian= mean(LegCalculation_gaussian[,"PremiumLeg"])
+expectation_spread_gaussian = expectation_default_leg_gaussian/expectation_premium_leg_gaussian
+expectation_spread_gaussian
 
 #convergence diagram
 nbobservation = round(NumberSimulation/10)
@@ -164,16 +164,16 @@ expectation_premium_leg_array = rep(NA,nbobservation)
 expectation_spread_array = rep(NA,nbobservation)
 
 for (i in seq(1,nbobservation)) {
-  expectation_default_leg_array[i] = mean(LegCalculation[1:i,"DefaultLeg"])
-  expectation_premium_leg_array[i] = mean(LegCalculation[1:i,"PremiumLeg"])
+  expectation_default_leg_array[i] = mean(LegCalculation_gaussian[1:i,"DefaultLeg"])
+  expectation_premium_leg_array[i] = mean(LegCalculation_gaussian[1:i,"PremiumLeg"])
   expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
 }
 plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 
 
-truc = cbind(TauMatrix[1:250,1],TauMatrix[1:250,2],TauMatrix[1:250,3],TauMatrix[1:250,4],TauMatrix[1:250,5],LegCalculation[1:250,"DefaultLeg"],LegCalculation[1:250,"PremiumLeg"],LegCalculationBackup[1:250,"DefaultLeg"],LegCalculationBackup[1:250,"PremiumLeg"])
+#truc = cbind(TauMatrix[1:250,1],TauMatrix[1:250,2],TauMatrix[1:250,3],TauMatrix[1:250,4],TauMatrix[1:250,5],LegCalculation[1:250,"DefaultLeg"],LegCalculation[1:250,"PremiumLeg"],LegCalculationBackup[1:250,"DefaultLeg"],LegCalculationBackup[1:250,"PremiumLeg"])
 
-#k=1 ==> 82bp // 0.0082433965
+#k=1 ==> 82bp // 0.0082433965 
 #k=2 ==> 18bp
 #k=3 ==> 3.5bp
 #k=4 ==> 0.48bp

@@ -23,9 +23,10 @@ cat("degree of freedom",degree_freedom)
 source("marginal_default_time.R") #daily cds data loading and function definition
 source("kthdefault_algorithm.R") #function loading
 source("sampling_from_gaussian_copula.R") #sampling from copula process
+print(expectation_spread_gaussian)
 
 #sampling from student t copula
 source("sampling_from_student_t_copula.R")
-
+print(expectation_spread)
 
 
