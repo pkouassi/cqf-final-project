@@ -1,4 +1,4 @@
-parseCreditData = function(pathname,ticker,ccy,docclause) {
+parseHistoricCreditData = function(pathname,ticker,ccy,docclause) {
   files = list.files(path=pathname, pattern="*.csv", full.names=TRUE, recursive=FALSE)
   
   MarketData = as.data.frame(matrix(ncol=11, nrow=length(files)))

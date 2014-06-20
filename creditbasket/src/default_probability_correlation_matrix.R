@@ -1,75 +1,9 @@
-#gather historical credit curve data
-BMY_USD_XR=parseCreditData("C://temp//markit","BMY","USD","XR")
-DELL_USD_XR=parseCreditData("C://temp//markit","DELLN","USD","XR")
-HP_USD_XR=parseCreditData("C://temp//markit","HPQ","USD","XR")
-IBM_USD_XR=parseCreditData("C://temp//markit","IBM","USD","XR")
-PFE_USD_XR=parseCreditData("C://temp//markit","PFE","USD","XR")
-
-#only keep data from Monday 6-May-2013 to Friday 23-May-2014
-BMY_USD_XR = BMY_USD_XR[BMY_USD_XR$Date>=as.Date("06-MAY-2013","%d-%b-%Y") & BMY_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-DELL_USD_XR = DELL_USD_XR[DELL_USD_XR$Date>=as.Date("06-MAY-2013","%d-%b-%Y") & DELL_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-HP_USD_XR = HP_USD_XR[HP_USD_XR$Date>=as.Date("06-MAY-2013","%d-%b-%Y") & HP_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-IBM_USD_XR = IBM_USD_XR[IBM_USD_XR$Date>=as.Date("06-MAY-2013","%d-%b-%Y") & IBM_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-PFE_USD_XR = PFE_USD_XR[PFE_USD_XR$Date>=as.Date("06-MAY-2013","%d-%b-%Y") & PFE_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-
-cbind(BMY_USD_XR$Date,DELL_USD_XR$Date,HP_USD_XR$Date,IBM_USD_XR$Date,PFE_USD_XR$Date)
-
-#check that dates are all aligned
-(BMY_USD_XR$Date == DELL_USD_XR$Date)
-(BMY_USD_XR$Date == HP_USD_XR$Date)
-(BMY_USD_XR$Date == IBM_USD_XR$Date)
-(BMY_USD_XR$Date == PFE_USD_XR$Date)
-
-
-#gather historical yield curve
-#bootstrap credit curve for 1y data
-#IBM / first date
-
-BootstrapHistoricCreditCurve = function(HistCDSData) {
-  RecoveryRate = 0.40
-  HistCreditCurve = matrix(list(),nrow(HistCDSData),3)
-  colnames(HistCreditCurve) = c("Date", "Ticker","CreditCurve")
-  
-  for (i in seq(1,nrow(HistCDSData)))
-  {
-    CDS1Y = new ("CreditDefaultSwap", maturity = 1, marketprice = HistCDSData[i,]$Spread1y*10000)
-    CDS2Y = new ("CreditDefaultSwap", maturity = 2, marketprice = HistCDSData[i,]$Spread2y*10000)
-    CDS3Y = new ("CreditDefaultSwap", maturity = 3, marketprice = HistCDSData[i,]$Spread3y*10000)
-    CDS4Y = new ("CreditDefaultSwap", maturity = 4, marketprice = HistCDSData[i,]$Spread4y*10000)
-    CDS5Y = new ("CreditDefaultSwap", maturity = 5, marketprice = HistCDSData[i,]$Spread5y*10000)
-    CDScol=c(CDS1Y,CDS2Y,CDS3Y,CDS4Y,CDS5Y)
-    YieldCurve = getYieldCurve(HistYieldCurveMatrix,HistCDSData[i,]$Date)
-    tmp = BootstrapCreditCurve(CDScol,RecoveryRate,YieldCurve)
-    
-    HistCreditCurve[[i,"Date"]] = HistCDSData[i,]$Date
-    HistCreditCurve[[i,"Ticker"]] = HistCDSData[i,]$Ticker
-    HistCreditCurve[[i,"CreditCurve"]] = tmp
-  }
-  
-  return(HistCreditCurve)
-}
-
-ConvertHistoricCreditCurveToDataframe = function(HistCreditCurve) {
-  #Extract specific info from the historical credit curve and store them in a dataframe
-  HistCreditCurveDataframe = as.data.frame(matrix(NA,ncol=4, nrow=nrow(HistCreditCurve)))
-  names(HistCreditCurveDataframe) = c("Date", "Ticker","SP_5Y", "DP_5Y")
-  
-  for (i in seq(1,nrow(HistCreditCurve))) {
-    HistCreditCurveDataframe$Date[i] = HistCreditCurve[i,"Date"]
-    HistCreditCurveDataframe$Ticker[i] = HistCreditCurve[i,"Ticker"]
-    HistCreditCurveDataframe$SP_5Y[i] = HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years SP
-    HistCreditCurveDataframe$DP_5Y[i] = 1 - HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years DP  
-  }
-  
-  return(HistCreditCurveDataframe)  
-}
-
 #arrays of CreditCurve Objects
-BMY_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(BMY_USD_XR)
-DELL_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(DELL_USD_XR)
-HP_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(HP_USD_XR)
-IBM_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(IBM_USD_XR)
-PFE_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(PFE_USD_XR)
+BMY_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(BMY_USD_XR,HistoricalYieldCurveMatrix)
+DELL_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(DELL_USD_XR,HistoricalYieldCurveMatrix)
+HP_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(HP_USD_XR,HistoricalYieldCurveMatrix)
+IBM_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(IBM_USD_XR,HistoricalYieldCurveMatrix)
+PFE_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(PFE_USD_XR,HistoricalYieldCurveMatrix)
 
 #dataframe with 5Y Survival Probability and Default Probability
 BMY_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(BMY_USD_XR_HistCreditCurve)
