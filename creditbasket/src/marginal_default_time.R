@@ -1,12 +1,3 @@
-#marginal default time
-#we use the credit curve for one day
-
-BMY_USD_XR=parseHistoricCreditData("C://temp//markit","BMY","USD","XR")
-DELL_USD_XR=parseHistoricCreditData("C://temp//markit","DELLN","USD","XR")
-HP_USD_XR=parseHistoricCreditData("C://temp//markit","HPQ","USD","XR")
-IBM_USD_XR=parseHistoricCreditData("C://temp//markit","IBM","USD","XR")
-PFE_USD_XR=parseHistoricCreditData("C://temp//markit","PFE","USD","XR")
-
 #Estimation of hazard rates (empirical marginal distribution)
 BMY_USD_XR_MARGINAL = BMY_USD_XR[BMY_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & BMY_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
 DELL_USD_XR_MARGINAL = DELL_USD_XR[DELL_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & DELL_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]

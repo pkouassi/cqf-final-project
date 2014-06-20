@@ -16,10 +16,6 @@ source("market_data_functions.R")
 source("market_data_loading.R") 
 source("credit_curve_bootstrapping_functions.R")
 
-#source("credit_data_parsing.R") #load a function
-#source("parse_historical_yield_curve.R") # process data
- # load functions and classes
-
 #gaussian correlation matrix, student t correlation matrix and degree of freedom
 source("default_probability_correlation_matrix.R") # load functions and process data
 print(DefaultProbabilityMatrix_GaussianCopula)

@@ -9,7 +9,7 @@ t(A_gaussian) %*% A_gaussian
 NumberCDS = 5
 NumberSimulation = 300000
 RecoveryRate = 0.40
-YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
+YieldCurve = getYieldCurve(HistoricalYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
 
 #ZMatrix_gaussian = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
 #using sobol numbers
@@ -31,19 +31,19 @@ for (i in seq(1,NumberCDS)) {
   CC = NULL
   cat("i=",i,"\n")
   if (i == 1) {
-    CC = BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 2) {
-    CC = BootstrapHistoricCreditCurve(DELL_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(DELL_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 3) {
-    CC = BootstrapHistoricCreditCurve(HP_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(HP_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 4) {
-    CC = BootstrapHistoricCreditCurve(IBM_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(IBM_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 5) {
-    CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   TauMatrix_gaussian[,i] = HazardExactDefaultTime(CC,UMatrix_gaussian[,i])
 }
