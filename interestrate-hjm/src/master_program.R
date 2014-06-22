@@ -13,4 +13,13 @@ setwd(current_dir)
 #source("class_definition.R") # define classes
 #historical data loading, cleaning. Credit Curve Construction
 source("market_data_functions.R") 
-#source("market_data_loading.R") 
+source("market_data_loading.R") 
+
+#Principal Component Analysis
+source("jacobi_transformation_functions.R") 
+source("principal_component_analysis.R") 
+
+#MoOnte Carlo Simulation / Pricing
+source("monte_carlo_simulation_functions.R") 
+source("monte_carlo_simulation.R") 
+
