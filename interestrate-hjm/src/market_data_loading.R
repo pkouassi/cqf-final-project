@@ -18,6 +18,8 @@ cat("we retain data between",format(start_date,"%d %b %Y"),"and",format(end_date
 valuation_date = as.Date("2014-05-30","%Y-%m-%d")
 ValuationDateForwardCurve = parseForwardCurve(valuation_date,shortend_filename,longend_filename)
 
-#Load OIS cpot curve for valuation date
+#Load OIS spot curve for valuation date
 ois_spotcurve_filename ="/../data/ukois09_mdaily_spotcurve.csv"
 OISSpotCurve = parseOISSpotCurve(valuation_date,ois_spotcurve_filename)
+
+#calculate discount factors and define yieldcurve
