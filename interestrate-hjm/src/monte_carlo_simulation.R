@@ -6,7 +6,7 @@ cat("Number of core(s) to be used for calculation:",getDoParWorkers(),"\n")
 #registerDoParallel(cl_1core)
 
 
-input_data = ValuationDateForwardCurve[1,]/100
+input_data = ValuationDateForwardCurve$forwardcurve/100
 #input_data = read.csv("P:/CQF/FinalProject/git-root/finalproject/interestrate-hjm/data/spot_curve.csv", header = TRUE)$rate
 #dX_data = read.csv("P:/CQF/FinalProject/git-root/finalproject/interestrate-hjm/data/DX.csv", header = TRUE)
 #dX_data = read.delim("clipboard")
@@ -103,7 +103,7 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   b2 = as.numeric(fit$coefficients["x2"])
   b3 = as.numeric(fit$coefficients["x3"])
   tmpfunc = function(x) return(b0+b1*x+b2*x^2+b3*x^3)
-  libor_continusously_coupounded = integrate(func,0,1)$value
+  libor_continusously_coupounded = integrate(tmpfunc,0,1)$value
   libor_simply_coupounded = exp(libor_continusously_coupounded)-1
   K = 0.008 #0.8%
   caplet1x1_008 = max(libor_simply_coupounded-0.008,0)*bond1Y*1

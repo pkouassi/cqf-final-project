@@ -57,14 +57,47 @@ parseForwardCurve = function(date,shortend_filename,longend_filename) {
   forward_curve_shortend[,1] = as.Date(forward_curve_shortend[,1],date_format)
   forward_curve_shortend = forward_curve_shortend[-1,] #suppress first line that does not contain data
   
-  #initialze matrix
-  ForwardCurve = matrix(NA,nrow=1,ncol=(ncol(forward_curve_shortend)-1),byrow = TRUE);
-  colnames(ForwardCurve) = seq(1/12,5,by=1/12)
+  #initialize the vectors
+  ForwardCurve = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])
+  ForwardCurveDate = seq(1/12,5,by=1/12)
+  
+  #ForwardCurve = matrix(NA,nrow=1,ncol=(ncol(forward_curve_shortend)-1),byrow = TRUE);
+  #colnames(ForwardCurve) = 
 
   #populate matrix
-  ForwardCurve[1,] = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])  
+  #ForwardCurve[1,] = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])  
   
-  return(ForwardCurve)
+  return(list(date=ForwardCurveDate,forwardcurve=ForwardCurve))
+  return()
+}
+
+parseOISSpotCurve = function(date,ois_spotcurve_filename) {
+  #date = as.Date("2014-05-30","%Y-%m-%d")
+  #ois_spotcurve_filename ="/../data/ukois09_mdaily_spotcurve.csv"
+  
+  ois_spot_curve=read.csv(paste(getwd(),ois_spotcurve_filename,sep=""), skip=3,header = TRUE,stringsAsFactors = FALSE)
+  date_format = "%d %b %y"
+  ois_spot_curve[,1] = as.Date(ois_spot_curve[,1],date_format)
+  ois_spot_curve = ois_spot_curve[-1,] #suppress first line that does not contain data
+  
+  k=1
+  for (i in seq(1,length(ois_spot_curve[,1]))) {
+    if (!is.na(ois_spot_curve[i,1])) {
+      k = k +1
+    }
+    else {
+      break
+    }
+  }
+  nbrecords = k-1
+  
+  ois_spot_curve = ois_spot_curve[1:nbrecords,] #filter blank records at the end of the file
+  
+  #initialize the vectors
+  OISSpotCurve = as.numeric(ois_spot_curve[ois_spot_curve[,1] == date,2:ncol(ois_spot_curve)])  
+  OISSpotCurveDate = seq(1/12,5,by=1/12)
+  
+  return(list(date=OISSpotCurveDate,spotcurve=OISSpotCurve))
 }
 
 

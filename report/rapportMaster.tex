@@ -1,0 +1,4082 @@
+\documentclass[a4paper]{book}
+\setlength{\textwidth}{16cm}
+\usepackage[french]{babel}
+\usepackage[french]{minitoc}
+\usepackage[cyr]{aeguill}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{url}
+\usepackage{amssymb,amstext,amsmath}
+\usepackage[dvips]{graphicx}
+\usepackage{color}
+\usepackage{theorem}
+\usepackage{textcomp}
+\usepackage{braket}
+\usepackage{stmaryrd}
+\usepackage{eurosym}
+\usepackage{pst-text}
+\usepackage[absolute]{textpos}
+\usepackage[T1]{fontenc}
+\markright{16cm}
+\fancyhead{}
+\fancyfoot{}
+\lhead{\resizebox{1in}{!}{\includegraphics{logo_upmc}} \\ \vfill \resizebox{1in}{!}{\includegraphics{casa_logo}}}
+\rhead{Amina BOUMEDIENE}
+\rfoot{\thepage}
+
+\title{
+	\begin{figure}[t!]
+		\begin{center}
+			\begin{tabular}{lr}
+				\includegraphics[scale=0.30]{logo_upmc} & \hfill \includegraphics[scale=0.85]{casa_logo}\\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{figure}
+	\fbox{ 
+		\begin{minipage}{\textwidth}
+			\begin{center}
+					\begin{tabular}{c}
+						\\
+					{\Large \bf Applications Math\'ematiques pour la Finance de march\'e }\\
+					\\
+					\end{tabular} 
+			\end{center}
+		\end{minipage} 
+	}
+}
+\author{
+		\begin{tabular}{c}
+			{\Large \bf Amina BOUMEDIENE}\\
+			\\
+			\textit{ Master Math\'ematiques et Applications, sp\'ecialit\'e Statistique}\\
+			\hline
+		\end{tabular}
+} 
+\date{
+	\vfill
+	\begin{flushleft}
+			Stage effectu\'e du 2 avril au 28 septembre 2007 au sein de la Gestion Financi\`ere, 
+service Investissement et Couverture  de Cr\'edit Agricole S.A. et encadr\'e par M. Karim Mzoughi (ing\'enieur financier)\\
+	\end{flushleft}
+	\vfill
+	\begin{flushleft}
+		Laboratoire de Statistiques Th\'eoriques et Appliqu\'ees \\
+		Universit\'e Pierre et Marie Curie, Paris VI \\
+		\vfill
+		\begin{tabular}{ll}
+			Responsable de formation : &Paul Deheuvels (professeur)\\
+			Encadrants : &Delphine Blanke (ma\^{\i}tre de conf\'erences)\\
+						&Giovanni Peccati (ma\^{\i}tre de conf\'erences)
+		\end{tabular}
+	\end{flushleft}
+}
+
+\textwidth=16cm
+\textheight=21cm
+
+\oddsidemargin = -0.5cm
+\evensidemargin=-0.5cm
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+\theorembodyfont{\itshape}
+\theoremstyle{break}
+\newtheorem{df}{D\'efinition}[chapter]
+{\theorembodyfont{\rmfamily}\theoremstyle{break} \newtheorem{ex}{Exemple}[chapter]}
+{\theorembodyfont{\rmfamily}\theoremstyle{break}\newtheorem{rem}{Remarque}[chapter]}
+\newtheorem{theo}{Th\'eor\`eme}[chapter]
+\newtheorem{prop}{Proposition}[chapter]
+{\theorembodyfont{\rmfamily}\theoremstyle{break}
+\newtheorem{dem}{D\'emonstration}[chapter]}
+\newtheorem{hyp}{Hypoth\`ese}[chapter]
+\newtheorem{Not}{Notation}[chapter]
+
+\newcommand{\E}{\mathbb{E}} % Opérateur Espérance
+\newcommand{\V}{\mathbb{V}} % Opérateur Variance
+\newcommand{\C}{\mathbb{C}ov} %Opérateur Covariance
+\renewcommand{\L}{\mathbb{L}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\noi}{\noindent} 
+\newcommand{\F}{\mathcal{F}}
+
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\X}{\underline{X}}
+\newcommand{\dif}{\mathrm{d}}
+\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+\newcommand{\1}{\text{1\hspace{-.55ex}\mbox{l}}} %fonction indicatrice
+\begin{document}	
+\maketitle
+
+%***********************	
+\chapter*{Remerciements}
+%***********************
+	\paragraph*{}
+	Je tiens \`a remercier mon ma\^{\i}tre de stage Karim Mzoughi pour avoir su me guider tout au long de ce stage aussi bien dans les approches 
+math\'ematique et informatique que dans le cadre de la Finance de march\'e. Je le remercie \'egalement pour m'avoir fait confiance, 
+pour sa grande disponibilit\'e, sa patience et ses conseils dans la r\'edaction de ce rapport. 
+	\paragraph*{}
+	Merci \'egalement \`a Virginie Krakowiak pour m'avoir d\'ecrit les instruments financiers et les strat\'egies sous-jacentes.
+	\paragraph*{} 
+	Merci aussi \`a  Yves Amardeil, Philippe Gaspard, Patrick Mavro et Eric Morvan 
+	pour m'avoir appris comment obtenir et utiliser des donn\'ees diponibles sur le march\'e. 
+	\paragraph*{}
+	Merci \`a toute l'\'equipe de la Direction Financi\`ere pour son accueil.
+	\paragraph*{}
+	Je remercie enfin tous les enseignants du Master Math\'ematiques et Applications, sp\'ecialit\'e Statistique, 
+pour la richesse de leur formation.
+	
+
+%**********************
+\chapter*{Introduction}
+%**********************
+\section*{}
+	Cr\'e\'e en 2001, Cr\'edit Agricole SA est l'organe central du groupe Cr\'edit Agricole.  Il garantit l'unit\'e financi\`ere du groupe et 
+coordonne, en liaison avec ses filiales sp\'ecialis\'ees, les strat\'egies des diff\'erents m\'etiers du groupe. \\
+\indent Le service Investissement et couverture de Cr\'edit Agricole S.A. est en particulier charg\'e de de la gestion 
+du risque de taux d'int\'er\^et global.\\
+\\
+\indent	Ce rapport comporte deux volets quasi-ind\'ependants correspondant aux deux missions dont j'ai \'et\'e charg\'ee :
+	\begin{itemize}
+		\item[$\bullet \quad$]	mettre en place le mod\`ele de d\'eformation de la courbe des taux de Brace, Gatarek 
+\& Musiela  
+		\item[$\bullet  \quad$]	valoriser des produits structur\'es sur le p\'etrole 
+	\end{itemize}	
+Il se voudra surtout th\'eorique et laissera peu de place \`a la 
+partie informatique. Cependant, le d\'eveloppement en C++ a \'ete tr\`es important au cours de ce stage tant au niveau des 
+difficult\'es d'impl\'ementation rencontr\'ees qu'au temps consacr\'e.
+
+\section*{Mod\`ele de Brace, Gatarek et Musiela}
+	Le secteur de la Finance de march\'e  en pleine expansion, il donne naissance \`a des produits d\'eriv\'es de plus 
+en plus complexes et diversifi\'es. C'est en particulier le cas pour les produits d\'eriv\'es sur taux d'int\'er\^et. \\
+\indent Les flux sous--jacents \`a ces derniers sont g\'en\'eralement des fonctions non lin\'eaires des futurs taux 
+interbancaires (IBOR), c'est pourquoi il est devenu indispensable de disposer d'un mod\`ele simulant les taux 
+d'int\'er\^ets \`a diff\'erentes dates dans le futur. \\
+\\  \indent
+	Apr\`es avoir fait un  tour d'horizon des mod\`eles disponibles dans la litt\'erature sur le sujet, 
+nous avons rapidement opt\'e pour le mod\`ele de march\'e de Brace, Gatarek et Musiela. 
+Le mod\`ele BGM a l'avantage de donner les m\^emes formules de 
+prix que les op\'erationnels du march\'e pour les caps et les swaptions, produits liquides sur le march\'e des taux 
+d'int\'er\^et.
+\\ \indent
+	Une premi\`ere partie de ce rapport sera consacr\'ee \`a des rappels sur les taux d'int\'er\^et.\\ 
+En se pla\c cant dans le cadre unidimensionnel, nous exprimerons dans la deuxi\`eme partie, la dynamique des taux IBOR sous diff\'erentes 
+mesures de probabilit\'e. \\
+Nous proposerons une calibration d\'etaill\'ee, bas\'ee sur les cotations des caps \`a la monnaie apr\`es avoir 
+d\'etermin\'e les volatilit\'es implicites des caplets sous-jacents.\\
+Nous simulerons enfin les trajectoires des taux IBOR et \'etudierons un exemple de produit pouvant \^etre valoris\'e par 
+notre mod\`ele.
+\newpage
+\section*{Valorisation de produits structur\'es sur le p\'etrole}
+
+	Lorsqu'on valorise des produits sur le p\'etrole, une des premi\`eres difficult\'es est de prendre en compte la 
+coexistance de deux risques :  \\
+	\begin{itemize}
+		\item[$\bullet \quad$] le risque li\'e aux fluctuations du prix du p\'etrole exprim\'e en \$ US \\
+		\item[$\bullet \quad$] le risque li\'e aux fluctuations du taux de change \$ / \officialeuro \\
+	\end{itemize}
+A partir des diffusions historiques, nous exprimerons les dynamiques de ces deux al\'eas sous la probabilit\'e risque-neutre 
+domestique en tenant compte des param\`etres du march\'e \'etranger. Nous \'etendrons alors la formule de Black \& Scholes aux
+options soumises \`a un risque de change, dites options  \guillemotleft \ quanto \guillemotright . 
+Nous \'etudierons enfin plusieurs exemples de structures optionnelles et verrons comment il est possible d'appliquer nos formules. 
+
+\tableofcontents
+
+%*****************************************************************
+\part{Produits d\'eriv\'es sur taux d'int\'er\^et \\ Mod\`ele BGM }
+%*****************************************************************
+%************************************
+\chapter*{Abr\'eviations et notations}
+%************************************
+
+	\begin{description}
+		\item [I. Notations G\'en\'erales] 
+		\item
+		\item [$\quad t$] Date courante
+		\item [$\quad \tau( s,t )$] Mesure du temps, fraction d'ann\'ee entre la date s et la date t compte tenu 
+			du choix de la base.   
+		\item [$\quad \mathrm N$] Nominal 
+		\item [$\quad \theta  > 0 $] Une dur\'ee (en ann\'ee)
+		\item [$\quad \beta( t )$] Facteur d'accumulation cf. d\'efinition \ref{facteur} p. \pageref{facteur} 
+		\item [$\quad \text{DF}( t, T )$] Facteur d'actualisation stochastique cf. d\'efinition \ref{factActSto} p.
+			\pageref{factActSto}
+		\item [$\quad B( t,T )$] Prix en t d'un z\'ero-coupon de maturit\'e T cf. d\'efinition \ref{ZC} p. \pageref{ZC}
+		\item [$\quad L( t, T )$] Taux de composition simple cf. d\'efinition \ref{TauxSimple} p. \pageref{TauxSimple}
+		\item [$\quad Y( t, T )$] Taux compos\'e annuellement cf. d\'efinition \ref{TauxCompose} p. \pageref{TauxCompose}
+		\item [$\quad F( t, T, S) $] Taux forward cf. d\'efinition \ref{TauxForward} p. \pageref{TauxForward}
+		\item [$\quad f( t,T )$] Taux forward instantan\'e cf. d\'efinition \ref{TauxForwardInstantane} 
+			p. \pageref{TauxForwardInstantane}
+		\item [$\quad \left \{ T_1 , \cdots , T_n \right \}$] Ech\'eancier
+		\item [$\quad i$] Indice parcourant l'\'ech\'eancier
+		\item [$\quad r( t, \theta )$] Taux forward instantan\'e de maturit\'e $\theta$ cf. d\'efinition 
+			\ref{TauxForwardInstantane} p. \pageref{TauxForwardInstantane}
+		\item [$\quad L( t,0 ; \delta ) $] Taux IBOR spot en t de maturit\'e $\delta$
+		\item [$\quad L( t,\theta ; \delta ) $]Taux IBOR forward en t (maturit\'e $\delta$) d'\'ech\'eance $t+\theta$
+		\item [$\quad  Cap( t,T_n, K )$] Le prix en $t$ d'un cap de strike $K$ et d'\'ech\'eance $T_n$
+		\item [$\quad Caplet( t, T_j, K )$] le prix en $t$ d'un caplet de strike $K$ et d'\'ech\'eance $T_j$ 
+		\item [$\quad \N( 0, 1 )$]  La loi Normale centr\'ee et r\'eduite
+		\item [$\quad \left< X \right> = \left< X, X \right > $] Le crochet d'un processus $X$ 
+			cf. Annexe \ref{CalculSto} p. \pageref{CalculSto}
+		\item [$\quad \Delta_t$] Pas de discr\'etisation
+		\item [$\quad \left \{ t_k = t + k \Delta_t , k \right \} $ ] Maillage discr\'etisant l'EDS
+		\item [$\quad k$] Indice parcourant le maillage 
+		\item 
+		\item [II. D\'efinition des processus]
+		\item
+		\item [$\quad \{B( t,T ), \quad t \geq 0\}$] Processus du z\'ero-coupon cf. d\'efinition 
+			\ref{dif zc} p. \pageref{dif zc}
+		\item [$\quad \{f( t,T ), \quad t \: \in \: \lbrack 0, \,T \rbrack \}$] Processus du taux forward 
+			instantan\'e cf. \'equation \ref{dif fw} p. \pageref{dif fw}
+		\item[$\quad \{L( t,\theta; \delta ), \quad t \geq 0\}$] Processus du taux IBOR cf. proposition \ref{dif IBOR} 
+			p. \pageref{dif IBOR} 
+		\item
+	\end{description}
+	\newpage
+	\begin{description}
+		\item [III. D\'efinition des fonctions]
+		\item
+		\item [$\quad \N( x ) = \int_{-\infty}^x \frac 1{\sqrt{2\pi}} e^{- \frac {u^2} 2 \dif u }$] La fonction de 
+			r\'epartition de la loi Normale centr\'ee et r\'eduite  
+		\item [$\quad \phi( x ) = \frac 1 {\sqrt{2\pi}} e^{- \frac {x^2} 2}$] La fonction de densit\'e 
+			de la loi Normale centr\'ee et r\'eduite
+		\item [$\quad \sigma( t,T )$] La fonction de volatilit\'e du processus $\{B( t,T ), \quad t \geq 0\}$ 
+		\item [$\quad \sigma_f( t,T )$] La fonction de volatilit\'e du processus $\{f( t,T ), \quad t \: \in \: 
+			 \lbrack 0, \,T \rbrack \}$
+		\item [$\quad  \gamma( t,\theta; \delta ) $] La fonction de volatilit\'e du processus 
+			$\{L( t, \theta; \delta ), \quad t \geq 0\}$
+		\item [$\quad g_{K,\sigma}( x ) =  x \N \left \lbrack \frac{1}{\sigma}\log( x/K )+\frac{1}{2}
+						\sigma \right \rbrack
+ 					- K \N \left \lbrack \frac{1}{\sigma}\log( x/K )-\frac{1}{2}\sigma \right \rbrack $]
+			La fonction de Black \& Scholes
+		\item 			
+	\end{description}
+	
+%***************************************************
+\chapter{Pr\'eliminaires sur les Taux d'Int\'er\^et}
+%***************************************************
+
+	\begin{df}[Taux Court] $\quad$ 
+		On d\'efinit le taux court $r(\cdot)$ comme le taux associ\'e \`a un placement sans risque 
+instantan\'e. On parle de taux spot instantan\'e.
+	\end{df}
+	\begin{df}[Facteur d'Accumulation] $\quad$ \label{facteur}
+		Il s'agit d'un investissement dont l'\'evolution est r\'egie par l'\'equation diff\'erentielle
+ordinaire : 
+		\begin{displaymath}
+			\left \{
+			\begin{array}{l}
+				\dif \beta(t)=r(t) \beta (t) \dif t \\
+				\beta(0) = 1
+			\end{array}
+			\right.
+		\end{displaymath} 
+		dont la solution est 
+		\begin{displaymath}
+			\beta(t) = \exp{\left \{ \int_0 ^ t r(s) \dif s \right \} }
+		\end{displaymath}
+	\end{df}
+	\begin{rem}
+		Autrement dit, pour tout instant petit $\Delta_t$ , 
+		\begin{displaymath}
+			 \frac {\beta(t+\Delta_t) - \beta(t)}{\beta(t)} = r(t) \Delta_t
+		\end{displaymath}
+	\end{rem}
+	
+	\begin{df}[Facteur d'actualisation stochastique] $\quad$ \label{factActSto}
+		Dans le cas o\`u $ \{ r(t), t\geq 0 \} $ est un processus stochastique, la quantit\'e DF,
+ facteur d'actualisation, d\'efinie par : 
+		\begin{displaymath}
+			\text{DF}(t,T):=\frac {\beta (t)} {\beta (T)} 
+		\end{displaymath}
+		est {\bf al\'eatoire}. Elle repr\'esente l'\'equivalent en $t$ d'une unit\'e de devise en $T$.
+	\end{df}
+	\begin{df}[Obligation Z\'ero-Coupon]$\quad$ \label{ZC}
+		L'obligation Z\'ero-coupon de maturit\'e $T$ est un contrat qui garantit le paiement d'une unit\'e de devise 
+\`a la date $T$, sans versement interm\'ediaire. \\
+Le prix de ce contrat est appel\'e {\bf Z\'ero-coupon}, on le note :
+		\begin{displaymath}
+			B(t,T)
+		\end{displaymath}
+	\end{df}	
+	\begin{rem}[Taux d\'eterministes]$\quad$
+		Dans un mod\`ele o\`u les taux d'int\'er\^et sont d\'eterministes, on a : $ B(t,T)\: = \: \text{DF}(t,T)$
+	\end{rem}
+	\begin{rem}$\quad$
+		Le z\'ero-coupon est un outil essentiel \`a la valorisation de produits d\'eriv\'es sur taux d'int\'er\^et.\\ 
+	En effet, leurs flux s'expriment souvent en fonction de z\'ero-coupons.
+	\end{rem}
+	\begin{df}[Taux de composition simple]$\quad$\label{TauxSimple}
+		Le taux spot de composition simple de dur\'ee de composition $\tau(t,T)$ est le taux constant auquel il 
+faut investir pour disposer d'une unit\'e de devise en $T$ partant d'un nominal $B(t,T)$. \\
+On le note $L(t,T)$ tel que :
+		\begin{displaymath}
+			L(t,T) := \frac{1 - B(t,T)}{\tau(t,T) B(t,T)}
+		\end{displaymath}
+Autrement \'ecrit :
+		\begin{displaymath}
+			B(t,T) = \frac 1 {1 + \tau(t,T)L(t,T)}
+		\end{displaymath}
+	\end{df}
+
+	\begin{rem}[Justification de la notation] $\quad$
+		Ce taux est not\'e $L$ car les taux IBOR sont contruits selon cette m\'ethodologie.
+		\footnote{La base de calcul utilis\'ee est $\frac{\text{Exact}}{360}$}
+	\end{rem}
+	\begin{rem} $\quad$
+		Ce taux est utilis\'e pour des dur\'ee de composition inf\'erieures \`a un an. Dans les autres cas,
+on utilise le taux suivant :
+	\end{rem}
+	\begin{df}[Taux compos\'e annuellement]$\quad$\label{TauxCompose}
+		Il s'agit du taux auquel il faut investir pour obtenir une unit\'e de devise en $T$ partant de $B(t,T)$.\\ 
+On le note $Y(t,T)$ tel que :
+		\begin{displaymath}
+			Y(t,T) := \frac 1 { \left [ B(t,T) \right ] ^{\frac 1 {\tau(t,T)}}}
+		\end{displaymath}
+	\end{df}
+	\begin{rem}[Equivalence]$\quad$
+		Ces deux d\'efinitions sont \'equivalentes quand on fait tendre $T \rightarrow t^+$. On retrouve alors le taux 
+spot instantan\'e :
+		\begin{eqnarray*}
+			r(t)&=& \lim_{T\mapsto t^+}L(t,T)\\
+			&=& \lim_{T\mapsto t^+}Y(t,T)\\
+		\end{eqnarray*}
+	\end{rem}
+	\begin{df}[Courbe des taux]$\quad$
+		La courbe des taux z\'ero-coupon, ou courbe des taux actuariels, est le graphe de la fonction :
+		\begin{displaymath}
+			T \mapsto \left\{
+				\begin{array}{l}
+				L(t,T) \qquad \forall \: t<T \leq t+1  \\
+				Y(t,T) \qquad \forall \: T>t+1
+				\end{array}
+				\right.
+		\end{displaymath}
+Il s'agit de la courbe \`a un instant t du taux actuariel pour toutes les maturit\'es espac\'ees d'un an. 
+	\end{df}
+
+	\begin{rem}[Construction]$\quad$
+		Les banques construisent une courbe z\'ero-coupon \`a partir de diff\'erents instruments financiers 
+tels que les taux courts et les taux de swap.
+	\end{rem}
+	\begin{df}[Forward Rate Agreement] $\quad$
+		Le Forward Rate agrement (FRA) est une op\'eration de garantie de taux \`a terme conclue
+ entre deux contreparties qui s'engagent \`a \'echanger \`a une date future connue $S$, la diff\'erence 
+entre un taux variable de r\'ef\'erence $L(T,S)$ constat\'e sur le march\'e \`a la date $T$, et un taux fixe $K$ garanti \`a 
+l'origine t. \\
+La valeur du contrat pour un nominal $N$ est :
+		\begin{displaymath}
+			N \, \tau(T,S) \, (K-L(T,S))
+		\end{displaymath} 
+	\end{df}
+	\begin{rem}$\quad$
+		Le contrat FRA est sans paiement de prime au d\'epart.
+	\end{rem}
+	\begin{df}[Taux Forward]$\quad$ \label{TauxForward}
+		Le taux forward $F(t,T,S)$ est le taux qui rend nulle la valeur du contrat $FRA(t,T,S)$.\\
+		 Il est donn\'e par :
+		\begin{displaymath}
+			F(t,T,S) := \frac 1 {\tau(T,S)} \left ( \frac{B(t,T)}{B(t,S)} - 1 \right )
+		\end{displaymath}
+	\end{df}
+	\begin{rem}$\quad$
+		Ce taux forward $F(t,T,S)$ peut \^etre vu comme une estimation du futur taux spot $L(T,S)$
+	\end{rem}
+	\begin{df}[Taux Forward instantan\'e]$\quad$ \label{TauxForwardInstantane}
+		Le taux forward instantan\'e $f(t,T)$ correspond au taux forward pour une dur\'ee de composition\\ 
+infinit\'esimale .
+		\begin{eqnarray*}
+			f(t,T) := lim_{S\mapsto T^+} F(t,T,S)
+		\end{eqnarray*} \\
+$\quad$ On notera $r(t,\theta)$, le taux forward instantan\'e en $t$, de maturit\'e $t+\theta$ 
+	\end{df}
+		
+	\begin{prop}\label{zc-fw}$\quad$
+		\begin{equation*}
+			\fbox{$
+				\begin{array}{rcl}
+					B(t,T) &=&\exp{\left (  -\int_t^T f(t,u) \dif u \right )}\\
+						\\
+						 &=&\exp{\left (-\int^{T-t}_0 r(t,u) \dif u \right )} 
+				\end{array}
+			$}
+		\end{equation*}
+	\end{prop}		      
+	\begin{dem}$\quad$
+		
+		\begin{itemize}
+			\item[$\bullet$] Nous avons :
+				\begin{eqnarray*}
+					f(t,T) &:= & lim_{S\mapsto T^+} F(t,T,S) \\
+					&=& - lim_{S\mapsto T^+} \frac 1 {B(t,S)} \frac {B(t,S) - B(t,T)}{S-T}\\
+					&=& -  \frac 1 {B(t,T)} \frac {\partial B(t,T)}{\partial T}\\
+					&=& - \frac {\partial \ln{B(t,T)}}{\partial T}
+				\end{eqnarray*}
+			\item[$\bullet$] La seconde partie s'obtient en effectuant un changement de variable et en remarquant
+ que :
+				\begin{eqnarray*}
+					r(t,T-t) &=& f(t,T)
+				\end{eqnarray*}
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+\newpage
+	\begin{rem}$\quad$
+		D'apr\`es la proposition \ref{zc-fw} p. \pageref{zc-fw} , on voit que mod\'eliser le comportement du taux forward instantan\'e revient 
+\`a mod\'eliser celui du z\'ero-coupon.		
+	\end{rem}
+
+%********************************************************************************************************
+\chapter{Le mod\`ele de Brace, Gatarek \& Musiela \\ un cas particulier du mod\`ele de Heath, Jarrow \& Merton }
+%********************************************************************************************************
+\section{Hypoth\`eses du mod\`ele HJM}
+
+\subsection*{Diffusion du Z\'ero-coupon}
+	On suppose que le processus du z\'ero-coupon $\left \{ B(t,T) , \, t \geq 0 \right \} $ suit une diffusion lognormale :
+	\begin{equation} \label{dif zc}
+	\boxed{
+		\dif B(t,T) = B(t,T) \left ( r(t,0) \dif t - \sigma(t,T) \dif W_t  \right )}
+	\end{equation} 
+	\begin{rem}[Sym\'etrie du mouvement brownien]$\quad$
+		Si $W_t$ est un mouvement brownien, alors $-W_t$ est aussi un mouvement brownien.\\ 
+Le signe $-$ apparaissant dans l'\'equation (\ref{dif zc}) p. \pageref{dif zc}  n'a qu'une valeur technique   		
+	\end{rem}
+
+\subsection*{Diffusion du processus des taux forward instantan\'e $\lbrace f(t,T),\, t \in [0,T] \rbrace$}
+
+	\begin{prop}[Diffusion du taux forward instantan\'e]$\quad$\label{dif fw}
+		En posant : 
+		\begin{eqnarray*}
+			 \sigma_f(t,T) &=& \frac {\partial \sigma(t,T)}{\partial T} \\
+		\end{eqnarray*}
+On a la diffusion suivante pour le taux forward instantan\'e :
+		\begin{equation*}
+			\boxed{\dif f(t,T)=\sigma_f(t,T)\left( \int_t^T \sigma_f(t,u) \dif u\right) \dif t
+				+ \sigma_f(t,T) \dif W_t \\}
+		\end{equation*}
+	\end{prop}
+\newpage
+	\begin{dem}
+		Nous avons: 
+		\begin{displaymath}
+			f(t,T)=-\frac{\partial \ln B(t,T)}{\partial T}|_T
+		\end{displaymath}
+Ainsi:
+		\begin{eqnarray*}
+			\dif f(t,T) &=& \dif \left (-\frac{\partial \ln B(t,T)}{\partial T}|_T \right)\\
+			   	 &=& - \dif \left ( \frac{\partial \ln B(t,T)}{\partial T}|_T \right ) \\
+			   	 &=& -\frac{\partial \dif \ln B(t,T)}{\partial T}|_T \\
+		\end{eqnarray*}
+Appliquons la formule de It\^o \footnote{cf propositien \ref{LemmeIto} p. \pageref{LemmeIto} dans l'Annexe} 
+au processus $\left \{ Y_t=g(B(t,T)) , t \geq 0 \right \} $ avec $g(x)=\ln(x)$ \\
+On obtient :
+		\begin{eqnarray*}
+			Y_t &=& g(B(t,T))=g(B(0,T))+\int_{0}^{t}{\frac{1}{B(s,T)}dB(s,T)}+
+			\frac{1}{2}\int_{0}^{t}{\frac{-1}{B(s,T)^2}}\dif \left \langle B( \cdot , \, T) \right \rangle _s
+		\end{eqnarray*}
+On a d'une part,
+		\begin{eqnarray*}
+			\dif B(t,T) &=&  B(t,T) \left ( r(t,0) \dif t - \sigma(t,T) \dif W_t  \right )\\
+		\end{eqnarray*}
+et d'autre part,
+		\begin{eqnarray*}
+			\left \langle B( \cdot , \, T) \right \rangle _s &=& \int_{0}^{s}{\sigma^2(u,T)B(u,T)^2}du
+		\end{eqnarray*} 
+Ainsi :
+		\begin{eqnarray*}
+			Y_t &=& Y_0+\int_0^t{\left ( r(s,0) \dif s-\sigma(s,T) \dif W_s \right )}
+			-\frac{1}{2}\int_0^t{\sigma^2(s,T)}\dif s \\
+		\end{eqnarray*}
+Autrement \'ecrit:
+		\begin{eqnarray*}
+			\dif Y_t &=& \left ( r(t,0)-\frac{1}{2}\sigma^2(t,T) \right ) \dif t-\sigma(t,T) \dif W_t
+		\end{eqnarray*}
+Nous obtenons la diffusion suivante pour  $\left \{f(t,T);t \in [0,T] \right \}$
+		\begin{eqnarray*}
+			\dif f(t,T) &=& \sigma(t,T) \partial_T \sigma(t,T) \dif t + \partial_T \sigma(t,T) \dif W_t \\
+		\end{eqnarray*}
+Le r\'esultat suit imm\'ediatement en posant : $\sigma_f(t,T)=\partial_T \sigma(t,T)$  
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\newpage	
+
+\section{Vers le mod\`ele BGM}
+	
+	\begin{df}[Taux IBOR] $\quad$
+	Les taux d'int\'er\^et IBOR (Interbank Offered Rate)  sont des indices usuels du march\'e mon\'etaire.
+Ils servent de r\'ef\'erence pour le prix de l'argent emprunt\'e pendant des dur\'ees inf\'erieures \`a un an.\\
+Ils sont fix\'es
+		\begin{itemize}
+			\item	soit \`a Franckfort pour l'euro, on les appelle alors {\bf EURIBOR}
+			\item	soit \`a Londres pour le dollar US, la livre sterling, le franc suisse ... 
+				on les appelle {\bf LIBOR} 
+		\end{itemize}
+	\end{df}
+	\begin{Not}$\quad$
+		On note {\bf \  $L(t, \theta;  \delta)$ \ } le taux IBOR forward en t pour une composition entre 
+$\, t+\theta \, $ et $\ t+x+\delta\,$ ; 
+il s'agit du taux auquel les pr\^ets et emprunts seront effectu\'es entre $t+\theta$ et $t+\theta+\delta$ . \newline
+\indent $\delta$ repr\'esente la dur\'ee de composition des taux entre les deux dates.\newline
+Par exemple $ \delta = 3$ mois pour l'EURIBOR 3 mois, $\delta = 6$ mois pour l'EURIBOR 6 mois ...   
+	\end{Not}
+	\begin{prop}[Diffusion du taux IBOR] $\quad$ \label{dif IBOR}
+		Le processus du taux IBOR d\'efini par :
+		\begin{eqnarray}\label{IBOR zc}
+			1 + \delta L(t,\theta;  \delta) & := & \exp{ \left ( \int_\theta^{\theta+\delta} r(t,u) \dif u \right )}\\
+			\nonumber
+		\end{eqnarray}
+suit la diffusion suivante :
+		\begin{equation*}
+			\fbox{
+			$\begin{array}{lrc}
+				\dif L(t,\theta;  \delta)&=& \left (
+						\frac{\partial}{\partial \theta} L(t,\theta;  \delta) + L(t,\theta;  \delta)\gamma(t,\theta;  \delta)
+						\sigma(t,t+\theta) + \frac{\delta L^2(t,\theta;  \delta)}{1+\delta L(t,\theta;  \delta)}
+						\gamma^2(t,\theta;  \delta)  \right )\dif t 
+						+ L(t,\theta;  \delta) \gamma(t, \theta;  \delta) \dif W_t \\
+			\end{array}$
+			}
+		\end{equation*}
+	\end{prop}
+	\begin{rem}$\quad$
+		La d\'emonstration de ce r\'esultat s'appuiera fortement sur la diffusion du taux forward instantan\'e \`a 
+\'ech\'eance glissante que nous allons pr\'ealablement pr\'eciser.
+	\end{rem}
+	\begin{prop}[Diffusion de $\left \{ r(t,\theta), t \geq 0 \right\}$] $\quad$ \label{dif fw r}
+		La diffusion du taux forward \`a \'ech\'eance glissante est donn\'ee par :
+		\begin{equation*}
+			\fbox{
+			$\begin{array}{lcr}
+				\dif r(t,\theta) &=& \frac{\partial}{\partial \theta} \left ( r(t,\theta) + \frac 1 2 \left (
+					\int_t^T \sigma_f(t,u) \dif u \right )^2 \right )
+					+ \sigma_f(t, t+\theta) \dif W_t  
+			\end{array}$}
+		\end{equation*}	
+	\end{prop}
+	\begin{dem}[Diffusion de $\left \{ r(t,\theta), t \geq 0 \right\}$] $\quad$
+		En reprenant le r\'esulat de  la proposition \ref{dif fw} p. \pageref{dif fw} nous avons :
+ 		\begin{eqnarray*}
+			\dif r(t,T-t) &=& \dif f(t,T)+\frac{\partial}{\partial T}f(t,T) \dif t\\
+				      &=& \sigma_f(t,T) \left(\int_t^T \sigma_f(t,u) \dif u \right) \dif t 
+					+\sigma_f(t,T) \dif W_t + \partial_T f(t,T) \dif t
+		\end{eqnarray*}
+En posant $\theta=T-t$, nous obtenons :
+		\begin{eqnarray*}
+			\dif r(t,\theta) &=& \frac{\partial}{\partial \theta}\left(r(t,\theta)+\frac{1}{2}
+					\left(\int_t^{t+\theta} \sigma_f(t,u) \dif u\right)^2\right) \dif t 
+					+\sigma_f(t,t+\theta) \dif W_t \\
+				&&\text{\tiny{en appliquant la formule de d\'erivation des fonctions compos\'ees 
+				\`a l'expression $\frac{\partial}{\partial x}\left [ \left(\int_t^{t+x} \sigma_f(t,u) \dif u 
+					\right )^2 \right ]$}}\\
+		\end{eqnarray*}
+Cette expression nous donne donc la diffusion du taux forward avec \'ech\'eance glissante sous la probabilit\'e risque neutre.
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{dem}[Diffusion du taux IBOR]$\quad$
+		Pour d\'efinir le processus de volatilit\'e $\sigma_f(t,t+\theta)$, nous fixons $\delta>0$  \, 
+(par exemple $\delta=0.25$ ce qui correspond \`a des taux trimestriels) et on suppose que pour tout $x\geq 0$ 
+le processus du taux -IBOR $\{L(t,\theta;  \delta);t\geq 0\}$  d\'efini par
+		\begin{equation} \label{IBOR fw inst}
+			1+\delta L(t,\theta;  \delta)=\exp\,(\int_\theta^{\theta+\delta} r(t,u)\,du)
+		\end{equation}
+\newline
+\noi
+a une structure de volatilit\'e lognormale i.e.
+		\begin{equation} \label{hyp dif IBOR}
+			\boxed{\dif L(t,\theta;  \delta)=\cdots dt+L(t,\theta;  \delta) 
+				\gamma(t,\theta;  \delta) \dif W_t \, } 
+		\end{equation}
+\noi o\`u la fonction  $\gamma : \R_+^2\mapsto\R^d$ est d\'eterministe\\
+		\begin{eqnarray*}
+			\dif \left\lbrace\int_\theta^{\theta+\delta}{r(t,u) \dif u}\right\rbrace &=& 
+			\int_\theta^{\theta+\delta}{dr(t,u) \dif u}\\
+			&=& \int_\theta^{\theta+\delta}\left\lbrace \frac{\partial}{\partial u}\left((r(t,u)+\frac{1}{2}
+				\left(\int_t^{t+u} \sigma_f(t,v)\dif v\right)^2\right) \dif t
+				+ \sigma_f(t,t+u) \dif W_t\right\rbrace \dif u \\	
+			&& \text{\tiny{ en utilisant la proposition \ref{dif fw r} p. \pageref{dif fw r}}}	\\		 	
+			&=& \left\lbrack 
+					\int_\theta^{\theta+\delta} \frac{\partial}{\partial u}
+					\left \lbrace 
+						r(t,u) + \frac{1}{2}
+							\left(
+								\int_t^{t+u}\sigma_f(t,v)\dif v
+							\right)^2
+					\right\rbrace 
+					\dif u 
+				\right\rbrack \dif t +
+				\left\lbrack 
+					\int_\theta^{\theta+\delta} \sigma_f(t,t+u)\dif u 
+				\right\rbrack \dif W_t \\
+			&=& \left \lbrack 
+				r(t,u) + \frac{1}{2} 
+					\left ( 
+						\int_t^{t+u} \sigma_f(t,v) \dif v 
+					\right ) ^2 
+				\right \rbrack 
+				_{u=\theta}^{u=\theta +\delta} \dif t \\
+			&&+ \left \lbrack \int_0^{\theta+\delta} \sigma_f(t,t+u) \dif u - \int_0^{\theta} \sigma_f(t,t+u) \dif u 
+				\right \rbrack \dif W_t\\
+			&=& \left[r(t,\theta+\delta)-r(t,\theta)+ \frac{1}{2} \left( \int_t^{t+\theta+\delta} \sigma_f(t,s) \dif s\right)^2 
+				-\frac{1}{2} \left( \int_t^{t+\theta} \sigma_f(t,s) \dif s\right)^2\right]\dif t\\
+			&& +\left[\int_0^{\theta+\delta}\sigma_f(t,t+u)\dif u-\int_0^{\theta}\sigma_f(t,t+u)\dif u \right] \dif W_t \\
+			&=& \left[r(t,\theta+\delta)-r(t,\theta)+\frac{1}{2} \left( \sigma(t,t+\theta+\delta)^2-\sigma(t,t+\theta)^2 \right)
+				\right] \dif t \\
+			&& + \left( \sigma(t,t+\theta+\delta)-\sigma(t,t+\theta)\right) \dif W_t	\\
+		\end{eqnarray*}
+\noi On obtient alors : 
+		\begin{eqnarray*}
+			\dif L(t,\theta;  \delta) &=& \dif \left[\frac{\exp\{\int_\theta^{\theta+\delta} r(t,u)\dif u \}-1}{\delta} \right]\\
+			&=& \frac{1}{\delta} \exp \left\{ \int_\theta^{\theta+\delta} r(t,u) \dif u\right\} 
+				\dif \left( \int_\theta^{\theta+\delta} r(t,u) \dif u \right)\\
+			&& +\frac{1}{2\delta} \exp \left\{ \int_\theta^{\theta+\delta}r(t,u)\dif u \right\} 
+				\dif \left< \int_\theta^{\theta+\delta} r(t,u) \dif u \right> \\
+		\end{eqnarray*}
+\noi En utilisant la diffusion de $\left \{ r(t,\theta), t \geq 0 \right\}$ donn\'ee par la proposition \ref{dif fw r} p. \pageref{dif fw r}, 
+et en remarquant que :
+		\begin{eqnarray*}
+			\frac{\partial}{\partial \theta} L(t,\theta ; \delta) &=& \frac{\partial}{\partial \theta}
+					\left[\frac{\exp\{\int_\theta^{\theta+\delta} r(t,u) \dif u \}-1}{\delta} \right] \\
+			&=& \frac{1}{\delta}[1+\delta L(t,\theta ; \delta )][r(t,\theta+\delta)-r(t,\theta)] \\
+		\end{eqnarray*}
+\noi Nous obtenons l'\'equation suivante
+		\begin{eqnarray*}
+			\dif L(t,\theta;  \delta) &=& \left(\frac{\partial}{\partial \theta}L(t,\theta;  \delta) 
+						+ \delta^{-1}(1+\delta L(t,\theta;  \delta))
+				\sigma(t,t+\theta+\delta) (\sigma(t,t+\theta+\delta)-\sigma(t,t+\theta))\right) \dif t \\
+			&& + \delta^{-1}(1+\delta L(t,\theta;  \delta))(\sigma(t,t+\theta+\delta)-\sigma(t,t+\theta)) \dif W_t \\
+		\end{eqnarray*}
+\noi Cette derni\`ere \'equation  et l'expression (\ref{hyp dif IBOR}) p. \pageref{hyp dif IBOR} impliquent que pour tout $\theta\geq 0$
+		\begin{eqnarray}\label{rec vol zc}
+			\sigma(t,t+ \theta+\delta)-\sigma(t,t+\theta)&=&\frac{\delta L(t,\theta;  \delta)}
+				{1+\delta L(t,\theta;  \delta)}\gamma(t,\theta;  \delta)
+		\end{eqnarray}
+\noi On obtient finalement :
+		\begin{eqnarray*}
+			\dif L(t,\theta;  \delta)&=& \left (
+						\frac{\partial}{\partial \theta} L(t,\theta;  \delta) + L(t,\theta;  \delta)
+						\gamma(t,\theta;  \delta)
+						\sigma(t,t+\theta) + \frac{\delta L^2(t,\theta;  \delta)}{1+\delta L(t,\theta;  \delta)}
+						\gamma^2(t,\theta;  \delta)  \right )\dif t 
+						+ L(t,\theta;  \delta) \gamma(t, \theta;  \delta) \dif W_t \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+\bigskip
+	\fbox{
+		\begin{minipage}{15cm} 
+			
+			\begin{rem}$\quad$ \label{IBORFwZc}
+				Le taux IBOR forward s'exprime en fonction des z\'ero-coupons spots de la mani\`ere suivante :\\
+					\begin{eqnarray*}
+						L(t, \theta ; \delta ) &=& \frac 1 {\delta}
+						\left ( \frac {B(t, t+\theta) - B(t, t + \theta + \delta)}
+						{B(t, t + \theta + \delta)}  \right ) \label{IBORFw-Spot} 
+					\end{eqnarray*}
+			\end{rem}
+			\begin{rem}[Position du processus]$\quad$ \label{PositionIBOR}
+				Etant donn\'ee la position en $t$ du processus du taux IBOR 
+$L(t,\theta ; \delta)$, en posant $x := t' - t $, dur\'ee \'ecoul\'ee entre les dates $t$ et $t'$, sa position en $t'$ est : 
+$L(t', \theta - x ; \delta)$
+			\end{rem}
+		\end{minipage}
+	}	
+
+
+%***********************************************************************
+\chapter{Mod\`ele BGM : calibration par rapport aux caps}
+%***********************************************************************
+
+
+
+\section{Valorisation des caps sur le march\'e}
+
+\subsection{Les caps : des produits liquides sur le march\'e des taux}
+
+
+\subsubsection*{Ech\'eancier}
+	On se donne un ensemble de dates possibles pour le taux forward : 
+$\left \{  T_1, T_2, \cdot \cdot \cdot, T_n\right \}$ \newline
+\indent	On pose :
+	\begin{itemize}
+		\item[$\bullet \quad$]	$\delta := T_i - T_{i-1}  \quad$ en supposant que la dur\'ee \'ecoul\'ee entre 
+			deux dates cons\'ecutives est constante. \\ 
+		\item[$\bullet \quad$]	$T_0 := t \quad$ c'est \`a dire la date d'aujourd'hui. \\
+		\item[$\bullet \quad$]	$T_i := t + i \, \delta \, , \quad i \in \llbracket  1 , n \rrbracket \quad$
+	\end{itemize}
+	\begin{df}[Cap-Caplets]$\quad$ 
+		Un cap peut \^etre vu comme un portefeuille de calls dont le sous-jacent est le taux IBOR. 
+En effet, chaque versement n'est effectu\'e en $T_i$ que si le flux $(L(T_{i-1}, 0;  \delta) -K) $ est positif. \\
+Typiquement, pour un nominal $N$, le contrat verse \`a chaque date $T_i , \ i \in \llbracket 1,n \rrbracket $, le flux : \\
+$ N \delta (L(T_{i-1}, 0;  \delta) -K)_+ $, c'est \`a dire le diff\'erentiel entre :\\
+		\begin{itemize}
+			\item 	le taux IBOR entre $T_{i-1}$ et $T_{i-1} + \delta = T_i $ fix\'e en $T_{i-1}$ \\
+			\item un taux fixe $K$ \'etabli \`a l'avance \\
+		\end{itemize}
+La quantit\'e $\delta$ correspond \`a la dur\'ee de composition des taux. \\
+\indent	 Un cap peut \^etre d\'ecompos\'e en la somme de n contrats versant le flux d\'ecrit pr\'ec\'edemment.\\ 
+Chacun de ces contrats, appel\'e {\bf Caplet}, verse le flux pr\'ecedent.  
+	\end{df}
+	\begin{rem}[Cadre de travail] $\quad$
+		Notre \'etude se limitera \`a consid\'erer des caps dont le sous-jacent est le taux IBOR 6 mois, ie :
+$\delta = 0.5 $ \\
+	Les \'ech\'eances des caps seront des multiples d'une ann\'ee (1 an , 2 ans, $\cdots$ , 10 ans), ainsi l'indice 
+intervenant dans la date \'ech\'eance du cap sera pair.\\
+	\end{rem}
+	\unitlength = 1 cm
+	\begin{pspicture}(20,10)(0,0)
+		\rput(2,7){\bf Mise en place des notations :}
+		\psline{-}(0,5)(6,5)
+		\psline[linestyle=dashed](6,5)(8,5)
+		\psline{->}(8,5)(15,5)
+		\psline{-}(0,4.75)(0,5.25)
+		\rput(0,5.5){\text{\tiny{$T_0 = t$}}}
+		\psline{-}(2,4.75)(2,5.25)
+		\rput(2,5.5){\text{\tiny{$T_1 = 6$ mois}}}		
+		\psline{-}(4,4.75)(4,5.25)
+		\rput(4,5.5){\text{\tiny{$T_2 = 1$ an}}}
+		\psline{<->}(0,4.70)(2,4.70)
+		\rput(1,4.80){\text{\tiny{$\delta=0.5$}}}	
+		\psline{->}(2,5)(2,3)
+		\rput(2,2.75){\text{\tiny{$\delta(L(T_0,0;\delta)-K)_+$}}}
+		\psline{<-}(0,5.65)(0,6)
+		\psline(0,6)(2,6)
+		\psline{->}(2,6)(2,5.65)
+		\rput(1,6.2){\text{\tiny{$\sigma_{T_0}$}}}
+		\psline{->}(4,5)(4,4)
+		\rput(4,3.75){\text{\tiny{$\delta(L(T_1,0;\delta)-K)_+$}}}
+		\psline{<->}(2,4.7)(4,4.7)
+		\rput(3,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<-}(2,5.65)(2,6)
+		\psline(2,6)(4,6)
+		\psline{->}(4,6)(4,5.65)
+		\rput(3,6.2){\text{\tiny{$\sigma_{T_1}$}}}
+		\psline(9,4.75)(9,5.25)
+		\rput(9,5.5){\text{\tiny{$T_{2i-1}$}}}
+		\psline(11,4.75)(11,5.25)
+		\rput(11,5.5){\text{\tiny{$T_{2i} = i$ ans}}}
+		\psline(13,4.75)(13,5.25)
+		\rput(13,5.5){\text{\tiny{$T_{2i+1}$}}}
+		\psline{->}(13,5)(13,4)
+		\rput(13,3.75){\text{\tiny{$\delta(L(T_{2i},0;\delta)-K)_+$}}}
+		\psline{->}(11,5)(11,3)
+		\rput(11,2.75){\text{\tiny{$\delta(L(T_{2i-1},0;\delta)-K)_+$}}}
+		\psline{->}(9,5)(9,2)
+		\rput(9,1.75){\text{\tiny{$\delta(L(T_{2i-2},0;\delta)-K)_+$}}}	
+		\psline{<->}(9,4.7)(11,4.7)
+		\rput(10,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<->}(11,4.7)(13,4.7)
+		\rput(12,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<-}(9,5.65)(9,6)
+		\psline(9,6)(11,6)
+		\psline{->}(11,6)(11,5.65)
+		\rput(10,6.2){\text{\tiny{$\sigma_{T_{2i-1}}$}}}
+		\psline{<-}(11,5.65)(11,6)
+		\psline(11,6)(13,6)
+		\psline{->}(13,6)(13,5.65)
+		\rput(12,6.2){\text{\tiny{$\sigma_{T_{2i}}$}}}
+	\end{pspicture}
+	\begin{rem}[Nominal]$\quad$
+		Valoriser un cap bas\'e sur un nominal $N$ est \'equivalent \`a valoriser un cap sur une unit\'e 
+de devise puis \`a multiplier ce prix par $N$. Ainsi, pour all\'eger les notations, nous consid\'ererons des caps sur 
+une unit\'e de devise. 
+	\end{rem}
+
+
+\subsection{Pratiques du march\'e - Cotation en volatilit\'e}
+
+	Le prix d'un cap est obtenu en sommant les prix des n caplets le constituant. En fait, le premier caplet \'etant 
+enti\`erement d\'eterministe, il s'agit plut\^ot d'une somme \`a n-1 termes. Chacun des caplets est valoris\'e par la  
+formule de Black :
+	\begin{eqnarray}
+		Caplet^{Market}(t, T_i, K) &=& 
+		B(t, T_i) g_{K, \sigma_{T_{i-1}}\sqrt{T_{i-1}-t}} \Big ( L(t, (i-1) \delta ; \delta) \Big ) 
+	\end{eqnarray}
+	Sur le march\'e, seules les volatilit\'es des caps sont cot\'ees pour les diff\'erentes maturit\'es.\\
+	Les volatilit\'es des caplets constituant un cap sont suppos\'ees \'egales \`a la volatilit\'e du cap cot\'ee 
+sur le march\'e.
+\newpage
+	\unitlength = 1 cm
+	\begin{pspicture}(20,10)(0,0)
+		\psline{-}(0,5)(6,5)
+		\psline[linestyle=dashed](6,5)(8,5)
+		\psline{->}(8,5)(15,5)
+		\psline{-}(0,4.75)(0,5.25)
+		\rput(0,5.5){\text{\tiny{$T_0 = t$}}}
+		\psline{-}(2,4.75)(2,5.25)
+		\rput(2,5.5){\text{\tiny{$T_1 = 6$ mois}}}		
+		\psline{-}(4,4.75)(4,5.25)
+		\rput(4,5.5){\text{\tiny{$T_2 = 1$ an}}}
+		\psline{<->}(0,4.70)(2,4.70)
+		\rput(1,4.80){\text{\tiny{$\delta=0.5$}}}	
+		\psline{->}(2,5)(2,3)
+		\rput(2,2.75){\text{\tiny{$\delta(L(T_0,0;\delta)-K)_+$}}}
+		\psline{<-}(0,5.65)(0,6)
+		\psline(0,6)(2,6)
+		\psline{->}(2,6)(2,5.65)
+		\rput(1,6.2){\text{\tiny{$\sigma^{Market}_{T_n}$}}}
+		\psline{->}(4,5)(4,4)
+		\rput(4,3.75){\text{\tiny{$\delta(L(T_1,0;\delta)-K)_+$}}}
+		\psline{<->}(2,4.7)(4,4.7)
+		\rput(3,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<-}(2,5.65)(2,6)
+		\psline(2,6)(4,6)
+		\psline{->}(4,6)(4,5.65)
+		\rput(3,6.2){\text{\tiny{$\sigma^{Market}_{T_n}$}}}
+		\psline(9,4.75)(9,5.25)
+		\rput(9,5.5){\text{\tiny{$T_{n-1}$}}}
+		\psline(11,4.75)(11,5.25)
+		\rput(11,5.5){\text{\tiny{$T_{n} =$ \'ech\'eance du cap}}}
+		\psline{->}(11,5)(11,3)
+		\rput(11,2.75){\text{\tiny{$\delta(L(T_{n-1},0;\delta)-K)_+$}}}
+		\psline{->}(9,5)(9,2)
+		\rput(9,1.75){\text{\tiny{$\delta(L(T_{n-2},0;\delta)-K)_+$}}}	
+		\psline{<->}(9,4.7)(11,4.7)
+		\rput(10,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<-}(9,5.65)(9,6)
+		\psline(9,6)(11,6)
+		\psline{->}(11,6)(11,5.65)
+		\rput(10,6.2){\text{\tiny{$\sigma^{Market}_{T_{n}}$}}}
+	\end{pspicture}
+	 Ainsi, la formule du prix du march\'e pour le cap de maturit\'e $T_n$ (avec n = 2k) est :
+	\begin{eqnarray}
+		Cap^{Market} ( t, T_n, K) &=& 
+		\sum_{i=1}^{i=n} B(t, T_j) g_{K, \sigma_{T_n} \sqrt{T{i-1}-t}} \Big (L(t, (i-1) \delta ; \delta) \Big )
+	\end{eqnarray}
+avec $\sigma_{T_n}$, la volatilit\'e cot\'ee sur le march\'e du cap $\frac n 2$ ans .
+
+\subsection{Volatilit\'e implicite des caplets}
+
+	N\'eanmoins, \`a partir des diff\'erentes volatilit\'es des caps cot\'ees sur le march\'e, on peut d\'eterminer par 
+inversion de la formule de prix, la volatilit\'e implicite de chaque caplet.\\
+Pour cela, nous retiendrons deux m\'ethodes :\\
+	\begin{itemize}
+		\item	La m\'ethode de stripping \\
+		\item	L'interpolation lin\'eaire \\
+	\end{itemize} 
+\newpage
+\subsubsection{Stripping}
+	
+	Il s'agit de consid\'erer les volatilit\'es des caps cot\'ees sur le march\'e  pour diff\'erentes maturit\'es : 
+1 an, 2 an, 3 an, ... jusqu'\`a 10 ans et de supposer que deux caplets intervenant la m\^eme  ann\'ee ont m\^eme 
+volatilit\'e. 
+	\unitlength = 1 cm
+	\begin{pspicture}(20,10)(0,0)
+		\psline{-}(0,5)(6,5)
+		\psline[linestyle=dashed](6,5)(8,5)
+		\psline{->}(8,5)(15,5)
+		\psline{-}(0,4.75)(0,5.25)
+		\rput(0,5.5){\text{\tiny{$T_0 = t$}}}
+		\psline{-}(2,4.75)(2,5.25)
+		\rput(2,5.5){\text{\tiny{$T_1 = 6$ mois}}}		
+		\psline{-}(4,4.75)(4,5.25)
+		\rput(4,5.5){\text{\tiny{$T_2 = 1$ an}}}
+		\psline{<->}(0,4.70)(2,4.70)
+		\rput(1,4.80){\text{\tiny{$\delta=0.5$}}}	
+		\psline{->}(2,5)(2,3)
+		\rput(2,2.75){\text{\tiny{$\delta(L(T_0,0;\delta)-K)_+$}}}
+		\psline{<-}(0,5.65)(0,6)
+		\psline(0,6)(2,6)
+		\psline{->}(2,6)(2,5.65)
+		\rput(1,6.2){\text{\tiny{$\sigma_{T_0}$}}}
+		\psline{->}(4,5)(4,4)
+		\rput(4,3.75){\text{\tiny{$\delta(L(T_1,0;\delta)-K)_+$}}}
+		\psline{<->}(2,4.7)(4,4.7)
+		\rput(3,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<-}(2,5.65)(2,6)
+		\psline(2,6)(4,6)
+		\psline{->}(4,6)(4,5.65)
+		\rput(3,6.2){\text{\tiny{$\sigma_{T_0}$}}}
+		\psline(9,4.75)(9,5.25)
+		\rput(9,5.5){\text{\tiny{$T_{2i-1}$}}}
+		\psline(11,4.75)(11,5.25)
+		\rput(11,5.5){\text{\tiny{$T_{2i} = j$ ans}}}
+		\psline(13,4.75)(13,5.25)
+		\rput(13,5.5){\text{\tiny{$T_{2i+1}$}}}
+		\psline{->}(13,5)(13,4)
+		\rput(13,3.75){\text{\tiny{$\delta(L(T_{2i},0;\delta)-K)_+$}}}
+		\psline{->}(11,5)(11,3)
+		\rput(11,2.75){\text{\tiny{$\delta(L(T_{2i-1},0;\delta)-K)_+$}}}
+		\psline{->}(9,5)(9,2)
+		\rput(9,1.75){\text{\tiny{$\delta(L(T_{2i-2},0;\delta)-K)_+$}}}	
+		\psline{<->}(9,4.7)(11,4.7)
+		\rput(10,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<->}(11,4.7)(13,4.7)
+		\rput(12,4.8){\text{\tiny{$\delta=0.5$}}}
+		\psline{<-}(9,5.65)(9,6)
+		\psline(9,6)(11,6)
+		\psline{->}(11,6)(11,5.65)
+		\rput(10,6.2){\text{\tiny{$\sigma_{T_{2i-1}}$}}}
+		\psline{<-}(11,5.65)(11,6)
+		\psline(11,6)(13,6)
+		\psline{->}(13,6)(13,5.65)
+		\rput(12,6.2){\text{\tiny{$\sigma_{T_{2i-1}}$}}}
+	\end{pspicture}
+	Il s'agit alors de r\'esoudre les syst\`emes \'equations :
+	\begin{itemize}
+		\item[$\bullet \quad$] \textbf{\underline{Etape 1 :}} Initialisation
+			\begin{eqnarray}
+				\sigma_{T_0} & =& \sigma_{T_1} \\
+				&=& \sigma^{Market}_{T_2} \\
+			\end{eqnarray} 
+		\item[$\bullet \quad$] 	\textbf{\underline{Etape 2 :}}
+			\begin{equation}
+				\left \{ 
+					\begin{array}{rcl}
+						Cap^{Market}(t, T_4, K) &=& 
+						\sum_{i=1}^{i=4} B(t, T_i) g_{K,\sigma_{T_{i-1}} \sqrt{T_{i-1}-t}} 
+						\Big (L(t, (i-1) \delta ;\delta)\Big ) \\
+						\sigma_{T_2} &=& \sigma_{T_3}  \\
+						&\vdots&
+				\end{array}\right.
+			\end{equation}
+		\item[$\bullet \quad$] 	\textbf{\underline{Etape n - 2:}}
+			\begin{equation}
+				\left \{
+					\begin{array}{rcl}
+							Cap^{Market}(t, T_n, K) &=& \sum_{i=1}^{i=n} B(t, T_i) 
+							g_{K,\sigma_{T_{i-1}} \sqrt{T_{i-1}-t}} 
+							\Big (L(t, (i-1) \delta ; \delta) \Big ) \\
+							\sigma_{T_{n-2}} &=& \sigma_{T_{n-1}} \\
+					\end{array}\right.
+			\end{equation}
+	\end{itemize}
+	o\`u $\sigma_{T_i}$ correspond \`a la volatilit\'e du caplet d'\'ech\'eance $T_{i+1}$ \\
+On r\'esoud ces syst\`emes de mani\`ere it\'erative en inversant les formules de prix par un algorithme du type 
+Newton-Raphson .\\
+\\
+\indent	Le stripping suivant a \'et\'e effectu\'e avec les caps \`a la monnaie, produits les plus liquides sur le march\'e des 
+taux d'int\'er\^et.
+	\begin{figure}[!!hhh]
+		  	\begin{center}
+			  	\rotatebox{0}{ 
+		   		\includegraphics[scale=0.5]{volStripCaplet}}
+			  	\caption{\label{VolStripCaplet } Volatilit\'es des caplets par stripping}
+		  	\end{center}
+	\end{figure}
+	\newpage
+	
+\subsubsection{Interpolation lin\'eaire}
+
+	Cette m\'ethode repose sur le fait que la diff\'erence entre le prix de deux caps de m\^eme strike $K$ et 
+de maturit\'es cons\'ecutives $T_{2i}$ et $T_{2i+2}$ est \'egale \`a la somme des prix des caplets de maturit\'es $T_{2i+1}$ 
+et $T_{2i+2}$.\footnote{par la proposition \ref{PrixCap} p. \pageref{PrixCap}} 
+\newline
+Autrement \'ecrit :
+	\begin{eqnarray*}
+		Cap^{Market}(t,T_{2i+2},K) - Cap^{Market}(t, T_{2i}, K) &=& 
+		Caplet^{Market}(t, T_{2i+1},K) + Cap^{Market}(t,T_{2i+2}, K) \\
+	\end{eqnarray*}  
+En remarquant que le cap de maturit\'e 1 an est uniquement li\'e  \`a la volatilit\'e du caplet de maturit\'e 1 an 
+\footnote{Le premier flux \'etant compl\`etement d\'eterministe} et en ajoutant une interpolation lin\'eaire, on peut 
+d\'eterminer toutes les volatilit\'es des caplets \footnote{via un algorithme du type Newton-Raphson}. \\
+Il s'agit de r\'esoudre r\'ecursivement le syst\`eme : \\
+	\begin{equation*}
+		\left	\{
+		\begin{array}{rcl}
+			\sigma_{T_0} &=& \sigma^{Market}_{T_2} \\
+			Cap^{Market} (t, T_{2i+2}, K) - Cap^{Market} (t, T_{2i}, K) &=& 
+			\delta\,  B(t, T_{2i+2}) g_{K,\sigma_{T_{2i+1}}\sqrt{T_{2i+1}-t}} \Big( K(t, T_{2i+1}) \Big) \\
+			&& + \, \delta\,  B(t, T_{2i+1}) g_{K,\sigma_{T_{2i}} \sqrt{T_{2i}-t}} \Big ( K(t, T_{2i}) \Big) \\
+			 \sigma_{T_{2i+1}} &=& 2 \sigma_{T_{2i}}  - \sigma_{T_{2i-1}} \\
+			
+		\end{array}
+		\right.
+	\end{equation*}
+	\begin{figure}[!!hhh]
+		  	\begin{center}
+			  	\rotatebox{0}{ 
+		   		\includegraphics[scale=0.5]{VolCapletInterpol}}
+			  	\caption{\label{VolCapletInterpol } Volatilit\'es des caplets par la m\'ethode d'interpolation lin\'eaire}
+		  	\end{center}
+	\end{figure}
+	\newpage 
+	\begin{rem}[Comparaison des deux m\'ethodes] $\quad$
+		Les r\'esultats obtenus par chacune des deux m\'ethodes sont tr\`es similaires.\\
+On observe la m\^eme tendance : la volatilit\'e des caplets est fortement croissante sur le court terme et l\'eg\`erement 
+d\'ecroissante sur le long terme.
+	\end{rem}
+
+
+
+\section{Valorisation des caps dans le mod\`ele BGM}
+\subsection{Probabilit\'e Forward Neutre et Propri\'et\'e de Martingale}
+	
+	\begin{df}[Probabilit\'e Forward Neutre ]$\quad$
+		On appelle probabilit\'e $T_i$-forward neutre et on note $\Q_{T_i}$, la mesure sous laquelle tout actif 
+$S$ actualis\'e par le z\'ero-coupon de maturit\'e $T_i$ est martingale. \\
+	\end{df}
+	\begin{prop}[Martingale] $\quad$ \label{dif IBOR fw}
+		Sous la probabilit\'e $T_{i+1}$-forward neutre, le taux IBOR de maturi\'e $T_i$ satisfait :
+		\begin{eqnarray*}
+			\dif L(t,i \delta;  \delta) &=& \gamma(t,i \delta;  \delta) L(t, i \delta;  \delta) \dif W_t^{T_{i+1}} (t)
+		\end{eqnarray*} 
+	avec $W_t^{T_{i+1}}$  un $\Q_{T_{i+1}}$-mouvement brownien.
+	\end{prop}
+	\begin{dem}$\quad$
+		On a d\'ej\`a vu (cf. remarque \ref{IBORFwZc} p. \pageref{IBORFwZc}) que :
+			\begin{eqnarray*}
+					L(t, \theta ; \delta ) &=& \frac 1 {\delta}
+					\left ( \frac {B(t, t+\theta) - B(t, t + \theta + \delta)}
+					{B(t, t + \theta + \delta)}  \right ) \label{IBORFw-Spot}
+			\end{eqnarray*}
+	Ainsi, $L(t,i \delta ; \delta)$ peut \^etre vu comme un actif actualis\'e par le z\'ero-coupon de maturit\'e $T_{i+1}$ ,
+c'est donc une martingale sous $\Q_{T_{i+1}}$.
+Son terme de tendance \'etant alors nul sous  $\Q_{T_{i+1}}$ et la volatilit\'e \'etant invariante par changement 
+de num\'eraire (cf. chapitre \ref{Numeraire} p. \pageref{Numeraire} dans l' Annexe), on obtient bien :
+	\begin{eqnarray*}
+			\dif L(t,i \delta;  \delta) &=& 
+			\gamma(t,i \delta;  \delta) L(t, i \delta;  \delta) \dif W_t^{T_{i+1}} (t) \\
+		\end{eqnarray*} 
+	\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{rem}[Important]$\quad$
+		Sous la probabilit\'e  $T_{i+1}$-forward neutre et en posant : \\
+		\begin{center}
+			$\Sigma^2_i := \frac 1 {T_i-t} \int_t^{T_i} \gamma^2(s, T_i - s ; \delta) \dif s $
+		\end{center}
+\indent	Le logarithme du rapport  $\frac {L(T_i, 0, \delta)}{L(t, i \delta, \delta)} $ suit une loi normale \\
+		\begin{itemize}
+			\item	de moyenne $\quad -\frac 1 2 \Sigma^2_i (T_i - t)$ \\
+			\item	de variance $\quad \Sigma_i^2 (T_i-t)$ .\\
+		\end{itemize}
+On peut \'ecrire : 
+		\begin{eqnarray}
+			L(T_i, 0 ; \delta) &=& L(t, i \delta; \delta) \exp \left \{ 
+			-\frac 1 2 \Sigma^2_j (T_i-t)	+ \Sigma_i \sqrt{T_i-t} \, U		
+						 \right \} \\
+			&&\text{\tiny{cf. remarque \ref{PositionIBOR} page \pageref{PositionIBOR}
+			pour la position du processus}} \nonumber
+		\end{eqnarray}
+avec $U \stackrel{\mathcal L}{\sim} \N(0,1) $
+	\end{rem}
+	\begin{prop}[Mouvements Browniens Forwards]$\quad$\label{mbf}
+		Nous avons la relation suivante entre les diff\'erents mouvements browniens forwards :
+		\begin{eqnarray*}
+			\dif W_t^{T_{i+1}} &=& \dif W_t^{T_{i}} + \frac{\delta L(t,i \delta;  \delta)}{1+\delta L(t, i \delta;  \delta)}
+						\gamma(t,i \delta;  \delta) \dif t \\
+		\end{eqnarray*}
+	\end{prop}
+	\begin{dem}[Mouvements Browniens Forwards]\label{mbf} $\quad$
+		On \'ecrit le quotient de Radon-Nikodym associ\'e \`a ce changement de probabilit\'e :\\
+		\begin{eqnarray*}
+			Z &=& \frac {\dif \Q_{T_i}}{\dif \Q_{T_{i+1}}} \\
+			&=& \frac {B(t, T_i)} {B(t, T_{i+1})}  \frac{B(T_i,T_{i+1})} {B(T_i, T_i)} 
+		\end{eqnarray*}
+	Par le Th\'eor\`eme de Girsanov \footnote{cf. proposition \ref{TheoremGirsanov} p. \pageref{TheoremGirsanov} 
+	dans l'Annexe}, on sait que $Z$ est une martingale exponentielle sous $\Q_{T_{i+1}}$, 
+ce qui peut s'\'ecrire :
+		\begin{eqnarray*}
+			\frac {\dif Z}{Z} &=& \psi \dif W_t^{T_{i+1}} \\
+		\end{eqnarray*}
+\indent	avec  
+		\begin{eqnarray*}
+			\dif W_t^{T_{i+1}} &=& \dif W_t^{T_i} + \psi \dif t \\
+		\end{eqnarray*} 
+		
+On a :
+	\begin{eqnarray*}
+		\frac{\dif Z}{Z} &=& \frac {\dif \left ( \frac {B(t,T_i)}{B(t,T_{i+1})} \right )}
+					{\frac{B(t,T_i)}{B(t,T_{i+1})}} \\
+			&=& \frac {\dif \left ( 1+\delta L(t,i \delta ; \delta) \right )}{1+\delta L(t,i \delta ; \delta)}\\
+	\end{eqnarray*}	
+	En substituant la diffusion du taux IBOR forward donn\'ee \`a la 
+				proposition \ref{dif IBOR fw} p. \pageref{dif IBOR fw}, on obtient :
+	\begin{eqnarray*}	
+			\frac{\dif Z}{Z}&=& \frac{\delta \gamma(t, i \delta ; \delta) L(t, i \delta ; \delta)}
+				{1+\delta L(t,i \delta ; \delta)} \dif W_t^{T_{i+1}} \\
+	\end{eqnarray*}
+Par identification, on trouve :
+	\begin{eqnarray*}
+		\psi &=& \frac{\delta\,  \gamma(t, i \delta ; \delta) L(t, i \delta ; \delta)}
+				{1+\delta L(t,i \delta ; \delta)} \\
+	\end{eqnarray*}
+Et, par suite :
+	\begin{eqnarray*}
+		\dif W_t^{T_{i+1}} &=& \dif W_t^{T_i} \, + \, \frac{\delta \, \gamma(t, i \delta ; \delta) 
+					L(t, i \delta ; \delta)} {1 + \delta L(t,i \delta ; \delta)} \dif t \\
+	\end{eqnarray*}
+	\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+\fbox{
+	\begin{minipage}{\textwidth}
+{\bf {\underline {Valorisation par AOA : }}}
+
+	On rappelle le principe de valorisation en absence d'opportunit\'e d'arbitrage : \\
+	\begin{prop}[Pricing des produits d\'eriv\'es]\label{pricing} $\quad$
+		Consid\'erons un flux $\phi(S_T)$ vers\'e \`a la date $T$ .\\
+		Soit $\Q^{T^*}$ , la probabilit\'e $T^*$ -forward. \\
+		La valeur du flux en $t < T$ est :\\
+			\begin{equation*}
+				\boxed{\text{Prix}(t, \phi(S_T)) \, = \, \E \left [ \frac{\beta(t)}{\beta(T)} \phi(S_T) \,
+				/ \F_t \, \right ]  \, =\, B(t,T^*)\, \E_{\Q^{T^*}} \left [ \phi(S_T) \, / \F_t \,\right ]}
+			\end{equation*}
+\\
+		\end{prop}
+	\end{minipage}
+}
+
+\newpage	
+\subsection{Pricing des caps dans le mod\`ele BGM : objectif Calibration}
+
+	\begin{prop}[Prix d'un caplet] $\quad$ \label{PrixCaplet}
+		Le prix en $t$ du  caplet versant en $T_i$ le diff\'erentiel entre le taux IBOR $L(T_{i-1}, 0 ; \delta)$ observ\'e en $T_{j-1}$ et 
+le taux fixe $K$  est donn\'e par :
+		\begin{equation*}
+			\fbox{
+			$\begin{array}{lrc}
+				Caplet^{BGM}(t, T_i, K ) &=& \delta B(t, T_i) g_{K,\Sigma_{i-1}\sqrt{T_{i-1}-t}} \Big( L(t, (i-1) \delta ; \delta) \Big ) \\
+			\end{array}$
+			}
+		\end{equation*}
+\indent avec $\Sigma_{i-1} = \frac 1 {\sqrt{T_{i-1}-t}} \sqrt{ \int_t^{T_{i-1}} \gamma^2(s, T_{i-1}-s;  \delta) \dif s } $
+	\end{prop}
+	\begin{dem}[Prix d'un caplet]$\quad$
+		Nous avons :
+		\begin{eqnarray*}
+			Caplet^{BGM} (t, T_i, K) &=& \E \left [  \frac{\beta(t)}{\beta(T_i)} 
+						\left (  L(T_{i-1},  0;  \delta)  -  K \right )_+ \delta
+						/ \, \F_t \, \right ] \\
+					&=& B(t,T_i) \E _{\Q_{T_i}} \left [ 
+						\left (  L(T_{i-1},  0 ;  \delta)  -  K \right )_+ \delta
+						/ \, \F_t \, \right ] \\
+		\end{eqnarray*}
+		avec $\Q_{T_i}$ la probabilit\'e $T_i$-forward neutre. \\
+\indent Or, en utilisant la diffusion  proposition \ref{dif IBOR fw} p. \pageref{dif IBOR fw}, on voit que l'on peut  
+appliquer la formule de Black \& Scholes pour un call europ\'een avec drift nul\footnote{cf. proposition \ref{PrixCallBS}
+p. \pageref{PrixCallBS}} :
+		\begin{eqnarray*}
+			E _{\Q_{T_i}} \left [ \left (  L(T_{i-1},  0 ;  \delta)  -  K \right )_+ \delta / 
+			\, \F_t \, \right ]  &=& L(t, (i-1) \delta ; \delta) \N \left ( h(t, T_{i-1}) \right ) -
+				 K \N \left ( h(t, T_{i-1}) - 
+				\Sigma_{T_{i-1}} \sqrt{T_{i-1}-t} \right ) \\
+		\end{eqnarray*}
+\indent avec : 
+		\begin{eqnarray*}
+			\Sigma_{i-1} &:=& \frac 1 {\sqrt{T_{i-1}-t}}  
+					\sqrt{ \int_t^{T_{i-1}} \gamma^2(s, T_{i-1}-s;  \delta) \dif s } \\
+				&& \\
+			h(t, T_{i-1}) &:=& \frac { 
+						\log \left [ \frac {L(t, (i-1) \delta ; \delta )}{K} \right ] + 
+						\frac 1 2 \Sigma^2_{i-1} (T_{i-1} - t)}
+						{ \Sigma_{i-1} \sqrt{T_{i-1} - t}} \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+
+	\begin{prop}[Prix d'un cap]$\quad$ \label{PrixCap}
+		Le prix d'un cap est donn\'e par :\\
+			\begin{equation*}
+				\fbox{
+				$\begin{array}{lrc}
+					Cap^{BGM}(t, T_n, K) &=& \sum_{i=1}^{i=n} B(t, T_i) 
+						g_{K,\Sigma_{i-1} \sqrt{T_{i-1}-t}} \Big ( K(t, T_{i-1}) \Big ) \\
+				\end{array}$
+				}
+			\end{equation*}		
+	\end{prop}
+	\begin{dem}[Prix d'un cap]$\quad$
+		Il suffit d'\'ecrire :
+		\begin{eqnarray*}
+			Cap^{BGM} (t , T_n, K ) &=& \sum_{i=1}^{i=n} Caplet^{BGM}(t, T_i , K ) \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\section{Calibration du mod\`ele BGM \`a un facteur}
+
+\subsection{M\'ethode}
+	
+	Sur le march\'e des taux d'int\'er\^et, les caps sont des produits d\'eriv\'es parmi les plus liquides.   
+Par coh\'erence avec le march\'e , la calibration du mod\`ele s'effectuera de mani\`ere \`a retrouver les prix de ces produits. 
+	Pour calibrer notre mod\`ele, nous allons chercher les param\`etres $\gamma$ qui minimisent 
+l'\'ecart entre les prix des caps sur le march\'e et les prix des caps donn\'es par le mod\`ele . \\
+Autrement dit, on va chercher les param\`etres tels que :
+	\begin{eqnarray}
+		Cap^{Market} (t, T_n, K) &=& Cap^{BGM} (t, T_n , K) 
+	\end{eqnarray}
+	Compte-tenu des r\'esultats pr\'ec\'edents, on peut \'ecrire 
+$\forall \, i \, \in \,  \llbracket \,  1 , n \, \rrbracket$ , 
+	\begin{eqnarray*}
+		B(t, T_i) g_{K, \sigma_{T_{i-1}} \sqrt{T_{i-1}-t}} \Big ( L(t, (i-1) \delta ; \delta) \Big ) &=& 
+		B(t, T_i) g_{K, \Sigma_{T_{i-1}} \sqrt{T_{i-1}-t}} \Big ( L(t, (i-1) \delta ; \delta) \Big ) \\
+	\end{eqnarray*}
+On voit apparaitre les contraintes de calibration du mod\`ele \\
+\\
+ \\
+	\fbox{
+		\\
+		\begin{minipage}{\textwidth}
+			 {\underline{\bf Contraintes de Calibration}} \\ 
+			\\
+		$\forall \, i \, \in \,  \llbracket \,  0 , n-1 \, \rrbracket$ ,
+			\begin{eqnarray}
+				\frac 1 {T_i - t } \int_t^{T_i} \gamma^2(s, T_i - s ; \delta) \dif s &=& \sigma^2_{T_i} \label{Contraintes}
+			\end{eqnarray}
+		\end{minipage}
+			
+	}
+
+
+
+\subsection{Hypoth\`eses sur la volatilit\'e}
+
+
+	On suppose dans cette section que la fonction $\gamma$ ne d\'epend que de l'\'ecart \`a l'\'ech\'eance :
+	\begin{eqnarray*}
+		\gamma(t, \theta ; \delta) &=& \gamma(\theta ; \delta) \\
+	\end{eqnarray*} 
+\indent	On suppose \'egalement que $\gamma$ est une fonction en escalier sur 
+$\left \{ T_0 , T_1 , \cdots , T_{n-1} \right \} $. \\
+Autrement dit, la  volatilit\'e est constante sur chaque intervalle $\left [  T_i , T_{i+1} \right ] $ .\\
+En notant $\gamma_i$ la valeur de la fonction sur l'intervalle $[T_i, T_{i+1}]$ avec $i \in \llbracket 0 , n-1 \rrbracket$, 
+ceci s'\'ecrit :
+	\begin{eqnarray}
+		\gamma(\theta, \delta ) &=& \sum_{i=0}^{n-1} \gamma_i \1_{\{ i \delta \leq \theta < (i+1) \delta \}}   \label{Gamma}\\
+		\nonumber
+	\end{eqnarray}
+La contrainte de calibration (\ref{Contraintes}) p. \pageref{Contraintes} s'\'ecrit alors :
+	\begin{eqnarray*}
+		\frac 1 {T_i - t} \int_0^{i \delta} \gamma^2(\tau, \delta) \dif \tau &=& \sigma^2_{T_i} \\
+	\end{eqnarray*}
+En remarquant que :	
+	\begin{eqnarray*}
+		\int_{i \delta}^{(i+1) \delta} \gamma^2(\tau, \delta) \dif \tau &=& 
+		\int_0^{(i+1) \delta} \gamma^2(\tau , \delta) \dif \tau  - \int_0^{i \delta} \gamma^2(\tau , \delta) \dif tau \\
+		\Rightarrow \delta \, \gamma^2_i &=& (i+1) \, \delta \, \sigma^2_{T_{i+1}} - i  \, \delta \, \sigma^2_{T_i} \\ 
+	\end{eqnarray*}
+on voit qu'il est possible de calibrer le mod\`ele de mani\`ere it\'erative en utilisant :
+		\begin{displaymath}
+			\left \{
+				\begin{array}{rcl}
+					\gamma_0 &=& \sigma_{T_0} \\
+					\gamma^2_i &=& (i+1) \, \sigma^2_{T_{i+1}} \, - \, i \, \sigma^2_{T_i} \\
+				\end{array}
+			\right.
+		\end{displaymath}
+
+%*******************
+\chapter{Simulation}
+%*******************
+
+	Pour valoriser des produits d\'eriv\'es sur taux d'int\'er\^et pour lesquels il n'existe pas de formules ferm\'ees, 
+nous aurons recours \`a des simulation de Monte Carlo. Il est alors n\'ecessaire de fixer la mesure de probabilit\'e sous 
+laquelle ces simulations seront effectu\'ees.\\
+\indent	Nous utiliserons des versions discr\'etis\'ees des \'equations suivantes : \\
+	\\
+	\fbox{
+		\begin{minipage}{\textwidth}
+			\begin{eqnarray}
+				\dif W_t^{T_{i+1}} &=& \dif W_t^{T_{i}} + \frac{\delta L(t,i \delta;  \delta)}
+							{1+\delta L(t, i \delta;  \delta)}
+							\gamma(i \delta;  \delta) \dif t \, , 
+			\quad i \in \llbracket 1 , n \rrbracket \label{difBrFw}\\
+				&& \nonumber\\
+				\dif L(t,i \delta;  \delta) &=& 
+				\underbrace{\gamma(i \delta;  \delta)}_{\text{\tiny{$= \, \gamma_i $ par (\ref{Gamma}) 
+				p. \pageref{Gamma}}}} L(t, i \delta;  \delta) \dif W_t^{T_{i+1}} (t) \, , 
+			\quad i \in \llbracket 0 , n-1 \rrbracket \label{difIborFw} \\
+				\nonumber
+			\end{eqnarray}
+		\end{minipage}
+	}
+	\begin{rem}[Pas de discr\'etisation] $\quad$
+		Le pas de discr\'etisation en temps de ces \'equations introduira un biais 
+dans la simulation dont il faudra tenir compte.
+	\end{rem}
+
+
+\section{Choix d'une mesure pour la simulation}
+
+	\begin{df}[Mesure Terminale] $\quad$
+		On appelle mesure terminale la mesure $T_n$ -forward neutre \\
+	\end{df}
+	\begin{prop}[Taux IBOR Forward sous la mesure Terminale] $\quad$ \label{difBrTerm}
+		$\forall i \in \llbracket 0 , n-1 \rrbracket$ :
+		\begin{eqnarray*}
+			\dif L(t, i \delta ; \delta ) &=& L(t, i \delta ; \delta) \left [ -
+			\sum_{j=i+1}^{n-1} \left ( \frac{\delta L(t, j \delta ; \delta)}{1 + \delta L(t, j \delta ; \delta )}
+			\, \gamma_j \, \gamma_i \right ) \dif t \, 
+			+ \, \gamma_i \, \dif W^{T_n}_t 
+			\right ]
+		\end{eqnarray*}
+	\end{prop}
+\newpage
+	\begin{dem} $\quad$
+		On raisonne par r\'ecurrence sur $n$ \\
+		\begin{description}
+			\item[\underline{\bf{si $ n= 1 $}}] $\quad$
+				La propri\'et\'e est trivialement vraie en utilisant 
+				l'\'equation (\ref{difIborFw}) p. \pageref{difIborFw} \\
+			\item
+			\item[\underline{\bf{si la propri\'et\'e est vraie au rang $n$}}]$\quad$ on a alors :
+				\begin{eqnarray*}
+					\dif L(t, i \delta ; \delta ) &=& L(t, i \delta ; \delta) \left [ -
+							\sum_{j=i+1}^{n-1} \left ( 
+							\frac{\delta L(t, j \delta ; \delta)}
+							{1 + \delta L(t, j \delta ; \delta )}
+							\, \gamma_j\, 
+							\gamma_i \right ) \dif t \, 
+							+ \, \gamma_i \, \dif W^{T_n}_t \right ]
+				\end{eqnarray*}
+				On peut \'ecrire que :
+				\begin{eqnarray*}
+					\frac{\dif L(t, i \delta ; \delta )}{L(t, i \delta ; \delta)} &=& -
+					\sum_{j=i+1}^{n} \left ( 
+					\frac{\delta L(t, j \delta ; \delta)}{1 + \delta L(t, j \delta ; \delta )}
+					\, \gamma_j \, 
+					\gamma_i \right ) \dif t \, \\
+					 &&+ \, \underbrace{ \frac {\delta \, L(t, n \delta ; \delta )}
+					 {1 + \delta \, L(t, n \delta ; \delta)} \, 
+					\gamma_n \, 
+					\gamma_i \, \dif t  
+					+ \, \gamma_i\, \dif W^{T_n}_t }_
+					{= \, \gamma_i \dif W_t^{T_{n+1}} \quad \text{\tiny{par (\ref{difBrFw}) p. \pageref{difBrFw}}}}\\
+				\end{eqnarray*}
+			La propri\'et\'e est donc aussi vraie au rang $n+1$
+		\end{description}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{rem}$\quad$
+		On voit alors que l'on peut simuler tous les taux forwards sous cette mesure de probabilit\'e.
+	\end{rem}
+
+\section{Algorithme de Simulation}
+
+\subsection*{$\rightarrow \quad$ Mise en place d'un maillage}
+	
+	\begin{description}
+		\item	On consid\`ere un maillage r\'egulier $\left \{ t_0 = t = T_0 , \cdots , t_k , \cdots , t_m \right \}$ avec $m \in \mathbb{N}^*$\\  
+		\item	On note $\Delta_t$, le pas de discr\'etisation en temps.\\
+		\item 	On a $t_k = t + k \Delta_t$
+	\end{description}
+
+\subsection*{$\rightarrow \quad$ Discr\'etisation des \'equations}
+	En notant $\Delta W^{T_{i+1}} (t_k)$, l'accroissement du brownien sous la probabilit\'e $T_{i+1}$- forward sur 
+l'intervalle $\left [ t_k ,  t_{k+1}  \right ]$, l'algorithme de simulation s'appuiera sur les \'equation suivantes 
+\footnote{L'expression des taux IBOR sous forme exponentielle leur assure d'\^etre positifs} : \\
+	\newline
+	\fbox{	
+		\begin{minipage}{\textwidth}
+			\begin{eqnarray}
+				\Delta W^{T_i}(t_k) &=& \Delta W^{T_{i+1}}(t_k) - \frac {\delta \, L(t_k , i \delta ; \delta)}
+					{1 + \delta \, L(t_k , i \delta ; \delta)} \gamma_i \Delta_t  \, , 
+				\quad i \in \llbracket 1 , n \rrbracket  \quad \text{et} \quad t_k \leq T_i\\
+				L(t_{k+1} , i \delta ; \delta ) &=& L(t_k , i \delta ; \delta) 
+					\exp{\left \{ \gamma_i \Delta W^{T_{i+1}}(t_k) - \frac 1 2 \gamma^2_i \Delta_t \right \}} 
+					\, , \quad i \in \llbracket 1 , n \rrbracket  \quad \text{et} \quad t_k \leq T_i
+			\end{eqnarray}
+		
+		\end{minipage}
+	}
+\newpage
+\subsection*{$\rightarrow \quad$ \Large{Simulation pas \`a pas}}
+
+	\fbox{\bf Inputs du mod\`ele : $\quad$ La courbe des taux forwards 
+$\left \{ L(t, i \delta ; \delta) , i \in \llbracket 0 , n-1 \rrbracket \right \} $ }\\
+	
+	\begin{enumerate}
+		\item \fbox{\bf $1^{\text{er}}$ point du maillage} \\
+\\
+			\bf{On cherche les $L(t_1 , i \delta ; \delta)$ pour $i \in \llbracket 0 , n-1 \rrbracket $} \\
+			\begin{enumerate}
+				\item \underline{Accroissements du brownien} \\
+ 					\begin{itemize}
+						\item	On commence par simuler $\Delta W^{T_n}(t)$ comme une variable 
+							al\'eatoire normale centr\'ee et de variance $\Delta_t$ 
+							\footnote{cf. algorithme de Box \& Muller en annexe} 
+						\item 	On obtient tous les $\Delta W^{T_i}(t)$ par la relation :
+							\begin{eqnarray*}
+								\Delta W^{T_i}(t) &=& \Delta W^{T_{i+1}}(t) - 
+								\frac{\delta \, L(t , i \delta ; \delta)}
+								{1 + \delta \, L(t , i \delta ; \delta)} \, \gamma_i \Delta_t
+								\, , \quad i = 0 , \cdots , n-1 \\
+							\end{eqnarray*}	
+					\end{itemize} 
+				\item \underline{Taux IBOR en $t_1$} \\
+					\\
+					On peut alors \'evaluer : \\
+					\begin{eqnarray*}
+						L( t_1 , i \delta ; \delta ) &=& L(t , i \delta ; \delta ) 
+						\exp {\left \{ \gamma_i \Delta W^{T_{i+1}}(t) - \frac 1 2 \gamma^2_i \Delta_t
+						\right \}} \, , \quad i = 0 , \cdots , n-1
+					\end{eqnarray*}
+			\end{enumerate}
+		\item \fbox{\bf $2^{\text{\`eme}}$ point du maillage}\\
+\\
+			\bf{On cherche les $L(t_2 , i \delta ; \delta)$ pour $i \in \llbracket 0 , n-1 \rrbracket $} \\
+			On connait \`a ce stade les $L(t_1 , i \delta ; \delta)$\\
+			\begin{enumerate}
+				\item \underline{Accroissements du brownien} \\
+ 					\begin{itemize}
+						\item	On commence par simuler $\Delta W^{T_n}(t_1)$ comme une variable 
+							al\'eatoire normale centr\'ee et de variance $\Delta_t$ 
+						\item 	On obtient tous les $\Delta W^{T_i}(t_1)$ par la relation :
+							\begin{eqnarray*}
+								\Delta W^{T_i}(t_1) &=& \Delta W^{T_{i+1}}(t_1) - 
+								\frac{\delta \, L(t_1 , i \delta ; \delta)}
+								{1 + \delta \, L(t_1 , i \delta ; \delta)} \, \gamma_i \Delta_t
+								\, , \quad i = 0 , \cdots , n-1 \\
+							\end{eqnarray*}	
+					\end{itemize} 
+				\item \underline{Taux IBOR en $t_2$} \\
+					\\
+					On peut alors  \'evaluer : \\
+					\begin{eqnarray*}
+						L( t_2 , i \delta ; \delta ) &=& L(t_1 , i \delta ; \delta ) 
+						\exp {\left \{ \gamma_i \Delta W^{T_{i+1}}(t_1) - \frac 1 2 \gamma^2_i \Delta_t
+						\right \}} \, , \quad i = 0 , \cdots , n-1
+					\end{eqnarray*}
+			\end{enumerate}
+		\item[]	\begin{center}
+				\vdots 
+			\end{center}   
+		\item[k.]\fbox{\bf $k^{\text{\`eme}}$ point du maillage}\\ 
+\\
+			\bf{On cherche les $L(t_k , i \delta ; \delta)$ pour $i \in \llbracket 0 , n-1 \rrbracket $}  \\
+			On connait \`a ce stade les $L(t_{k-1} , i \delta ; \delta)$ \\
+			\begin{enumerate}
+				\item \underline{Accroissements du brownien} \\
+ 					\begin{itemize}
+						\item	On commence par simuler $\Delta W^{T_n}(t_{k-1})$ comme une variable 
+							al\'eatoire normale centr\'ee et de variance $\Delta_t$ 
+						\item 	On obtient tous les $\Delta W^{T_i}(t_{k-1})$ par la relation :
+							\begin{eqnarray*}
+								\Delta W^{T_i}(t_{k-1}) &=& \Delta W^{T_{i+1}}(t_{k-1}) - 
+								\frac{\delta \, L(t_1 , i \delta ; \delta)}
+								{1 + \delta \, L(t_1 , i \delta ; \delta)} \, \gamma_i \Delta_t
+								\, , \quad i = 0 , \cdots , n-1 \\
+							\end{eqnarray*}	
+					\end{itemize} 
+				\item \underline{Taux IBOR en $t_k$} \\
+					\\
+					 On peut alors \'evaluer : \\
+					\begin{eqnarray*}
+						L( t_k , i \delta ; \delta ) &=& L(t_{k-1} , i \delta ; \delta ) 
+						\exp {\left \{ \gamma_i \Delta W^{T_{i+1}}(t_{k-1}) - \frac 1 2 \gamma^2_i \Delta_t
+						\right \}} \, , \quad i = 0 , \cdots , n-1
+					\end{eqnarray*}
+			\end{enumerate}
+		\item[] \begin{center} 
+				\vdots 
+			\end{center}  
+	\end{enumerate}
+
+	
+\subsection*{}
+	Nous r\'ecapitulons les \'etapes de simulation dans le tableau suivant :
+		\begin{displaymath}
+			\begin{array}{|c|c|c|c|c|c|}
+		\hline 
+			k/i&0&1& \cdots&n-2&n-1 \\
+		\hline
+			&\Delta W^{T_1}(t)&\Delta W^{T_2}(t)&\cdots &\Delta W^{T_{n-1}}(t)&\Delta W^{T_n}(t) \\
+			1&L(t_1,0; \delta)& L(t_1,\delta; \delta)&\cdots&L(t_1,(n-2) \delta; \delta)&
+			L(t_1,(n-1) \delta; \delta) \\
+		\hline 
+			&\Delta W^{T_1}(t_1)&\Delta W^{T_2}(t_1)&\cdots &\Delta W^{T_{n-1}}(t_1)&\Delta W^{T_n}(t_1) \\
+			2&L(t_2,0; \delta)& L(t_2,\delta; \delta)&\cdots&L(t_2,(n-2) \delta; \delta)&
+			L(t_2,(n-1) \delta; \delta) \\
+		\hline
+			\vdots&\vdots&\vdots&\vdots&\vdots&\vdots \\
+		\hline
+			&\Delta W^{T_1}(t_{k-1})&\Delta W^{T_2}(t_{k-1})&\cdots &\Delta W^{T_{n-1}}(t_{k-1})
+			&\Delta W^{T_n}(t_{k-1}) \\
+			k&L(t_k,0; \delta)& L(t_k,\delta; \delta)&\cdots&L(t_k,(n-2) \delta; \delta)&
+			L(t_k,(n-1) \delta; \delta) \\
+		\hline
+			\vdots&\vdots&\vdots&\vdots&\vdots&\vdots \\
+		\hline
+			&\Delta W^{T_1}(t_{m-1})&\Delta W^{T_2}(t_{m-1})&\cdots &\Delta W^{T_{n-1}}(t_{m-1})
+			&\Delta W^{T_n}(t_{m-1}) \\
+			m&L(t_m,0; \delta)& L(t_m,\delta; \delta)&\cdots&L(t_m,(n-2) \delta; \delta)&
+			L(t_m,(n-1) \delta; \delta) \\
+		\hline
+			\end{array}
+	\end{displaymath}
+\\
+\indent Ainsi, il nous est maintenant possible de d\'eterminer toutes les trajectoires des taux IBOR forwards 
+et par suite d'obtenir les $L(T_i, 0 ; \delta)$ qui vont nous permettre de valoriser nos produits.
+
+%**************************************************************************
+\chapter{Valorisation de produits dans le mod\`ele BGM }
+%**************************************************************************
+
+\section{Taux IBOR forward de maturit\'e 1 an}
+
+	\fbox{
+	\begin{minipage}{\textwidth}
+	\begin{prop}$\quad$\label{IBOR1an}
+		Les taux IBOR forwards de maturité 1 an $\left \{ L(t, i\delta; 2 \delta) , i \right\}$ s'expriment 
+en fonctions des taux IBOR de maturit\'e 6 mois de la mani\`ere suivante : \\
+		\begin{eqnarray*}
+			L(t , i \delta ; 2 \delta) &=& \frac{L(t,i\delta ; \delta) + L(t,(i+1)\delta ; \delta)}{2} + 
+						\frac{L(t,i\delta ; \delta)L(t,(i+1)\delta ; \delta)}{4} \\
+		\end{eqnarray*}
+	\end{prop}
+	\end{minipage}}
+
+	\begin{dem}$\quad$
+		Nous avons :
+		\begin{description}
+			\item[(i)] d'une part :
+				\begin{eqnarray*}
+					L(t, i \delta ; \delta ) &=& \frac 1 {\delta} \left [ 
+					\frac{B(t, t + i \delta)}{B(t, t + (i+1) \delta)} - 1\right ] \\
+					&&\text{\tiny{cf. remarque \ref{IBORFwZc} p. \pageref{IBORFwZc}}} \\
+					\Rightarrow \quad \frac{B(t, T_i)}{B(t, T_{i+1})}
+					&=& \delta L(t, i \delta , \delta ) -1
+				\end{eqnarray*} 
+					
+			\item[(ii)] de la m\^eme fa\c con, 
+				\begin{eqnarray*}
+					 \frac{B(t, T_{i+1})}{B(t,T_{i+2})}
+					&=& \delta L(t, (i+1) \delta ; \delta ) -1
+				\end{eqnarray*}
+			\item[(iii)] Utilisons la remarque \ref{IBORFwZc} p. \pageref{IBORFwZc} pour \'evaluer 
+				$L(t, i\delta ; 2 \delta)$ :
+				\begin{eqnarray*}
+					L(t, i \delta ; \delta ) &=& \frac 1 {2 \delta} \left [ 
+					\frac{B(t, t + i \delta)}{B(t, t + (i+2) \delta)} - 1 \right ] \\
+							&\text{\tiny{ $\delta = 0.5$}}& \\
+					&=&\frac{B(t, T_i)}{B(t, T_{i+2})} - 1\\
+					&=& \frac{B(t,T_i)}{B(t, T_{i+1})} \frac{B(t, T_{i+1})}{B(t, T_{i+2})} - 1 \\
+					&=& \left ( \delta L(t, i \delta , \delta ) -1\right )
+					\left ( \delta L(t, (i+1) \delta , \delta ) -1\right ) - 1 \\
+					&\text{\tiny{par (i) et (ii)}}& \\
+					&=& \frac{L(t,i\delta ; \delta) + L(t,(i+1)\delta ; \delta)}{2} + 
+						\frac{L(t,i\delta ; \delta)L(t,(i+1)\delta ; \delta)}{4} \\
+				\end{eqnarray*} 
+		\end{description}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+	\begin{rem}$\quad$
+		\begin{description}
+			\item[$\bullet$]	On voit par cette relation qu'en simulant les trajectoires des taux IBOR 6 mois, 
+						on va pouvoir valoriser des produits dont le sous-jacent est l'IBOR 1 an. 
+			\item[$\bullet$]	D'autre part, le taux IBOR de maturit\'e 1 an apparait comme 
+						une combinaison des IBOR 6 mois.\\ En g\'en\'eral, ces processus ne pourront 
+						\^etre consid\'er\'es simultan\'ement comme log-normaux.
+			\item[$\bullet$] 	Dans le cas de produit {\bf ne d\'ependant que} du IBOR 1 an, 
+						il est possible de donner une diffusion au processus et de calibrer 
+						le mod\`ele en consid\'erant des produits liquides sur IBOR 1 an. 
+			\item[$\bullet$]	Pour valoriser des produits dont les sous-jacents sont l'IBOR 
+						pour diff\'erentes maturit\'es, il est plus pertinent d'utiliser le mod\`ele 
+						BGM pour le taux \`a la plus petite maturit\'e, puis d'en d\'eduire les
+						suivants \`a l'aide de la proposition \ref{IBOR1an} p. \pageref{IBOR1an}.  
+		\end{description}		 
+	\end{rem}
+
+
+	
+\section{M\'ethode de Monte-Carlo}
+	
+	Pour valoriser nos produits avec la m\'ethode de Monte-Carlo, nous devons \'evaluer les  payoff sous la mesure 
+choisie pour effectuer les simulation : soit la mesure terminale $\Q^{T_n}$.
+Pour ce faire nous proc\'ederons  comme suit :
+	\begin{description}
+		\item[a.]$\quad$ Evaluation des z\'ero coupon de maturit\'e $T_n$ en chaque date de tomb\'ee des flux 
+				avec les taux simul\'es par :
+				\begin{eqnarray*}
+					B(T_i, T_n) &=& \prod_{j=i}^{n-1} \left [ 1 + \delta L(T_i, j \delta ; \delta)
+					\right ]^{-1}
+				\end{eqnarray*}
+		\item[b.]$\quad$ Division de chaque payoff par la valeur du z\'ero-coupon \`a la date de paiement du flux\\
+				On a ainsi exprim\'e chaque payoff sous le num\'eraire $B(.,T_n)$ associ\'e \`a la mesure 
+				terminale $\Q^{T_n}$
+		\item[c.]$\quad$ Actualisation \`a la date de valorisation en multipliant par $B(t,T_n)$
+	\end{description}	
+
+\section{Mise en place et valorisation d'un swap de volatilit\'es dans le mod\`ele BGM}
+\subsection{Swap et Taux de swap}
+				
+	\begin{df}[Swap de taux]$\quad$ \label{swap}
+		Un swap de taux sur une unit\'e de devise est un contrat versant \`a une fr\'equence donn\'ee 
+le diff\'erentiel entre un taux $K$ pr\'ealablement fix\'e et un taux variable. \\
+	\end{df}
+\indent	Typiquement, pour un swap dont les dates de versements sont semestrielles de la forme 
+	$T_i = T_0 + i \delta$ avec $i = 1 , \cdots  n$, le taux re\c cu \`a la date $T_i$ est le taux IBOR :
+		\begin{eqnarray*} 
+			L(T_{i-1}, 0 , \delta) &=& \frac 1 {\delta} \left ( \frac 1 {B(T_{i-1}, T_i)} - 1 \right )
+		\end{eqnarray*}	
+	Nous nous placerons dans ce cadre.
+	\begin{prop}[Valorisation du swap]$\quad$\label{PrixSwap}
+		Le prix du swap en $t$ est donn\'e par :
+		\begin{displaymath}
+			\boxed{swap(t,T_n,K) \,=\, B(t,T_0) - B(t, T_n) - K \delta \sum_{i=1}^{n} B(t, T_i) }
+		\end{displaymath}
+	\end{prop}
+	\begin{dem}
+		\begin{description}
+			\item[$\bullet \quad$ Valorisation de la jambe fixe :]  
+				\begin{eqnarray*}
+					\E \, \left[ \sum_{i=1}^{n} \frac{\beta(t)}{\beta(T_i)} 
+					\delta \, K \, / \, \F_t \right ]
+					&=& \delta \, K \, \sum_{i=1}^{n} \E \,\left[\frac{\beta(t)}{\beta(T_i)} 
+					/ \, \F_t \right ]\\
+					&=& \delta \, K \, \sum_{i=1}^{n} B(t, T_i) 
+				\end{eqnarray*}
+			\item[$\bullet \quad$ Valorisation de la jambe variable :]
+				\begin{eqnarray*}
+					\E \, \left[ \sum_{i=1}^{n} \frac{\beta(t)}{\beta(T_i)} 
+					\delta L(t, (i-1)\delta ; \delta)/ \, \F_t \right ]
+					&=& \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_i)} 
+					\delta L(t, (i-1)\delta ; \delta)/ \, \F_t \right ] \\
+					\text{\tiny{par remarque \ref{IBORFwZc} p. \pageref{IBORFwZc}}}
+					&=& \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_i)}
+						\left (\frac 1{B(T_{i-1}, T_i)} -1 \right ) / \, \F_t \right ] \\
+					&=& \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_i)}\frac 1{B(T_{i-1}, T_i)}
+					 / \, \F_t \right ] - \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_i)}
+					/ \, \F_t \right ] \\
+					&=& \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_{i-1})B(T_{i-1}, T_i)}
+					\frac{\beta(T_{i-1})}{\beta(T_i)}  / \, \F_t \right ]
+					- \sum_{i=1}^{n} B(t, T_i) \\
+					&=& \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_{i-1})B(T_{i-1}, T_i)}
+					\E \left[ \frac{\beta(T_{i-1})}{\beta(T_i)}  / \, \F_{T_{i-1}} \right ]
+					/ \, \F_t \right ] - \sum_{i=1}^{n} B(t, T_i) \\
+					&=& \sum_{i=1}^{n}\E \, \left[\frac{\beta(t)}{\beta(T_{i-1})B(T_{i-1}, T_i)}
+					B(T_{i-1}, T_i)/ \, \F_t \right ] - \sum_{i=1}^{n} B(t, T_i) \\
+					&=& \sum_{i=1}^{n} B(t, T_{i-1}) - \sum_{i=1}^{n} B(t, T_i) \\
+					&=& B(t, T_0) - B(t, T_n)
+				\end{eqnarray*}
+			\item En se pla\c cant en position payeuse du taux fixe $K$ on a :
+				\begin{eqnarray*}
+					swap(t, T_n, K) &=& \, B(t,T_0) - B(t, T_n) - K \delta \sum_{i=1}^{n} B(t, T_i) 
+				\end{eqnarray*}
+		\end{description}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{df}[Taux de swap]$\quad$ \label{TauxSwap}
+		Le taux de swap (associ\'e \`a une maturit\'e de swap) est la valeur $K$ qui annule le prix du swap en $t$.\\
+		Il est donn\'e par :
+		\begin{displaymath}
+			\boxed{
+			S_{0,n} \, = \, \frac{B(t,T_0) - B(t, T_n)}{\delta \sum_{i=1}^{n} B(t, T_i)}}
+		\end{displaymath} 
+	\end{df}
+	\begin{rem}$\quad$
+		Pour une maturit\'e donn\'ee, le taux de swap est ind\'ependant de la jambe variable
+	\end{rem}
+\newpage
+\subsection{Structure du contrat}
+	On consid\`ere la structure suivante :
+	\begin{description}
+		\item[Date de signature :]$\quad t$ \\
+		\item[Date de d\'epart :]$\quad T_0$ \\
+		\item[Nominal :]$\quad N$ \officialeuro \\
+		\item[Ech\'eancier :]$\quad \left\{ T_1, \cdots , T_n \right\} \quad \text{avec}$ 
+					\begin{center}
+					$\left \{
+					\begin{array}{cccc}
+						T_i &=& T_0 + 2\, i \, \delta& \\
+						\delta &=& 0.5  &\text{ie. 6 mois} \\
+						T_n &=& T_0 + 20 \, \delta &\text{ie. 10 ans}
+					\end{array} \right.$\\
+					\end{center}
+		\item
+		\item[Jambe payeuse :]$\quad$  A chaque date $T_i$, avec $i \in \llbracket 1 , n \rrbracket $ 
+			(ie. tous les semestres), on paie le flux : 
+			\begin{displaymath}
+				N \, \delta \left [ L(T_{i-1}, 0, \delta) + 2 bps \right ]
+			\end{displaymath}
+		\item
+		\item[Jambe receveuse :]$\quad$ A chaque date $T_i$ avec $ i \in \{ 2 , 4, 6, 8, \cdots , 18, 20 \}$ 
+			(ie. tous les ans), on re\c coit le flux :
+			\begin{displaymath}
+				x \, N \, \delta | S_{i,i + 20 \delta} - S_{i-1, i - 1 +20 \delta} |
+			\end{displaymath}
+			avec :
+			\begin{displaymath}
+				\left \{
+				\begin{array}{cc}
+					S_{i, i + 20 \delta}&\text{le taux de swap 10 ans d\'etermin\'e \`a la date} T_i \\
+					x&  \text{une quantit\'e non-al\'eatoire annulant la valeur du contrat en } t 
+				\end{array}
+				\right.
+			\end{displaymath}
+			
+	\end{description}
+\subsection{Valorisation de la jambe payeuse}
+	\begin{prop}[Prix en t de la jambe payeuse]$\quad$
+		Nous avons :
+		\begin{displaymath}
+			\boxed{\text{prix( jambe payeuse )} \, = \,  N \, \delta \, \sum_{i=1}{20} 
+					\left [ L(t,(i-1) ; \delta) + 2 bps  \right ]}
+		\end{displaymath}
+	\end{prop}
+	\begin{dem}$\quad$
+		On \'evalue :
+		\begin{eqnarray*}
+			\text{prix( jambe payeuse )} &=& \E \, \left[ \sum_{i=1}^{20} \frac{\beta(t)}{\beta(T_i)}		
+			N \, \delta \left( L(T_{i-1}, 0 ; \delta) + 2 bps \right) / \F_t \right] \\
+			&=& N \, \delta \sum_{i=1}^{20}\E \, \left[\frac{\beta(t)}{\beta(T_i)}
+			\left( L(T_{i-1}, 0 ; \delta) + 2 bps \right) / \F_t \right] \\
+			&=& N \, \delta \sum_{i=1}^{20} B(t, T_i) \E_{\Q_{T_i}}  \, 
+			\left[L(T_{i-1}, 0 ; \delta) + 2 bps/ \F_t \right] \\
+			&&\text{\tiny{par la proposition \ref{pricing} p. \pageref{pricing}}} \\
+			&=& N \, \delta \sum_{i=1}^{20} B(t, T_i) \left [ L(t, (i-1) \delta ; \delta) + 2 bps\right ]\\
+			&&\text{\tiny{par la proposition \ref{dif IBOR fw} p. \pageref{dif IBOR fw}}} 
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsection{Expression et valorisation de la jambe receveuse}
+
+	\begin{prop}$\quad$
+		Le taux de swap s'exprime en fonction des IBOR de maturit\'e 1 an de la mani\`ere suivante :
+		\begin{displaymath}
+			\boxed{
+			S_{i, i + 20 \delta} =  \frac{1-\prod\limits_{j=i+1}^{10} \frac 1 
+			{1 + 2 \delta L(T_i, 2 j \delta ; 2 \delta)}}
+			{\sum_{j=i+1}^{10} 2 \delta \prod\limits_{k=i+1}^{j} \frac 1 {1+ 2 \delta L(T_i, 2k \delta ; 2 \delta)}}
+			}
+		\end{displaymath}
+	\end{prop} 
+	\begin{dem}$\quad$
+		Par la d\'efinition du taux de swap, on peut \'ecrire que :
+		\begin{eqnarray*}
+			S_{i, i + 20 \delta} &=&  \, \frac{1 - B(T_i, T_{i + 20 \delta})}
+			{2 \delta \sum_{j=i+1}^{i+10} B(T_i, T_{2j})}
+		\end{eqnarray*}
+		Nous avons de plus pour $k > i$ :
+		\begin{eqnarray*}
+			B(T_i, T_k) &=& \frac{B(T_i, T_{k})}{B(T_i, T_{k-1})} \,  \frac{B(T_i, T_{k-1})}{B(T_i, T_{k-2})}
+			\, \frac{B(T_i, T_{k-2})}{B(T_i, T_{k-3})} \cdots \frac{B(T_i, T_{i+1})}{B(T_i, T_i))}
+		\end{eqnarray*}
+		et on a vu \`a la remarque \ref{IBORFwZc} p. \pageref{IBORFwZc} que :
+		\begin{eqnarray*}
+				\frac{B(T_i, T_k)}{B(T_i, T_{k+1})}&=& 1 + \tau L(T_i,  \tau ; \tau)
+		\end{eqnarray*}
+			avec $ T_{k+1} - T_k = \tau $\\
+		En adaptant ces r\'esultats \`a notre cadre de travail, on obtient :
+		\begin{eqnarray*}
+			B(T_i , T_{i + 20 \delta}) &=& \prod\limits_{j=i+1}^{i+10} 
+				\frac 1 {1 + 2 \delta L(T_i, 2 j \delta ; 2 \delta)}	
+		\end{eqnarray*} 
+			\`a substituer au num\'erateur et de la m\^eme fa\c con :
+		\begin{eqnarray*}
+				B(T_i, T_2j) &=& \prod\limits_{k=i+1}^{j} \frac 1 {1 + 2 \delta L(T_i , 2 k \delta ; 2 \delta)}
+		\end{eqnarray*}
+		au d\'enominateur.\\
+		Ainsi : 
+		\begin{eqnarray*}
+			S_{i, i + 20 \delta} &=& \frac{1-\prod\limits_{j=i+1}^{10} \frac 1 
+			{1 + 2 \delta L(T_i, 2 j \delta ; 2 \delta)}}
+			{\sum_{j=i+1}^{10} 2 \delta \prod\limits_{k=i+1}^{j} \frac 1 
+			{1+ 2 \delta L(T_i, 2k \delta ; 2 \delta)}}
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+\newpage
+	\begin{rem}[Expression de $S_{i, i + 20 \delta}$ en fonction des taux IBOR de maturit\'e 6 mois]
+		En substituant les $L(T_i, 2j \delta ; 2 \delta)$ par leur expression en fonction des 
+		$L(T_i, k \delta ; \delta)$ donn\'ee \`a la proposition \ref{IBOR1an} p. \pageref{IBOR1an} :
+		\begin{eqnarray*}
+			L(T_i, 2 j \delta ; 2 \delta) &=& \frac{L(T_i, 2 j \delta ; \delta) + 
+			L(T_i, 2 (j+1) \delta ; \delta)} 2 +  \frac{L(T_i, 2 j \delta ; \delta) \, 
+			L(T_i, 2 (j+1) \delta ; \delta)} 4 
+		\end{eqnarray*}
+	On obtient une expression pour le taux de swap en fonction des taux IBOR de maturit\'e 6 mois : 
+		\begin{eqnarray*}
+			S_{i, i + 20 \delta} &=& 
+			\frac{
+				1-\prod\limits_{j=i+1}^{10} 
+				\left [ 
+					{ 1 + 2 \, \delta 
+					\left \{ 
+					\frac{
+						L(T_i, 2 j \delta ; \delta) + L(T_i, 2 (j+1) \delta ; \delta)}
+						 2 +  
+					\frac{
+						L(T_i, 2 j \delta ; \delta) \, L(T_i, 2 (j+1) \delta ; \delta)} 
+						4 
+					\right \}
+					}  \right]^{-1}
+				}
+				{
+				\sum_{j=i+1}^{10} 2 \delta \prod\limits_{k=i+1}^{j} \left [
+					{
+					1+ 2 \, \delta 
+				\left \{ 
+					\frac{
+						L(T_i, 2 k \delta ; \delta) + L(T_i, 2 (k+1) \delta ; \delta)} 
+						2 +  
+					\frac{
+						L(T_i, 2 k \delta ; \delta) \, L(T_i, 2 (k+1) \delta ; \delta)}
+					 4 
+				\right \}
+					} \right ]^{-1}
+			}
+		\end{eqnarray*}
+	On voit alors qu'en simulant les trajectoires des taux IBOR de maturit\'e 6 mois avec notre mod\`ele, on va 
+	pouvoir valoriser la jambe receveuse du contrat en utilisant leur position en $T_i$.
+	\end{rem}
+	\begin{rem}$\quad$
+		La quantit\'e non al\'eatoire $x$ doit \^etre fix\'ee de mani\`ere \`a ce que jambe payeuse et jambe 
+	receveuse se compensent \`a la signature du contrat. 
+	\end{rem}
+	\begin{rem}$\quad$
+		Pour valoriser la jambe receveuse, il s'agit d'\'evaluer :
+		\begin{displaymath}
+			\E \left[ 
+				\sum_{k=1}^{10} \frac{\beta(t)}{\beta(T_{2k})} \, x \, N \, \delta
+				 \left |S_{2k, 2 (k+10) \delta} - S_{k-1 , 2((k-1) +10) \delta} \right | \, / \, \F_t 
+			\right]
+		\end{displaymath}
+	\end{rem}
+
+\subsection{M\'ethode employ\'ee}
+
+	Pour \'evaluer le prix de la jambe receveuse, nous proc\'ederons comme suit : \\
+	\begin{description}
+		\item[(i)$\quad$]	Simulation des $L(T_{2k}, 2j \delta ; \delta)$ pour :
+			\begin{center}
+			$\left \{
+				\begin{array}{ccc}
+					k &=& 0 , \cdots , 10 \\
+					j &=& k+1 , \cdots ,\, k+11 
+				\end{array}
+			\right.$
+			\end{center}  
+		\item
+		\item[(ii)$\quad$]	Calcul des $L(T_{2k} , 2 j \delta ; 2 \delta)$ pour :
+			\begin{center}
+			$\left \{
+				\begin{array}{ccc}
+					k &=& 0 , \cdots , 10 \\
+					j &=& k+1 , \cdots ,\, k+10  
+				\end{array}
+			\right.$
+			\end{center}  
+		\item
+		\item[(iii)$\quad$]	Calculs des $S_{i,2(i+10) \delta}$ pour $i = 1, \cdots , 10$
+		\item[(iv)$\quad$] Evaluation des payoffs sous  la mesure terminale comme \'evoqu\'e pr\'ec\'edemment. 
+		\item[(v)$\quad$] Calculs de la valeur de $x$ \'egalisant les deux jambes \`a la signature du contrat.
+	\end{description}
+
+%*******************
+\chapter*{Conclusion}
+%*******************
+	Le mod\`ele impl\'ement\'e nous permet de simuler les trajectoires des taux IBOR et par suite de valoriser 
+tout produit d\'eriv\'e dont les flux sont fonction  de ces taux.\\
+\indent C\^ot\'e informatique nous avons d\'evelopp\'e des DLL en C++ sous la plateforme Visual Studio Express Edition. 
+Celles-ci sont alors int\'egr\'ees dans un pricer Excel. \\
+\\
+\indent N\'eanmoins, certaines am\'eliorations seront \`a apporter :
+	
+\section*{Probl\`eme de discr\'etisation}
+	Une source de biais dans la simulation est d\^ue \`a la discr\'etisation des \'equations (\ref{difBrFw}) et 
+(\ref{difIborFw}) p. \pageref{difBrFw}.\\
+En effet l'int\'egrale :
+	\begin{displaymath}	
+		 \int_{t + k \Delta_t}^{t + (k+1) \Delta_t } \frac{\delta \, L(s, (i-1) \delta ; \delta)}
+			{1 + \delta \, L(s, (i-1) \delta ; \delta)}\gamma(s, (i-1) \delta ; \delta) \, \dif s 
+	\end{displaymath}
+est approch\'ee sur l'intervalle $\left [  t_k, t_{k+1}\right]$ par :
+	\begin{displaymath}
+		\frac{\delta \, L( t_k , (i-1) \delta ; \delta) }{1 + \delta \, L( t_k , (i-1) \delta ; \delta)}
+		\gamma(t_k, (i-1)  \delta ; \delta) \Delta_t
+	\end{displaymath}
+Lorqu'on simule sous la mesure Terminale $\Q^{T_n}$, le taux Ibor $L( \cdot \, ,\,  (n-1) \delta ; \delta)$ 
+est bien une martingale sous cette mesure pour tout pas de discr\'etisation. 
+Puis $L( \cdot \, ,\,  (n-2) \delta ; \delta)$ est martingale sous la probabilit\'e $\widehat{\Q}_{T_n-1}$ d\'efinie par la discr\'etisation.
+ Or on a  $ \widehat{\Q}_{T_{n-1}} \neq \Q_{T_{n-1}} $ et la propri\'et\'e de martingale se perd.\\
+A. Brace, M. Musiela \& E. Schl\"ogl ont trait\'e ce sujet dans \cite{5} et ont propos\'e comme alternative d'utiliser l'
+\'equation suivante :
+	\begin{eqnarray*}
+		\Delta W_{T_{i+1}} (t_k) &=& \Delta W_{T_{i+2}}(t_k) - c_{i,i+1}(t_k) \Delta_t
+	\end{eqnarray*}
+avec 
+	\begin{eqnarray*}
+		c_{i,i+1}(t_k) &=& \frac 1{\Delta_t} \frac 1{\gamma_i} \ln{\left ( 
+		\frac{1 + \delta L( t_k , (i+1) \delta ; \delta ) \exp{\left \{  \gamma_i \gamma_{i+1}  \Delta_t \right \}} }
+		{1 + \delta L( t_k , (i+1) \delta ; \delta )}\right )}
+	\end{eqnarray*}
+
+\newpage
+\section*{Corr\'elation entre les diff\'erents taux forwards}
+
+	Nous avons mis en place un mod\`ele unidimensionnel bas\'e sur les prix des caps. Ce mod\`ele ne permet pas de tenir 
+compte des corr\'elations entre les diff\'erents taux forwards. \\ Il est possible d'\'etendre notre mod\`ele \`a un mod\`ele 
+multi-facteurs. Une Analyse en Composantes Principales montre qu'il faudrait au minimum trois facteurs pour assurer la 
+fiabilit\'e du mod\`ele. Il pourra alors \^etre calibr\'e de mani\`ere \`a retrouver  simultan\'ement les prix des caps et 
+des swaptions \`a la monnaie.\\
+Ces sujets sont trait\'es dans \cite{1}.
+  
+%***********************************************
+\part{Produits d\'eriv\'es sur le p\'etrole   \\
+	March\'e \'etranger et risque de change}
+%***********************************************
+%***************************************
+\chapter*{Notations et Cadre de travail}
+%***************************************
+
+\subsection*{On notera : }
+	\begin{description}
+		
+		\item [$\quad t $] la date courante
+		\item [$\quad T $] d\'esignera en g\'en\'eral l'\'ech\'eance d'un produit d\'eriv\'e 
+		\item [$\quad r_t $]  le taux sans risque \`a la date t sur notre march\'e 
+		\item [$\quad \beta(t) \, = \, e^{\int_0^t r_s \dif s} $]  le facteur d'accumulation entre 0 et $t$ 
+		\item [$\quad B(t,T) $]  le prix en t d'un z\'ero-coupon de maturit\'e $T$
+		\item [$\quad S $] un sous-jacent exprim\'e en monnaie domestique
+		\item [$\quad F_t(S,T) $]   le $T$-prix forward de $S$ en $t$
+		\item [$\quad Call_t(T,K,S) $] le prix en t d'un call europ\'een sur $S$ de strike $K$ et \'ech\'eance $T$
+		\item [$\quad Put_t(T,K,S) $]  le prix en t d'un put europ\'een sur $S$ de strike $K$ et \'ech\'eance $T$\\
+		\item [$\quad \N(0,1) $] la loi gaussienne centr\'ee et r\'eduite\\
+		\item [$\quad \N(\cdot) $] la fonction de r\'epartition de la gaussienne centr\'ee et r\'eduite\\
+		\item [$\quad \phi(\cdot) $] la densit\'e de la gaussienne centr\'ee et r\'eduite\\	
+	\end{description}
+					
+\subsection*{Hypoth\`ese}
+ On supposera l'absence d'opportunit\'e d'arbitrage \footnote{cf. chapitre \ref{AOA} p. \pageref{AOA} dans l'Annexe} \\
+
+%***********************************************
+\chapter{La formule de Black, Scholes et Merton}
+%***********************************************		
+
+\section{Diffusion d'un actif financier}
+		
+\subsection*{Diffusion \guillemotleft \ historique \guillemotright }
+
+	On suppose que tout processus de prix $\{S_t,\, t \in [0,T]\}$ est r\'egi par une \'equation diff\'erentielle 
+stochastique de la forme :\\
+	\begin{eqnarray*}
+		\frac{\dif S_t}{S_t} &=& \mu_S(t) \dif t + \sigma_S(t) \dif \widehat{W}_t
+	\end{eqnarray*}			
+	o\`u \\
+	\begin{itemize}
+		\item Le terme de tendance $\mu_S(\cdot)$ est une fonction d\'eterministe.
+		\item Le terme de volatilit\'e $\sigma_S(\cdot)$ est une fonction d\'eterministe.
+		\item $\widehat{W}_t$ est un mouvement brownien sous la probabilit\'e historique $\P$.\\	
+	\end{itemize}	
+	\bigskip
+	D'apr\`es le lemme d'It\^o\footnote{cf. proposition \ref{LemmeIto} p. \pageref{LemmeIto} dans l'Annexe.} on a :\\
+		\begin{eqnarray*}
+			S_t &=& S_0 \exp \left \lbrace \, \int_0^t (\mu_S(s)-\frac{1}{2}\sigma_S^2(s))\, \dif s 
+			+ \int_0^t \sigma_S(s) \dif \widehat{W}_s \, \right \rbrace
+		\end{eqnarray*}	
+	\noindent De mani\`ere \'equivalente on a :
+	\begin{eqnarray*}
+		S_T &=& S_t \exp \left \lbrace \, \int_t^T (\mu_S(s)-\frac{1}{2}\sigma_S^2(s))\, \dif s 
+		+ \int_t^T \sigma_S(s) \dif \widehat{W}_s \, \right \rbrace
+	\end{eqnarray*}
+
+\subsection*{Diffusion "risque-neutre"}
+	\begin{prop} $\quad$\label{dif RN} 
+		La diffusion de  $S(\cdot)$ sous la probabilit\'e risque-neutre $\Q$ est donn\'ee par :\\
+		\begin{equation*}
+			\boxed{\frac{dS_t}{S_t} \, = \, r_t \, \dif t + \sigma_S(t) \, \dif W_t}
+		\end{equation*}		
+	\end{prop}	
+	D'apr\`es le lemme d'It\^o\footnote{cf. proposition \ref{LemmeIto} p. \pageref{LemmeIto} dans l'Annexe.}, on obtient :\\
+		\begin{eqnarray*} \label{exp RN}
+			S_t &=& S_0 \exp \left \lbrace \, \int_0^t (r_s-\frac{1}{2}\sigma_S^2(s)) \, \dif s +
+			 \int_0^t \sigma_S(s) \, \dif W_s \, \right \rbrace \\
+		\end{eqnarray*}	
+	\\
+	De mani\`ere \'equivalente, on a :\\
+	\begin{eqnarray*}\label{exp RN bis}
+		S_T = S_t \exp \left \{ \int_t^T (r_u - \frac 1 2 \sigma_S^2(u) )\, \dif u 
+		+ \int_t^T \sigma_S(u) \, \dif W_u \right \}
+	\end{eqnarray*}
+	\begin{prop}[Loi du logarithme n\'ep\'erien $\frac {S_T}{S_t} $]\label{loi du log} $\quad$
+		Sous la probabilit\'e risque-neutre, et en posant :\\
+		\begin{itemize}
+			\item	$R(t,T) = \frac 1 {T-t} \int_t^T r_u \, \dif u $\\
+			\item	$\Sigma^2_S(t,T) = \frac 1 {T-t} \int_t^T \sigma_S^2(u)\, \dif u $\\
+		\end{itemize}
+		le logarithme du rapport $\frac {S_T}{S_t} $ suit une loi normale :\\
+		\begin{itemize}
+			\item	de variance : $\Sigma_S(t,T) \sqrt{T-t} $\\
+			\item	de moyenne :  $(R(t,T) - \frac 1 2 \Sigma^2_S(t,T) ) (T-t) $\\
+		\end{itemize}
+	\end{prop}
+	\begin{rem} $\quad$
+		$R(t,T)$ et $\Sigma^2_S(t,T)$ repr\'esentent respectivement le taux sans rique moyen et la volatilit\'e moyenne de
+		 l'actif $S$ entre $t$ et $T$.
+	\end{rem}
+\newpage
+	\begin{rem}\label{exp avec U} $\quad$
+		On peut \'ecrire que sous la probabilit\'e risque-neutre $\Q$ :
+		\begin{eqnarray} 
+			S_T = S_t e^{\left \{ \, R(t,T) - \frac 1 2 \Sigma_S^2(t,T)\, \right \} (T-t)
+			 + \Sigma_S(t,T)\sqrt{T-t} U} 
+		\end{eqnarray}
+		o\`u la variable al\'eatoire $U$  suit une loi gaussienne centr\'ee et r\'eduite et est ind\'ependante 
+		de $\F _t$ :
+		\begin{center}	
+			$\left\lbrace 
+				\begin{array}{c} 
+ 					U \stackrel{\mathcal L}{\sim} \N(0,1)\\
+					U \amalg \F_t 
+				\end{array}
+			\right. $
+		\end{center}
+	\end{rem}
+	\bigskip
+	\begin{dem}\label{DemExpU}
+		\begin{itemize}
+			\item Par construction de l'int\'egrale de Wiener. 
+			\item Par propri\'et\'e d'ind\'ependance des accroissements du mouvement brownien par rapport \`a
+ 				la filtration canonique.
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}			
+	\end{dem}		
+	\begin{prop} $\quad$ 
+		\begin{displaymath}
+			\forall \, t \quad \mu_S(t) = 0 \, \iff \,  \{S_t, \, t\} \, \text{est une} 
+			\quad \{\Omega ,\, \F, \, \P\} -martingale
+		\end{displaymath}
+	\end{prop}
+	\begin{dem}
+		\begin{itemize}
+			\item En utilisant les \'el\'ements de la d\'emonstration \ref{DemExpU} p. \pageref{DemExpU}
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{rem}[Changement de probabilit\'e] $\quad$ 
+		Un changement de probabilit\'e ne modifie que le terme de tendance (facteur de $ \dif t $).\\
+		\indent La volatilit\'e est invariante par changement de mesure de probabilit\'e 
+\footnote{cf. Annexe \ref{CalculSto} p. \pageref{CalculSto}}.
+	\end{rem}
+
+\section{Formule de Black-Scholes-Merton pour un call europ\'een}
+		
+	\begin{df} $\quad$	
+	      \indent Un call europ\'een sur un sous-jacent $S$, d'\'ech\'eance $T$ et de strike $K$ est le droit d'acheter
+ au prix $K$, fix\'e \`a l'avance, le sous-jacent $S$, \`a la date $T$.\\
+	      \\
+	      \indent Le flux \`a l'\'ech\'eance est donc : $\quad \phi(S_T) \, = \, (S_T - K)_+$	
+	\end{df}
+	\begin{df} $\quad$	
+	      \indent Un put europ\'een sur un sous-jacent $S$, d'\'ech\'eance $T$ et de strike $K$ est le droit de vendre
+ au prix $K$, fix\'e \`a l'avance, le sous-jacent $S$, \`a la date $T$.\\
+	      \\
+	      \indent Le flux \`a l'\'ech\'eance est donc : $\quad \phi(S_T) \, = \, (K-S_T)_+$	
+	\end{df}
+\newpage
+	\begin{prop}[Probabilit\'e d'exercice du call] $\quad$
+		\indent La probabilit\'e d'exercice d'un call est donn\'e par la formule : 
+		\begin{equation}\label{ProbaExercice}
+			\boxed {\Q \, \left  \lbrack \, S_T \geq K \,/ \, \F_t \, \right \rbrack = \N(d_2)}
+		\end{equation}
+		avec 
+		\begin{displaymath}
+			d_2 := \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) - \frac 1 2 \Sigma_S^2(t,T)) (T-t) }{\Sigma_S(t,T)
+				\sqrt{T-t}} 
+		\end{displaymath}								
+	\end{prop}
+	\bigskip
+	\begin{dem}
+		\begin{eqnarray*}
+			\Q \, \lbrack \, S_T \geq K /\F_t \, \rbrack 
+				&=& \Q \, \left \lbrack \, S_t e^{(R(t,T) - \frac 1 2 \Sigma_S^2(t,T)) (T-t) +
+				 \Sigma_S(t,T)\sqrt{T-t} U} \geq K /\F_t \, \right \rbrack \\
+				&& \text{\tiny{d'apr\`es la remarque \ref{exp avec U} p. \pageref{exp avec U}.}} \\
+				&=& \Q \, \left \lbrack \, (R(t,T) - \frac 1 2 \Sigma_S^2(t,T)) (T-t) +
+				 \Sigma_S(t,T)\sqrt{T-t} \, U \geq  \ln \frac{K}{S_t} /\F_t \, \right \rbrack \\
+				&=&	\Q \, \left \lbrack \, U \geq \frac{\ln \{\frac{K}{S_t}\} - (R(t,T) - 
+				\frac 1 2 \Sigma_S^2(t,T)) (T-t) }{\Sigma_S(t,T)\sqrt{T-t}}/\F_t \, \right \rbrack \\
+				&=& \Q \, \left \lbrack \, - U \leq \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) - \frac 1 2 
+				\Sigma_S^2(t,T)) (T-t) }{\Sigma_S(t,T)\sqrt{T-t}}/\F_t \, \right \rbrack \\
+				&=& \Q \, \left \lbrack \, - U \leq \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) - \frac 1 2 
+				\Sigma_S^2(t,T)) (T-t) }{\Sigma_S(t,T)\sqrt{T-t}} \, \right \rbrack \\
+				&& \text{\tiny {d'apr\`es le lemme d'ind\'ependance cf. proposition \ref{independance} 
+				p. \pageref{independance} dans l'Annexe.}} \\
+				&& \text{\tiny{$U$ \'etant ind\'ependant de $\F_t$ et $S_t$ \'etant 
+				$\F_t$-mesurable.}} \\
+				&=& \Q \, \left \lbrack \, U \leq \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) - \frac 1 2 
+				\Sigma_S^2(t,T)) (T-t) }{\Sigma_S(t,T)\sqrt{T-t}} \, \right \rbrack\\
+				&&  \text{\tiny{par sym\'etrie de la loi gaussienne $U \stackrel{\mathcal L}{\sim} 
+				\N(0,1) \Leftrightarrow  -U \stackrel{\mathcal L}{\sim} \N(0,1) $}}		
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{prop}[La formule de Black-Scholes-Merton]$\quad$ \label{PrixCallBS}
+		\indent Le prix \`a la date $t$ d'un call europ\'een d'\'ech\'eance $T$, et de strike $K$ est donn\'e par :\\
+		\begin{equation*}
+			\boxed { Call_t(T,K,S) = S_t \N(d_1) - K e^{ - \int_t^T r_u \, \dif u} \N(d_2) }
+		\end{equation*}
+		avec : 
+		\begin{eqnarray*} \label{d1 et d2}
+			d_1 &:=& \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) + \frac 1 2 \Sigma_S^2(t,T)) (T-t) }
+			{\Sigma_S(t,T)\sqrt{T-t}} \\
+	 		d_2 &:=& \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) - \frac 1 2 \Sigma_S^2(t,T)) (T-t) }
+			{\Sigma_S(t,T)\sqrt{T-t}} \\
+			    &=& d_1 - \Sigma_S(t,T)\sqrt{T-t} 
+		\end{eqnarray*}
+	\end{prop}
+	\begin{dem}$\quad$\label{DemBSM}
+		\indent	Le prix du call \`a la date $t<T$ est donn\'e par :
+		\begin{eqnarray}
+			C_t(S,T,K) &=& \E_\Q \, \left \lbrack \, \frac{\beta(t)}{\beta(T)} (S_T - K)\1 _{\{S_T \geq K \}}
+			 \, / \, \F_t \, \right \rbrack \nonumber\\
+		 	&=& \E_\Q \, \left \lbrack \, \frac{\beta(t)}{\beta(T)} S_T \1 _{\{S_T \geq K \}} 
+			\, / \, \F_t \, \right \rbrack - \frac{\beta(t)}{\beta(T)} \, K \E_\Q \, \left \lbrack \, \1_{\{S_T \geq K \}} \, / \, \F_t \, \right \rbrack \nonumber\\
+			&& \text{\tiny{par lin\'earit\'e de l'esp\'erance conditionnelle}} \nonumber \\
+		     	&=& \E_{\Q} \left \lbrack \, \frac{\beta(t)}{\beta(T)} S_T \1 _{\{S_T \geq K \}} 
+			\, / \, \F_t \, \right \rbrack \, - \, \frac{\beta(t)}{\beta(T)} \, K \,\Q \, \left \lbrack 
+			\, S_T \geq K \, / \, \F_t \, \right \rbrack \nonumber\\
+		\end{eqnarray}
+		\indent Il reste \`a d\'eterminer le premier membre : 
+		\begin{eqnarray*}
+			\E_{\Q} \left \lbrack \, \frac{\beta(t)}{\beta(T)} S_T \1_{\{S_T \geq K \}} \, / \, 
+			\F_t \, \right \rbrack  
+			&=& \E_{\Q}\, \left \lbrack\, \frac{\beta(t)}{\beta(T)}.S_t e^{(R(t,T) - \frac 1 2 
+			\Sigma_S^2(t,T)) (T-t) + \Sigma_S(t,T)\sqrt{T-t}.U} \1_{\{S_T \geq K \}} /\F_t \, \right \rbrack \\
+			&& \text{\tiny{d'apr\`es la remarque \ref{exp avec U} p. \pageref{exp avec U}.}} \\
+			&=& S_t \,\E_{\Q}\, \left \lbrack\,e^{- \frac 1 2 \Sigma_S^2(t,T) (T-t) + \Sigma_S(t,T)\sqrt{T-t}
+			\,U} \1_{\{S_T \geq K \}} /\F_t \, \right \rbrack \\
+			&=& S_t \, \int_{\{S_T \geq K \}}e^{- \frac 1 2 \Sigma_S^2(t,T) (T-t) + \Sigma_S(t,T)\sqrt{T-t} U}
+			 \mathrm d\Q \\
+			&& \text{\tiny {d'apr\`es le lemme d'ind\'ependance cf. proposition \ref{independance} p. 
+			\pageref{independance} dans l'Annexe.}} \\
+			&=& S_t \, \int_{-d_2}^{\infty}e^{- \frac 1 2 \Sigma_S^2(t,T) (T-t) + \Sigma_S(t,T)\sqrt{T-t} U} 
+			\frac 1 {\sqrt{2 \pi }}e^{\frac{-u^2}{2}}\, \dif u \\
+			&& \text{\tiny{car $\Q$ est absolument continue par rapport \`a la mesure de Lebesgues et admet une 
+			densit\'e.}} \\
+			&=& S_t \, \int_{-d_2}^{\infty}e^{\frac{-u^2}{2}- \frac 1 2 \Sigma_S^2(t,T) (T-t) + \Sigma_S(t,T)
+			\sqrt{T-t} U} \frac 1 {\sqrt{2 \pi }}\, \dif u \\
+			&=& S_t \, \int_{-d_2}^{\infty}e^{-\frac{u^2 - 2 \Sigma_S(t,T) \sqrt{T-t} + \Sigma_S^2(t,T) (T-t)}
+			{2}}\frac 1 {\sqrt{2 \pi }}\, \dif u \\
+			&=& S_t \, \int_{-d_2}^{\infty}e^{-\frac{(u - \Sigma_S(t,T) \sqrt{T-t} )^2}{2}}\frac 1 
+			{\sqrt{2 \pi }}\, \dif u \\
+			&=& S_t \, \int_{-d_2 - \Sigma_S(t,T) \sqrt{T-t}}^{\infty}e^{\frac{-z^2}{2}}\frac 1 
+			{\sqrt{2 \pi }}\, \dif z \\
+			&& \text{\tiny{par changement de variable : $ z = u - \Sigma_S(t,T) \sqrt{T-t} $}} \\
+			&=& S_t \N(d_1) \\
+			&& \text{\tiny{en posant $\, d_1 = d_2 + \Sigma_S(t,T) \sqrt{T-t} \, $}} \\
+			&& \text{\tiny{en utilisant la sym\'etrie de la loi gaussienne centr\'ee r\'eduite}}   
+		\end{eqnarray*} 
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{rem}$\quad$
+		\indent Lorsque les taux d'int\'er\^et et la volatilit\'e sont constants, on a : 
+			\begin{equation*}
+				d_2 = \frac{\ln \{ \frac{S_t}{K} \} + (r - \frac 1 2 \sigma_S^2) (T-t)}{\sigma_S \sqrt{T-t}}
+			\end{equation*}
+	\end{rem}
+	\begin{prop}[Formule de Black-Scholes-Merton pour un put]
+		\begin{equation}
+			\boxed{\, Put_t(T,K,S) \, = \, -S_t \,\N(-d_1) + K e^{ - \int_t^T r_u \, \dif u} \, \N(-d_2) }			
+		\end{equation}
+	\end{prop}
+	\begin{dem}[Parit\'e Call-Put]$\quad$
+		D'apr\`es la remarque \ref{call-put} p. \pageref{call-put} et la proposition \ref{PrixCallBS} p.
+ \pageref{PrixCallBS} on a : 
+		\begin{eqnarray*} 
+			Put_t(T,K,S) &=& Call_t(T,K,S) - S_t + K \, B(t,T) \\
+			&=& S_t \N(d_1) - K e^{ - \int_t^T r_u \, \dif u} \N(d_2) - S_t + K e^{ - \int_t^T r_u \, \dif u} \\
+			&=& - S_t ( 1 - \N(d_1) ) + K e^{ - \int_t^T r_u \, \dif u} ( 1 - \N(d_2)) \\
+			&& \text{\tiny{par sym\'etrie de la loi normale}} \\
+			&=& -S_t \,\N(-d_1) + K e^{ - \int_t^T r_u \, \dif u} \, \N(-d_2) 
+		\end{eqnarray*} 
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}		
+	\end{dem}
+
+\section{Les \guillemotleft \ grecques \guillemotright }
+
+\subsection{Le Delta}
+
+	\begin{df}[Delta d'une option]$\quad$
+	Le delta d'une option est la sensibilit\'e du prix de l'option par rapport au prix sous-jacent
+	\end{df}
+	\begin{rem}[Formulation math\'ematique]$\quad$
+	Math\'ematiquement, le Delta se calcule en d\'erivant le prix de l'option par rapport au sous-jacent
+	\end{rem}
+	\begin{prop}[Delta d'un call europ\'een]$\quad$ \label{DeltaCall}
+	Le delta d'un call europ\'een est donn\'e par :
+		\begin{equation*}
+			\boxed{\Delta^{Call_t(T,K,S)} = \N(d_1)}
+		\end{equation*}
+	\end{prop}
+
+	\begin{prop}[R\'esultat utile] \label{res util} $\quad$
+		On d\'esigne par $\phi(x) = \frac 1 {\sqrt{2\pi}} e^{-\frac {x^2} 2} $ , la fonction de densit\'e de la gaussienne
+centr\'ee et r\'eduite. On a :
+		\begin{equation*}
+			\boxed{\phi(d_2) = \frac {S_t} K e^{-R(t,T) (T-t)} \phi(d_1)}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}$\quad$
+	En effet : 
+		\begin{eqnarray*}
+				\phi(d_2) &=& \phi(d_1 - \Sigma_S(t,T) \, \sqrt{T-t}) \\
+				&=& \frac 1 {\sqrt{2 \pi}} \exp{\left \{ -\frac 1 2 (d_1 - \Sigma_S(t,T) \, \sqrt{T-t})^2
+					 \right \}} \\
+				&=& \frac 1 {\sqrt{2 \pi}} \exp{\left \{  -\frac 1 2 ( d_1^2 - 2 d_1 \Sigma_S(t,T) \, 
+				\sqrt{T-t} + \Sigma^2_S(t,T) \, (T-t)\right \}} \\
+				&=& \phi(d_2) \,\exp{\left \{ d_1 \Sigma_S(t,T) \, \sqrt{T-t} - \frac 1 2 \Sigma^2_S(t,T) \, (T-t)
+					\right \}} \\
+				&=& \phi(d_1) \exp{\left \{ \ln \{\frac{S_t}{K}\} + (R(t,T) + \frac 1 2 \Sigma_S^2(t,T)) 
+				(T-t) - \frac 1 2 \Sigma^2_S(t,T) \, (T-t) \right \}} \\
+				&=& \phi(d_1) \frac{S_t}{K} e^{R(t,T)(T-t)}\\
+			\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{dem}[Delta d'un call europ\'een]\label{demDelta}$\quad$
+		\begin{itemize}
+			\item	Par d\'efinition, le Delta du call europ\'een s'\'ecrit :
+			\begin{eqnarray*}
+				\Delta^{Call_t(T,K,S)} &:=& \frac{\partial Call_t(T,K,S)}{\partial S_t}\\
+				&=& \N(d_1) + S_t \frac{\partial \N(d_1)}{\partial S_t} -
+				 Ke^{-R(t,T)(T-t)} \frac{\partial \N(d_2)}{\partial S_t} \\
+				&=& \N(d_1) + \phi(d1) \frac{\partial d_1}{\partial S_t} -  
+				 Ke^{-R(t,T)(T-t)} \phi(d_2) \frac{\partial d_2}{\partial S_t} \\
+			\end{eqnarray*}
+	o\`u $\phi(\cdot)$ d\'esigne la densit\'e de la gaussienne centr\'ee et r\'eduite \\
+			\item	On a :
+			\begin{eqnarray*}
+				\frac{\partial d_1}{\partial S_t} &=& \frac{\partial d_2}{\partial S_t}\\
+				&=& \frac 1 {S_t\, \Sigma_S(t,T) \, \sqrt{T-t}}\\
+			\end{eqnarray*}
+			\item	D'autre part, par la proposition \ref{res util} p. \pageref{res util} :
+			\begin{eqnarray*}
+				\phi(d_2)&=& \phi(d_1) \frac{S_t}{K} e^{R(t,T)(T-t)}\\
+			\end{eqnarray*}
+			\item	Ainsi :
+			\begin{eqnarray*}
+				\Delta^{Call_t(T,K,S)} &=& \N(d_1) \, + \, S_t \phi(d1) \frac{\partial d_1}{\partial S_t} \, 
+				- \,  Ke^{-R(t,T)(T-t)} \frac{\partial d_2}{\partial S_t} \\
+				&=& \N(d_1) \\
+				&&  + \, S_t  \phi(d1) \, \frac 1 {S_t\, \Sigma_S(t,T) \, \sqrt{T-t}} \\ 
+				&& - \, Ke^{-R(t,T)(T-t)} \,  \frac 1 {S_t\, \Sigma_S(t,T) \, \sqrt{T-t}} \,
+				 \phi(d_1) \frac{S_t}{K} e^{R(t,T)(T-t)}\\
+				&=& \N(d_1) \, + \, \phi(d_1) \left \lbrack  \frac 1 {\Sigma_S(t,T) \, \sqrt{T-t}} \, - 
+				\, \frac 1 {\Sigma_S(t,T) \, \sqrt{T-t}} \right \rbrack \\
+				&=& \N(d_1) \\
+			\end{eqnarray*}
+			
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsection{Le Gamma}
+
+	\begin{df}[Gamma d'une option] $\quad$
+	Le Gamma d'une option est la sensibilit\'e du Delta de l'option par rapport au sous-jacent.
+	\end{df}
+	\begin{rem}[Formulation Math\'ematique]$\quad$
+	Il s'agit de calculer :
+		\begin{eqnarray*}
+			\Gamma^{Call_t(T,K,S)} &:=& \frac {\partial \Delta^{Call_t(T,K,S)}}{\partial S_t} \\
+		\end{eqnarray*}
+	\end{rem}
+	\begin{prop}[Gamma d'un call europ\'een]$\quad$ \label{GammaCall}
+	Le Gamma d'un call europ\'een est donn\'e par :
+		\begin{equation*}
+			\boxed{\Gamma^{Call_t(T,K,S)} \, = \, \frac {\phi(d_1)} {S_t\, \Sigma_S(t,T) \, \sqrt{T-t}}}
+		\end{equation*}		
+	\end{prop}
+	\begin{dem}$\quad$
+	Il suffit d'utiliser la formulation math\'ematique
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}	
+
+\subsection{Le Vega}
+
+	\begin{df}[Vega d'une option]$\quad$
+	Le Vega d'une option est la sensibilit\'e du prix de l'option par rapport \`a la volatilit\'e. 
+	\end{df}
+	\begin{prop}[Vega d'un call europ\'een] \label{VegaCall} $\quad$
+	Le Vega d'un call europ\'een est donn\'e par :
+		\begin{equation*}
+			\boxed{Vega^{Call_t(T,K,S)} \, =\, S_t \, \sqrt{T-t} \, \phi(d_1) }
+		\end{equation*}
+	\end{prop}
+	\begin{dem}$\quad$
+		\begin{itemize}
+			\item	On a :
+			\begin{eqnarray*}
+				Vega^{Call_t(T,K,S)} &:=& \frac{\partial Call_t(T,K,S) }{\partial \Sigma_S(t,T)} \\
+				&=& S_t \phi(d_1) \frac{\partial d_1}{\partial \Sigma_S(t,T)} 
+				- K e^{-R(t,T)(T-t)} \phi(d_2) \frac{\partial d_2}{\partial \Sigma_S(t,T)} \\
+			\end{eqnarray*}
+			\item 	De plus :
+			\begin{eqnarray*}
+				\frac{\partial d_2}{\partial \Sigma_S(t,T)} &=& \frac{\partial d_1}{\partial \Sigma_S(t,T)}
+						- \sqrt{T-t}\\
+			\end{eqnarray*}
+			\item	Et , par la proposition \ref{res util} p. \pageref{res util} :
+			\begin{eqnarray*}
+				\phi(d_2)&=& \phi(d_1) \frac{S_t}{K} e^{R(t,T)(T-t)}\\
+			\end{eqnarray*}
+			\item	D'o\`u :
+			\begin{eqnarray*}
+				Vega^{Call_t(T,K,S)} &=& S_t \phi(d_1) \frac{\partial d_1}{\partial \Sigma_S(t,T)} 
+				- K e^{-R(t,T)(T-t)}  \phi(d_1) \frac{S_t}{K} e^{R(t,T)(T-t)} (\frac{\partial d_1}{\partial \Sigma_S(t,T)}
+				- \sqrt{T-t})\\
+				&=& S_t \, \sqrt{T-t} \, \phi(d_1) \\
+			\end{eqnarray*}
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsection{Le Rho}
+
+	\begin{df}[Rho d'une option]$\quad$
+	Le Rho d'une option est la sensibilit\'e du prix de l'option par rapport au taux d'int\'er\^et.
+	\end{df}
+	\begin{prop}[Rho d'un call europ\'een] \label{RhoCall} $\quad$
+	Le Rho d'un call europ\'een est donn\'e par :
+		\begin{equation*}
+			\boxed{\rho^{Call_t(T,K,S)} \, = \, (T-t) K e^{-R(t,T)(T-t)} \N(d_2)}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}$\quad$
+		On a :
+		\begin{eqnarray*}
+			\rho^{Call_t(T,K,S)} &:=& \frac{\partial Call_t(T,K,S)} {\partial R(t,T)} \\
+			&=&  S_t \phi(d_1) \frac{\partial d_1}{\partial R(t,T)} 
+				- K e^{-R(t,T)(T-t)} \phi(d_2) \frac{\partial d_2}{\partial R(t,T)} 
+				+ (T-t)  K e^{-R(t,T)(T-t)} \N(d_2) \\
+			&=& (T-t) K e^{-R(t,T)(T-t)} \N(d_2) \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+%**********************************************************************************************
+\chapter{Valorisation d'une option  exotique : \\ \guillemotleft \ le put gap \guillemotright } 
+%**********************************************************************************************
+
+\section{D\'efinition}
+
+ 	\begin{df}[Put gap europ\'een] $\quad$
+		Un put \guillemotleft \ gap \guillemotright \ est un put dont le strike $K$ 
+		(dont d\'epend l'exercice ou non de l'option \`a l'\'ech\'eance) 
+		est diff\'erent du montant $L$ utilis\'e pour calculer son payoff. \\
+	\\
+	Le payoff pour un put gap est :\\
+	\\
+		\begin{center}	
+			$\left\lbrace 
+				\begin{array}{ccc} 
+ 					L - S_T  & \text{si} \quad S_T < K &\\
+					0  & \text{sinon}& 
+				\end{array}
+			\right. $
+		\newline
+		\end{center}
+		C'est-\`a dire le flux peux s'\'ecrire : $( L -S_T ) \, \1_{\{S_T < K\}}$	
+	\end{df}
+
+\section{Evaluation}
+	\begin{prop}\label{BS gap} $\quad$
+		Le prix d'un put gap est donn\'e par : 
+		\begin{equation*}
+			\boxed{ L \, e^{-\int_t^T r_s \, \dif s } \, \N(-d_2) - S_t \, \N(-d_1) }
+		\end{equation*}  
+		avec :  
+		\begin{eqnarray*}
+			d_1 &=& \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) + \frac 1 2 \Sigma_S^2(t,T)) (T-t) }
+				{\Sigma_S(t,T)\sqrt{T-t}} \\
+	 		d_2 &=& \frac{\ln \{\frac{S_t}{K}\} + (R(t,T) - \frac 1 2 \Sigma_S^2(t,T)) (T-t) }
+				{\Sigma_S(t,T)\sqrt{T-t}} \\
+			    &=& d_1 - \Sigma_S(t,T)\sqrt{T-t} 
+		\end{eqnarray*}
+	\end{prop}
+\newpage
+	\begin{dem}
+		\begin{itemize}
+			\item	Utiliser la probabilit\'e d'exercice d'un call vanilla \footnote{cf. 
+				Proposition \ref{ProbaExercice} p. \pageref{ProbaExercice}.}.
+			\item Utiliser la d\'emonstration \ref{DemBSM} p. \pageref{DemBSM}. 
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+%****************************
+\chapter{March\'e \'etranger}
+%****************************
+		
+\section{Coexistance de deux risques}
+	Lorsque l'on consid\`ere des options sur un  sous-jacent exprim\'e en monnaie \'etrang\`ere, on est simultan\'ement 
+soumis \`a deux risques : 
+	\begin{itemize}
+		\item	le risque li\'e aux fluctuations du prix du sous-jacent\\
+		\item	le risque li\'e aux fluctuations du taux de change \\
+	\end{itemize}  
+	\begin{ex} $\quad$
+		Typiquement, une option sur le p\'etrole (exprim\'e en \$) avec strike ou nominal en \officialeuro.	
+	\end{ex}	
+	\begin{rem} $\quad$
+		La coexistance de ces deux risques induit naturellement une corr\'elation dont il faut tenir 
+		compte pour valoriser ce type de produit.
+	\end{rem}
+	\begin{rem}
+		$\quad$ Il est \'egalement n\'ecessaire de consid\'erer les param\`etres du march\'e \'etranger.\\
+	\end{rem}
+
+\subsection*{Param\`etres du march\'e \'etranger}
+	
+	On notera : \\
+	\begin{itemize}
+		\item[$\bullet$] $\{ \, r_t^f , t \in \lbrack 0 , T \rbrack \, \} $, le processus (suppos\'e d\'eterministe) du taux 
+			d'int\'er\^et sur le march\'e \'etranger \\
+		\item[$\bullet$]	$\{ \, \beta^f(t) = e^{\int_0^t r_s ds } , t \in \lbrack 0 , T \rbrack \, \} $, le facteur 
+			d'accumulation associ\'e \\
+		\item[$\bullet$]	$\{ \, B^f(t,T) = e^{- \int_t^T r_s ds } , t \in \lbrack 0 , T \rbrack \, \} $, les z\'ero-coupons 
+			associ\'es \\
+		\item[$\bullet$]	$\Q^f $, la mesure de probabilit\'e risque-neutre \'etrang\`ere, i.e. associ\'ee au num\'eraire 
+			du facteur d'accumulation \'etranger \\
+	\end{itemize}	
+	\begin{prop}[Changement de probabilit\'e]
+		Pour tout flux exprim\'e en monnaie \'etrang\`ere $\phi^f$, on a la formule d'\'evaluation 
+		\footnote{par changement de num\'eraire cf. Annexe \ref{Numeraire} p. \pageref{Numeraire}}:\\
+		\begin{equation}\label{chgt dom_etr}
+			\boxed{ \,  \E_{\Q}\,\left \lbrack  \, \frac{\beta(t)}{\beta(T)} X_T \phi^f(T) \, / \, 
+			\F_t \, \right \rbrack \, = \,  X_t \,  \E_{\Q^f}\,\left \lbrack \, \frac{\beta^f(t)}{\beta^f(T)} 
+			\phi^f(T) \, / \, \F_t \, \right \rbrack \, }
+		\end{equation}
+	\end{prop}
+
+\section{Processus du taux de change}
+	
+	On note $\{ \, X_t, \, t \in \lbrack 0 , T \rbrack \, \}$, le processus du taux de change, i.e  \`a la date $t$ : \\ 
+	\begin{center}
+		\framebox{ $ 1 \, \$ = X_t $ \officialeuro } 
+	\end{center}
+	
+\subsection*{Diffusion \guillemotleft \ historique \guillemotright }
+	
+	On place sur ce processus une diffusion classique :
+	\begin{eqnarray*}
+		\frac {dX_t}{X_t} = \mu_X(t) \, \dif t + \sigma_X(t) \, \dif \widehat{W}^x_t
+	\end{eqnarray*}
+	o\`u $\{ \widehat{W}^x_t , t \} $ est un  $\{\Omega ,\, \F,\,  \P\}$-mouvement brownien.
+	
+\subsection*{Diffusion risque-neutre domicile}
+	
+	\begin{prop}
+		Sous la probabilit\'e risque-neutre domicile, la diffusion de $ \{ \, X_t , \, t \in \lbrack 0 , T \rbrack 
+		\, \} $ est : \\
+		\begin{equation}
+			\boxed{\, \frac{\, \dif X_t}{X_t} \, = \,  ( r_t - r_t^f ) \, \dif t + \sigma_X(t) \, 
+			\dif W^x_t  \, } \\
+		\end{equation}
+		avec $\{\, W^x_t , t \,\} $ un $\{\Omega ,\, \F, \, \Q \}$-mouvement brownien.
+	\end{prop}
+	\begin{dem}
+		Supposons que la diffusion du processus du taux de change sous $\Q$ soit donn\'ee par :
+		\begin{eqnarray*}
+			\frac {dX_t}{X_t} = \mu'_X(t) \, \dif t + \sigma_X(t) \, \dif W^x_t
+		\end{eqnarray*}
+		o\`u $\{ W^x_t , t \} $ est un  $\{\Omega ,\, \F,\,  \Q\}$-mouvement brownien.\\
+		\\
+		On sait d'ores et d\'ej\`a que la volatilit\'e est invariante par changement de probabilit\'e, il suffit de 
+d\'eterminer le terme de tendance $\mu'_X(t) $ sous la probabilit\'e risque-neutre domicile. \\
+		\\
+		\indent	Notons respectivement $ A(t) = \exp{ \{ - \int_0^t r_s \dif s  \} } $ et $ A^f(t) = \exp{ \{ - \int_0^t r^f_s \dif s  \} } $ , les facteurs 
+d'actualisation domestique et \'etranger. \\
+		\\
+		\indent On consid\`ere le processus $  Y_t : = \frac{X_t}{A^f(t)} A(t) $.\\
+$ Y(t) $  est le prix en $t$ d'un titre \'etranger (sans risque) $ \frac 1 {A^f(t)}  $ , \'echang\'e  en monnaie domestique  
+$ \frac 1 {A^f(t)} X_t $ , et actualis\'e au taux d'int\'er\^et sans risque domestique  $ \frac {X_t}{A^f(t)} A(t)  $
+\newpage
+	\noindent	$\Rightarrow $ c'est une $\{\Omega ,\F, \Q\}$ - martingale \\
+	\noindent	$\Rightarrow $ son terme de tendance est nul sous $\Q$ \\
+		et, on a :
+		\begin{eqnarray*}
+			dY_t &=& \, \dif  \left \lbrack \, X_t \frac{A(t)}{A^f(t)} \, \right \rbrack \\
+			     &=& \frac{A(t)}{A^f(t)} \, \dif X_t + X_t \, \dif \left ( \frac{A(t)}{A^f(t)} \right ) \\
+		             &=& \frac{A(t)}{A^f(t)} X_t \left \{ \mu'_X(t) \, \dif t + \sigma_X(t) \, \dif W^x_t \right \} 
+				+ X_t ( - r_t + r_t^f ) \frac{A(t)}{A^f(t)}\, \dif t \\
+		            &=&  \frac{A(t)}{A^f(t)} X_t \left \{ (\mu'_X(t) - r_t + r_t^f )\, \dif t  + \sigma_X(t) \, 
+				\dif W^x_t \right \}\\
+		\end{eqnarray*}
+		\begin{eqnarray*}
+			\Rightarrow  &\frac{\, \dif Y_t}{Y_t} = (\mu'_X(t) - r_t + r_t^f ) \, \dif t  + \sigma_X(t) \, 
+				\dif W^x_t &\\
+			\Rightarrow  &\mu'_X(t) - r_t + r_t^f = 0 &\\
+			\Rightarrow  &\mu'_X(t) = r_t - r_t^f &	\\
+		\end{eqnarray*}	
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\section{Diffusion du sous-jacent \'etranger}
+
+	Soit $\{ \, S^f_t , t \in \lbrack 0 , T \rbrack \, \} $ , le processus de prix d'un sous-jacent exprim\'e en 
+monnaie \'etrang\`ere.\\
+	\begin{rem}$\quad$
+		Le titre $ S^d_t  = S^f_t X_t $ est un titre domestique, c'est la valeur en monnaie domestique 
+		d'un titre \'etranger.
+	\end{rem}
+
+\subsection*{Diffusion \guillemotleft \ historique \guillemotright }
+
+	Comme d'habitude, on place une diffusion de la forme :\\
+	\begin{eqnarray*}
+		\frac{dS_t^f}{S_t^f} = \mu_{S^f}(t) \, \dif t + \sigma_{S^f}(t) \, \dif \widehat{W}^{S^f}_t\\
+	\end{eqnarray*}
+	avec $\{ \, \widehat{W}^{S^f}_t , t \,\} $ un $\{\Omega ,\, \F,\,  \P\}$-mouvement brownien.
+
+\subsection*{Diffusion risque-neutre domicile}
+
+	\begin{prop}$\quad$
+		Sous la probabilit\'e risque-neutre domicile, la diffusion de $ \{ \, S_t^f , \, t \in \lbrack 0 , 
+		T \rbrack \, \} $ est : \\
+		\begin{equation}
+			\boxed{ \, \frac{\, \dif S_t^f}{S_t^f} \, = \, \left \{ \, r_t  - \rho_t(X,S^f) \sigma_X(t)  
+			\sigma_{S^f}(t) \, \right \} \, \dif t +
+			\sigma_{S^f}(t) \, \dif W^{S^f}_t \,}
+		\end{equation}
+		avec $\{ \, W^{S^f}_t ,\,  t \,\} $ un $\{ \Omega ,\,\F, \,\Q \} $ -mouvement brownien.
+	\end{prop}
+	\begin{dem}$\quad$
+		\begin{itemize}
+			\item	On suppose que la diffusion du sous-jacent \'etranger sous $\Q$ est :
+ 				\begin{eqnarray*}
+					\frac{dS_t^f}{S_t^f} = \mu'_{S^f}(t) \, \dif t + \sigma_{S^f}(t) \, \dif W^{S^f}_t\\
+				\end{eqnarray*}
+				avec $\{ \, W^{S^f}_t , t \,\} $ un $\{\Omega ,\, \F,\,  \Q\}$-mouvement brownien.\\
+			\item	On consid\`ere le processus $\{\, Z_t : = S^f_t X_t A(t) ,\, t \in \lbrack 0 , 
+				T \rbrack \,\} $.\\
+$Z_t$ est le prix du sous-jacent \'etranger $S_t^f$, \'echang\'e en monnaie domestique $ S_t^f X_t $, et 
+actualis\'e au taux  risque neutre domestique  $ S_t^f X_t  A(t) $ \\
+\noindent $ \Rightarrow $ c'est une $\{\Omega ,\, \F, \, \Q\}$ - martingale \\
+\noindent $ \Rightarrow $ son terme de tendance est nul sous $\Q$\\
+\\
+Or , 
+				\begin{eqnarray*}
+					\, \dif Z_t &=& \, \dif \left \lbrack \, S^f_t X_t A(t)  \, \right \rbrack \\
+					&=& A(t) \, \dif S^f_t X_t + S^f_t X_t \, \dif A(t)\\
+				\end{eqnarray*}
+
+			\item	{\bf Prise en compte de la corr\'elation entre taux de change et sous-jacent :}\\
+La formule de It\^o \footnote{cf. proposition \ref{LemmeIto} p. \pageref{LemmeIto} dans l'Annexe.}
+ appliqu\'ee avec la fonction $ f(x,y) = x y $ nous donne :
+				\begin{eqnarray*}
+					\, \dif S^f_t X_t 	&=& X_t \, \dif S_t^f + S_t^f \, \dif X_t  + \frac 1 2 
+					\C_t ( \, \dif S^f_t , \, \dif X_t ) + \frac 1 2 \C_t (\, \dif X_t , \, \dif S^f_t )\\
+					&=& X_t \, \dif S_t^f + S_t^f \, \dif X_t + \C_t ( \, \dif S^f_t , \, \dif X_t )\\
+					&=& S_t^f X_t \left \lbrack \, \frac{\, \dif S_t^f}{S_t^f} + \frac{\, 
+					\dif X_t}{X_t} + \frac{1}{S_t^f X_t }  \C_t ( \, \dif S^f_t , \, \dif X_t ) \, \right \rbrack \\
+					\frac{\, \dif S^f_t X_t}{S_t^f X_t} &=& \frac{\, \dif S_t^f}{S_t^f} + \frac{\, \dif X_t}{X_t} +  
+					\C_t ( \frac{\, \dif S_t^f}{S_t^f} , \frac{\, \dif X_t}{X_t} )
+				\end{eqnarray*}
+
+Et, on a :
+				\begin{eqnarray*}
+					\C_t ( \frac{\, \dif S_t^f}{S_t^f} , \frac{\, \dif X_t}{X_t} ) 
+								&=& \rho_t(X,S^f) \sigma_X(t)  \sigma_{S^f}(t) \, \dif t \\
+				\end{eqnarray*}
+o\`u $ \rho_t(X,S^f) $ est le coefficient de corr\'elation des logarithmes de $ X_t $ et $S_t^f $ . \\
+
+			\item	La  diffusion de $Z_t$ sous $\Q$ est alors donn\'ee par :
+				\begin{eqnarray*}
+					dZ_t &=&  A(t) S^f_t X_t \frac{\, \dif S^f_t X_t}{S_t^f X_t} +  A(t) S^f_t X_t 
+							( - r_t) \, \dif t \\
+					\frac{dZ_t}{Z_t} &=& \frac{dS_t^f}{S_t^f} + \frac{dX_t}{X_t} + \rho_t(X,S^f) 
+					\sigma_X(t)  \sigma_{S^f}(t )\, \dif t - r_t \, \dif t \\
+					&=& \left ( \, \mu'_{S^f}(t) \, \dif t + \sigma_{S^f}(t) \, \dif W^{S^f}_t \, 
+					\right ) +  \left (\,\mu'_X(t) \, \dif t + \sigma_X(t) \, \dif W^x_t) \, \right ) +  
+					\rho_t(X,S^f) \sigma_X(t)  \sigma_{S^f}(t) dt - r_t \, \dif t \\
+				\end{eqnarray*}
+
+			\item	En ne s'int\'eressant qu'au terme de tendance, on voit que :
+				\begin{eqnarray*}
+					\mu'_{S^f}(t) + \mu'_X(t) + \rho_t(X,S^f) \sigma_X(t)  \sigma_{S^f}(t)  - r_t = 0 \\
+					\end{eqnarray*}
+\noindent $\Rightarrow \mu'_{S^f}(t) = - \mu'_X(t)  - \rho_t(X,S^f) \sigma_X(t)  \sigma_{S^f}(t)  + r_t $ \\
+\noindent $\Rightarrow \mu'_{S^f}(t) = r_t  - \rho_t(X,S^f) \sigma_X(t)  \sigma_{S^f}(t) $ \\
+		\end{itemize}
+	\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{rem}$\quad$
+		Comme pr\'ec\'edemment, en posant :\\
+		\begin{itemize}
+			\item	$\Gamma_X^{S^f}(t,T) = \frac 1 {T - t} \int_t^T (\rho_u(X,S^f) \sigma_X(u) 
+				 \sigma_{S^f}(u)) \, \dif u $\\
+			\item	$\Sigma^2_{S^f}(t,T) = \frac 1 {T - t} \int_t^T \sigma_{S^f}^2(u) \, \dif u $ \\
+			\item	$R^f(t,T) = \frac 1 {T - t} \int_t^T r_u \, \dif u $ \\
+		\end{itemize} 
+	le logarithme du rapport $ \frac{S^f_t}{S^f_T} $ suit une loi gaussienne : \\
+		\begin{itemize}
+			\item	de variance : $\Sigma_{S^f}(t,T) \sqrt{T-t}$\\
+			\item	de moyenne : $(R^f(t,T)- \Gamma_X^{S^f}(t,T)-\frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t) $ \\
+		\end{itemize}
+\indent Et on peut \'ecrire que sous la probabilit\'e risque-neutre domicile $\Q$ :
+		\begin{eqnarray}
+		S_T^f = S_t^f \exp{ \left \{ \, (R^f(t,T)- \Gamma_X^{S^f}(t,T)-\frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t) + 
+			\Sigma_{S^f}(t,T) \sqrt{T-t} \, U \, \right \}}
+		\end{eqnarray}	
+o\`u la variable al\'eatoire $U$  suit une loi gaussienne centr\'ee et r\'eduite et est ind\'ependante de $\F _t$:
+		\begin{center}	
+			$\left\lbrace 
+				\begin{array}{c} 
+ 					U \stackrel{\mathcal L}{\sim} \N(0,1)\\
+					U \amalg \F_t 
+				\end{array}
+			\right. $
+		\end{center}
+	\end{rem}
+	
+\section{Valorisation d'un call quanto sans garantie de change}
+				
+	\indent Par la proposition \ref{chgt dom_etr} p. \pageref{chgt dom_etr}, on voit que lorsque le taux de change 
+appliqu\'e \`a l'\'ech\'eance est celui en cours, il n'y a pas de risque li\'e au changement de devise. 
+Il suffit alors d'\'evaluer l'option sur le march\'e \'etranger puis de convertir 
+en monnaie domestique.
+
+\subsection*{Formule de Black-Scholes-Merton pour un call quanto}
+
+	Soit $Call_t(T,K^f,S^f)$ le prix en $t$ d'un call domestique sur sous-jacent \'etranger $S^f$, de strike $K^f$ 
+exprim\'e en monnaie \'etrang\`ere et d'\'ech\'eance $T$.\\
+\indent	Si on note $Call^f_t(T,K^f,S^f)$ le prix d'un call \'etranger sur le sous-jacent $S^f$ de strike $K^f$ et d'\'ech\'eance $T$ , 
+avec ce qui pr\'ec\`ede on peut \'ecrire que :
+	\begin{eqnarray}
+		Call_t(T,K^f,S^f) = X_t Call^f_t(T,K^f,S^f)
+	\end{eqnarray} 
+	
+	\begin{prop}[Prix d'un call quanto] \label{PrixQuanto} $\quad$
+		Le prix d'un call quanto \footnote{sans fixation du taux de change} est :
+		\begin{eqnarray*}
+			\boxed{Call_t(T,K^f,S^f) = X_t \left \{ \, S^f_t \N(d_1^f) - K^f e^{ - \int_t^T r^f_u du} \N(d^f_2) \, \right \}}
+		\end{eqnarray*}
+	
+	avec : 
+		\begin{eqnarray*}
+			d^f_1 &=& \frac{\ln \{\frac{S^f_t}{K^f}\} + (R^f(t,T) + \frac 1 2 \Sigma_{S^f}^2(t,T)) (T-t) }{\Sigma_{S}^f(t,T)\sqrt{T-t}} \\
+	 		d^f_2 &=& \frac{\ln \{\frac{S^f_t}{K^f}\} + (R^f(t,T) - \frac 1 2 \Sigma_{S^f}^2(t,T)) (T-t) }{\Sigma_{S^f}(t,T)\sqrt{T-t}} \\
+				&=& d^f_1 - \Sigma_{S^f}(t,T)\sqrt{T-t} 
+		\end{eqnarray*}
+	\end{prop}
+	\begin{dem}$\quad$
+		Il suffit d'appliquer la formule de Black-Scholes-Merton \footnote{cf. proposition \ref{PrixCallBS} p. \pageref{PrixCallBS}}
+		 sur le march\'e \'etranger.\\
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}	
+		
+
+\section{Call quanto avec garantie de change}
+
+\subsection{Evaluation d'un call quanto avec garantie de change}
+
+	L'\'evaluation est plus compliqu\'ee lorsque le taux de change appliqu\'e \`a l'\'ech\'eance est 
+stipul\'e dans le contrat.\\
+On notera $\X $ \  ce taux. Il s'agit alors d'\'evaluer la valeur en $t$ du flux : 
+		\begin{eqnarray*}
+			\X (S^f_T - K^f)_+
+		\end{eqnarray*}	
+	
+	\begin{prop}[Prix d'un call quanto avec garantie de change]$\quad$ \label{callQX}
+		Le prix du call quanto avec taux de change fix\'e par le contrat est :
+		\begin{equation}
+			\boxed{\, Call_t^{\X}( T, K^f, S^f ) \, = \,  \X \,  \left \{ \, S_t^f e^{-\Gamma_X^{S^f}(t,T) (T-t)}
+			 e^{-\int_t^T (r_u-r_u^f) du} \N(D_1) - K^f e^{-\int_t^T r_u du} \N(D_2) \, \right \} \, }
+		\end{equation}
+avec : 
+		\begin{eqnarray}
+			D_1 &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + \frac 1 2 
+				\Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			D_2 &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) - \frac 1 2 
+				\Sigma^2_{S^f}(t,T) ) (T-t)}{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			&=& D_1 - \Sigma_{S^f}(t,T) \sqrt{T-t}
+		\end{eqnarray}
+	\end{prop}
+	\begin{dem}
+		\begin{itemize}
+			\item	On a :
+			\begin{eqnarray*}
+				\E_{\Q} \left \lbrack \, \X (S^f_T - K^f)_+ \, / \, \F_t \, \right \rbrack
+			 	&=& \X \, \E_{\Q} \left \lbrack \,  (S^f_T - K^f)_+ \, / \, \F_t \, \right \rbrack \\
+				&=& \X \, \E_{\Q} \left \lbrack \,  (S^f_T - K^f) \1_{\{ S^f_T \geq K^f\} } \, / \,
+					 \F_t \, \right \rbrack \\
+			\end{eqnarray*}	
+			\item	En utilisant la diffusion de $\{ \, S^f_t , t \in \lbrack 0 , T \rbrack \, \} 
+				$ sous $\Q$ et la m\'ethode d'\'evaluation d'un call classique, on obtient : 
+			\begin{eqnarray*}
+				Call_t^{\X}( T, K^f, S^f ) = \X \, e^{-\int_t^T r_u du} 
+				\left \{ \,
+				\E_{\Q} \left \lbrack \,  S^f_T \1_{\{ S^f_T \geq K^f\} }  \, / \, \F_t \, \right \rbrack 
+				- K  \Q \left \lbrack \, S^f_T \geq K^f \, / \, \F_t \, \right \rbrack \right \} 									
+			\end{eqnarray*}
+			\item	{\bf Probabilit\'e d'exercice}\\
+			Comme pr\'ec\'edemment, on est amen\'e \`a \'evaluer la probabilit\'e d'exercice de l'option :
+			\begin{eqnarray*}
+				\Q \left \lbrack \, S^f_T \geq K^f\ \, / \, \F_t \, \right \rbrack &=& 
+				\Q \left \lbrack \,  S_t \exp{ \left \{ \, (R^f(t,T)- \Gamma_X^{S^f}(t,T)-\frac 1 2 
+				\Sigma^2_{S^f}(t,T) ) (T-t) + \Sigma_{S^f}(t,T) \sqrt{T-t} \, U \, \right \}} \geq K^f\ 
+				\, / \, \F_t \, \right \rbrack \\
+				\end{eqnarray*}
+			avec $U \stackrel{\mathcal L}{\sim} \N(0,1) $ \\
+	\indent On trouve par des calculs similaires que la probabilit\'e d'exercice du call est :\\
+	\begin{displaymath}
+		\N(D_2^f)
+	\end{displaymath}
+	avec : 
+	\begin{eqnarray}
+			D_2^f &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T)-\frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}
+	\end{eqnarray}
+
+			\item Le traitement du premier terme :
+			\begin{eqnarray*}
+				\E_{\Q} \left \lbrack \,  S^f_T \1_{\{ S^f_T \geq K^f\} }  \, / \, 
+				\F_t \, \right \rbrack 
+			\end{eqnarray*}
+fait apparaitre un facteur suppl\'ementaire. En effet, en  utilisant la m\^eme m\'ethode que pour la d\'emonstration 
+de la formule de Black-Scholes-Merton \ref{DemBSM} p. \pageref{DemBSM}, on a :
+			\begin{eqnarray*}
+				&&\E_{\Q} \left \lbrack \,  S^f_T \1_{\{ S^f_T \geq K^f\} }  \, / \, \F_t \, \right \rbrack \\
+				&&= \, \E_{\Q} \left \lbrack \, S_t^f \exp{ \left \{ \, (R^f(t,T)- \Gamma_X^{S^f}(t,T)
+				-\frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t) + \Sigma_{S^f}(t,T) \sqrt{T-t} \, U \, 
+				\right \}}\1_{\{ S^f_T \geq K^f\} }  \, / \, \F_t \, \right \rbrack \\
+				&&=\,  S_t^f \exp{ \left \{ \, (R^f(t,T)- \Gamma_X^{S^f}(t,T)) (T-t)\, \right \} 
+				}\, \E_{\Q} \left \lbrack \,\exp{ \left \{ \, -\frac 1 2 \Sigma^2_{S^f}(t,T)  
+				(T-t) + \Sigma_{S^f}(t,T) \sqrt{T-t} \, U \, \right \}}\1_{\{ S^f_T \geq K^f\} 
+				}  \, / \, \F_t \, \right \rbrack \\
+				&&=\, \frac{S_t^f e^{-\Gamma_X^{S^f}(t,T) (T-t)}}{e^{-\int_t^T r^f_u du}} \, 
+				\int_{-D_2^f}^{\infty} e^{-\frac 1 2 \Sigma^2_{S^f}(t,T)  (T-t) + \Sigma_{S^f}(t,T) 
+				\sqrt{T-t} \, U } \, \frac 1 {\sqrt{2 \pi}} e^{\frac {-u^2} 2} \dif u \\
+			\end{eqnarray*}
+Pour les m\^emes raisons que pr\'ec\'edemment, ce terme est \'egal \`a :
+			\begin{eqnarray*}
+				\E_{\Q} \left \lbrack \,  S^f_T \1_{\{ S^f_T \geq K^f\} }  \, / \, 
+				\F_t \, \right \rbrack &=& 	\frac{S_t^f e^{-\Gamma_X^{S^f}(t,T) (T-t)}}
+				{e^{-\int_t^T r^f_u du}} \, \N(D_1^f) \\
+				\end{eqnarray*}
+avec :
+			\begin {eqnarray*}
+				D_1^f &=& D_2^f + \Sigma_{S^f}(t,T) \sqrt{T-t}\\
+			\end{eqnarray*}
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	
+\subsection*{Prix du put quanto avec garantie de change}
+
+	Par la relation de parit\'e Call-Put \footnote{cf. remarque  \ref{Parite} p. \pageref{Parite} dans l'Annexe}, 
+le r\'esultat suivant est imm\'ediat :
+
+	\begin{prop}[Prix d'un put quanto avec garantie de change]$\quad$ \label{putQX}
+		\begin{equation}
+			\boxed{\, Put_t^{\X}( T, K^f, S^f ) =\X \, \,e^{-R(t,T) (T-t)}  \left \{
+			 	K^f \, \N(-D_2^f) \, - \,  
+				S_t^f \, e^{(R^f(t,T)+\Gamma_X^{S^f}(t,T)) (T-t)} \, \N(-D_1^f)
+				\,\right \}\\ }
+		\end{equation} 
+	avec :
+		\begin{eqnarray*}
+			D_1^f &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			D_2^f &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) - \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			&=& D_1 - \Sigma_{S^f}(t,T) \sqrt{T-t}
+		\end{eqnarray*}	
+	\end{prop}
+	
+\subsection{Les \guillemotleft \ grecques \guillemotright \ d'un call quanto avec garantie de change}
+
+	Les calculs des grecques d'un call quanto avec garantie de change s'appuieront sur le r\'esultat suivant :
+	\begin{prop}[R\'esultat pr\'eliminaire] \label{res pre quanto} $\quad$
+		\begin{equation*}
+			\boxed{
+			\phi(D_2^f) = \frac{S_t^f}{K^f} e^{(R^f(t,T)-\Gamma_{X}^{S^f}(t,T))(T-t)} \phi(D_1^f)
+			}
+		\end{equation*}
+	o\`u $\phi(.)$ d\'esigne la densit\'e de la $\N(0,1)$ 
+	\end{prop}
+	\begin{dem}$\quad$
+		En effet, on a :
+		\begin{eqnarray*}
+			\phi(D_2^f) &=& \frac1 {\sqrt{2 \pi}} \exp \left \{- \frac 1 2 \left ( D_1^f - \Sigma_{S^f}(t,T) \sqrt{T-t} \right )^2 \right \} \\
+			&=& \frac1 {\sqrt{2 \pi}} \exp \left \{- \frac 1 2 \left ( (D_1^f)^2 - 2 D_1^f \Sigma_{S^f}(t,T) \sqrt{T-t} + \Sigma^2_{S^f}(t,T) (T-t) \right ) \right \} \\
+			&=& \left [ \frac1 {\sqrt{2 \pi}} e^{-\frac 1 2 (D_1^f)^2 }  \right ] + 
+			\exp \left \{  \ln \left( \frac{S_t^f}{K^f} \right ) + \left (R^f(t,T)-\Gamma_X^{S^f}(t,T) +
+			 \frac 1 2 \Sigma^2_{S^f}(t,T) \right )(T-t) -  \frac 1 2 \Sigma^2_{S^f}(t,T) (T-t)\right \}\\
+			&=& \phi(D_1^f) \frac{S_t^f}{K^f} e^{(R^f(t,T)-\Gamma_X^{S^f}(t,T))(T-t)}\\
+		\end{eqnarray*}	
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsubsection*{$\bullet \quad$ Le Delta}
+	
+	\begin{prop}[Delta d'un call quanto avec garantie de change] \label{delta quanto} $\quad$
+	Le delta d'un call quanto avec garantie de change est donn\'e par :
+		\begin{equation*}
+			\boxed{
+			\Delta^{Call_t^{\X}( T, K^f, S^f )} \,
+			= \, \X e^{-(\Gamma_{X}^{S^f}(t,T) + R(t,T)-R^f(t,T))(T-t)} \N(D_1^f)
+				}
+		\end{equation*}	
+	\end{prop}
+	\begin{dem}[Delta d'un call quanto avec garntie de change] $\quad$
+	Nous avons :
+		\begin{eqnarray*}
+			\Delta^{Call_t^{\X}( T, K^f, S^f )} &=& \frac{\partial Call_t^{\X}( T, K^f, S^f )}{\partial S_t^f} \\
+			&=& \X  e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)}\N(D_1^f) \\
+			&& + \X S_t^f e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \phi(D_1^f) \frac{\partial D_1^f}{\partial S_t^f}\\
+			&& -\X K e^{R(t,T)(T-t)} \phi(D_2^f) \frac{\partial D_2^f}{\partial S_t^f} \\
+		\end{eqnarray*}
+		On a :
+		\begin{eqnarray*}
+			\frac{\partial D_2^f}{\partial S_t^f} &=& \frac{\partial D_1^f}{\partial S_t^f}	
+		\end{eqnarray*}
+		Ainsi, par application du  r\'esultat de la proposition \ref{res pre quanto} p. \pageref{res pre quanto}
+		\begin{eqnarray*}
+			\Delta^{Call_t^{\X}( T, K^f, S^f )} &=& \X e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)}\N(D_1^f) \\
+			&& + \X S_t^f e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \phi(D_1^f) \frac{\partial D_1^f}{\partial S_t^f}\\
+			&& - \X  K^f e^{R(t,T)(T-t)} \frac{S_t^f}{K} e^{(R^f(t,T)-\Gamma_{X}^{S^f}(t,T))(T-t)} \phi(D_1^f)\frac{\partial D_1^f}{\partial S_t^f} \\
+			&=&  \X e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)}\N(D_1^f) \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsubsection*{$\bullet \quad$ Le Gamma}
+
+	\begin{prop}[Gamma d'un call quanto avec garantie de change] \label{gamma quanto} $\quad$
+		\begin{equation*}
+			\boxed{
+			\Gamma^{Call_t^{\X}( T, K^f, S^f )} \, = \,
+			\frac {\X e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)}}
+			{ S_t^f\Sigma_{S^f}(t,T) \sqrt{T-t}} \phi(D_1^f)
+			}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}[Gamma d'un call quanto avec garantie de change]  $\quad$
+	En effet, 
+		\begin{eqnarray*}
+			\Gamma^{Call_t^{\X}( T, K^f, S^f )} &=& \frac {\partial \Delta^{Call_t^{\X}( T, K^f, S^f )}} {\partial S_t^f} \\
+			&=& \X  e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \phi(D_1^f) \frac{\partial D_1^f} {\partial S_t^f} \\
+		\end{eqnarray*}
+	Et, 
+		\begin{eqnarray*}
+			\frac{\partial D_1^f} {\partial S_t^f} &=& \frac {\partial} {\partial S_t^f} \left [
+			\frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}
+				\right ] \\
+			&=& \frac 1 {S_t^f\Sigma_{S^f}(t,T) \sqrt{T-t}} \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsubsection*{$\bullet \quad$ Sensibilit\'e par rapport aux taux d'int\'er\^et}
+
+	La formule de prix d'un call quanto avec garantie de change faisant intervenir deux taux :\\
+	\begin{itemize}
+		\item	le taux  moyen $R(t,T)$ entre $t$ et $T$ sur le march\'e domestique \\
+		\item 	le taux  moyen $R^f(t,T)$ entre $t$ et $T$ sur le march\'e \'etranger \\
+	\end{itemize}
+	on s'int\'eressera \`a la sensibilit\'e de l'option par rapport \`a chacun de ces taux.
+
+	\begin{prop}[Sensibilit\'e par rapport au taux domestique] $\quad$
+	En notant :\\ $\rho_1^{Call_t^{\X}( T, K^f, S^f )}$ , la sensibilit\'e par rapport au taux domestique, on a :
+		\begin{equation*}
+			\boxed{
+			\rho_1^{Call_t^{\X}( T, K^f, S^f )} \, = \, 
+			-(T-t) Call_t^{\X}( T, K^f, S^f )
+			}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}[Sensibilit\'e par rapport au taux domestique]  $\quad$
+	En effet, les formules pour $D_1^f$ et $D_2^f$ ne faisant intervenir que le taux \'etranger, on a :
+		\begin{eqnarray*}
+			\rho_1^{Call_t^{\X}( T, K^f, S^f )} &=& \frac {\partial Call_t^{\X}( T, K^f, S^f )} {\partial R(t,T)} \\
+			&=& -(T-t)\X S_t^f e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \N(D_1^f) 
+			+\,  \X K^f (T-t) e^{-R(t,T)(T-t)} \N(D_2^f) \\
+			&=&-(T-t) Call_t^{\X}( T, K^f, S^f ) \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+	\begin{prop}[Sensibilit\'e par rapport au taux \'etranger] $\quad$
+		En notant : \\ $\rho_2^{Call_t^{\X}( T, K^f, S^f )}$ , la sensibilit\'e par rapport au taux \'etranger, on a :
+		\begin{equation*}
+			\boxed{
+			\rho_2^{Call_t^{\X}( T, K^f, S^f )} \, = \, (T-t) \X S_t^f e^{-(\Gamma^{S^f}_{X}(t,T) +
+			 R(t,T)-R^f(t,T))(T-t)} \N(D_1^f) 
+			}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}[Sensibilit\'e par rapport au taux \'etranger] $\quad$
+	On a :
+		\begin{eqnarray*}
+			\rho_2^{Call_t^{\X}( T, K^f, S^f )} &=& \frac{\partial Call_t^{\X}( T, K^f, S^f )} {\partial R^f(t,T)} \\
+			&=& \X S_t^f (T-t) e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \N(D_1^f) \\
+			&& + \, \X S_t^f e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \phi(D_1f) \frac{\partial D_1^f}{\partial R^f(t,T)}\\
+			&& - \, \X K^f (T-t) e^{-R(t,T)(T-t)} \phi(D_2f) \frac{\partial D_2^f}{\partial R^f(t,T)}\\
+		\end{eqnarray*}
+	De plus :
+		\begin{eqnarray*}
+			\frac{\partial D_2^f}{\partial R^f(t,T)} &=& \frac{\partial D_1^f}{\partial R^f(t,T)}
+		\end{eqnarray*}
+	Donc :
+		\begin{eqnarray*}
+			\rho_2^{Call_t^{\X}( T, K^f, S^f )} &=& 
+			\X S_t^f (T-t) e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \N(D_1^f) \\
+			&& + \, \X S_t^f e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \phi(D_1f) \frac{\partial D_1^f}{\partial R^f(t,T)}\\
+			&& - \, \X K^f (T-t) e^{-R(t,T)(T-t)} \frac{S_t^f}{K^f} e^{(R^f(t,T)-\Gamma_{X}^{S^f}(t,T))(T-t)} \phi(D_1^f)
+				\frac{\partial D_1^f}{\partial R^f(t,T)} \\
+			&=& \X S_t^f (T-t) e^{-(\Gamma^{S^f}_{X}(t,T) + R(t,T)-R^f(t,T))(T-t)} \N(D_1^f) \\
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+\newpage	
+\section{Evaluation d'un put \guillemotleft \ gap \guillemotright \ sur sous-jacent \'etranger}
+
+	\begin{df}[Put europ\'een \guillemotleft \ gap-quanto \guillemotright \ avec garanti de change] $\quad$ \label{putgapQX}
+	Il s'agit d'un contrat donnant droit \`a son d\'etenteur de vendre  \`a la date $T$, un sous-jacent $S^f$ exprim\'e en 
+monnaie \'etrang\`ere, \`a un prix $L^f$ et pour un taux de change $\X$ fix\'es \`a l'avance, et \`a condition que le prix
+du sous-jacent ne d\'epasse pas un montant $K^f$ \'egalement fix\'e. \\
+Le payoff du contrat est donn\'e par :\\
+		\begin{center}
+			$\X \, ( L^f - S^f_T) \, \1_{\{ S^T_f \leq K^f \}}$  
+		\end{center}		
+	\end{df}
+
+ 	\begin{prop}[Prix du put \guillemotleft \ gap \guillemotright \ sur sous-jacent \'etranger avec garantie de change]  $\quad$
+	Pour un taux de change $\X$ fix\'e \`a l'avance, le prix du put gap sur un sous-jacent \'etranger est donn\'e par :\\
+		\begin{equation}\label{put gap quanto}
+			\X \, \,e^{-R(t,T) (T-t)}  \left \{
+			 	L^f \, \N(-D_2^f) \, - \,  
+				S_t^f \, e^{(R^f(t,T)- \Gamma_X^{S^f}(t,T)) (T-t)} \, \N(-D_1^f)
+				\,\right \}\\ 
+		\end{equation} 
+	avec :
+		\begin{eqnarray*}
+			D_1 &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + 
+				\frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+				{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			D_2 &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) - 
+				\frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			&=& D_1 - \Sigma_{S^f}(t,T) \sqrt{T-t} \\
+		\end{eqnarray*}	
+	\end{prop}
+	\begin{dem}$\quad$
+		On utilise la formule du put quanto avec  garantie de change  \footnote{cf. proposition 
+\ref{putQX} p. \pageref{putQX}} 
+en effectuant les changements n\'ecessaires pour distinguer les strikes $K^f$ et $L^f$ intervenant 
+respectivement dans la probabilit\'e d'exercice de l'option et dans le flux \`a l'\'ech\'eance.\\
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}	
+	\end{dem}
+
+\section{Les grecques du put \guillemotleft \ gap-quanto \guillemotright \ avec garantie de change}
+
+	\begin{rem}$\quad$
+		Les calculs seront tr\`es similaires \`a ceux des grecques pour les options quanto avec garantie de change, 
+		ils s'appuieront \'egalement sur la proposition \ref{res pre quanto} p. \pageref{res pre quanto}.
+	\end{rem}
+
+\subsection*{Le delta}
+	\begin{prop}[Delta du put \guillemotleft \ gap-quanto \guillemotright \ avec garantie de change] $\quad$
+		\begin{equation*}
+			\boxed{
+			\Delta(Put^{quanto}_{gap}) \, =\, 
+		\X e^{-[R(t,T)+\Gamma_X^{S^f}(t,T) - R^f(t,T)](T-t)} \left \{
+		\frac {\phi(D_1^f)}{\Sigma_{S^f}(t,T) \sqrt{T-t}} \left [ 1 - \frac{L^f}{K^f}\right ]
+			- \N(-D_1^f)	
+			\right \}
+			}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}[Delta du put \guillemotleft \ gap-quanto \guillemotright \ avec garantie de change] $\quad$
+	En effet, en d\'erivant l'expression (\ref{put gap quanto}) p. \pageref{put gap quanto}, on obtient :
+		\begin{eqnarray*}
+			\Delta(Put^{quanto}_{gap}) &=& \X L^f e^{-R(t,T)(T-t)} \phi(-D_2^f) \left 
+			( - \frac {\partial D_2^f}{\partial S_t^f}\right)\\
+			&& - \, \X e^{-[R(t,T)+\Gamma_X^{S^f}(t,T)-R^f(t,T)](T-t)} \N(-D_1^f) \\
+			&& + \, \X S_t^f e^{-[R(t,T)+\Gamma_X^{S^f}(t,T)-R^f(t,T)](T-t)} \phi(-D_1^f) \left ( 
+				- \frac {\partial D_1^f}{\partial S_t^f}\right)\\ 
+		\end{eqnarray*}
+On a d'une part, 
+		\begin{eqnarray*}
+			\phi(-D_1^f) &=& \phi(D_1^f) \\
+			\phi(-D_2^f) &=& \phi(D_2^f) \\
+				&=& \frac{S_t^f}{K^f} e^{(R^f(t,T)-\Gamma_{X}^{S^f}(t,T))(T-t)} \phi(D_1^f) \\
+				&& \text{\tiny{par la proposition \ref{res pre quanto} p. \pageref{res pre quanto}}}
+		\end{eqnarray*}
+et d'autre part, 
+		\begin{eqnarray*}
+			 \frac {\partial D_2^f}{\partial S_t^f} &=&  \frac {\partial D_1^f}{\partial S_t^f} \\
+			&=& \frac 1 {S_t^f \Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+		\end{eqnarray*}
+On obtient :
+		\begin{eqnarray*}
+			\Delta(Put^{quanto}_{gap}) &=&  - \, \X L^f e^{-R(t,T)(T-t)}\frac{S_t^f}{K^f} 
+			e^{(R^f(t,T)-\Gamma_{X}^{S^f}(t,T))(T-t)} \phi(D_1^f)  \frac {\partial D_1^f}{\partial S_t^f}\\
+			&& - \, \X e^{-[R(t,T)+\Gamma_X^{S^f}(t,T)-R^f(t,T)](T-t)} \N(-D_1^f) \\
+			&& - \, \X S_t^f e^{-[R(t,T)+\Gamma_X^{S^f}(t,T)-R^f(t,T)](T-t)} \phi(D_1^f)  
+			\frac {\partial D_1^f}{\partial S_t^f}\\ 
+			&=& \X e^{-[R(t,T)+\Gamma_X^{S^f}(t,T) - R^f(t,T)](T-t)} \left \{
+			\frac {\phi(D_1^f)}{\Sigma_{S^f}(t,T) \sqrt{T-t}} \left [ 1 - \frac{L^f}{K^f}\right ]
+			- \N(-D_1^f)	
+			\right \}
+		\end{eqnarray*}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}	
+	\end{dem}
+	\begin{rem}$\quad$
+	Lorsque $L^f = K^f$, on retrouve bien l'expression du delta d'un put quanto avec garantie de change.
+	\end{rem}
+
+\subsection*{Le Gamma}
+	
+	\begin{prop}[Gamma d'un put \guillemotleft \ gap-quanto \guillemotright \ avec garantie de change]$\quad$
+		\begin{equation*}
+			\boxed{
+			\Gamma(Put^{quanto}_{gap}) \, = \, 
+			\frac {\X \phi(D_1^f)}{S_t^f \Sigma_{S^f}(t,T) \sqrt{T-t}}e^{-[R(t,T)+\Gamma_X^{S^f}(t,T)-R^f(t,T)](T-t)}
+			\left \{ \frac{D_1^f}{\Sigma_{S^f}(t,T) \sqrt{T-t}} \left [ \frac{L^f}{K^f}-1 \right ] +1 
+			\right \} 
+				}
+		\end{equation*}
+	\end{prop}
+	\begin{dem}[Gamma d'un put \guillemotleft \ gap-quanto \guillemotright \ avec garantie de change]$\quad$
+	Il suffit de d\'eriver $\Delta(Put^{quanto}_{gap})$ par rapport \`a $S_t^f$
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}	
+	\end{dem}
+
+\subsection*{Sensibilit\'es par rapport aux taux d'int\'erêt}
+	
+	\begin{prop}[sensibilit\'e par rapport au taux domestique] $\quad$
+		\begin{equation*}
+			\boxed{
+		\rho_1(Put^{quanto}_{gap}) \, = \, - (T-t) Put(t,T,K^f,S^f,L^f, \X)
+			}
+		\end{equation*}
+	avec $Put(t,T,K^f,S^f,L^f,\X)$, le prix en $t$ de l'option, et $\rho_1(Put^{quanto}_{gap})$, 
+	sa sensibilit\'e par rapport au taux domestique.
+	\end{prop}
+	\begin{dem}[sensibilit\'e par rapport au taux domestique]$\quad$
+	Le r\'esultat est imm\'ediat en remarquant que le taux domestique n'intervient dans le prix du contrat que par actualisation 
+du flux \`a l'\'ech\'eance ; autrement dit il est absent des expressions de $D_1^f$ et $D_2^f$.
+		\footnote{
+			En fait, les param\`etres intervenant dans les expressions de  $D_1^f$ et $D_2^f$, sont ceux intervenant 
+			dans la diffusion de $S_t^f$ sous la probabilit\'e risque neutre domestique $\Q$ 
+			} 
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+\subsubsection*{sensibilit\'e par rapport au taux \'etranger}
+	
+	\begin{prop}[Sensibilit\'e par rapport au taux \'etranger] $\quad$
+		\begin{equation*}
+			\boxed{
+			\rho_2(Put^{quanto}_{gap}) \, = \,
+			(T-t) \X S_t^f e^{-[R(t,T)+\Gamma_X^{S^f}-R^f(t,T)](T-t)} 
+			\left \{ \frac{\phi(D_1^f)}{\Sigma_{S^f}(t,T)\sqrt{T-t}} 
+				\left [ 1 -  \frac{L^f}{K^f} \right ] - \N(-D_1^f) 
+			\right \}
+			}
+		\end{equation*}
+	o\`u $\rho_2(Put^{quanto}_{gap}) \,$ est la sensibilit\'e par rapport \`a $R^f(t,T)$ du put \guillemotleft \ 
+gap-quanto \guillemotright \ avec 
+	garantie de change  
+	\end{prop}
+	\begin{dem}[Sensibilit\'e par rapport au taux \'etranger] $\quad$
+		Le r\'esultat est imm\'ediat en utilisant : \\
+		\begin{itemize}
+			\item[$\bullet$]	
+			\begin{eqnarray*}
+				\frac{\partial D_2^f}{\partial R^f(t,T)} &=& \frac{\partial D_1^f}{\partial R^f(t,T)} \\
+				&=& \frac{T-t}{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			\end{eqnarray*}
+			\item[$\bullet$]
+			\begin{eqnarray*}
+				\phi(-D_2^f) &=& \phi(D_2^f)\\
+				&=&  \frac{S_t^f}{K^f} e^{(R^f(t,T)-\Gamma_{X}^{S^f}(t,T))(T-t)} \phi(D_1^f)\\
+			\end{eqnarray*}
+		\end{itemize}
+		\begin{flushright}
+			$\boxslash$
+		\end{flushright}
+	\end{dem}
+
+
+%***********************************************************
+\chapter{Produits structur\'es sur le p\'etrole : Exemple 1}
+%***********************************************************
+
+\section{Description de la structure }
+	
+	On consid\`ere une structure optionnelle sur un nominal de $ N \,$ \officialeuro \  dont le sous-jacent est 
+le p\'etrole exprim\'e en monnaie \'etrang\`ere (\$ par baril).  
+	\begin{description}
+		 \item[$\bullet \quad$]On note :
+			\begin{description}
+				\item [$\quad t \quad$] La date de valorisation de l'option \\
+				\item [$\quad T \quad$] L'\'ech\'eance de l'option \\
+				\item [$\quad \left \{ S_t^f, t \right \} \quad $] 
+					Le processus de prix du p\'etrole ( en \$ ) \\
+			\end{description}
+		\item[$\bullet \quad$] Le flux re\c cu \`a l'\'ech\'eance $T$ est : \\
+			\begin{itemize}
+				\item	si $\quad S_T^f < 70 \quad$ alors $\quad 0$ \\
+				\item	si $\quad 70 \leq S_T^f < 75 \quad$ alors $\quad S_T^f - 70$\\
+				\item	si $\quad 75 \leq S_T^f < 80 \quad$ alors $\quad 5 + 2 ( S_T^f - 75 )$ \\ 
+				\item	si $\quad 80 \leq S_T^f < 85 \quad$ alors $\quad 15 + 3 ( S_T^f - 80 )$ \\
+				\item	si $\quad S_T^f \geq 85 \quad$ alors $\quad 30$ \\
+			\end{itemize}
+		\item[$\bullet \quad$]Le taux de change appliqu\'e \`a l'\'ech\'eance est fix\'e \`a :
+				 \, 1  \, \$ \, = \, 1  \, \officialeuro \\
+	
+		\item[$\bullet \quad$]Le nominal $N$ est exprim\'e en monnaie \officialeuro.
+	\end{description}		
+
+	\begin{center}
+		\framebox{On est dans le cadre d'un produit structur\'e quanto avec garantie de change}
+	\end{center}		
+	
+\section{Evaluation de la structure}
+	
+
+\subsection{D\'ecomposition du payoff}
+	
+	Le flux \`a l'\'ech\'eance $T$ peut \^etre dupliqu\'e par un portefeuille constitu\'e des produits suivants : \\
+	\begin{itemize}
+		\item	l'achat d'un call de strike $K_1^f = 70 $ \$ et d'\'ech\'eance $T$\\
+		\item	l'achat d'un call de strike $K_2^f =75 $ \$ et d'\'ech\'eance $T$\\
+		\item	l'achat d'un call de strike $K_3^f = 80  $ \$ et d'\'ech\'eance $T$	\\	
+		\item	la vente de trois call de strike $K_4^f = 85$ \$ et d'\'ech\'eance $T$\\
+	\end{itemize}
+
+En effet, la valeur du portefeuille \`a l'\'ech\'eance est :\\
+	\begin{eqnarray*}
+	(S_T^f - 70)_+ + (S_T^f - 75)_+ + (S_T^f - 80)_+ + 3 (85 - S_T^f)_+ \\
+	\end{eqnarray*}
+	\begin{itemize}
+		\item	{\bf si $S_T^f < 70$ ,} $\quad \text{payoff} = 0$ \\
+		\item	{\bf si $70 \leq S_T^f < 75$ ,} $\quad \text{payoff} = S_T^f - 70 $\\
+		\item	{\bf si $75 \leq S_T^f < 80$ ,}
+			\begin{eqnarray*}
+				\text{payoff} & = &(S_T^f - 70) + (S_T^f - 75)\\
+				& = & 2 S_T^f -(75-5) -75 \\
+				& = & 2 (S_T^f - 75 ) + 5
+			\end{eqnarray*} \\
+		\item	{\bf si $80 \leq S_T^f < 85$ ,}
+			\begin{eqnarray*}
+				\text{payoff} & = &(S_T^f - 70) + (S_T^f - 75) + (S_T^f - 80) \\
+				& = & 3 S_T^f -(80-10) -(80-5)-80 \\
+				& = & 3 (S_T^f - 80 ) + 15\\
+			\end{eqnarray*} \\
+		\item	{\bf si $85 \leq S_T^f$ ,}
+			\begin{eqnarray*}
+				\text{payoff} & = &(S_T^f - 70) + (S_T^f - 75) + (S_T^f - 80) + 3 (85 - S_T^f)\\
+				& = & -70 -75 -80 + 3 * 85 \\
+				& = & 30 \\
+			\end{eqnarray*} \\
+	\end{itemize}
+			
+	Par AOA\footnote{cf. chapitre \ref{AOA} p. \pageref{AOA} dans l'Annexe}, 
+les valeurs du portefeuille et du contrat sont les m\^emes \`a toute date $t$ pr\'ec\'edant l'\'ech\'eance $T$ .\\
+Il s'agit donc d'\'evaluer la valeur \`a la date $t$ de quatre {\bf calls europ\'eens quanto avec garantie de change}.\\
+On note \X \, le taux de change fix\'e par le contrat.
+ 
+\subsection{Formule de prix}
+	La valeur \`a toute date $t$ pr\'ec\'edant l'\'ech\'eance $T$ est donn\'ee par : 
+	\begin{eqnarray*}
+		Call_t^{\X}( T, K_1^f, S^f ) + Call_t^{\X}( T, K_2^f, S^f ) + Call_t^{\X}( T, K_3^f, S^f ) - 3 \, Call_t^{\X}( T, K_4^f, S^f )
+	\end{eqnarray*}
+	
+	En appliquant la formule de la premi\`ere partie (cf. proposition \ref{callQX} p. \pageref{callQX}) , on trouve \footnote{en multipliant par le nominal} :
+	\begin{eqnarray*}
+		& \X \, S_t^f e^{-\Gamma_X^{S^f}(t,T) (T-t)} e^{-\int_t^T (r_u-r_u^f) du}\left \{ \, \N(D_1^1) + \N(D_1^2) + \N(D_1^3) - 3\, \N(D_1^4) \, \right \} &\\
+		& - \X \, e^{-\int_t^T r_u du} \, K \left \{ \, \N(D_2^1) + \N(D_2^2) + \N(D_2^3) - 3\, \N(D_2^4) \, \right \}&\\
+	\end{eqnarray*}
+avec : $ \quad \forall i \in \llbracket \, 1 \, , \, 4 \, \rrbracket \quad$, 
+	\begin{eqnarray*}
+		D_1^i &=& \frac{ \ln{\{ \frac{S_t^f}{K_i^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+		D_2^i &=& \frac{ \ln{\{ \frac{S_t^f}{K_i^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) - \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+			&=& D_1^i - \Sigma_{S^f}(t,T) \sqrt{T-t} \\
+	\end{eqnarray*}
+
+\subsection*{Estimation empirique des inputs de la formule}
+En pratique, l'application de cette formule n\'ecessitera in\'eluctablement l'estimation de certains inputs tels que : \\
+	\begin{itemize}
+		\item 	Les taux sans risque moyens $ R(t,T) $ et $R^f(t,T)$ sur les march\'es domestique 
+			et \'etranger \\
+		\item	Les volatilit\'es et la corr\'elation moyennes de $X$ et $S^f$ entre $t$ et $T$\\
+	\end{itemize}
+Ces quantit\'es pourront \^etre remplac\'ees par leur estimateur empirique bas\'e sur des donn\'ees historiques.
+%***********************************************************
+\chapter{Produits structur\'es sur le p\'etrole : Exemple 2}
+%***********************************************************
+
+
+\section{Description}
+	On consid\`ere la structure de swap d\'ecrite par les terms sheet suivants :\\
+	\begin{description}
+		\item[$\bullet \quad$] dur\'ee du contrat : 3 ans \\
+		\item[$\bullet \quad$] nominal : $N$ \officialeuro \\
+		\item[$\bullet \quad$] tous les 3 mois la contrepartie A paye l'EURIBOR 3 mois constat\'e 3 mois plus t\^ot\\	
+		\item[$\bullet \quad$] la contrepartie B paye une fois par an  :\\
+			\begin{itemize}
+				\item	6,05\% si le cours du p\'etrole (en \$) d\'epasse de plus de 75\% la valeur de r\'ef\'erence 
+					stipul\'ee \`a la signature du contrat \\
+				\item	0 sinon \\
+			\end{itemize}
+		\item[$\bullet \quad$] la valeur de r\'ef\'erence est fix\'ee \`a 65,50 \$ \\
+	\end{description}
+	
+	
+	Ce contrat est un swap particulier car la partie B ne paye le taux fixe  que si le prix du p\'etrole
+ \`a chaque date de flux d\'epasse  de plus de 75\% une valeur de r\'ef\'erence stipul\'ee dans le contrat. \\
+	Tout d'abord d\'eterminons l'\'ech\'eancier correspondant \`a ce contrat.\\
+	On note : \\
+	\begin{itemize}
+		\item	$t \quad$ La date de signature du contrat \\ 
+		\item	$T_0 \quad$ la date de d\'ebut de composition   \\
+		\item	$T_1 \quad$ la date de tomb\'ee du premier flux (trois mois plus tard) \\
+		\item 	de mani\`ere plus g\'en\'erale $T_i \, , \, i \in \llbracket \, 1 \, , \, 12 \, \rrbracket \quad$ la date de tomb\'ee du i-\`eme flux \\
+		\item	$\delta_i  \quad $ le temps \'ecoul\'e (exprim\'e en fraction d'ann\'ee)  
+			entre les date $T_i$\  et \ $T_{i-1}$\ 
+			\footnote{il s'agit de la dur\'ee de composition du i-\`eme flux pour A}  \\
+		\item	$\delta_i' \quad $  le temps \'ecoul\'e (exprim\'e en fraction d'ann\'ee)  
+			entre les date $T_{4i}$\  et \ $T_{4(i-1)}$\ \footnote{il s'agit de la dur\'ee de composition 
+			du i-\`eme flux pour B}  \\
+		\item	$L(T_{i-1},\delta_i) \quad $ taux EURIBOR entre $T_{i-1}$ et $T_{i-1} + \delta_i = T_i$ \\
+	\end{itemize}
+ 
+	Le flux \`a l'\'ech\'eance est \footnote{en multipliant bien-s\^ur par le nominal exprim\'e en \ \officialeuro } :
+	\begin{eqnarray*}
+		\sum_{i=1}^{i=12} \delta_i L(T_{i-1},\delta_i)  - \sum_{i=1}^{i=3} \delta_i'\, 6,05 \%  \, \1_{\{ \, S^f_{T_{4i}} \geq K^f \, \}}
+	\end{eqnarray*}
+	avec : \\
+	\begin{eqnarray*}
+		K^f &=& 75 \,\, \% \, \,  65,50 \quad \$ \\
+	\end{eqnarray*}
+		
+\section{Evaluation}
+	Il s'agit alors d'\'evaluer :
+	\begin{eqnarray*}
+		\E_{\Q} \,\left \lbrack  
+			\sum_{i=1}^{i=12} \frac{\beta(t)}{\beta(T_i)} \,\delta_i L(T_{i-1},\delta_i)  - \sum_{i=1}^{i=3} \frac{\beta(t)}{\beta(T_{4i})} \, \delta_i'\, 6,05 \%  \, \1_{\{ \, S^f_{T_{4i}} \geq K^f \, \}} \, / \, \F_t 
+			\, \right \rbrack \\
+		= \,  \sum_{i=1}^{i=12} \E_{\Q} \,\left \lbrack  \frac{\beta(t)}{\beta(T_i)} \,\delta_i L(T_{i-1},\delta_i) \, / \, \F_t \, \right \rbrack 
+		\, - \, \sum_{i=1}^{i=3} \E_{\Q} \,\left \lbrack  \frac{\beta(t)}{\beta(T_{4i})} \, \delta_i'\, 6,05 \%  \, \1_{\{ \, S^f_{T_{4i}} \geq K^f \, \}} \, / \, \F_t \, \right \rbrack \\
+	\end{eqnarray*}
+	En notant :
+	\begin{eqnarray*}
+		A_i &=& \E_{\Q} \,\left \lbrack  \frac{\beta(t)}{\beta(T_i)} \,\delta_i L(T_{i-1},\delta_i) \, / \, \F_t \, \right \rbrack \\
+	\end{eqnarray*}
+	et,
+	\begin{eqnarray*}
+		B_i &=& \E_{\Q} \,\left \lbrack  \frac{\beta(t)}{\beta(T_{4i})} \, \delta_i'\, 6,05 \%  \, \1_{\{ \, S^f_{T_{4i}} \geq K^f \, \}} \, / \, \F_t \, \right \rbrack \\
+	\end{eqnarray*}
+	On peut \'ecrire que la valeur du contrat en $t\, $ est :
+	\begin{eqnarray*}
+		\sum_{i=1}^{i=12} A_i - \sum_{i=1}^{i=3} B_i \\
+	\end{eqnarray*}
+
+\subsection*{Evaluons $A_i$}
+
+		
+\subsubsection*{Formule pour l'EURIBOR}
+
+	Le taux EURIBOR appliqu\'e entre $T_{i-1} \, $ et $T_{i-1} + \delta_i  \, = T_i $ est donn\'e par la formule suivante :
+		\begin{eqnarray*}
+			L(T_{i-1},\delta_i) &=& \frac 1 {\delta_i} \left ( \frac 1 {B(T_{i-1} , T_i)} - 1 \right ) \\
+		\end{eqnarray*}
+
+	avec :
+		\begin{eqnarray*}
+			B(T_{i-1} , T_i) &=& \exp{\left \{ \, 
+						- \int_{T_{i-1}}^{T_i} r_s ds
+						\, \right \}} \\
+					&=& \frac{\beta(T_{i-1})}{\beta(T_i)}
+		\end{eqnarray*}
+	\subsubsection*{}
+
+	on a donc :
+	\begin{eqnarray*}
+		A_i &=& \E_{\Q} \,\left \lbrack  \frac{\beta(t)}{\beta(T_i)} \,\delta_i L(T_{i-1},\delta_i) \, / \, \F_t \, \right \rbrack \\
+		&=& \E_{\Q} \,\left \lbrack \frac{\beta(t)}{\beta(T_i)}  \,\delta_i  \, \frac 1 {\delta_i} \left ( \frac 1 {B(T_{i-1} , T_i)} - 1 \right ) \, / \, \F_t \, \right \rbrack \\
+		&=& \E_{\Q} \,\left \lbrack \frac{\beta(t)}{\beta(T_i)} \, \frac 1 {B(T_{i-1} , T_i)} \, / \, \F_t \, \right \rbrack \, 
+			- \E_{\Q} \,\left \lbrack \frac{\beta(t)}{\beta(T_i)} \, / \, \F_t \, \right \rbrack \\
+		&=& \E_{\Q} \,\left \lbrack \frac{\beta(t)}{\beta(T_i)} \,\frac{\beta(T_i)}{\beta(T_{i-1})} \, / \, \F_t \, \right \rbrack \,
+			- B(t , T_i) \\
+		&=& B( t , T_{i-1} ) - B(t , T_i) \\
+	\end{eqnarray*}
+	
+\subsection*{Evaluons $B_i$}
+		
+	\begin{eqnarray*}
+		B_i &=& \E_{\Q} \,\left \lbrack  \frac{\beta(t)}{\beta(T_{4i})} \, \delta_i'\, 6,05 \%  \, \1_{\{ \, S^f_{T_{4i}} \geq K^f \, \}} \, / \, \F_t \, \right \rbrack \\
+		&=& \delta_i'\, 6,05 \%  \, B( t , T_{4i} ) \, \E_{\Q} \,\left \lbrack \, \1_{\{ \, S^f_{T_{4i}} \geq K^f \, \}} \, / \, \F_t \, \right \rbrack \\
+		&=&  \delta_i'\, 6,05 \%  \, B( t , T_{4i} ) \, \Q  \,\left \lbrack \, S^f_{T_{4i}} \geq K^f \,  / \, \F_t \, \right \rbrack \\
+	\end{eqnarray*}
+	
+	Le terme : $\quad \Q  \,\left \lbrack \, S^f_{T_{4i}} \geq K^f \,  / \, \F_t \, \right \rbrack \,$ s'identifie \`a 
+la probabilit\'e d'exercice d'un call europ\'een de strike $\, K^f \, $ (en \$), d'\'ech\'eance $\, T_{4i} \, $ sur un sous-jacent exprim\'e 
+en monnaie \'etrang\`ere.\\
+ Cette quantit\'e a \'et\'e \'evalu\'ee en premi\`ere partie, et on a :\\
+		\begin{eqnarray*}
+			\Q  \,\left \lbrack \, S^f_{T_{4i}} \geq K^f \,  / \, \F_t \, \right \rbrack
+		&=&  \N ( D^{T_{4i}}_2 )
+		\end{eqnarray*}
+ 	 o\`u en posant :\\
+		\begin{itemize}
+		\item	$\Gamma_X^{S^f}(t,T_{4i}) = \frac 1 {T_{4i} - t} \int_t^{T_{4i}} (\rho_u(X,S^f) \sigma_X(u)  \sigma_{S^f}(u)) du $\\
+		\item	$\Sigma^2_{S^f}(t,T_{4i}) = \frac 1 {T_{4i} - t} \int_t^{T_{4i}} \sigma_{S^f}^2(u) du $ \\
+		\item	$R^f(t,{T_{4i}}) = \frac 1 {{T_{4i}} - t} \int_t^{T_{4i}} r_u du $ \\
+		\end{itemize}
+
+	on a :
+		\begin{eqnarray*}
+			D^{T_{4i}}_2 &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,{T_{4i}})- \Gamma_X^{S^f}(t,{T_{4i}}) - \frac 1 2 \Sigma^2_{S^f}(t,{T_{4i}}) ) ({T_{4i}}-t)}
+					{\Sigma_{S^f}(t,{T_{4i}}) \sqrt{{T_{4i}}-t}}\\
+		\end{eqnarray*}
+
+		\subsubsection*{Evaluation du contrat}
+	En rassemblant ces calculs, le prix du contrat est donn\'e par \footnote{en multipliant par le nominal} :
+		\begin{eqnarray*}
+		\sum_{i=1}^{i=12} \, \left \{ \,   B( t , T_{i-1} ) - B(t , T_i)    \, \right \} 
+		- \sum_{i=1}^{i=3} \, \left \{ \,   \delta_i'\, 6,05 \%  \, B( t , T_{4i} ) \,  \N ( D^{T_{4i}}_2 )  \, \right \} \\
+		 = \sum_{i=1}^{i=12} \, \left \{ \,   B( t , T_{i-1} ) - B(t , T_i)    \, \right \} 
+		- \, 6,05 \%  \, \sum_{i=1}^{i=3} \, \left \{ \,   \delta_i'\, B( t , T_{4i} ) \,  \N ( D^{T_{4i}}_2 )  \, \right \} \\
+		\end{eqnarray*}
+
+%***********************************************************
+\chapter{Produits structur\'es sur le p\'etrole : Exemple 3}
+%***********************************************************
+
+\section{Description}
+
+	
+	Le contrat d\'ecrit dans cette partie est un swap particulier car en plus de d\'ependre du taux variable 
+consid\'er\'e (EURIBOR 6 mois), les flux d\'ependent d'un autre sous-jacent : le rendement du prix du p\'etrole 
+entre le jour de la signature du contrat et l'\'ech\'eance \ ie. \,$\quad \frac{S^f_0 - S^f_T}{S^f_0} \quad $\\
+	\begin{description}
+		\item[$\bullet \quad$] dur\'ee du contrat : 6 mois \\
+		\item[$\bullet \quad$] nominal : $N$ \officialeuro \\
+		\item[$\bullet \quad$] dans 6 mois :
+			\begin{itemize}
+				\item la partie A paye 7,80 \% \\
+				\item la partie B paye $Eur_6 + 0,02\% + CO$  si $S^f_T \leq 80\% S_0^f$  et $0$ sinon 
+			\end{itemize}
+	\end{description}
+	\indent En notant: \\
+	\begin{itemize}
+		\item	$t = T_0 \quad$  la date de signature\\
+		\item	$T \quad$  l'\'ech\'eance \\
+		\item	$T_1 \quad$ la date de d\'ebut de composition des int\'er\^ets
+		\item	$\delta \quad $ la dur\'ee de composition (en fraction d'ann\'ee) entre $T_1$ et l'\'ech\'eance \\
+		\item	$S^f_0 \quad $  le cours du p\'etrole \`a la signature $T_0$  ($ S^f_0 \, =\, 55.90 \, \$ $)\\
+		\item	$S^f_T \quad $  le cours du p\'etrole \`a  l'\'ech\'eance\\
+		\item	$Eur_6 \quad $  le taux EURIBOR 6 mois valable pour toute la dur\'ee de composition $\delta \,$ 
+			(fix\'e en $T_1$)\\
+	\end{itemize}
+
+	Le payoff est alors donn\'e par \footnote{en multipliant par le nominal exprim\'e en \ \officialeuro} :
+	\begin{eqnarray*}
+		\delta \left ( \, Eur_6   + 2 bps + CO  - 7.80 \% \, \right )   \\
+	\end{eqnarray*}
+	o\`u :
+	\begin{eqnarray*}
+		CO &=&  \frac{S^f_0 - S^f_T}{S^f_0} \, \1_{\{S^f_T \leq 80 \% \, S^f_0 \}}
+	\end{eqnarray*}
+
+
+	
+\section{Formule de prix}
+
+	Il s'agit d'\'evaluer :\\
+	{
+	\begin{eqnarray*}
+&\E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta \left ( \, Eur_6   + 2 bps + \frac{S_0 - S_T}{S_0} \, \1_{\{S_T \leq 80 \% \, S_0 \}} - 7.80 \% \, \right ) \, / \, \F_t \, \right \rbrack \, = &\\
+&\E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta \, Eur_6  \, / \, \F_t \, \right \rbrack
+\, + \,  \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta \,2 bps  \, / \, \F_t \, \right \rbrack   &\\
+&\, + \,  \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta  \frac{S_0 - S_T}{S_0} \, \1_{\{S_T \leq 80 \% \, S_0 \}}  \, / \, \F_t \, \right \rbrack 
+\, - \, \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta - 7.80 \% \, / \, \F_t \, \right \rbrack  &\\
+	\end{eqnarray*}
+
+et on a :
+	\begin{eqnarray*}
+		Eur_6 &=& \frac 1 \delta \, \left ( \,  \frac 1 {B( T_1 , \,T)} - 1 \, \right ) \\
+		B( T_1 ,\, T) &=& \frac{\beta(T_1)}{\beta(T)} \\
+	\end{eqnarray*}
+
+Le premier terme nous donne donc :
+	\begin{eqnarray*}
+		\E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta \, Eur_6  \, / \, \F_t \, \right \rbrack &=& 
+			\delta \, \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \,\frac 1 \delta \, \left ( \,  \frac 1 {B( T_1 ,\,  T)} - 1 \, \right )  \, / \, \F_t \, \right \rbrack\\
+		&=& \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)} \, \frac{\beta(T)}{\beta(T_1)}  \, / \, \F_t \, \right \rbrack \, 
+		- \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}	\, / \, \F_t \, \right \rbrack \\
+		&=& B( t , \, T_1 ) - B( t , \, T ) \\
+	\end{eqnarray*}
+
+D'autre part , 
+	\begin{eqnarray*}
+		\E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta \,2 bps  \, / \, \F_t \, \right \rbrack  -  \E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta - 7.80 \% \, / \, \F_t \, \right \rbrack  
+&= & 2 \, bps \, \delta \, B( t , T )  -  \delta \, 7.80 \% \, B( t , T ) \\
+	\end{eqnarray*}
+
+Il reste \`a d\'eterminer :
+	\begin{eqnarray*}
+	\E_{\Q} \,\left \lbrack \, \frac{\beta(t)}{\beta(T)}  \, \delta  \frac{S^f_0 - S^f_T}{S^f_0} \, \1_{\{S^f_T \leq 80 \% \, S^f_0 \}}  \, / \, \F_t \, \right \rbrack 
+& = & \frac{\delta}{S^f_0} \, \E_{\Q} \,\left \lbrack \,\frac{\beta(t)}{\beta(T)} \, (S^f_0 - S^f_T)\, \1_{\{S^f_T \leq 80 \% \, S^f_0 \}}  \, / \, \F_t \, \right \rbrack \\
+	\end{eqnarray*}
+Et, on reconnait dans le terme :
+	\begin{eqnarray*}
+		\E_{\Q} \,\left \lbrack \,\frac{\beta(t)}{\beta(T)} \, (S^f_0 - S^f_T)\, \1_{\{S^f_T \leq 80 \% \, S^f_0 \}}  \, / \, \F_t \, \right \rbrack \\
+	\end{eqnarray*} 
+la formule d'\'evaluation risque-neutre domestique d'un put gap sur sous-jacent \'etranger dont les strikes sont :
+	\begin{itemize}
+		\item	$ L^f = S^f_0 \quad $ pour le strike intervenant dans le payoff \\
+		\item	$ K^f = 80 \% \, \, S^f_0 \quad $ pour le strike intervenant dans la probabilit\'e d'exercice de l'option\\
+	\end{itemize}
+En adaptant la formule du put gap \`a notre cas et en prenant en compte la corr\'elation entre sous-jacent \'etranger et taux de 
+change, on trouve que :
+	\begin{eqnarray*}
+		\E_{\Q} \,\left \lbrack \,\frac{\beta(t)}{\beta(T)} \, (S^f_0 - S^f_T)\, \1_{\{S^f_T \leq 80 \% \, S^f_0 \}}  \, / \, \F_t \, \right \rbrack
+	&=& L^f \, e^{-\int_t^T r_s ds} \, \N(-D_2^f) - S_t \, \N(-D^f_1) \\
+	\end{eqnarray*}
+avec :
+	\begin{eqnarray*}
+		D_1^f &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+		D_2^f &=& \frac{ \ln{\{ \frac{S_t^f}{K^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) - \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+	\end{eqnarray*}
+
+\subsubsection*{prix du contrat}
+	Le prix du contrat en $t$ est alors donn\'e par la formule suivante \footnote{en multipliant par le nominal} :
+		\begin{eqnarray*}
+	B( t , T_1 ) \, -\,  B( t , T ) \, + \,  2 \, bps \, \delta \, B( t , T ) \, - \,  \delta \, 7.80 \% \, B( t , T ) \, + \, \frac{\delta}{S^f_0} \, \left \{ \,  S_0^f \, e^{-\int_t^T r_s ds} \, \N(-D_2^f) - S_t \, \N(-D^f_1)   \, \right \}\\
+= \quad B( t , T_1 ) \, + \,  B( t , T ) \, \left \{\, - 1 \,  + \, \delta \, \left ( \,  - 7.78 \% \, + \N(-D_2^f) \, \right ) \, \right \} \, + \, \frac{\delta \, S_t^f}{S^f_0} \, \N(-D^f_1)
+		\end{eqnarray*}
+
+avec :
+	\begin{eqnarray*}
+		D_1^f &=& \frac{ \ln{\{ \frac{100 \, S_t^f}{80 \, S_0^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) + \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+		D_2^f &=& \frac{ \ln{\{ \frac{100 \, S_t^f}{80 \, S_0^f} \}} + (R^f(t,T)- \Gamma_X^{S^f}(t,T) - \frac 1 2 \Sigma^2_{S^f}(t,T) ) (T-t)}
+					{\Sigma_{S^f}(t,T) \sqrt{T-t}}\\
+	\end{eqnarray*}
+
+	
+
+\appendix
+
+%**************
+\part*{Annexes \addcontentsline{toc}{part}{Annexes}}
+%**************
+
+%***********************
+\chapter{Probabilit\'es}
+%***********************
+
+\section{Esp\'erance conditionnelle}
+		
+	\begin{prop}[Propri\'et\'e de l'Esp\'erance Conditionnelle] $\quad$ \\
+		Soit $\mathcal G$ une tribu.\\
+		Soit $Z$ une variable al\'eatoire $\mathcal G$-mesurable et $\P$-int\'egrable. \\
+		Soit $\tilde Z$ une variable al\'eatoire $\P$-int\'egrable. \\
+		\\
+		On alors : \\
+		\begin{itemize}
+			\item [$\bullet$] $\E[ \, Z \, ] = \E \Big [\, \E [ Z / \, \mathcal G ] \, \Big ]$
+			\item [$\bullet$] $\E[ \, Z \tilde Z \, / \, \mathcal G ] = Z \E [\tilde Z / \, \mathcal G ]$
+		\end{itemize}
+	\end{prop}
+
+\section{Changement de probabilit\'e}
+
+	\begin{df}[D\'eriv\'ee de Radon-Nikodym] $\quad$ 
+		Une probabilit\'e $\Q$ sur un espace probabilis\'e $(\Omega, \, \mathcal A, \, \P)$ d\'efinit 
+un changement de probabilit\'e s'il existe une variable al\'eatoire $\frac{\dif \Q}{\dif \P}$, 
+d\'eriv\'ee de Radon-Nikodym, telle que pour tout \'ev\'enement $A \: \in \mathcal A$
+		\begin{displaymath}
+			\Q (A) = \E^{\P}[\frac{\dif \Q}{\dif \P} \text{\normalfont{\1}} _A ]	
+		\end{displaymath}
+		De plus si Z est une variable al\'eatoire $\Q$-int\'egrable on a
+		\begin{displaymath}
+			\E^{\Q} [Z] = \E^{\P} [\frac{\dif \Q}{\dif \P} Z]  
+		\end{displaymath} 
+	\end{df}
+	\begin{prop}[R\`egle de Bayes]$\quad$ \label{RegleBayes} 
+		On consid\`ere $\P \sim \Q$ (ie. $\P$ et $\Q$ \'equivalentes) sur 
+l'espace probabilisable $(\Omega, \, \mathcal A)$. \\
+		\indent Soit $\mathcal G$ une sous-tribu de $\mathcal A$ \\
+		\indent Soit $\frac{\dif \Q}{\dif \P}|_{\mathcal G}$ la d\'eriv\'ee de de Radon-Nikodym de
+$\Q$ par rapport \`a $\P$ sur la
+ sous-tribu $\mathcal G$. \\
+		\\
+		On alors : 
+		\begin{displaymath}
+			\E^{\Q}[Z / \mathcal G] = \frac{\E^{\P}[\frac{\dif \Q}{\dif \P}|_{\mathcal G}\, Z / \mathcal G]}{\E^{\P}[\frac{\dif \Q}{\dif \P}|_{\mathcal G}/ \mathcal G]}
+		\end{displaymath}
+ 
+	\end{prop} 
+	
+	\begin{df}[Filtration] $\quad$
+		Soit $(\Omega, \, \mathcal A, \, \P)$ un espace probabilis\'e. Une filtration sur cet
+ espace est une famille croissante $(\F)_{0 \leq t \leq + \infty} $ de sous tribus de $\mathcal A$. 
+	\end{df}
+	\begin{prop}$\quad$
+		Supposons que $\Q \ll \P$ (ie. $\Q$ est absolument continue par rapport \`a $\P$) sur 
+$\F_{+\infty}$. Pour tout t $\in \: [0, \, + \infty]$, 
+		\begin{displaymath}
+			L_t := \frac{\dif \Q}{\dif \P}|_{\F_t}
+		\end{displaymath}
+		la d\'eriv\'ee de Radon-Nikodym $\Q$ par rapport \`a $\P$ sur $\F_t$ est un $(\F)$-martingale.
+	\end{prop}
+	\begin{prop} $\quad$
+		Si on suppose de plus que $\Q \sim \P$ sur $\F_{+\infty}$ alors on a 
+			\begin{displaymath}
+				\forall t \geq 0 \,  \quad \,  L_t > 0 \quad p.s.
+			\end{displaymath}
+	\end{prop}
+	\begin{prop}[Lemme d'ind\'ependance]$\quad$ \label{independance}
+	Si $X$ est $\F$ -mesurable et $Y$ est ind\'ependante de $\F$ , alors :
+		\begin{eqnarray*}
+			\E\, \left \lbrack h(\,X ,  \, Y \, )\, /\, \F \, \right \rbrack &=& \gamma(X) \\
+		\text{o\`u } \quad \gamma(X) &=& \E\, \left \lbrack h(\,X ,  \, Y \, )\,\right \rbrack
+		\end{eqnarray*}		
+	\end{prop}
+
+	
+%****************************
+\chapter{Calcul stochastique} \label{CalculSto}
+%****************************
+
+\section{Mouvement Brownien}	
+
+	\noindent On notera $W^{\P}$ un $\P$-mouvement brownien issu de 0 (i.e. $W^{\P}_0 = 0$) d\'efini sur l'espace probabilis\'e
+ $(\Omega, \, \F, \, \P)$.\\
+	\\
+	On notera $\F:=(\F_t)_{\{0 \leq t \leq 
+T\}}$ sa filtration canonique. \\
+	\begin{prop}[Crochet oblique d'un mouvement brownien] $\quad$ 
+		Le crochet oblique du mouvement brownien $W^{\P}$ est 
+		\begin{displaymath}
+			\langle W^{\P} \rangle _t \, = \, t
+		\end{displaymath}
+	\end{prop}
+	\bigskip 
+	On notera $W^{\P}_1$ et $W^{\P}_2$, deux browniens corr\'el\'es issus de 0.  	
+	\begin{prop}[Crochet oblique de deux mouvement browniens] $\quad$
+		Le crochet de deux mouvements browniens $W^{\P}_1$ et $W^{\P}_2$ est 
+		\begin{displaymath}
+			\langle W^{\P}_1, \, W^{\P}_2 \rangle _t = \rho \, t
+		\end{displaymath}
+	\end{prop}
+	o\`u $\rho$ repr\'esente la corr\'elation entre les deux mouvements browniens. 
+
+\section{Int\'egrale stochastique}
+
+	\begin{df}[R\'egularit\'e] $\quad$ 
+		On considerera qu'un processus $\{\theta(t) , \: t \geq 0 \}$ est r\'egulier 
+par rapport au mouvement brownien $W^{\P}$ si l'int\'egrale stochastique d\'efinie par 
+		\begin{displaymath}
+			\int_0^t \theta_s \, \dif W^{\P}_s
+		\end{displaymath}
+		est bien d\'efinie. 
+	\end{df}
+	\bigskip
+	\indent On consid\`ere deux processus $\{H_t , \: t \geq 0 \}$ et  $\{K_t , \: t \geq 0 \}$
+ r\'eguliers par rapport au mouvement brownien $W^{\P}$ et on  d\'efinit deux int\'egrales stochastiques 
+$M_t$ et $N_t$ 	
+	\begin{displaymath}
+		\left\{
+		\begin{array}{l}
+			M_t := \int_0^t H_s \, \dif W^{\P}_s \\
+			     \\
+			N_t := \int_0^t K_s \, \dif W^{\P}_s \\ 
+			     \\
+		\end{array}
+		\right.	
+	\end{displaymath}
+	\begin{prop}[Crochet oblique de deux int\'egrales stochastiques] $\quad$
+		Le crochet oblique des int\'egrales stochastiques $M_t$ et $N_t$ est 
+		\begin{displaymath}
+			\left < M, \, N \right > _t = \int_0^t H_s K_s \dif s
+		\end{displaymath}    
+	\end{prop}
+	\begin{prop}[Crochet oblique d'une int\'egrale stochastique] $\quad$
+		Le crochet oblique de l'int\'egrale stochastique $M_t$ est 
+		\begin{displaymath}
+			\langle M, \, M \rangle _t = \int_0^t H_s^2 \dif s
+		\end{displaymath}    
+	\end{prop} 
+	\begin{rem} $\quad$ 
+		 On notera dans ce cas $\langle M \rangle _t := \langle M, \, M \rangle _t$
+	\end{rem}
+	\bigskip
+	\indent On consid\`ere deux processus $\{\tilde H_t , \: t \geq 0 \}$ et  
+$\{\tilde K_t , \: t \geq 0 \}$ r\'eguliers respectivement par rapport aux mouvements browniens $W^{\P}_1$ et 
+$W^{\P}_2$ et on  d\'efinit deux int\'egrales stochastiques $\tilde M_t$ et $\tilde N_t$  	
+	\begin{displaymath}
+		\left\{
+		\begin{array}{l}
+			\tilde M_t := \int_0^t \tilde H_s \, \dif W^{\P}_{1, s} \\
+			     \\
+			\tilde N_t := \int_0^t \tilde K_s \, \dif W^{\P}_{2, s} \\ 
+			     \\
+		\end{array}
+		\right.	
+	\end{displaymath}
+	\begin{prop}[Crochet oblique de deux int\'egrales stochastiques avec browniens corr\'el\'es] $\quad$
+		Le crochet oblique des int\'egrales stochastiques $\tilde M_t$ et $\tilde N_t$ est 
+		\begin{displaymath}
+			\langle \tilde M, \,  \tilde N \rangle_t = \int_0^t \tilde H_s \tilde K_s \, \rho \, \dif s
+		\end{displaymath}    
+	\end{prop}				
+
+
+\section{Processus d'It\^o}
+
+	\begin{df}[R\'egularit\'e] $\quad$
+		On considerera qu'un processus $\{\theta(t) , \: t \geq 0 \}$ est r\'egulier par 
+rapport \`a la mesure de Lebesgue si l'int\'egrale de Lebesgue d\'efinie par 
+		\begin{displaymath}
+			\int_0^t \theta_s \, \dif s
+		\end{displaymath}
+		est bien d\'efinie.
+	\end{df}
+	\begin{df}[Processus d'It\^ o] $\quad$
+		Un processus $X$ est un processus d'It\^o si $X_t$ a la d\'ecomposition suivante
+		\begin{equation}\label{ProcessusIto}
+			\forall t \geq 0 \qquad X_t := x + \int_0^t \,b_s \, \dif s + \int_0^t \sigma _s \dif W^{\P}_s  
+		\end{equation}		
+	\end{df}
+	\begin{rem}[Equation Diff\'erentielle Stochastique] $\quad$
+		L'\'equation (\ref{ProcessusIto}) ci-dessus peut s'\'ecrire \'egalement : 
+		\begin{displaymath}
+			\left\{
+			\begin{array}{l}
+				\dif X_t = b_t \dif t + \sigma_t \dif W^{\P}_t \\
+				X_0 = x 
+			\end{array}
+			\right.
+		\end{displaymath}
+	\end{rem}
+	\begin{prop}[Crochet oblique d'un processus d'It\^o] $\quad$
+		Le crochet oblique d'un processus d'It\^o est 
+		\begin{displaymath}
+			\langle X \rangle _t = \int_0^t \sigma_s^2 \dif s
+		\end{displaymath}		
+	\end{prop}
+	
+\section{Formule d'It\^o multidimensionnelle}
+
+	\begin{prop}[Lemme d'It\^o] $\quad$ \label{LemmeIto}
+		Soient $X_{t}^{1}, \, X_{t}^{2}, \cdots, \, X_{t}^{p}$, des processus d'It\^o. \\
+		\\
+		\indent Posons $X_{t}:=(X_{t}^{1},\, X_{t}^{2}, \,\ldots, \, X_{t}^{p})$. \\
+		\\
+		\indent Soit $f$ une fonction de $\R^p$ dans $\R$.\\
+		\\
+		\indent Alors $f(X_t)$ est un processus de It\^o, et on a :
+		\begin{eqnarray*}
+			f(X_t) &=& f(X_0) + \sum_{i=1}^{p} {\int_0^t \frac{\partial f}{\partial x_i}(X_s) \, \dif X_s^j} +
+					\frac 1 2 \sum_{i,j=1}^p {\int_0^t \frac{\partial_2 f}{\partial x_i 
+					\partial x_j}(X_s) \, \dif \langle X^i, \, X^j \rangle _s}
+		\end{eqnarray*}
+	\end{prop}
+
+\section{Th\'eor\`eme de Girsanov}
+
+	\noindent Soit un processus $\{\theta_t , \: t \geq 0 \}$ r\'egulier par rapport \`a la mesure
+ de Lebesgue et par rapport au mouvement brownien $W^{P}$ \\
+	\begin{df}[Exponentielle de Dol\'eans-Dade] $\quad$
+		On d\'efinit l'exponentielle de Dol\'eans-Dade par 
+		\begin{displaymath}
+			\mathcal E_t (\theta \bullet W^{\P}  ) := \exp \big \{ \int_0^t \theta_s \, \dif s - \frac 1 2 \int_0^t \theta_s \, \dif W^{\P}_s \big \}      
+		\end{displaymath}
+	\end{df}
+	\begin{prop}[Th\'eor\`eme de Girsanov] $\quad$  \label{TheoremGirsanov}
+		On consid\`ere le processus $\{L_t , \: t \geq 0 \}$ d\'efini par  
+		\begin{displaymath}
+			L_t := \mathcal E_t (\theta \bullet W^{\P}) 
+		\end{displaymath}
+		Sous des conditions suppl\'ementaires de r\'egularit\'e sur le processus $\{\theta_t , \: t \geq 0 \}$
+ on a alors \\
+		\begin{itemize}
+			\item [$\bullet$] $\{L_t , \: t \geq 0 \}$ est une $(\P, \, \F_t)$-martingale. \\
+			\item [$\bullet$] Il existe un probabilit\'e $\Q$ telle que sa d\'eriv\'ee de
+ Radon-Nikodym par rapport \`a $\P$ sur la filtration $\F_T$ est 
+				\begin{displaymath}
+					\frac {\dif \Q} {\dif \P} = L_T
+				\end{displaymath}  		
+			\item [$\bullet$] Il existe un $\Q$-mouvement brownien $\tilde W^{\Q}_t := W^{\P}_t + \int_0^t \theta _s 
+\dif s$.   
+		\end{itemize}
+	\end{prop}
+	
+\section{Equation Diff\'erentielle Stochastique et Mouvement \mbox{brownien} g\'eom\'etrique}
+
+	\begin{df}[Mouvement brownien g\'eom\'etrique]$\quad$
+		On dit qu'un proccessus $\left \{ X_t, t \leq T \right\}$ est un mouvement brownien g\'eom\'etrique 
+s'il satisfait \`a une \'equation diff\'erentielle stochastique (sous une certaine probabilit\'e) du type :
+		\begin{eqnarray*}\
+			\frac{\dif X_t}{ X_t} &=& \mu_t \, \dif t + \sigma_t \, \dif W_t 
+		\end{eqnarray*}  
+	dont la solution est donn\'ee par\footnote{En appliquant le Lemme d'It\^o cf. proposition \ref{LemmeIto} p. \pageref{LemmeIto}} :
+		\begin{eqnarray*}
+			X_t &=& X_0 \, \exp{ \left \{ \int_0^t \left ( \mu_s - \frac 1 2 \sigma^2_s \right ) \dif s  +  
+			\int_0^t \sigma_s \dif W_s \right \}}
+		\end{eqnarray*}
+	\end{df}
+	\begin{rem}$\quad$
+		\begin{itemize}
+			\item[$\bullet \quad$] En mod\'elisation des march\'es financiers, on suppose souvent que 
+				les instruments \'etudi\'es sont des proccesus r\'egis par ce type d'EDS \\
+			\item[$\bullet \quad$] Le terme $\mu_t$ est appel\'e {\bf terme de tendance} ou {\bf drift}\\
+			\item[$\bullet \quad$] $\sigma_t$ repr\'esente la {\bf volatitilit\'e instantan\'ee 
+				du processus en t }\\ 
+		\end{itemize}
+	\end{rem}
+	\begin{prop}$\quad$ \label{MvBrGeoMartingale}
+		\begin{itemize}
+			\item La volatilit\'e est invariante par changement de probabilit\'e \\
+			\item $\left \{ X_t , t \leq T \right \}$ est une $\left ( \Omega, \F, \P \right )$-martingale, si 
+			et seulement si son terme de tendance est nul sous $\P$  
+		\end{itemize}
+	\end{prop}	
+
+%**********************************************
+\chapter{Simulation de processus stochastiques} \label{Simulation}
+%**********************************************
+
+\section{Simulation d'une loi uniforme sur $\left [ 0 , 1 \right ]$}
+	
+	On simule une suite de variables al\'eatoires uniformes sur  $\left [ 0 , 1 \right ]$ par l'algorithme suivant :\\
+		\begin{displaymath}
+			\left \{
+			\begin{array}{rcl}
+				x_0 &=& \text{valeur initiale} \\
+				x_{n+1} &=& a x_n + b ( \text{mod m} ) 
+			\end{array}
+			\right.
+		\end{displaymath}
+	La valeur initiale $x_0$ doit \^etre un entier compris entre $0$ et $m-1$, on peut utiliser le g\'en\'erateur de 
+nombre al\'eatoire ( rand() en C++). Il faut choisir $a$, $b$ et $m$ de mani\`ere \`a optimiser la r\'epartition des valeurs. \\
+	Typiquement, pour une machine \`a 32 bits : \\
+		\begin{displaymath}
+			\left \{
+			\begin{array}{rcl}
+				m &=& 2^{32}\\
+				a &=& 1103515245 \\
+				b &=& 12345
+			\end{array}
+			\right.
+		\end{displaymath}
+	La suite de nombres $\left \{ u_n = \frac{x_n}{m} , \, n \geq 1 \right \} $ obtenue simule une loi uniforme sur 
+$\left [ 0 , 1 \right ]$ .
+
+\section{Simulation  de variables gaussiennes : M\'ethode de \mbox{Box \& Muller}} \label{BoxMuller}
+
+	Cette m\'ethode est bas\'ee sur le fait que si $U_1$ et $U_2$ sont deux variables uniformes ind\'ependantes alors :
+		\begin{displaymath}
+			\sqrt{- 2 log(U_1)} \, cos(2 \pi U_2)
+		\end{displaymath}
+	suit une loi gaussienne centr\'ee et r\'eduite. \\
+	\newline
+\indent
+	Pour simuler une gaussienne $X$ de moyenne $\mu$ et de variance $\sigma$, il suffit de poser :
+		\begin{displaymath}
+			X \, = \, \mu + \sigma Y
+		\end{displaymath}
+	avec $Y$ une gausienne centr\'ee et r\'eduite
+
+\section{Simulation du mouvement brownien}
+	
+	
+	Pour simuler un mouvement brownien $( W_t)_{t \geq 0}$ il s'agit de remarquer que si $( y_n )_{n \geq 0}$ est 
+une suite de gaussiennes ind\'ependantes, centr\'ees et r\'eduite, si $\Delta_t > 0 $ et si on construit $( S_n )_{n \geq 1}$ 
+comme suit :
+		\begin{displaymath}
+			\left \{
+			\begin{array}{rcl}
+				S_0 &=& 0 \\
+				S_{n+1} &=& y_n + S_n \\
+			\end{array}
+			\right.
+		\end{displaymath} 
+ alors les lois de $( \sqrt{\Delta_t} S_0, \sqrt{\Delta_t} S_1, \cdots , \sqrt{\Delta} S_n )$ et de 
+$( W_0, W_{\Delta_t}, W_{2 \Delta_t}, \cdots , W_{n \Delta_t})$ sont identiques.\\
+On peut alors approcher le brownien par $X_t^n \, = \,  \sqrt{\Delta_t} S_{[t/\Delta_t]}$
+
+\section{Simulation des \'equations diff\'erentielles stochastiques}
+	
+	On cherche \`a simuler l'\'equation diff\'erentielle stochastique :
+		\begin{displaymath}
+			\left \{
+			\begin{array}{rcl}
+				X_0 &=& x \\
+				\dif X_t &=& b(X_t) \dif t + \sigma(X_t) \dif W_t 
+			\end{array}
+			\right.
+		\end{displaymath}
+	On se fixe un pas de discr\'etisation en temps $\Delta_t$ et on consid\`ere une suite $( y_n )_{n \geq 0}$ de 
+gaussiennes centr\'ees r\'eduites  ind\'ependantes . \\
+	On construit le processus $( S_n )_{n \geq 0}$ en posant :
+		\begin{displaymath}
+			\left \{
+			\begin{array}{rcl}
+				S_0 &=& x \\
+				S_{n+1} &=& S_n + \Delta_t b(S_n) + \sigma(S_n) y_n \sqrt{\Delta_t}
+			\end{array}
+			\right.
+		\end{displaymath}
+	Alors le processus $( X_t^n \, = \, S_{[t/\Delta_t]})_{t \geq 0}$ approxime $( X_t )_{t \geq 0}$, la solution de 
+l'\'equation diff\'erentielle consid\'er\'ee.
+
+%********************************************************
+\chapter{March\'e en absence d'opportunit\'e d'arbitrage} \label{AOA}
+%*******************************************************
+
+\section{AOA}
+
+	Une hypoth\`ese fondamentale en mod\'elisation des march\'es  financiers est : {\bf l'absence d'opportunit\'e 
+d'arbitrage}\\
+\indent Il s'agit de consid\'erer un march\'e dans lequel il n'est pas possible de gagner de l'argent \`a coup s\^ur 
+partant d'un investissement nul.\\
+Une cons\'equence directe de l'AOA est l'unicit\'e des prix des produits d\'eriv\'es,  dans le sens o\`u deux strat\'egies 
+qui donnent le m\^eme flux \`a l'horizon dans tous les \'etats du  monde ont la m\^eme valeur \`a toute date interm\'ediare.
+
+\section{Cons\'equences de l'AOA}
+
+On rappelle les d\'efinitions du z\'ero-coupon et du prix forward d'un titre : \\
+
+	\begin{df}[Z\'ero-coupon]$\quad$ 
+		Un z\'ero-coupon de maturit\'e $T$ not\'e $B(t,T)$, est la quantit\'e d'argent \`a investir en t pour 
+disposer d'exactement  1 \officialeuro \  \`a la date $T$, sans flux interm\'ediaire.
+	\end{df}
+
+	\begin{df}[Forward] $\quad$ 
+		Un contrat \`a terme (forward) est un accord entre deux parties d'acheter ou de ventre un sous-jacent $S$ 
+\`a la date {\bf T}, \`a un prix {\bf K} fix\'e \`a l'avance ; tous les paiement ayant lieu en T.\\
+Le strike K est le prix forward (ou \`a terme) de S en T, on le note en g\'en\'eral $F_t(S,T)$ :\\
+c'est le prix auquel on est pr\^et \`a acheter le sous-jacent S en T.
+	\end{df}
+
+Les deux r\'esultats suivants sont des cons\'equences directes de l'AOA :
+\newpage
+	\begin{rem}[Prix forward] $\quad$ 
+		Pour garantir la d\'etention de S en T on peut :\\
+		\begin{itemize}
+			\item	soit acheter S aujourd'hui (date t)  et le garder jusqu'en T \\
+			\item	soit acheter le contrat forward. Pour pouvoir le payer en $T$, 
+			il faut investir $F_t(S,T)$ en z\'ero-coupon.\\
+		\end{itemize}
+	Les flux en T \'etant \'egaux, l'AOA nous dit que les prix en t sont \'egaux, donc :\\
+		\begin{eqnarray*}
+			F_t(S,T) \, B(t,T) &=& S_t\\
+		\end{eqnarray*}
+		\begin{eqnarray}\label{prix forward}
+			\boxed{ F_t(S,T) = \frac{S_t}{B(t,T)} }
+		\end{eqnarray}
+		\end{rem}
+		
+		\begin{rem}[Parit\'e Call-Put] $\quad$ \label{Parite}
+		L'achat d'un call et la vente d'un put de m\^emes caract\'eristiques assurent la d\'etention de la valeur de 
+l'actif \`a l'\'ech\'eance et la vente du prix d'exercice :
+			\begin{eqnarray*}
+				S_T - K
+			\end{eqnarray*}
+Le m\^eme flux peut alors \^etre obtenu en achetant le sous-jacent aujourd'hui et en remboursant $K B(t,T)$.
+Par AOA, on a :\\
+			\begin{eqnarray*}\label{call-put}
+				\boxed{ Call_t(T,K,S) - Put_t(T,K,S) = S_t - K B(t,T) }
+			\end{eqnarray*}
+		\end{rem}
+
+%**************************************************************
+\chapter{Num\'eraire et probabilit\'e risque-neutre associ\'ee} \label{Numeraire}
+%**************************************************************
+
+\section{D\'efinitions}
+		
+	\begin{df}[Num\'eraire]	$\quad$
+	Tout actif dont le processus de prix est strictement positif peut \^etre consid\'er\'e comme un num\'eraire.
+Pour un tel choix, les autres actifs sont alors d\'etermin\'es en quantit\'e d'unit\'e de ce num\'eraire.
+	\end{df}	
+
+	\begin{ex}[Num\'eraire du facteur d'accumulation] $\quad$
+	Soit $\{S_t, \, t\}$, un processus de prix associ\'e \`a un actif $S$. Consid\'erons le facteur d'accumulation 
+$\{\beta(t), \, t\}$ comme num\'eraire. Le prix en $t$ du sous-jacent $S$ associ\'e \`a ce num\'eraire est : $\frac{S_t}{\beta(t)}$. 
+De mani\`ere analogue, le prix d'un z\'ero-coupon de maturit\'e $T$ sous ce num\'eraire est : $\frac{B(t,T)}{\beta(t)}$
+	\end{ex}
+
+	\begin{ex}[Num\'eraire du z\'ero-coupon] $\quad$
+	Le prix en $t$ du sous-jacent $S$ associ\'e au num\'eraire du z\'ero-coupon est : $ F_t(S,T)$
+	\end{ex}
+	
+	\begin{df}[Probabilit\'e risque-neutre associ\'ee \`a un num\'eraire]$\quad$
+	On dit que $\P _N$ est la mesure risque-neutre associ\'ee au num\'eraire $N( . )$ si pour tout processus de prix $\{S_t,\, t\}$, 
+le processus $\{\frac{S(t)}{N(t)},\,  t\}$ est une $\{\Omega ,\, \F, \, \P_N\}$ -martingale.  
+	\end{df}
+
+	\begin{rem}$\quad$
+	Par abus de langage, lorsque le num\'eraire n'est pas pr\'ecis\'e, il s'agit de la probabilt\'e risque-neutre 
+associ\'ee au num\'eraire facteur d'accumulation $\beta(t)$. Cette probabilit\'e est en g\'en\'erale not\'ee $\Q$
+	\end{rem}
+	
+	\begin{prop}$\quad$
+	Soit $N$ un num\'eraire, alors la mesure de probabilt\'e $\P_N$ d\'efinie par:
+		\begin{eqnarray*}
+			\P_N(A) : = \frac{1}{N(0)}\, \int_A{\frac{N(T)}{\beta(T)} \, \dif\Q} \quad ,\forall A \in \F_T
+		\end{eqnarray*}
+est risque-neutre pour $N$
+	\end{prop}
+	
+	\begin{rem} $\quad$
+	Les mesures $\P_N$ et $\Q$ sont \'equivalentes, i.e. : 
+		\begin{eqnarray*}
+			\Q \, ( A ) = 0 & \Leftrightarrow & \P_N \, ( A ) = 0	\\	
+		\end{eqnarray*}
+Et, on a :
+		\begin{eqnarray*}
+			\Q \, (A) = N(0)\, \int_A{\frac{\beta(T)}{N(T)}\, \dif \P_N} \quad  , \, \forall A \in \F_T	
+		\end{eqnarray*}
+	\end{rem}
+ 
+	\begin{rem} $\quad$
+	Soit $\{S_t, \, t\}$, un processus de prix associ\'e \`a un actif $S$.\\
+\indent - Sous $\Q$,  $\{\frac{S_t}{\beta(t)},\,  t\}$ est une $\{\Omega ,\, \F,\, \Q\}$ -martingale\\
+\indent - Sous $\P_N$,  $\{\frac{S_t}{\beta(t)},\,  t\}$ est une $\{\Omega ,\F,\, \P_N\}$ -martingale\\
+	\end{rem}
+		
+	\begin{ex}[Probabilit\'e forward-neutre]$\quad$
+	On consid\`ere le num\'eraire du z\'ero-coupon de maturit\'e T \\
+La probabilit\'e risque neutre associ\'ee \`a ce num\'eraire est :
+		\begin{eqnarray*}
+			\P_T\, (A) &=& \frac{1}{B(0,T)} \int_A{\frac{B(T,T)}{\beta(T)} \dif \Q}\\
+							&=& \frac{1}{B(0,T)} \int_A{\frac{1}{\beta(T)}\dif \Q} \quad ,\forall A \in \F_T	 
+		\end{eqnarray*}
+$\P_T$ est appel\'ee {\bf probabilit\'e T-forward}.\\
+\\
+Ainsi $F_t(S,T) = \frac{S_t}{B(t,T)}$ est une $\{\Omega ,\,\F, \,\P_T\}$ -martingale
+	\end{ex}
+
+		\begin{ex}[Num\'eraire associ\'e \`a un actif] $\quad$
+		Soit $S$ un actif. On consid\`ere $S(.)$ comme num\'eraire. Alors, le prix de l'actif sous ce num\'eraire est 
+naturellement 1. La probabilit\'e risque-neutre associ\'e \`a ce num\'eraire est :
+			\begin{eqnarray*}
+				\P_s(A) &=& \frac{1}{S(0)} \int_A{\frac{S(T)}{\beta(T)}\, \dif \Q} \quad ,\forall A \in \F_T	 
+			\end{eqnarray*}
+		\end{ex}
+
+
+\section{Changement de num\'eraire}
+
+	Soient $N$ un num\'eraire , S, le prix d'un actif et $\P_N$ probabilit\'e risque-neutre associ\'ee \`a $N$. \\
+$\P_N$ admet une densit\'e de Radon-Nikodym par rapport \`a $\Q$ , et on a :
+		\begin{eqnarray*}
+			\frac{\dif \P_N}{\dif \Q} = \frac{N(T)\,\beta(t)}{N(t)\,\beta(T)}
+		\end{eqnarray*}
+	\\
+	\\
+	Soit $M$, un autre num\'eraire, on a la formule de changement de num\'eraire pour tout flux $\phi(S_T)\, \, \,\\  
+\F_t \,$ -mesurable :\\
+		\begin{eqnarray}\label{chgt num} 
+			 N(T)\,\E_{\P_N} \left \lbrack \, M(T)\, \phi(S_T) \,  / \, \F_t \, \right \rbrack &=& M(T)\,\E_{\P_M} \, \left \lbrack \, N(T)\, \phi(S_T) \, / \, \F_t \, \right \rbrack 
+		\end{eqnarray}
+\newpage
+\subsection*{ Prix en t d'un flux $\phi(S_T)$ en $T$}
+
+\indent Soit $\phi(S_T)$ un flux engendr\'e par un produit d\'eriv\'e en T\\
+Alors la valeur du produit aujourd'hui est :\\		
+	\begin{eqnarray}\label{prix RN}
+\boxed{\E_{\Q}\, \left \lbrack \, \frac{\beta(t)}{\beta(T)} \,\phi(S_T)\,/\,\F_t \, \right \rbrack}
+	\end{eqnarray}
+
+\fbox{
+	\begin{minipage}{\textwidth}
+	\begin{rem}[Important]$\quad$
+		Pour \'evaluer les prix de certains contrats, il sera parfois n\'ecessaire de changer de num\'eraire.
+		Un changement de num\'eraire correspondant \`a un changement de probabilit\'e, la r\`egle de Bayes 
+donn\'ee \`a la proposition \ref{RegleBayes} p. \pageref{RegleBayes} reste encore valable.
+	\end{rem}
+	\end{minipage}
+	}
+
+\begin{thebibliography}{20}
+\addcontentsline{toc}{part}{Bibliographie}
+	\bibitem{1} D. Brigo \& F. Mercurio - \textit{Interest Rate Models Theory and Practice} - Springer Finance, 2001 \\
+	\bibitem{2} L. Martellini \& P. Priaulet - \textit{Produits de Taux d'Int\'er\^et} - Economica, 2004 \\
+	\bibitem{3} D. Lamberton \& B. Lapeyre - \textit{Introduction au Calcul Stochastique Appliqu\'e \`a la Finance} - 
+			Ellipses, 1997 \\
+	\bibitem{4} P. Wilmott - \textit{Derivatives : The Theory and Practice of Financial Engineering} - University, 1998 \\
+	\bibitem{5} A. Brace, M. Musiela \& E. Schl\"ogl - \textit{A Simulation Algorythm Based on Measure Relationships 
+			in the Lognormal Market Models} - December 1998 \\
+	\bibitem{6} S. Shreve - \textit{Stochastic Calculus and Finance} - University of Illinois, Juillet 1997 \\
+	\bibitem{7} A. Ruttiens - \textit{Futures, Swaps, Options : Les produits financiers d\'eriv\'es.} Edipro, 2006\\
+	\bibitem{8} JM. Dalbarade - \textit{Math\'ematiques des March\'e Financiers} - Eska, 2005\\
+	\bibitem{9} F. Riva - \textit{Applications Financi\`eres sous Excel en Visual Basic} - Economica, 2005 \\
+\end{thebibliography}
+
+\end{document}

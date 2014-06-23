@@ -10,6 +10,7 @@ print("Program starting...")
 #set current directory
 setwd(current_dir)
 
+source("class_definition.R") # define classes
 #install / load dependencies
 source("install_register_packages.R") 
 #source("class_definition.R") # define classes
