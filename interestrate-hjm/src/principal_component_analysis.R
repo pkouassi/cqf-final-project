@@ -10,7 +10,7 @@ Maturity = c(0.08, seq(0.5,25,by=0.5))
 #Forward Rates term structure plotting
 plot_x_lim = c(0,25);
 plot_y_lim = c(0,8);
-matplot(Maturity,cbind(HistoricalForwardCurve[1,],HistoricalForwardCurve[500,],HistoricalForwardCurve[1000,]),type="l",col=c("blue","pink","yellow"),main="Forward Rates Term Structure",xlab="Maturity, year",ylab="Forward Curve",xlim=plot_x_lim, ylim=plot_y_lim,lwd=2,lty=1)
+matplot(Maturity,cbind(HistoricalForwardCurve[1,],HistoricalForwardCurve[500,],HistoricalForwardCurve[700,]),type="l",col=c("blue","pink","yellow"),main="Forward Rates Term Structure",xlab="Maturity, year",ylab="Forward Curve",xlim=plot_x_lim, ylim=plot_y_lim,lwd=2,lty=1)
 #plot(Maturity,HistoricalForwardCurve[2000,],type="l",lwd=2,xlim=plot_x_lim, ylim=plot_y_lim,col ="purple",
 #     main="",xlab="",ylab="")
 
@@ -79,6 +79,18 @@ GetVolatilityFitFunction = function(volatility) {
 
 PC2_volatility_fitted = GetVolatilityFitFunction(PC2_volatility)
 PC3_volatility_fitted = GetVolatilityFitFunction(PC3_volatility)
+
+#Vectorized version of fitted function (required for integration)
+PC1_volatility_fitted_vector = function(X){
+  return(sapply(X,PC1_volatility_fitted))
+}
+PC2_volatility_fitted_vector = function(X){
+  return(sapply(X,PC2_volatility_fitted))
+}
+PC3_volatility_fitted_vector = function(X){
+  return(sapply(X,PC3_volatility_fitted))
+}
+
 
 matplot(Maturity,cbind(PC1_volatility,sapply(Maturity,PC1_volatility_fitted)),type="l",col=c("blue","red"))
 matplot(Maturity,cbind(PC2_volatility,sapply(Maturity,PC2_volatility_fitted)),type="l",col=c("blue","red"))

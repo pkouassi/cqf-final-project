@@ -47,3 +47,24 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   cat("UK instantaneous commercial bank liability forward curve loaded between",format(as.Date(min(DateForwardCurve),origin = as.Date("01 Jan 70",date_format)),date_format),"and",format(as.Date(max(DateForwardCurve),origin = as.Date("01 Jan 70",date_format)),date_format),"\n")
   return(list(date=DateForwardCurve,forwardcurve=HistoricalForwardCurve))
 }
+
+parseForwardCurve = function(date,shortend_filename,longend_filename) {
+  #date = as.Date("2014-05-30","%Y-%m-%d")
+  #shortend_filename ="/../data/ukblc05_mdaily_fwdcurve_shortend.csv"
+  
+  forward_curve_shortend=read.csv(paste(getwd(),shortend_filename,sep=""), skip=3,header = TRUE,stringsAsFactors = FALSE)
+  date_format = "%d %b %y"
+  forward_curve_shortend[,1] = as.Date(forward_curve_shortend[,1],date_format)
+  forward_curve_shortend = forward_curve_shortend[-1,] #suppress first line that does not contain data
+  
+  #initialze matrix
+  ForwardCurve = matrix(NA,nrow=1,ncol=(ncol(forward_curve_shortend)-1),byrow = TRUE);
+  colnames(ForwardCurve) = seq(1/12,5,by=1/12)
+
+  #populate matrix
+  ForwardCurve[1,] = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])  
+  
+  return(ForwardCurve)
+}
+
+
