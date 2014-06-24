@@ -6,7 +6,7 @@ cat("Number of core(s) to be used for calculation:",getDoParWorkers(),"\n")
 #registerDoParallel(cl_1core)
 
 
-input_data = ValuationDateForwardCurve$forwardcurve/100
+input_data = ValuationDateForwardCurve$rate/100
 #input_data = read.csv("P:/CQF/FinalProject/git-root/finalproject/interestrate-hjm/data/spot_curve.csv", header = TRUE)$rate
 #dX_data = read.csv("P:/CQF/FinalProject/git-root/finalproject/interestrate-hjm/data/DX.csv", header = TRUE)
 #dX_data = read.delim("clipboard")
@@ -93,6 +93,10 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   
   #calculate value of Caplet with strike k(1year forward starting 3M duration)
   
+  #Project Workshop suggests simple averaging but it will be an advantage if you can choose
+  #and apply one of the simple methods of forward curve interpolation from Hagan & West,
+  #given that BOE has already applied its own VRP curve-ftting methodology.
+  #libor at time t=1Y
   x1 = seq(1/12,2,by=1/12)
   x2 = x1^2
   x3 = x2^3
@@ -103,14 +107,36 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   b2 = as.numeric(fit$coefficients["x2"])
   b3 = as.numeric(fit$coefficients["x3"])
   tmpfunc = function(x) return(b0+b1*x+b2*x^2+b3*x^3)
-  libor_continusously_coupounded = integrate(tmpfunc,0,1)$value
-  libor_simply_coupounded = exp(libor_continusously_coupounded)-1
-  K = 0.008 #0.8%
-  caplet1x1_008 = max(libor_simply_coupounded-0.008,0)*bond1Y*1
-  caplet1x1_005 = max(libor_simply_coupounded-0.005,0)*bond1Y*1
-  caplet1x1_002 = max(libor_simply_coupounded-0.002,0)*bond1Y*1
+  libor_1y_cont_compounded = integrate(tmpfunc,0,1)$value
+  libor_1y_simply_compounded = 4*(exp(libor_1y_cont_compounded/4)-1)
+
+  #libor at time t=1.25Y
+  libor_1.25y_cont_compounded = integrate(tmpfunc,0,1.25)$value
+  libor_1.25y_simply_compounded = 4*(exp(libor_1.25y_cont_compounded/4)-1)
   
-  res = c(bond1Y,caplet1x1_008,caplet1x1_005,caplet1x1_002)
+  #libor at time t=1.5Y
+  libor_1.5y_cont_compounded = integrate(tmpfunc,0,1.5)$value
+  libor_1.5y_simply_compounded = 4*(exp(libor_1.5y_cont_compounded/4)-1)
+  
+  #libor at time t=1.75Y
+  libor_1.75y_cont_compounded = integrate(tmpfunc,0,1.75)$value
+  libor_1.75y_simply_compounded = 4*(exp(libor_1.25y_cont_compounded/4)-1)
+  
+  libor_1.75y_cont_compounded_verif = sum(mat[101,1:21]*(1/12))
+  
+  K1 = 0.03
+  caplet_1_1.25 = max(libor_1y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,1.25)
+  caplet_1.25_1.5 = max(libor_1.25y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,1.5)
+  caplet_1.5_1.75 = max(libor_1.5y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,1.75)
+  caplet_1.75_2 = max(libor_1.75y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,2)
+  
+  cap_1yfwd_1y = caplet_1_1.25 + caplet_1.25_1.5 + caplet_1.5_1.75 + caplet_1.75_2
+  
+  
+  #caplet1x1_005 = max(libor_simply_coupounded-0.005,0)*bond1Y*1
+  #caplet1x1_002 = max(libor_simply_coupounded-0.002,0)*bond1Y*1
+  
+  res = c(bond1Y,caplet_1_1.25,caplet_1.25_1.5,caplet_1.5_1.75,caplet_1.75_2,cap_1yfwd_1y,libor_1y_simply_compounded,libor_1.25y_cont_compounded,libor_1.5y_cont_compounded,libor_1.75y_cont_compounded,mat[101,12],mat[101,24],libor_1.75y_cont_compounded_verif)
   
   #if (k %% 100 == 0 || k == 10) {
   #  ConvergenceDiagram[l,"nbsimul"] = k
@@ -126,9 +152,25 @@ stopCluster(cl)
 
 BondPrice= mean(Result[,1])
 cat("1Y Bond Price:",BondPrice,"\n")
-cat("1x1 Caplet with K = 0.008 Price:",mean(Result[,2]),"\n")
-cat("1x1 Caplet with K = 0.005 Price:",mean(Result[,3]),"\n")
-cat("1x1 Caplet with K = 0.002 Price:",mean(Result[,4]),"\n")
+cat("Caplet 3M starts at t=1 with K = 0.03 Price:",mean(Result[,2]),"\n")
+cat("Caplet 3M starts at t=1.25 with K = 0.03 Price:",mean(Result[,3]),"\n")
+cat("Caplet 3M starts at t=1.5 with K = 0.03 Price:",mean(Result[,4]),"\n")
+cat("Caplet 3M starts at t=1.75 with K = 0.03 Price:",mean(Result[,5]),"\n")
+cat("Cap 1Y starts at t=1 with K = 0.03 Price:",mean(Result[,6]),"\n")
+cat("LIBOR at t=1:",mean(Result[,7]),"\n")
+cat("LIBOR at t=1.25:",mean(Result[,8]),"\n")
+cat("LIBOR at t=1.5:",mean(Result[,9]),"\n")
+cat("LIBOR at t=1.75:",mean(Result[,10]),"\n")
+cat("fwd expectation at t=1:",mean(Result[,11]),"\n")
+cat("fwd expectation at t=2:",mean(Result[,12]),"\n")
+cat("LIBOR at t=1.75 (verif simple integration):",mean(Result[,13]),"\n")
+
+#comparer avec formule de la spreadsheet
+#Cap_1Y = Black76ImpliedVolatilityBisection("call",mean(Result[,6]),0.03,1,r,Premium, SigmaMin, SigmaMax, Iteration, MaxIteration, MaxError)
+
+#cat("1x1 Caplet with K = 0.008 Price:",mean(Result[,2]),"\n")
+#cat("1x1 Caplet with K = 0.005 Price:",mean(Result[,3]),"\n")
+#cat("1x1 Caplet with K = 0.002 Price:",mean(Result[,4]),"\n")
 cat("Time to compute:", Sys.time()-timestamp,"\n")
 
 l=1

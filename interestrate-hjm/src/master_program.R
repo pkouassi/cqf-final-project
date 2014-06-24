@@ -23,6 +23,7 @@ source("jacobi_transformation_functions.R")
 source("principal_component_analysis.R") 
 
 #Monte Carlo Simulation / Pricing
+source("black76.R") 
 source("monte_carlo_simulation_functions.R") 
 source("monte_carlo_simulation.R") 
 

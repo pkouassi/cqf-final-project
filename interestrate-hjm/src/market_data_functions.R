@@ -67,7 +67,7 @@ parseForwardCurve = function(date,shortend_filename,longend_filename) {
   #populate matrix
   #ForwardCurve[1,] = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])  
   
-  return(list(date=ForwardCurveDate,forwardcurve=ForwardCurve))
+  return(list(time=ForwardCurveDate,rate=ForwardCurve))
   return()
 }
 
@@ -97,7 +97,46 @@ parseOISSpotCurve = function(date,ois_spotcurve_filename) {
   OISSpotCurve = as.numeric(ois_spot_curve[ois_spot_curve[,1] == date,2:ncol(ois_spot_curve)])  
   OISSpotCurveDate = seq(1/12,5,by=1/12)
   
-  return(list(date=OISSpotCurveDate,spotcurve=OISSpotCurve))
+  return(list(time=OISSpotCurveDate,rate=OISSpotCurve))
 }
 
+#retrieve discount factor for a specific date
+GetDiscountFactor = function(YieldCurve,t) {
+  min_time = min(YieldCurve@time)
+  min_time_index = which.min(YieldCurve@time)
+  max_time = max(YieldCurve@time)
+  max_time_index = which.max(YieldCurve@time)
+  
+  result = NA
+  
+  if (length(t)==1) {
+    if (t < 0) {
+      cat("Warning: t is negative. discountfactor not calculated for this case")
+    }
+    else if (t == 0) {
+      result = 1 #df of t=0 is 1
+    }
+    else if (t>0 && t<min_time) {
+      #df of t=0 is 1
+      result = 1 + (YieldCurve@discountfactor[min_time_index]-1)*(t/min_time)
+    }
+    else if (t >= max_time) {
+      result = YieldCurve@discountfactor[max_time_index]
+    }
+    else {
+      #i.e t falls between 2 maturity for which we have the discount factor
+      for (i in seq(1,length(YieldCurve@time)-1)) {
+        if (t>= YieldCurve@time[i] && t<YieldCurve@time[i+1]) {
+          result = YieldCurve@discountfactor[i] + (YieldCurve@discountfactor[i+1]-YieldCurve@discountfactor[i])*((t-YieldCurve@time[i])/(YieldCurve@time[i+1]-YieldCurve@time[i]))
+        }                                                                                                                 
+      }
+    }  
+  }
+  return (result)  
+}
+
+#Vectorized version of GetDiscountFactor
+GetDiscountFactorVector = function(YieldCurve,t_array){
+  return(sapply(t_array,GetDiscountFactor,YieldCurve=YieldCurve))
+}
 
