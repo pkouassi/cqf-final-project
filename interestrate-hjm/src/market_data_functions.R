@@ -1,4 +1,6 @@
 parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
+  #shortend_filename = "/../data/ukblc05_mdaily_fwdcurve_shortend.csv"
+  #longend_filename = "/../data/ukblc05_mdaily_fwdcurve_longend.csv"
   forward_curve_shortend=read.csv(paste(getwd(),shortend_filename,sep=""), skip=3,header = TRUE,stringsAsFactors = FALSE)
   forward_curve_longend=read.csv(paste(getwd(),longend_filename,sep=""), skip=3,header = TRUE,stringsAsFactors = FALSE)  
   date_format = "%d %b %y"
@@ -8,8 +10,8 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   for (i in seq(1,nrow(forward_curve_longend))) {
     date = as.Date(forward_curve_longend[i,1],date_format)
     if (!is.na(date)) {
-      if (forward_curve_longend[i,2] != "") {
-        k = k+1    
+      if (!is.na(forward_curve_longend[i,2]) & forward_curve_longend[i,2] != "") {
+        k = k+1
       }
     }       
   }
@@ -26,7 +28,7 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   for (i in seq(1,nrow(forward_curve_longend))) {
     date = as.Date(forward_curve_longend[i,1],date_format)
     if (!is.na(date)) {
-      if (forward_curve_shortend[i,2] != "") {    
+      if (!is.na(forward_curve_longend[i,2]) & forward_curve_shortend[i,2] != "") {    
         #make sure date are aligned between the shortend file and longend file
         if (forward_curve_shortend[i,1] == forward_curve_longend[i,1]) {
           DateForwardCurve[k] = date
@@ -38,8 +40,8 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
         }      
         k = k+1   
       }
-      else {
-        cat("No forward curve data for", format(as.Date(forward_curve_longend[i,1],date_format),date_format),"\n")
+      else {      
+        #cat("No forward curve data for", format(as.Date(forward_curve_longend[i,1],date_format),date_format),"\n")
       }
     }
   }

@@ -1,24 +1,24 @@
 # Black 76 pricing formula
-Black76OptionPricing = function(type,F,K,Time,r,sigma) {
+Black76OptionPricing = function(type,F,K,Time,sigma) {
   d1 = (log(F/K)+(0.5*sigma^2)*Time)/(sigma*sqrt(Time))
   d2 = (log(F/K)-(0.5*sigma^2)*Time)/(sigma*sqrt(Time))
   
   #REVIEW - NO r in black formula
   if (type == "call") {
-    return (exp(-r*Time) * (F*pnorm(d1)-K*pnorm(d2)))
+    return (F*pnorm(d1)-K*pnorm(d2))
   }
   else {
-    return (exp(-r*Time) * (K*pnorm(-d2)-F*pnorm(-d1)))
+    return (K*pnorm(-d2)-F*pnorm(-d1))
   }
 }
 
 #implement root finding using newton raphason
-Black76ImpliedVolatilityBisection = function(type,F,K,Time,r,Premium, SigmaMin, SigmaMax, Iteration, MaxIteration, MaxError) {
+Black76ImpliedVolatilityBisection = function(type,F,K,Time,Premium, SigmaMin, SigmaMax, Iteration, MaxIteration, MaxError) {
   
   SigmaMid = SigmaMin + (SigmaMax - SigmaMin)/2;
-  SigmaMinPremium = Black76OptionPricing(type,F,K,Time,r,SigmaMin)
-  SigmaMaxPremium = Black76OptionPricing(type,F,K,Time,r,SigmaMax)
-  SigmaMidPremium = Black76OptionPricing(type,F,K,Time,r,SigmaMid)
+  SigmaMinPremium = Black76OptionPricing(type,F,K,Time,SigmaMin)
+  SigmaMaxPremium = Black76OptionPricing(type,F,K,Time,SigmaMax)
+  SigmaMidPremium = Black76OptionPricing(type,F,K,Time,SigmaMid)
   
   if (Iteration > MaxIteration) 
   {
@@ -32,10 +32,10 @@ Black76ImpliedVolatilityBisection = function(type,F,K,Time,r,Premium, SigmaMin, 
     return(SigmaMid);     
   }
   else if (SigmaMidPremium<Premium) {
-    return(Black76ImpliedVolatilityBisection(type,F,K,Time,r,Premium,SigmaMid,SigmaMax,Iteration+1,MaxIteration,MaxError));
+    return(Black76ImpliedVolatilityBisection(type,F,K,Time,Premium,SigmaMid,SigmaMax,Iteration+1,MaxIteration,MaxError));
   }
   else if (SigmaMidPremium>Premium) {
-    return(Black76ImpliedVolatilityBisection(type,F,K,Time,r,Premium,SigmaMin,SigmaMid,Iteration+1,MaxIteration,MaxError));
+    return(Black76ImpliedVolatilityBisection(type,F,K,Time,Premium,SigmaMin,SigmaMid,Iteration+1,MaxIteration,MaxError));
   }  
 }
 
