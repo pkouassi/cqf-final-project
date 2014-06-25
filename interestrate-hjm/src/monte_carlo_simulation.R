@@ -18,10 +18,10 @@ maturityBucket = 1/12
 NumberOfYear = 2 #projection of the forward rates evolation over 10 years
 timestep = 0.01 #size of timestep for projection
 NumberOfTimesteps = NumberOfYear/timestep
-NumberSimulation = 10000
+NumberSimulation = 1000
 
 #pre-calculation (performance)
-MaturityList = c(0,seq(2/12,MaxMaturity,by=maturityBucket)) #1M rate is taken as proxy for Maturity=0
+MaturityList = seq(1/12,MaxMaturity,by=maturityBucket) #1M rate is taken as proxy for Maturity=0
 drift = rep(NA,length(MaturityList))
 volatility_1 = rep(NA,length(MaturityList))
 volatility_2 = rep(NA,length(MaturityList))
@@ -64,11 +64,11 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
   
   #mat = matrix(NA, nrow=(NumberOfTimesteps+1),ncol=length(MaturityList),byrow = TRUE);
-  mat = matrix(NA, nrow=(NumberOfTimesteps+1),ncol=24,byrow = TRUE);
+  mat = matrix(NA, nrow=(NumberOfTimesteps+1),ncol=length(MaturityList),byrow = TRUE);
   #initialize first row (equivalent to t=0) with input data (latest spot curve)
   #mat[1,] = input_data$rate
   
-  mat[1,] = input_data[1:24]
+  mat[1,] = input_data[1:length(MaturityList)]
   #mat[1,] = input_data[1:length(MaturityList)]
 
   dX = matrix(dX_Sobol[k,],ncol=3,nrow=NumberOfTimesteps,byrow = TRUE)
@@ -117,7 +117,7 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   Bond2Y = ComputeBondPrice(mat,timestep,0,2)
   
   #Calculate value of LIBOR (continuous compounding and 3M compounding)
-  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(1,1.25,1.5,1.75))
+  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75))
   Libor3MCompounded = 4*(exp(LiborContinuouslyCompounded/4)-1)
   
   #Calculate value of Caplet with strike k(1year forward starting 3M duration)
