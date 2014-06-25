@@ -4,7 +4,7 @@ library(compiler)
 #install.packages("Rprof")
 #library(Rprof)
 
-NumberSimulation = 10000
+NumberSimulation = 10
 NumberOfTimesteps = 200
 maturityBucket = 1/12
 NumberOfYear = 2
@@ -59,7 +59,7 @@ testfunc2 = function(i,mat) {
     sum(quantity_2[j]*dX[i-1,1],quantity_3[j]*dX[i-1,2],quantity_4[j]*dX[i-1,3])*sqrt(timestep) +
     ((mat[i-1,j]-mat[i-1,j-1])/(maturityBucket))*timestep 
 
-  return(vect)
+  return(t(vect))
 }
 testfunc2.compiled = cmpfun(testfunc2)
 
@@ -76,6 +76,8 @@ for (k in seq(1,NumberSimulation)){
   
   #matrix init
   mat = matrix(NA, nrow=(NumberOfTimesteps+1),ncol=length(MaturityList),byrow = TRUE);
+  cat("nrow/ncol:",nrow(mat),ncol(mat),"\n")
+  
   mat[1,] = input_data
   dX = matrix(dX_Master[((k-1)* 3 * NumberOfTimesteps+1):(k * 3 * NumberOfTimesteps)],ncol=3,nrow=NumberOfTimesteps,byrow = TRUE) 
   
@@ -87,8 +89,9 @@ for (k in seq(1,NumberSimulation)){
     #mat[i,] = testfunc2.compiled(i,mat)
   #}
   
-  #mat = sapply(seq(2,nrow(mat)),testfunc2.compiled,mat=mat)
-  mat = testfunc3.compiled(mat)
+  mat[2:nrow(mat),] = t(sapply(seq(2,nrow(mat)),testfunc2.compiled,mat=mat))
+  cat("nrow/ncol (return):",nrow(mat),ncol(mat),"\n")
+  #mat = testfunc3.compiled(mat)
   
   #perform calculation using data in matrix mat
   #...

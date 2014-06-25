@@ -34,6 +34,29 @@ for (j in seq(1,length(MaturityList))) {
   volatility_3[j] = PC3_volatility_fitted(MaturityList[j])
 }
 
+populate_row = function(i,mat) {
+  result = rep(NA,ncol(mat))
+  #cat("row above:",mat[i-1,],"\n")
+  #cat("j:",seq(1,ncol(mat)-1),"\n")
+  for (j in seq(1,ncol(mat)-1)) 
+  {
+    #Equation: F + drift*dt+SUM(vol*dX_i)*SQRT(dt)+dF/dtau*dt
+    result[j] = mat[i-1,j] + drift[j]*timestep + 
+        sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
+        ((mat[i-1,j+1]-mat[i-1,j])/(maturityBucket))*timestep 
+  }
+  
+  #Last row 
+  #use backward difference for dF/dTau on last column
+  result[ncol(mat)] = mat[i-1,j] + drift[j]*timestep + 
+      sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
+      ((mat[i-1,j]-mat[i-1,j-1])/(
+        maturityBucket))*timestep 
+      
+  return(result)
+}  
+populate_row.compiled = cmpfun(populate_row)
+
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
 Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
 #for (k in seq(1,NumberSimulation)) {
@@ -56,26 +79,38 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   #j: maturity of the curve
   
   #populate matrix
+#   for (i in seq(2,nrow(mat))) {
+#     
+#     for (j in seq(1,ncol(mat))) {
+#       #Equation: F + drift*dt+SUM(vol*dX_i)*SQRT(dt)+dF/dtau*dt
+#       if (j<ncol(mat)) {
+#         mat[i,j] = mat[i-1,j] + drift[j]*timestep + 
+#           sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
+#           ((mat[i-1,j+1]-mat[i-1,j])/(maturityBucket))*timestep 
+#         
+#       }
+#       else if (j == ncol(mat)) {
+#         #use backward difference for dF/dTau on last column
+#         mat[i,j] = mat[i-1,j] + drift[j]*timestep + 
+#           sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
+#           ((mat[i-1,j]-mat[i-1,j-1])/(
+#             maturityBucket))*timestep 
+#       }
+#       
+#     }
+#   }
+  
+  #populate matrix
+  #cat("nrow/ncol (before):",nrow(mat),ncol(mat),"\n")
+  #print(populate_row.compiled(2,mat))
+  #mat_populated = t(sapply(seq(2,nrow(mat)),populate_row.compiled,mat=mat))
+  #print(mat_populated)
   for (i in seq(2,nrow(mat))) {
-    
-    for (j in seq(1,ncol(mat))) {
-      #Equation: F + drift*dt+SUM(vol*dX_i)*SQRT(dt)+dF/dtau*dt
-      if (j<ncol(mat)) {
-        mat[i,j] = mat[i-1,j] + drift[j]*timestep + 
-          sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
-          ((mat[i-1,j+1]-mat[i-1,j])/(maturityBucket))*timestep 
-        
-      }
-      else if (j == ncol(mat)) {
-        #use backward difference for dF/dTau on last column
-        mat[i,j] = mat[i-1,j] + drift[j]*timestep + 
-          sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
-          ((mat[i-1,j]-mat[i-1,j-1])/(
-            maturityBucket))*timestep 
-      }
-      
-    }
+    mat[i,] =  populate_row.compiled(i,mat)
   }
+  
+  #cat("nrow/ncol (after):",nrow(mat),ncol(mat),"\n")
+  #print(mat[1:10,])
   
   #Calculate value of a 1Y and 2Y bond
   Bond1Y = ComputeBondPrice(mat,timestep,0,1)
@@ -98,6 +133,8 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   Cap1by2_4.00 = ComputeCapPrice(mat,timestep,1,2,0.0400)
   Cap1by2_5.00 = ComputeCapPrice(mat,timestep,1,2,0.0500)
   
+  
+  
   #define the vector of values which will be kept for all simulations  
   res = c(bond1=Bond1Y,bond2=Bond2Y,libor=Libor3MCompounded,cap1=Cap1by2_0.10,cap2=Cap1by2_0.25,cap3=Cap1by2_0.50,cap4=Cap1by2_0.75,cap5=Cap1by2_1.00,cap6=Cap1by2_1.50,cap7=Cap1by2_2.00,cap8=Cap1by2_2.50,cap9=Cap1by2_3.00,cap10=Cap1by2_4.00,cap11=Cap1by2_5.00)
   
@@ -117,7 +154,7 @@ Bond2Y = mean(Result[,"bond2"])
 cat("Bond 1Y:",Bond1Y,"\n")
 cat("Bond 2Y:",Bond2Y,"\n")
 
-Libor_1.00 = mean(Result[,"libor1"]); 
+Libor_1.00 = mean(Result[,"libor1"])
 Libor_1.25 = mean(Result[,"libor2"])
 Libor_1.50 = mean(Result[,"libor3"])
 Libor_1.75 = mean(Result[,"libor4"])
