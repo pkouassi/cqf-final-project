@@ -18,7 +18,7 @@ maturityBucket = 1/12
 NumberOfYear = 2 #projection of the forward rates evolation over 10 years
 timestep = 0.01 #size of timestep for projection
 NumberOfTimesteps = NumberOfYear/timestep
-NumberSimulation = 100
+NumberSimulation = 5
 
 #pre-calculation (performance)
 MaturityList = c(0,seq(2/12,MaxMaturity,by=maturityBucket)) #1M rate is taken as proxy for Maturity=0
@@ -38,8 +38,8 @@ for (j in seq(1,length(MaturityList))) {
 K1 = 0.03
 
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
-Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
-#for (k in seq(1,NumberSimulation)) {
+#Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
+for (k in seq(1,NumberSimulation)) {
   #cat(k,"...\n")
   if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
   
@@ -92,8 +92,13 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   #1:100 because 1Y bond
   #Result[k] = exp(-1*sum(mat[1:100,1]*timestep))
   #bond1Y = exp(-1*sum((mat[1:101,1])*timestep))
-  bond1Y = ComputeBondPrice(mat,timestep,0,1)
-  bond2Y = exp(-1*sum((mat[1:201,1])*timestep))
+  Bond1Y = ComputeBondPrice(mat,timestep,0,1)
+  Bond2Y = exp(-1*sum((mat[1:201,1])*timestep))
+  
+  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(1,1.25,1.5,1.75))
+  Libor3MCompounded = 4*(exp(LiborContinuouslyCompounded/4)-1)
+  
+  Cap1x1 = ComputeCapPrice(mat,timestep,1,2,0.03)
   
   #calculate value of Caplet with strike k(1year forward starting 3M duration)
   
@@ -140,10 +145,20 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   cap_1yfwd_1y = caplet_1_1.25 + caplet_1.25_1.5 + caplet_1.5_1.75 + caplet_1.75_2
   cap_test_1yfwd_1y = max(libor_test_1y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,2)*1
   
+  cat("manual calc:\n")
+  cat("libor cont comp rates:",libor_1y_simply_compounded,libor_1.25y_simply_compounded,libor_1.5y_simply_compounded,libor_1.75y_simply_compounded,"\n")
+  cat("caplet prices:",caplet_1_1.25,caplet_1.25_1.5,caplet_1.5_1.75,caplet_1.75_2,"\n")
+  cat("DF:",GetDiscountFactor(ValuationDateOISYieldCurve,1.25),GetDiscountFactor(ValuationDateOISYieldCurve,1.5),GetDiscountFactor(ValuationDateOISYieldCurve,1.75),GetDiscountFactor(ValuationDateOISYieldCurve,2),"\n")
+  cat("cap price:",cap_1yfwd_1y,cap_test_1yfwd_1y,"\n")
+  
   #caplet1x1_005 = max(libor_simply_coupounded-0.005,0)*bond1Y*1
   #caplet1x1_002 = max(libor_simply_coupounded-0.002,0)*bond1Y*1
   
-  res = list(bond1Y=bond1Y,captlet=caplet_1_1.25)
+  #define the vector of values which will be kept for all simulations
+  #res = list(bond1Y=bond1Y,captlet=caplet_1_1.25)
+  #res = c(bond1Y=Bond1Y,captlet=caplet_1_1.25,libor=LiborVector,libor2=libor_1y_cont_compounded,cap1y1y=Cap1x1,cap1y1y_verif=cap_1yfwd_1y)
+  
+  res = c(cap1y1y=Cap1x1,cap1y1y_verif=cap_1yfwd_1y,libor=LiborContinuouslyCompounded,libor_1y_cont_compounded,libor_1.25y_cont_compounded,libor_1.5y_cont_compounded,libor_1.75y_cont_compounded)
   
   #res = c(bond1Y,caplet_1_1.25,caplet_1.25_1.5,caplet_1.5_1.75,caplet_1.75_2,cap_1yfwd_1y,libor_1y_simply_compounded,libor_1.25y_cont_compounded,libor_1.5y_cont_compounded,libor_1.75y_cont_compounded,mat[101,12],mat[101,24],libor_1.75y_cont_compounded_verif,cap_test_1yfwd_1y)
   
@@ -159,24 +174,11 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
 stopCluster(cl)
 #stopImplicitCluster()
 
-ComputeBondPrice = function(matrix,timestep,t, T) {
-  #row 1 of the matrix is the valuation forward curve
-  #row 2 is forward curve for valuation date + 1*timestep
-  #row 3 is forward curve for valuation date + 2*timestep
-  #first column of the matrix is the 1M forward which we use as proxy for r(t) (spot rate)
-  #Compute the bond price which start at time t and matures at time T 
-  #by integrating over the first column 
-  start_index = t/timestep+1
-  end_index = T/timestep+1  
-  cat("start_index:",start_index,"\n")
-  cat("end_index:",end_index,"\n")  
-  return(exp(-1*sum((matrix[start_index:end_index,1])*timestep)))  
-}
 
 
 
 
-BondPrice= mean(unlist(Result[,"bond1Y"]))
+BondPrice= mean(unlist(Result[,"Bond1Y"]))
 cat("1Y Bond Price:",BondPrice,"\n")
 
 cat("Caplet 3M starts at t=1 with K = ",K1," Price:",mean(Result[,2]),"\n")
