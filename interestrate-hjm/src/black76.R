@@ -94,3 +94,41 @@ Black76OptionGreeks = function(type,S,X,Time,r,sigma,greek) {
     return (((1/sqrt(2*pi))*exp(-(d1^2)/2))/(S*sigma*sqrt(Time)))
   }  
 }
+
+
+Black76CapPricing = function(t,T,K,libor_rates_array,sigma) {
+  #define cashflows
+  if (t == 0) {
+    start_dates_array = seq(0.25,T-0.25,by=0.25)
+    end_dates_array = seq(0.5,T,by=0.25)
+  }
+  else
+  {
+    #these are the start of period for each caplet; date at which libor is observed
+    #settlement is done at the end of the period
+    start_dates_array = seq(t,T-0.25,by=0.25)
+    end_dates_array = seq(t+0.25,T,by=0.25)
+  }
+  
+  #verifiy that we have one libor rate for each period
+  if (length(start_dates_array) != length(libor_rates_array)) {
+    cat("error: there is not the same the number of periods and libor rates\n")
+    cat("period start dates:",start_dates_array,"\n")
+    cat("period end dates:",start_dates_array,"\n")
+    cat("libor rates:",libor_rates_array,"\n")
+    return()
+  }
+  
+  value = 0
+  for (i in seq(1,length(start_dates_array))) {
+    value = value + Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])/(1+libor_rates_array[i]*(end_dates_array[i]-start_dates_array[i]))
+  }
+  
+  return(value)
+}
+
+Black76CapImpliedVolatility = function(t,T,K,libor_rates_array,premium) {
+  #define objective function
+  f = function(sigma) return(Black76CapPricing(t,T,K,libor_rates_array,sigma)-premium)
+  return(uniroot(f,lower=0,upper=10)$root)
+}

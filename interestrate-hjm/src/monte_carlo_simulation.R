@@ -18,7 +18,7 @@ maturityBucket = 1/12
 NumberOfYear = 2 #projection of the forward rates evolation over 10 years
 timestep = 0.01 #size of timestep for projection
 NumberOfTimesteps = NumberOfYear/timestep
-NumberSimulation = 5
+NumberSimulation = 10000
 
 #pre-calculation (performance)
 MaturityList = c(0,seq(2/12,MaxMaturity,by=maturityBucket)) #1M rate is taken as proxy for Maturity=0
@@ -38,8 +38,8 @@ for (j in seq(1,length(MaturityList))) {
 K1 = 0.03
 
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
-#Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
-for (k in seq(1,NumberSimulation)) {
+Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
+#for (k in seq(1,NumberSimulation)) {
   #cat(k,"...\n")
   if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
   
@@ -53,14 +53,6 @@ for (k in seq(1,NumberSimulation)) {
 
   dX = matrix(dX_Sobol[k,],ncol=3,nrow=NumberOfTimesteps,byrow = TRUE)
   #dX = dX_data
-  #dX = matrix(rnorm(NumberOfTimesteps*3,mean = 0,sd =1),ncol=3,nrow=NumberOfTimesteps,byrow = FALSE)
-  
-  #dX_1 = rnorm(NumberOfTimesteps,mean = 0,sd =1)
-  #dX_2 = rnorm(NumberOfTimesteps,mean = 0,sd =1)
-  #dX_3 = rnorm(NumberOfTimesteps,mean = 0,sd =1)
-  #dX_1 = dX_data$dX_1
-  #dX_2 = dX_data$dX_2
-  #dX_3 = dX_data$dX_3
   
   #i: timestep for projection
   #j: maturity of the curve
@@ -87,81 +79,29 @@ for (k in seq(1,NumberSimulation)) {
     }
   }
   
-  #calculate value of a 1Y bond
-  #we sum the f(t) for maturity 0.08 (1M) which we can as approximation for r(t)
-  #1:100 because 1Y bond
-  #Result[k] = exp(-1*sum(mat[1:100,1]*timestep))
-  #bond1Y = exp(-1*sum((mat[1:101,1])*timestep))
+  #Calculate value of a 1Y and 2Y bond
   Bond1Y = ComputeBondPrice(mat,timestep,0,1)
-  Bond2Y = exp(-1*sum((mat[1:201,1])*timestep))
+  Bond2Y = ComputeBondPrice(mat,timestep,0,2)
   
+  #Calculate value of LIBOR (continuous compounding and 3M compounding)
   LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(1,1.25,1.5,1.75))
   Libor3MCompounded = 4*(exp(LiborContinuouslyCompounded/4)-1)
   
-  Cap1x1 = ComputeCapPrice(mat,timestep,1,2,0.03)
+  #Calculate value of Caplet with strike k(1year forward starting 3M duration)
+  Cap1by2_0.10 = ComputeCapPrice(mat,timestep,1,2,0.0010)
+  Cap1by2_0.25 = ComputeCapPrice(mat,timestep,1,2,0.0025)
+  Cap1by2_0.50 = ComputeCapPrice(mat,timestep,1,2,0.0050)
+  Cap1by2_0.75 = ComputeCapPrice(mat,timestep,1,2,0.0075)
+  Cap1by2_1.00 = ComputeCapPrice(mat,timestep,1,2,0.0100)
+  Cap1by2_1.50 = ComputeCapPrice(mat,timestep,1,2,0.0150)
+  Cap1by2_2.00 = ComputeCapPrice(mat,timestep,1,2,0.0200)
+  Cap1by2_2.50 = ComputeCapPrice(mat,timestep,1,2,0.0250)
+  Cap1by2_3.00 = ComputeCapPrice(mat,timestep,1,2,0.0300)
+  Cap1by2_4.00 = ComputeCapPrice(mat,timestep,1,2,0.0400)
+  Cap1by2_5.00 = ComputeCapPrice(mat,timestep,1,2,0.0500)
   
-  #calculate value of Caplet with strike k(1year forward starting 3M duration)
-  
-  #Project Workshop suggests simple averaging but it will be an advantage if you can choose
-  #and apply one of the simple methods of forward curve interpolation from Hagan & West,
-  #given that BOE has already applied its own VRP curve-ftting methodology.
-  #one year caplet
-  x1 = seq(1/12,2,by=1/12)
-  x2 = x1^2
-  x3 = x2^3
-  y = mat[101,]
-  fit = lm(y~x1+x2+x3)
-  b0 = as.numeric(fit$coefficients["(Intercept)"])
-  b1 = as.numeric(fit$coefficients["x1"])
-  b2 = as.numeric(fit$coefficients["x2"])
-  b3 = as.numeric(fit$coefficients["x3"])
-  tmpfunc = function(x) return(b0+b1*x+b2*x^2+b3*x^3)
-  libor_test_1y_cont_compounded = integrate(tmpfunc,0,1)$value
-  libor_test_1y_simply_compounded = 1*(exp(libor_test_1y_cont_compounded)-1)
-  
-  #libor at time t=1Y
-  libor_1y_cont_compounded = integrate(tmpfunc,0,1)$value
-  libor_1y_simply_compounded = 4*(exp(libor_1y_cont_compounded/4)-1)
-
-  #libor at time t=1.25Y
-  libor_1.25y_cont_compounded = integrate(tmpfunc,0,1.25)$value
-  libor_1.25y_simply_compounded = 4*(exp(libor_1.25y_cont_compounded/4)-1)
-  
-  #libor at time t=1.5Y
-  libor_1.5y_cont_compounded = integrate(tmpfunc,0,1.5)$value
-  libor_1.5y_simply_compounded = 4*(exp(libor_1.5y_cont_compounded/4)-1)
-  
-  #libor at time t=1.75Y
-  libor_1.75y_cont_compounded = integrate(tmpfunc,0,1.75)$value
-  libor_1.75y_simply_compounded = 4*(exp(libor_1.75y_cont_compounded/4)-1)
-  
-  libor_1.75y_cont_compounded_verif = sum(mat[101,1:21]*(1/12))
-  
-  caplet_1_1.25 = max(libor_1y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,1.25)*0.25
-  caplet_1.25_1.5 = max(libor_1.25y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,1.5)*0.25
-  caplet_1.5_1.75 = max(libor_1.5y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,1.75)*0.25
-  caplet_1.75_2 = max(libor_1.75y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,2)*0.25
-  
-  cap_1yfwd_1y = caplet_1_1.25 + caplet_1.25_1.5 + caplet_1.5_1.75 + caplet_1.75_2
-  cap_test_1yfwd_1y = max(libor_test_1y_simply_compounded-K1,0)*GetDiscountFactor(ValuationDateOISYieldCurve,2)*1
-  
-  cat("manual calc:\n")
-  cat("libor cont comp rates:",libor_1y_simply_compounded,libor_1.25y_simply_compounded,libor_1.5y_simply_compounded,libor_1.75y_simply_compounded,"\n")
-  cat("caplet prices:",caplet_1_1.25,caplet_1.25_1.5,caplet_1.5_1.75,caplet_1.75_2,"\n")
-  cat("DF:",GetDiscountFactor(ValuationDateOISYieldCurve,1.25),GetDiscountFactor(ValuationDateOISYieldCurve,1.5),GetDiscountFactor(ValuationDateOISYieldCurve,1.75),GetDiscountFactor(ValuationDateOISYieldCurve,2),"\n")
-  cat("cap price:",cap_1yfwd_1y,cap_test_1yfwd_1y,"\n")
-  
-  #caplet1x1_005 = max(libor_simply_coupounded-0.005,0)*bond1Y*1
-  #caplet1x1_002 = max(libor_simply_coupounded-0.002,0)*bond1Y*1
-  
-  #define the vector of values which will be kept for all simulations
-  #res = list(bond1Y=bond1Y,captlet=caplet_1_1.25)
-  #res = c(bond1Y=Bond1Y,captlet=caplet_1_1.25,libor=LiborVector,libor2=libor_1y_cont_compounded,cap1y1y=Cap1x1,cap1y1y_verif=cap_1yfwd_1y)
-  
-  res = c(cap1y1y=Cap1x1,cap1y1y_verif=cap_1yfwd_1y,libor=LiborContinuouslyCompounded,libor_1y_cont_compounded,libor_1.25y_cont_compounded,libor_1.5y_cont_compounded,libor_1.75y_cont_compounded)
-  
-  #res = c(bond1Y,caplet_1_1.25,caplet_1.25_1.5,caplet_1.5_1.75,caplet_1.75_2,cap_1yfwd_1y,libor_1y_simply_compounded,libor_1.25y_cont_compounded,libor_1.5y_cont_compounded,libor_1.75y_cont_compounded,mat[101,12],mat[101,24],libor_1.75y_cont_compounded_verif,cap_test_1yfwd_1y)
-  
+  #define the vector of values which will be kept for all simulations  
+  res = c(bond1=Bond1Y,bond2=Bond2Y,libor=Libor3MCompounded,cap1=Cap1by2_0.10,cap2=Cap1by2_0.25,cap3=Cap1by2_0.50,cap4=Cap1by2_0.75,cap5=Cap1by2_1.00,cap6=Cap1by2_1.50,cap7=Cap1by2_2.00,cap8=Cap1by2_2.50,cap9=Cap1by2_3.00,cap10=Cap1by2_4.00,cap11=Cap1by2_5.00)
   
   #if (k %% 100 == 0 || k == 10) {
   #  ConvergenceDiagram[l,"nbsimul"] = k
@@ -170,87 +110,52 @@ for (k in seq(1,NumberSimulation)) {
   #}
 
 }
-
-stopCluster(cl)
-#stopImplicitCluster()
-
-
-
-
-
-BondPrice= mean(unlist(Result[,"Bond1Y"]))
-cat("1Y Bond Price:",BondPrice,"\n")
-
-cat("Caplet 3M starts at t=1 with K = ",K1," Price:",mean(Result[,2]),"\n")
-cat("Caplet 3M starts at t=1.25 with K = ",K1," Price:",mean(Result[,3]),"\n")
-cat("Caplet 3M starts at t=1.5 with K = ",K1," Price:",mean(Result[,4]),"\n")
-cat("Caplet 3M starts at t=1.75 with K = ",K1," Price:",mean(Result[,5]),"\n")
-cat("Cap 1Y starts at t=1 with K = ",K1," Price:",mean(Result[,6]),"\n")
-cat("LIBOR at t=1:",mean(Result[,7]),"\n")
-cat("LIBOR at t=1.25:",mean(Result[,8]),"\n")
-cat("LIBOR at t=1.5:",mean(Result[,9]),"\n")
-cat("LIBOR at t=1.75:",mean(Result[,10]),"\n")
-cat("fwd expectation at t=1:",mean(Result[,11]),"\n")
-cat("fwd expectation at t=2:",mean(Result[,12]),"\n")
-cat("LIBOR at t=1.75 (verif simple integration):",mean(Result[,13]),"\n")
-cat("Caplet 1Y start at t=1 (simple):",mean(Result[,14]),"\n")
-
-#comparer avec formule de la spreadsheet
-#Cap_1Y = Black76ImpliedVolatilityBisection("call",mean(Result[,6]),0.03,1,r,Premium, SigmaMin, SigmaMax, Iteration, MaxIteration, MaxError)
-
-#cat("1x1 Caplet with K = 0.008 Price:",mean(Result[,2]),"\n")
-#cat("1x1 Caplet with K = 0.005 Price:",mean(Result[,3]),"\n")
-#cat("1x1 Caplet with K = 0.002 Price:",mean(Result[,4]),"\n")
 cat("Time to compute:", Sys.time()-timestamp,"\n")
-
-CplRate = 0.057319543; CplStrike = 0.04; CplTau = 1; DF = 0.906137674
-Black = Black76OptionPricing("call",CplRate,CplStrike,1,0.32000659247506)
-CapletBlack = Black*DF*CplTau/(1+CplRate*CplTau)
+stopCluster(cl)
 
 
+Bond1Y = mean(Result[,"bond1"])
+Bond2Y = mean(Result[,"bond2"])
+cat("Bond 1Y:",Bond1Y,"\n")
+cat("Bond 2Y:",Bond2Y,"\n")
 
-myfunc = function(x) {
-  CplRate = 0.057319543
-  CplStrike = 0.04
-  CplTau = 1
-  DF = 0.906137674
-  CplPremium = 0.01569389
-  value = Black76OptionPricing("call",CplRate,CplStrike,1,x)*DF*CplTau/(1+CplRate*CplTau)-CplPremium
-  return(value)
+Libor_1.00 = mean(Result[,"libor1"]); 
+Libor_1.25 = mean(Result[,"libor2"])
+Libor_1.50 = mean(Result[,"libor3"])
+Libor_1.75 = mean(Result[,"libor4"])
+cat("LIBOR at t=1:",Libor_1.00,"\n")
+cat("LIBOR at t=1.25:",Libor_1.25,"\n")
+cat("LIBOR at t=1.50:",Libor_1.50,"\n")
+cat("LIBOR at t=1.75:",Libor_1.75,"\n")
+
+Cap1by2_0.10 = mean(Result[,"cap1"])
+Cap1by2_0.25 = mean(Result[,"cap2"]) #1Y by 2Y is a cap starting in one year and matures in 2 years
+Cap1by2_0.50 = mean(Result[,"cap3"])
+Cap1by2_0.75 = mean(Result[,"cap4"])
+Cap1by2_1.00 = mean(Result[,"cap5"])
+Cap1by2_1.50 = mean(Result[,"cap6"])
+Cap1by2_2.00 = mean(Result[,"cap7"])
+Cap1by2_2.50 = mean(Result[,"cap8"])
+Cap1by2_3.00 = mean(Result[,"cap9"])
+Cap1by2_4.00 = mean(Result[,"cap10"])
+Cap1by2_4.00 = mean(Result[,"cap11"])
+
+Cap1by1Premiums = c(Cap1by2_0.10,Cap1by2_0.25,Cap1by2_0.50,Cap1by2_0.75,Cap1by2_1.00,Cap1by2_1.50,Cap1by2_2.00,Cap1by2_2.50,Cap1by2_3.00,Cap1by2_4.00,Cap1by2_5.00)
+Cap1by1Strikes = c(0.0010,0.0025,0.0050,0.0075,0.0100,0.0150,0.0200,0.0250,0.0300,0.0400,0.0500)
+
+plot(Cap1by1Strikes,Cap1by1Premiums,type="l",xlab="Strike",ylab="Premium",main="Premium as a function of Strike")
+
+Cap1by1IVs = rep(NA,length(Cap1by1Strikes))
+for (i in seq(1,length(Cap1by1Strikes))) {
+  Cap1by1IVs[i] = Black76CapImpliedVolatility(1,2,Cap1by1Strikes[i],c(Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75),Cap1by1Premiums[i])
 }
 
-myfunc2 = function(x) {
-  CplRate = 0.02537436
-  CplStrike = 0.03
-  CplTau = 0.25
-  DF = GetDiscountFactor(ValuationDateOISYieldCurve,1.75)
-  CplPremium = 0.002709545
-  value = Black76OptionPricing("call",CplRate,CplStrike,1,x)*DF*CplTau/(1+CplRate*CplTau)-CplPremium
-  return(value)
-}
+cat("Cap Premium and IVs:\n")
+rbind(Cap1by1Strikes,Cap1by1Premiums,Cap1by1IVs)
 
-#plot strikes vs. cap price
-plot(c(0.03,0.025,0.02,0.015,0.01,0.005,0.004,0.003),c(0.002371903,0.003965611,0.006264865,0.009419878,0.01337705,0.01793497,0.01887717,0.02078812),type="l")
+plot(Cap1by1Strikes,Cap1by1IVs,type="l",xlab="Strike",ylab="Volatility",main="Implied Volatility as a function of Strike")
 
-cap1Yx1YPrice = function(sigma) {
-  CplStrike = 0.005
-  CplTau = 0.25
-  CplRate = c(0.01495364,0.0198774,0.02526753,0.03105881)
-  #CapPremium = 0.006264865 //0.03
-  CapPremium = 0.01793497
-  
-  value = 0
-  for (i in seq(1,length(CplRate))) {
-    value = value + Black76OptionPricing("call",CplRate[i],CplStrike,1+(i-1)*0.25,sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,1+i*0.25)*CplTau/(1+CplRate[i]*CplTau)
-  }
-  
-  value = value - CapPremium
-  
-  return(value)
-}
-uniroot(cap1Yx1YPrice,lower=0,upper=1.5)
-
-#uniroot(myfunc,lower=0,upper=1)
+#Convergence Diagrams
 
 l=1
 nbobservation = 100
