@@ -34,9 +34,6 @@ for (j in seq(1,length(MaturityList))) {
   volatility_3[j] = PC3_volatility_fitted(MaturityList[j])
 }
 
-#Cap strike
-K1 = 0.03
-
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
 Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
 #for (k in seq(1,NumberSimulation)) {
@@ -53,6 +50,7 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
 
   dX = matrix(dX_Sobol[k,],ncol=3,nrow=NumberOfTimesteps,byrow = TRUE)
   #dX = dX_data
+  #dX = matrix(rnorm(NumberOfTimesteps*3,mean = 0,sd =1),ncol=3,nrow=NumberOfTimesteps,byrow = FALSE)
   
   #i: timestep for projection
   #j: maturity of the curve
@@ -157,23 +155,46 @@ plot(Cap1by1Strikes,Cap1by1IVs,type="l",xlab="Strike",ylab="Volatility",main="Im
 
 #Convergence Diagrams
 
+#------------------------
+# Bond 1Y
+#------------------------
 l=1
 nbobservation = 100
-ConvergenceDiagram = matrix(NA, ncol=2, nrow=(NumberSimulation/nbobservation)+1)
-colnames(ConvergenceDiagram) = c("nbsimul", "value")
+ConvergenceDiagramBond1Y = matrix(NA, ncol=2, nrow=(NumberSimulation/nbobservation)+1)
+colnames(ConvergenceDiagramBond1Y) = c("nbsimul", "value")
 for (i in seq(1,NumberSimulation)) {
   if (i %% nbobservation == 0 || i == 10) {
-    ConvergenceDiagram[l,"nbsimul"] = i
-    ConvergenceDiagram[l,"value"] = mean(Result[1:i])
+    ConvergenceDiagramBond1Y[l,"nbsimul"] = i
+    ConvergenceDiagramBond1Y[l,"value"] = mean(Result[1:i,"bond1"])
     l = l+1
   }
 }
+plot(ConvergenceDiagramBond1Y[,"nbsimul"],ConvergenceDiagramBond1Y[,"value"],type="l",xlab="Number of Simulations",ylab="Bond Price",main="1Y Bond - Convergence Diagram")
 
-plot(ConvergenceDiagram[,"nbsimul"],ConvergenceDiagram[,"value"],type="l")
+#ConvergenceDiagramBond1Y.rnorm = ConvergenceDiagramBond1Y
+#ConvergenceDiagramBond1Y.sobol = ConvergenceDiagramBond1Y
 
+matplot(ConvergenceDiagramBond1Y.rnorm[,"nbsimul"],cbind(ConvergenceDiagramBond1Y.rnorm[,"value"],ConvergenceDiagramBond1Y.sobol[,"value"]),type="l",xlab="Number of Simulations",ylab="Bond Price",main="1Y Bond - Convergence Diagram", col=c("blue","red"),lwd=1,lty=1)
 
+#------------------------
+# Libor at t=1Y
+#------------------------
 
+l=1
+nbobservation = 100
+ConvergenceDiagramLibor1Y = matrix(NA, ncol=2, nrow=(NumberSimulation/nbobservation)+1)
+colnames(ConvergenceDiagramLibor1Y) = c("nbsimul", "value")
+for (i in seq(1,NumberSimulation)) {
+  if (i %% nbobservation == 0 || i == 10) {
+    ConvergenceDiagramLibor1Y[l,"nbsimul"] = i
+    ConvergenceDiagramLibor1Y[l,"value"] = mean(Result[1:i,"libor1"])
+    l = l+1
+  }
+}
+plot(ConvergenceDiagramLibor1Y[,"nbsimul"],ConvergenceDiagramLibor1Y[,"value"],type="l",xlab="Number of Simulations",ylab="LIBOR Rate",main="LIBOR at t=1Y - Convergence Diagram")
 
+#ConvergenceDiagramLibor1Y.sobol = ConvergenceDiagramLibor1Y
+#ConvergenceDiagramLibor1Y.rnorm = ConvergenceDiagramLibor1Y
 
-
+matplot(ConvergenceDiagramLibor1Y.rnorm[,"nbsimul"],cbind(ConvergenceDiagramLibor1Y.rnorm[,"value"],ConvergenceDiagramLibor1Y.sobol[,"value"]),type="l",xlab="Number of Simulations",ylab="LIBOR Rate",main="LIBOR at t=1Y - Convergence Diagram", col=c("blue","red"),lwd=1,lty=1)
 
