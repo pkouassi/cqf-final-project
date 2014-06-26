@@ -1,0 +1,356 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Certificate of Quantitive Finance - Final Project
+\end_layout
+
+\begin_layout Author
+Bertrand Le Nézet
+\end_layout
+
+\begin_layout Date
+14 July 2014 (Cohort Jan '14)
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+Work on this topic must focus on the end result: pricing of bonds, caps
+ and oors (working and pricing vanilla and Bermudan swaptions is an extra),
+ as opposed to the calibration of HJM or BGM (LMM) model per se.
+ Both models impose the no-arbitrage restriction: the drift cannot be random
+ and depends on volatility of forward rates.
+ The distinction is how this key input is estimated: from interest rates
+ data (historic) or market instruments (forward-looking).
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Fair Spread for Basket CDS
+\end_layout
+
+\begin_layout Subsection
+Summary
+\end_layout
+
+\begin_layout Standard
+Numerical Methods Pricing by the market model is preferable but the data
+ requirements can be an obstacle and calibration process of correlated variables
+ is done via semi-dened opti- misation.
+ Pricing by HJM framework helps to learn about risk factors of yield curve
+ evolution and numerical methods associated with estimation and analysis
+ of covariance matrices (i.e., Principal Component Analysis).
+ In the LIBOR Market Model the reference volatility structure is calibrated
+ by time-homogeneous tting to caplet (or swaption) data; [FRAi; FRAj ] covari-
+ ances have an explicit solution.
+ Volatility tting to explicit functional forms (calibration) and requirement
+ to use quasi-random numbers are present for both models.
+ 
+\end_layout
+
+\begin_layout Standard
+Discounting is an intimate part of pricing because IR derivatives are decomposab
+le into cash-flows.
+ Usage of OIS or SONIA rates to construct discount factors is compatible
+ with the market model that relies on shifting numerarie Q(m) (an account
+ for which rate is xed every night).
+ Discounting that is based on unsecured overnight rates generates higher
+ cost of funding than is practised on collateralised assets and repo transaction
+s.
+ Other approaches to discounting can be categorised into (a) risk-neutral
+ with the model-generated spot rate r(t) and (b) funding premium with the
+ customized curve built for discounting of specic cash ows (e.g., debt or
+ multi-currency swaps).
+ Construction of customized yield curves for discounting would require an
+ independent study of interpolation methods that suit data and purposes
+ (see Reading List).
+\end_layout
+
+\begin_layout Subsection
+Model Validation
+\end_layout
+
+\begin_layout Standard
+xadfgsdfhsdghsghsdfg sghbs
+\end_layout
+
+\begin_layout Standard
+df gsdfg
+\end_layout
+
+\begin_layout Standard
+sgsdf
+\end_layout
+
+\begin_layout Standard
+gsd
+\end_layout
+
+\begin_layout Standard
+fg
+\end_layout
+
+\begin_layout Standard
+sdf
+\end_layout
+
+\begin_layout Standard
+gsdfgdg
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E=mc^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+pjjlkjlkj
+\end_layout
+
+\begin_layout Section
+Interest Rate Derivatives
+\end_layout
+
+\begin_layout Subsection
+Summary
+\end_layout
+
+\begin_layout Standard
+fdgsdfgdfgsdfg
+\end_layout
+
+\begin_layout Subsection
+Model Validation
+\end_layout
+
+\begin_layout Standard
+shghsfghsfghfghfgh
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pasted2.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sobol / Rnorm convergence diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "Figure 1"
+
+\end_inset
+
+
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+dfg g dgd gdfg d
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+dfgsdgdfgsdg.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+my first footnote in Lyx
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Pierre Bourdieu 
+\begin_inset Quotes eld
+\end_inset
+
+La vie est belle ...
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "2"
+key "key-2"
+
+\end_inset
+
+Ophelie Winter 
+\begin_inset Quotes eld
+\end_inset
+
+Dieu m'a donne la foi
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
