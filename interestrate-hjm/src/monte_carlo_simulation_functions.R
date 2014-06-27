@@ -132,3 +132,22 @@ ComputeCapletPrice = function(t_start,t_end,K,libor) {
   value = max(libor-K,0)*GetDiscountFactor(ValuationDateOISYieldCurve,t_end)*(t_end-t_start)
   return(value)
 } 
+ 
+ 
+ComputeSwaptionPrice = function(matrix,timestep,t,T,K) {
+  #Swaption pricing. Fixed vs. Floating Swap with 3M frequency
+  if (t == 0) {
+    warning("t should be greater than zero\n")
+  }
+  else
+  {
+    start_dates_array = seq(t,T-0.25,by=0.25)
+    end_dates_array = seq(t+0.25,T,by=0.25)
+  }
+  
+  #calculate libor rates (continuously componded) for each libor_date
+  libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,libor_dates_array)
+  libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
+  
+  spread = 0
+}
