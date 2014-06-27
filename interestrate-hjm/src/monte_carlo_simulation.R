@@ -58,8 +58,8 @@ populate_row = function(i,mat) {
 populate_row.compiled = cmpfun(populate_row)
 
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
-#Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
-for (k in seq(1,NumberSimulation)) {
+Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
+#for (k in seq(1,NumberSimulation)) {
   #cat(k,"...\n")
   if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
   
@@ -111,13 +111,14 @@ for (k in seq(1,NumberSimulation)) {
   
   #cat("nrow/ncol (after):",nrow(mat),ncol(mat),"\n")
   #print(mat[1:10,])
+  #print(mat[101,1:12])
   
   #Calculate value of a 1Y and 2Y bond
   Bond1Y = ComputeBondPrice(mat,timestep,0,1)
   Bond2Y = ComputeBondPrice(mat,timestep,0,2)
   
   #Calculate value of LIBOR (continuous compounding and 3M compounding)
-  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75))
+  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75))
   Libor3MCompounded = 4*(exp(LiborContinuouslyCompounded/4)-1)
   
   #Calculate value of Caplet with strike k(1year forward starting 3M duration)
@@ -133,16 +134,21 @@ for (k in seq(1,NumberSimulation)) {
   Cap1by2_4.00 = ComputeCapPrice(mat,timestep,1,2,0.0400)
   Cap1by2_5.00 = ComputeCapPrice(mat,timestep,1,2,0.0500)
   
-  cat("**************************************************\n")
-  Cap0by1_0.50 = ComputeCapPrice(mat,timestep,0,1,0.0050)
-  Cap0by2_0.50 = ComputeCapPrice(mat,timestep,0,2,0.0050)
-  Cap0by3_0.50 = ComputeCapPrice(mat,timestep,0,3,0.0050)
-  Cap0by4_0.50 = ComputeCapPrice(mat,timestep,0,4,0.0050)  
-  
+  #cat("**************************************************\n")
+  #LiborContinuouslyCompounded_t0 = ComputeLIBORRates(mat,timestep,0,c(0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75))
+  #Libor3MCompounded_t0 = 4*(exp(LiborContinuouslyCompounded_t0/4)-1)
+  #print(rbind(c(0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75),LiborContinuouslyCompounded_t0))
+
+  #Cap1by2_0.50 = ComputeCapPriceDebug(mat,timestep,0,1,0.0050)
+  Cap1by3_2.00 = ComputeCapPrice(mat,timestep,1,3,0.0200)
+  Cap1by3.5_2.00 = ComputeCapPrice(mat,timestep,1,3.5,0.0200)
+  Cap1by4_2.00 = ComputeCapPrice(mat,timestep,1,4,0.0200)
+  Cap1by4.5_2.00 = ComputeCapPrice(mat,timestep,1,4.5,0.0200)
+  Cap1by5_2.00 = ComputeCapPrice(mat,timestep,1,5,0.0200)  
   
   
   #define the vector of values which will be kept for all simulations  
-  res = c(bond1=Bond1Y,bond2=Bond2Y,libor=Libor3MCompounded,cap1=Cap1by2_0.10,cap2=Cap1by2_0.25,cap3=Cap1by2_0.50,cap4=Cap1by2_0.75,cap5=Cap1by2_1.00,cap6=Cap1by2_1.50,cap7=Cap1by2_2.00,cap8=Cap1by2_2.50,cap9=Cap1by2_3.00,cap10=Cap1by2_4.00,cap11=Cap1by2_5.00,cap12=Cap0by1_2.00,cap13=Cap0by2_2.00,cap14=Cap0by3_2.00,cap15=Cap0by4_2.00)
+  res = c(bond1=Bond1Y,bond2=Bond2Y,libor=Libor3MCompounded,cap1=Cap1by2_0.10,cap2=Cap1by2_0.25,cap3=Cap1by2_0.50,cap4=Cap1by2_0.75,cap5=Cap1by2_1.00,cap6=Cap1by2_1.50,cap7=Cap1by2_2.00,cap8=Cap1by2_2.50,cap9=Cap1by2_3.00,cap10=Cap1by2_4.00,cap11=Cap1by2_5.00,cap12=Cap1by3_2.00,cap13=Cap1by3.5_2.00,cap14=Cap1by4_2.00,cap15=Cap1by4.5_2.00,cap16=Cap1by5_2.00)
   
   #if (k %% 100 == 0 || k == 10) {
   #  ConvergenceDiagram[l,"nbsimul"] = k
@@ -175,7 +181,10 @@ Libor_3.00 = mean(Result[,"libor12"])
 Libor_3.25 = mean(Result[,"libor13"])
 Libor_3.50 = mean(Result[,"libor14"])
 Libor_3.75 = mean(Result[,"libor15"])
-#Libor_4.00 = mean(Result[,"libor16"])
+Libor_4.00 = mean(Result[,"libor16"])
+Libor_4.25 = mean(Result[,"libor17"])
+Libor_4.50 = mean(Result[,"libor18"])
+Libor_4.75 = mean(Result[,"libor19"])
 
 cat("LIBOR at t=1:",Libor_1.00,"\n")
 cat("LIBOR at t=1.25:",Libor_1.25,"\n")
@@ -196,10 +205,11 @@ Cap1by2_4.00 = mean(Result[,"cap10"])
 Cap1by2_4.00 = mean(Result[,"cap11"])
 
 #Caps price to observe term structure of volatility
-Cap0by1_0.50 = mean(Result[,"cap12"])
-Cap0by2_0.50 = mean(Result[,"cap13"])
-Cap0by3_0.50 = mean(Result[,"cap14"])
-Cap0by4_0.50 = mean(Result[,"cap15"])
+Cap1by3_2.00 = mean(Result[,"cap12"])
+Cap1by3.5_2.00 = mean(Result[,"cap13"])
+Cap1by4_2.00 = mean(Result[,"cap14"])
+Cap1by4.5_2.00 = mean(Result[,"cap15"])
+Cap1by5_2.00 = mean(Result[,"cap16"])
 
 #-------------------------------------------------
 Cap1by1Premiums = c(Cap1by2_0.10,Cap1by2_0.25,Cap1by2_0.50,Cap1by2_0.75,Cap1by2_1.00,Cap1by2_1.50,Cap1by2_2.00,Cap1by2_2.50,Cap1by2_3.00,Cap1by2_4.00,Cap1by2_5.00)
@@ -218,17 +228,19 @@ rbind(Cap1by1Strikes,Cap1by1Premiums,Cap1by1IVs)
 plot(Cap1by1Strikes,Cap1by1IVs,type="l",xlab="Strike",ylab="Volatility",main="Implied Volatility as a function of Strike")
 
 #-------------------------------------------------
-CapTermStructureTenors = c(1,2,3,4)
-CapTermStructurePremiums = c(Cap0by1_1.00,Cap0by2_1.00,Cap0by3_1.00,Cap0by4_1.00)
+CapTermStructureTenors = c(2,3,3.5,4,4.5,5)
+CapTermStructurePremiums = c(Cap1by2_2.00,Cap1by3_2.00,Cap1by3.5_2.00,Cap1by4_2.00,Cap1by4.5_2.00,Cap1by5_2.00)
 CapTermStructureIVs = rep(NA,length(CapTermStructureTenors))
-Libor = c(Libor_0.25,Libor_0.50,Libor_0.75,Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75)
+Libor = c(Libor_0.25,Libor_0.50,Libor_0.75,Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75,Libor_4.00,Libor_4.25,Libor_4.50,Libor_4.75)
 
-for (i in seq(1,length(CapTermStructureIVs))) {
+for (i in seq(1,length(CapTermStructureTenors))) {
     cat("i=",i,"\n")
-    Libor_list = Libor[1:(i*4-1)]
-    CapTermStructureIVs[i] = Black76CapImpliedVolatility(0,CapTermStructureTenors[i],0.02,Libor_list,CapTermStructurePremiums[i])
+    Libor_list = Libor[4:(CapTermStructureTenors[i]/0.25-1)]
+    print(Libor_list)
+    CapTermStructureIVs[i] = Black76CapImpliedVolatility(1,CapTermStructureTenors[i],0.02,Libor_list,CapTermStructurePremiums[i])
 }
 
+plot(CapTermStructureTenors,CapTermStructureIVs,type="l",xlab="Tenors (Expiry)",ylab="Volatility",main="Implied Volatility as a function of Expiry")
 
 #Convergence Diagrams
 

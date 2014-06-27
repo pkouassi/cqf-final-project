@@ -114,15 +114,19 @@ Black76CapPricing = function(t,T,K,libor_rates_array,sigma) {
   if (length(start_dates_array) != length(libor_rates_array)) {
     cat("error: there is not the same the number of periods and libor rates\n")
     cat("period start dates:",start_dates_array,"\n")
-    cat("period end dates:",start_dates_array,"\n")
+    cat("period end dates:",end_dates_array,"\n")
     cat("libor rates:",libor_rates_array,"\n")
     return()
   }
   
   value = 0
   for (i in seq(1,length(start_dates_array))) {
-    value = value + Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])/(1+libor_rates_array[i]*(end_dates_array[i]-start_dates_array[i]))
+    caplet = Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])/(1+libor_rates_array[i]*(end_dates_array[i]-start_dates_array[i]))
+    #cat("Bl76:",Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma),"\n")
+    #cat("caplet:",caplet,"\n")
+    value = value + caplet
   }
+  #cat("cap:",value,"\n")
   
   return(value)
 }

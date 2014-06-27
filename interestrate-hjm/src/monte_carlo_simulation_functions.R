@@ -112,18 +112,20 @@ ComputeCapPrice = function(matrix,timestep,t,T,K) {
   libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
   
   #print(libor_dates)
-  cat("libor cont comp:",libor_rates_cont_comp,"\n")
-  cat("libor 3m com:",libor_rates_quaterly_comp,"\n")
+  #cat("libor cont comp:",libor_rates_cont_comp,"\n")
+  #cat("libor 3m com:",libor_rates_quaterly_comp,"\n")
   
   value = 0
   for (i in seq(1,length(libor_dates_array))) {
     caplet = ComputeCapletPrice(libor_dates_array[i],libor_dates_array[i]+0.25,K,libor_rates_quaterly_comp[i])
     value = value + caplet
-    cat("caplet:",caplet,"\n")
+    #cat("caplet:",caplet,"\n")
   }
-  cat("cap:",value,"\n")
+  #cat("cap:",value,"\n")
   return(value)
 }
+ 
+
  
 ComputeCapletPrice = function(t_start,t_end,K,libor) {
   #cat("libor=",libor,"/DF=",GetDiscountFactor(ValuationDateOISYieldCurve,t_end),"/Tau=",t_end-t_start,"\n")
