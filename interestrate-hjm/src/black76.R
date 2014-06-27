@@ -134,5 +134,15 @@ Black76CapPricing = function(t,T,K,libor_rates_array,sigma) {
 Black76CapImpliedVolatility = function(t,T,K,libor_rates_array,premium) {
   #define objective function
   f = function(sigma) return(Black76CapPricing(t,T,K,libor_rates_array,sigma)-premium)
-  return(uniroot(f,lower=0,upper=10)$root)
+
+  res <- try( uniroot(f,lower=0,upper=10), silent=TRUE )
+  if (inherits(res, "try-error")) 
+  { 
+    warning("unable to find a root\n")
+    return(NA)
+  }
+  else 
+  { 
+    return(res$root)
+  }
 }

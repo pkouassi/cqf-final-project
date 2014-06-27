@@ -18,7 +18,7 @@ maturityBucket = 1/12
 NumberOfYear = 2 #projection of the forward rates evolation over 10 years
 timestep = 0.01 #size of timestep for projection
 NumberOfTimesteps = NumberOfYear/timestep
-NumberSimulation = 10
+NumberSimulation = 1000
 
 #pre-calculation (performance)
 MaturityList = seq(1/12,MaxMaturity,by=maturityBucket) #1M rate is taken as proxy for Maturity=0
@@ -34,7 +34,7 @@ for (j in seq(1,length(MaturityList))) {
   volatility_3[j] = PC3_volatility_fitted(MaturityList[j])
 }
 
-populate_row = function(i,mat) {
+populate_row = function(i,mat,dX) {
   result = rep(NA,ncol(mat))
   #cat("row above:",mat[i-1,],"\n")
   #cat("j:",seq(1,ncol(mat)-1),"\n")
@@ -56,6 +56,8 @@ populate_row = function(i,mat) {
   return(result)
 }  
 populate_row.compiled = cmpfun(populate_row)
+
+
 
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
 Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
@@ -106,7 +108,7 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   #mat_populated = t(sapply(seq(2,nrow(mat)),populate_row.compiled,mat=mat))
   #print(mat_populated)
   for (i in seq(2,nrow(mat))) {
-    mat[i,] =  populate_row.compiled(i,mat)
+    mat[i,] =  populate_row.compiled(i,mat,dX)
   }
   
   #cat("nrow/ncol (after):",nrow(mat),ncol(mat),"\n")
@@ -146,9 +148,20 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   Cap1by4.5_2.00 = ComputeCapPrice(mat,timestep,1,4.5,0.0200)
   Cap1by5_2.00 = ComputeCapPrice(mat,timestep,1,5,0.0200)  
   
+  #surface
+  strike_array = c(0.0050,0.0100,0.0200,0.0300)
+  maturity_array = c(2,3,4,5)
+  p=1
+  CapVolSurface = rep(NA,length(strike_array)*length(maturity_array))
+  for (strike in strike_array) {
+    for (maturity in maturity_array) {
+      CapVolSurface[p] = ComputeCapPrice(mat,timestep,1,maturity,strike)
+      p = p+1
+    }
+  }  
   
   #define the vector of values which will be kept for all simulations  
-  res = c(bond1=Bond1Y,bond2=Bond2Y,libor=Libor3MCompounded,cap1=Cap1by2_0.10,cap2=Cap1by2_0.25,cap3=Cap1by2_0.50,cap4=Cap1by2_0.75,cap5=Cap1by2_1.00,cap6=Cap1by2_1.50,cap7=Cap1by2_2.00,cap8=Cap1by2_2.50,cap9=Cap1by2_3.00,cap10=Cap1by2_4.00,cap11=Cap1by2_5.00,cap12=Cap1by3_2.00,cap13=Cap1by3.5_2.00,cap14=Cap1by4_2.00,cap15=Cap1by4.5_2.00,cap16=Cap1by5_2.00)
+  res = c(bond1=Bond1Y,bond2=Bond2Y,libor=Libor3MCompounded,cap1=Cap1by2_0.10,cap2=Cap1by2_0.25,cap3=Cap1by2_0.50,cap4=Cap1by2_0.75,cap5=Cap1by2_1.00,cap6=Cap1by2_1.50,cap7=Cap1by2_2.00,cap8=Cap1by2_2.50,cap9=Cap1by2_3.00,cap10=Cap1by2_4.00,cap11=Cap1by2_5.00,cap12=Cap1by3_2.00,cap13=Cap1by3.5_2.00,cap14=Cap1by4_2.00,cap15=Cap1by4.5_2.00,cap16=Cap1by5_2.00,capvolsurf=CapVolSurface)
   
   #if (k %% 100 == 0 || k == 10) {
   #  ConvergenceDiagram[l,"nbsimul"] = k
@@ -241,6 +254,34 @@ for (i in seq(1,length(CapTermStructureTenors))) {
 }
 
 plot(CapTermStructureTenors,CapTermStructureIVs,type="l",xlab="Tenors (Expiry)",ylab="Volatility",main="Implied Volatility as a function of Expiry")
+
+#-------------------------------------------------
+#Caps price to observe full volatility surface (strike/maturity)
+
+CapVolSurfaceStrikes = c(0.0050,0.0100,0.0200,0.0300)
+CapVolSurfaceMaturities = c(2,3,4,5)
+CapVolSurfacePremiums = rep(NA,length(CapVolSurfaceStrikes)*length(CapVolSurfaceMaturities))
+for (i in seq(1,length(CapVolSurfaceStrikes)*length(CapVolSurfaceMaturities))) {
+  CapVolSurfacePremiums[i] = mean(Result[,paste("capvolsurf",i,sep="")])
+}
+CapVolSurfacePremiumsMatrix = matrix(CapVolSurfacePremiums, nrow=length(CapVolSurfaceStrikes), ncol=length(CapVolSurfaceMaturities),byrow=TRUE)
+
+CapVolSurfaceIVsMatrix = matrix(NA, nrow=length(CapVolSurfaceStrikes), ncol=length(CapVolSurfaceMaturities),byrow=TRUE)
+
+Libor = c(Libor_0.25,Libor_0.50,Libor_0.75,Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75,Libor_4.00,Libor_4.25,Libor_4.50,Libor_4.75)
+
+for (j in seq(1,length(CapVolSurfaceMaturities))) {
+  cat("j=",j,"\n")
+  Libor_list = Libor[4:(CapVolSurfaceMaturities[j]/0.25-1)]
+  print(Libor_list)
+  
+  for (i in seq(1,4)) {
+    cat("Maturity/Strike:",CapVolSurfaceMaturities[j],"/",CapVolSurfaceStrikes[i],"\n")
+    CapVolSurfaceIVsMatrix[i,j] = Black76CapImpliedVolatility(1,CapVolSurfaceMaturities[j],CapVolSurfaceStrikes[i],Libor_list,CapVolSurfacePremiumsMatrix[i,j])  
+  }
+}
+
+persp(CapVolSurfaceStrikes*100, CapVolSurfaceMaturities, CapVolSurfaceIVsMatrix*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility")
 
 #Convergence Diagrams
 
