@@ -149,7 +149,7 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   Cap1by5_2.00 = ComputeCapPrice(mat,timestep,1,5,0.0200)  
   
   #surface
-  strike_array = c(0.0050,0.0100,0.0200,0.0300)
+  strike_array = c(0.0050,0.0100,0.0150,0.0200,0.0250,0.0300,0.0350,0.0400)
   maturity_array = c(2,3,4,5)
   p=1
   CapVolSurface = rep(NA,length(strike_array)*length(maturity_array))
@@ -258,7 +258,7 @@ plot(CapTermStructureTenors,CapTermStructureIVs,type="l",xlab="Tenors (Expiry)",
 #-------------------------------------------------
 #Caps price to observe full volatility surface (strike/maturity)
 
-CapVolSurfaceStrikes = c(0.0050,0.0100,0.0200,0.0300)
+CapVolSurfaceStrikes = c(0.0050,0.0100,0.0150,0.0200,0.0250,0.0300,0.0350,0.0400)
 CapVolSurfaceMaturities = c(2,3,4,5)
 CapVolSurfacePremiums = rep(NA,length(CapVolSurfaceStrikes)*length(CapVolSurfaceMaturities))
 for (i in seq(1,length(CapVolSurfaceStrikes)*length(CapVolSurfaceMaturities))) {
@@ -275,13 +275,16 @@ for (j in seq(1,length(CapVolSurfaceMaturities))) {
   Libor_list = Libor[4:(CapVolSurfaceMaturities[j]/0.25-1)]
   print(Libor_list)
   
-  for (i in seq(1,4)) {
+  for (i in seq(1,length(CapVolSurfaceStrikes))) {
     cat("Maturity/Strike:",CapVolSurfaceMaturities[j],"/",CapVolSurfaceStrikes[i],"\n")
     CapVolSurfaceIVsMatrix[i,j] = Black76CapImpliedVolatility(1,CapVolSurfaceMaturities[j],CapVolSurfaceStrikes[i],Libor_list,CapVolSurfacePremiumsMatrix[i,j])  
   }
 }
 
-persp(CapVolSurfaceStrikes*100, CapVolSurfaceMaturities, CapVolSurfaceIVsMatrix*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility")
+persp(CapVolSurfaceStrikes*100, CapVolSurfaceMaturities, CapVolSurfaceIVsMatrix*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility", xlim=c(0,4),ylim=c(2,5),zlim=c(20,120))
+legend(70, 1.2, c("Binary Call", "Bull Call Spread"), col = c("blue","red"),
+       text.col = "black", lty = c(1, 2), pch = c(NA, NA),
+       merge = TRUE, bg = "gray90")
 
 #Convergence Diagrams
 
