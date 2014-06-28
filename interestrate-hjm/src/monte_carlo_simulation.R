@@ -18,7 +18,7 @@ maturityBucket = 1/12
 NumberOfYear = 2 #projection of the forward rates evolation over 10 years
 timestep = 0.01 #size of timestep for projection
 NumberOfTimesteps = NumberOfYear/timestep
-NumberSimulation = 1000
+NumberSimulation = 10
 
 #pre-calculation (performance)
 MaturityList = seq(1/12,MaxMaturity,by=maturityBucket) #1M rate is taken as proxy for Maturity=0
@@ -60,8 +60,8 @@ populate_row.compiled = cmpfun(populate_row)
 
 
 dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
-Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
-#for (k in seq(1,NumberSimulation)) {
+#Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
+for (k in seq(1,NumberSimulation)) {
   #cat(k,"...\n")
   if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
   
@@ -120,7 +120,7 @@ Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
   Bond2Y = ComputeBondPrice(mat,timestep,0,2)
   
   #Calculate value of LIBOR (continuous compounding and 3M compounding)
-  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,c(0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75))
+  LiborContinuouslyCompounded = ComputeLIBORRates(mat,timestep,1,seq(1.25,5.00,by=0.25))
   Libor3MCompounded = 4*(exp(LiborContinuouslyCompounded/4)-1)
   
   #Calculate value of Caplet with strike k(1year forward starting 3M duration)
@@ -179,25 +179,22 @@ Bond2Y = mean(Result[,"bond2"])
 cat("Bond 1Y:",Bond1Y,"\n")
 cat("Bond 2Y:",Bond2Y,"\n")
 
-Libor_0.25 = mean(Result[,"libor1"])
-Libor_0.50 = mean(Result[,"libor2"])
-Libor_0.75 = mean(Result[,"libor3"])
-Libor_1.00 = mean(Result[,"libor4"])
-Libor_1.25 = mean(Result[,"libor5"])
-Libor_1.50 = mean(Result[,"libor6"])
-Libor_1.75 = mean(Result[,"libor7"])
-Libor_2.00 = mean(Result[,"libor8"])
-Libor_2.25 = mean(Result[,"libor9"])
-Libor_2.50 = mean(Result[,"libor10"])
-Libor_2.75 = mean(Result[,"libor11"])
-Libor_3.00 = mean(Result[,"libor12"])
-Libor_3.25 = mean(Result[,"libor13"])
-Libor_3.50 = mean(Result[,"libor14"])
-Libor_3.75 = mean(Result[,"libor15"])
-Libor_4.00 = mean(Result[,"libor16"])
-Libor_4.25 = mean(Result[,"libor17"])
-Libor_4.50 = mean(Result[,"libor18"])
-Libor_4.75 = mean(Result[,"libor19"])
+Libor_1.25 = mean(Result[,"libor1"])
+Libor_1.50 = mean(Result[,"libor2"])
+Libor_1.75 = mean(Result[,"libor3"])
+Libor_2.00 = mean(Result[,"libor4"])
+Libor_2.25 = mean(Result[,"libor5"])
+Libor_2.50 = mean(Result[,"libor6"])
+Libor_2.75 = mean(Result[,"libor7"])
+Libor_3.00 = mean(Result[,"libor8"])
+Libor_3.25 = mean(Result[,"libor9"])
+Libor_3.50 = mean(Result[,"libor10"])
+Libor_3.75 = mean(Result[,"libor11"])
+Libor_4.00 = mean(Result[,"libor12"])
+Libor_4.25 = mean(Result[,"libor13"])
+Libor_4.50 = mean(Result[,"libor14"])
+Libor_4.75 = mean(Result[,"libor15"])
+Libor_5.00 = mean(Result[,"libor16"])
 
 cat("LIBOR at t=1:",Libor_1.00,"\n")
 cat("LIBOR at t=1.25:",Libor_1.25,"\n")
@@ -215,7 +212,7 @@ Cap1by2_2.00 = mean(Result[,"cap7"])
 Cap1by2_2.50 = mean(Result[,"cap8"])
 Cap1by2_3.00 = mean(Result[,"cap9"])
 Cap1by2_4.00 = mean(Result[,"cap10"])
-Cap1by2_4.00 = mean(Result[,"cap11"])
+Cap1by2_5.00 = mean(Result[,"cap11"])
 
 #Caps price to observe term structure of volatility
 Cap1by3_2.00 = mean(Result[,"cap12"])
@@ -232,7 +229,7 @@ plot(Cap1by1Strikes,Cap1by1Premiums,type="l",xlab="Strike",ylab="Premium",main="
 
 Cap1by1IVs = rep(NA,length(Cap1by1Strikes))
 for (i in seq(1,length(Cap1by1Strikes))) {
-  Cap1by1IVs[i] = Black76CapImpliedVolatility(1,2,Cap1by1Strikes[i],c(Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75),Cap1by1Premiums[i])
+  Cap1by1IVs[i] = Black76CapImpliedVolatility(1,2,Cap1by1Strikes[i],c(Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00),Cap1by1Premiums[i])
 }
 
 cat("Cap Premium and IVs:\n")
@@ -244,11 +241,11 @@ plot(Cap1by1Strikes,Cap1by1IVs,type="l",xlab="Strike",ylab="Volatility",main="Im
 CapTermStructureTenors = c(2,3,3.5,4,4.5,5)
 CapTermStructurePremiums = c(Cap1by2_2.00,Cap1by3_2.00,Cap1by3.5_2.00,Cap1by4_2.00,Cap1by4.5_2.00,Cap1by5_2.00)
 CapTermStructureIVs = rep(NA,length(CapTermStructureTenors))
-Libor = c(Libor_0.25,Libor_0.50,Libor_0.75,Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75,Libor_4.00,Libor_4.25,Libor_4.50,Libor_4.75)
+Libor = c(Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75,Libor_4.00,Libor_4.25,Libor_4.50,Libor_4.75,Libor_5.00)
 
 for (i in seq(1,length(CapTermStructureTenors))) {
     cat("i=",i,"\n")
-    Libor_list = Libor[4:(CapTermStructureTenors[i]/0.25-1)]
+    Libor_list = Libor[1:((CapTermStructureTenors[i]-1)/0.25)]
     print(Libor_list)
     CapTermStructureIVs[i] = Black76CapImpliedVolatility(1,CapTermStructureTenors[i],0.02,Libor_list,CapTermStructurePremiums[i])
 }
@@ -268,11 +265,11 @@ CapVolSurfacePremiumsMatrix = matrix(CapVolSurfacePremiums, nrow=length(CapVolSu
 
 CapVolSurfaceIVsMatrix = matrix(NA, nrow=length(CapVolSurfaceStrikes), ncol=length(CapVolSurfaceMaturities),byrow=TRUE)
 
-Libor = c(Libor_0.25,Libor_0.50,Libor_0.75,Libor_1.00,Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75,Libor_4.00,Libor_4.25,Libor_4.50,Libor_4.75)
+Libor = c(Libor_1.25,Libor_1.50,Libor_1.75,Libor_2.00,Libor_2.25,Libor_2.50,Libor_2.75,Libor_3.00,Libor_3.25,Libor_3.50,Libor_3.75,Libor_4.00,Libor_4.25,Libor_4.50,Libor_4.75,Libor_5.00)
 
 for (j in seq(1,length(CapVolSurfaceMaturities))) {
   cat("j=",j,"\n")
-  Libor_list = Libor[4:(CapVolSurfaceMaturities[j]/0.25-1)]
+  Libor_list = Libor[1:((CapVolSurfaceMaturities[j]-1)/0.25)]
   print(Libor_list)
   
   for (i in seq(1,length(CapVolSurfaceStrikes))) {
@@ -281,7 +278,8 @@ for (j in seq(1,length(CapVolSurfaceMaturities))) {
   }
 }
 
-persp(CapVolSurfaceStrikes*100, CapVolSurfaceMaturities, CapVolSurfaceIVsMatrix*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility", xlim=c(0,4),ylim=c(2,5),zlim=c(20,120))
+persp(CapVolSurfaceStrikes*100, CapVolSurfaceMaturities, CapVolSurfaceIVsMatrix*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility", xlim=c(0,4),ylim=c(2,5),zlim=c(0,100))
+
 legend(70, 1.2, c("Binary Call", "Bull Call Spread"), col = c("blue","red"),
        text.col = "black", lty = c(1, 2), pch = c(NA, NA),
        merge = TRUE, bg = "gray90")
@@ -329,5 +327,6 @@ plot(ConvergenceDiagramLibor1Y[,"nbsimul"],ConvergenceDiagramLibor1Y[,"value"],t
 #ConvergenceDiagramLibor1Y.sobol = ConvergenceDiagramLibor1Y
 #ConvergenceDiagramLibor1Y.rnorm = ConvergenceDiagramLibor1Y
 
-matplot(ConvergenceDiagramLibor1Y.rnorm[,"nbsimul"],cbind(ConvergenceDiagramLibor1Y.rnorm[,"value"],ConvergenceDiagramLibor1Y.sobol[,"value"]),type="l",xlab="Number of Simulations",ylab="LIBOR Rate",main="LIBOR at t=1Y - Convergence Diagram", col=c("blue","red"),lwd=1,lty=1)
+#matplot(ConvergenceDiagramLibor1Y.rnorm[,"nbsimul"],cbind(ConvergenceDiagramLibor1Y.rnorm[,"value"],ConvergenceDiagramLibor1Y.sobol[,"value"]),type="l",xlab="Number of Simulations",ylab="LIBOR Rate",main="LIBOR at t=1Y - Convergence Diagram", col=c("blue","red"),lwd=1,lty=1)
+
 
