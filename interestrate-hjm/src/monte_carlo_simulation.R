@@ -18,7 +18,7 @@ maturityBucket = 1/12
 NumberOfYear = 2 #projection of the forward rates evolation over 10 years
 timestep = 0.01 #size of timestep for projection
 NumberOfTimesteps = NumberOfYear/timestep
-NumberSimulation = 10
+NumberSimulation = 10000
 
 #pre-calculation (performance)
 MaturityList = seq(1/12,MaxMaturity,by=maturityBucket) #1M rate is taken as proxy for Maturity=0
@@ -60,8 +60,8 @@ populate_row.compiled = cmpfun(populate_row)
 
 dX_Sobol = quasirandom.nag(NumberSimulation,3*NumberOfTimesteps,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
 #dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
-#Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
-for (k in seq(1,NumberSimulation)) {
+Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
+#for (k in seq(1,NumberSimulation)) {
   #cat(k,"...\n")
   if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
   
@@ -196,10 +196,10 @@ Libor_4.50 = mean(Result[,"libor14"])
 Libor_4.75 = mean(Result[,"libor15"])
 Libor_5.00 = mean(Result[,"libor16"])
 
-cat("LIBOR at t=1:",Libor_1.00,"\n")
 cat("LIBOR at t=1.25:",Libor_1.25,"\n")
 cat("LIBOR at t=1.50:",Libor_1.50,"\n")
 cat("LIBOR at t=1.75:",Libor_1.75,"\n")
+cat("LIBOR at t=2:",Libor_2.00,"\n")
 
 #Caps price to observe volatility smile
 Cap1by2_0.10 = mean(Result[,"cap1"])

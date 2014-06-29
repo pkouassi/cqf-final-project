@@ -70,7 +70,11 @@
 \begin_body
 
 \begin_layout Title
-Certificate of Quantitive Finance - Final Project
+Certificate in Quantitative Finance
+\begin_inset Newline newline
+\end_inset
+
+Final Project
 \end_layout
 
 \begin_layout Author
@@ -78,7 +82,23 @@ Bertrand Le Nézet
 \end_layout
 
 \begin_layout Date
-14 July 2014 (Cohort Jan '14)
+January 2014 Cohort
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
 \begin_inset Newpage newpage
 \end_inset
 
@@ -86,13 +106,16 @@ Bertrand Le Nézet
 \end_layout
 
 \begin_layout Abstract
-Work on this topic must focus on the end result: pricing of bonds, caps
- and oors (working and pricing vanilla and Bermudan swaptions is an extra),
- as opposed to the calibration of HJM or BGM (LMM) model per se.
- Both models impose the no-arbitrage restriction: the drift cannot be random
- and depends on volatility of forward rates.
- The distinction is how this key input is estimated: from interest rates
- data (historic) or market instruments (forward-looking).
+A popular way to value (Bermudan) swaption in a Hull-White or extended Vasicek
+ model is to use a tree or PDE approach .
+ A more direct approach through iterated numerical integration is developed.
+ A brute force numerical integration would lead to a complexity exponential
+ in the number of exercise dates in the base of the number of points (pN).
+ By carefully choosing the integration points and their order, the complexity
+ can be reduced to 4pN versus the quadratic complexity (pN)2 in the tree.
+ A semi-explicit formula leading to a faster converging implementation is
+ also proposed.
+ c 2004–2008 by Marc Henrard
 \begin_inset Newpage newpage
 \end_inset
 
@@ -114,7 +137,11 @@ Fair Spread for Basket CDS
 \end_layout
 
 \begin_layout Subsection
-Summary
+Introduction
+\end_layout
+
+\begin_layout Standard
+Lola aime le chocolat
 \end_layout
 
 \begin_layout Standard
@@ -151,35 +178,11 @@ s.
 \end_layout
 
 \begin_layout Subsection
-Model Validation
+Model, hypothesis and preliminary results
 \end_layout
 
 \begin_layout Standard
 xadfgsdfhsdghsghsdfg sghbs
-\end_layout
-
-\begin_layout Standard
-df gsdfg
-\end_layout
-
-\begin_layout Standard
-sgsdf
-\end_layout
-
-\begin_layout Standard
-gsd
-\end_layout
-
-\begin_layout Standard
-fg
-\end_layout
-
-\begin_layout Standard
-sdf
-\end_layout
-
-\begin_layout Standard
-gsdfgdg
 \end_layout
 
 \begin_layout Standard
@@ -193,8 +196,179 @@ E=mc^{2}
 
 \end_layout
 
+\begin_layout Subsection
+Main result
+\end_layout
+
 \begin_layout Standard
-pjjlkjlkj
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Profession
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wealth ($B)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Marc Z.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+47
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bill G.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+49
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Numerical implementation
+\end_layout
+
+\begin_layout Subsection
+Convergence and stability
+\end_layout
+
+\begin_layout Subsection
+Conclusion
 \end_layout
 
 \begin_layout Section
@@ -202,19 +376,19 @@ Interest Rate Derivatives
 \end_layout
 
 \begin_layout Subsection
-Summary
+Introduction
 \end_layout
 
 \begin_layout Standard
-fdgsdfgdfgsdfg
+fdg sdfgdf gsdfg
 \end_layout
 
 \begin_layout Subsection
-Model Validation
+Model, hypothesis and preliminary results
 \end_layout
 
 \begin_layout Standard
-shghsfghsfghfghfgh
+shghs fghsf ghfghfgh
 \end_layout
 
 \begin_layout Standard
@@ -293,22 +467,36 @@ dfg g dgd gdfg d
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
+Main result
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}[t]{ccccc}
+a & b & c & v & \delta\\
+\\
+\\
+\\
+\gamma &  &  &  & \theta
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Numerical implementation
+\end_layout
+
+\begin_layout Subsection
+Convergence and stability
+\end_layout
+
+\begin_layout Subsection
 Conclusion
 \end_layout
 
 \begin_layout Standard
-dfgsdgdfgsdg.
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-my first footnote in Lyx
-\end_layout
-
-\end_inset
-
-
 \begin_inset Newpage newpage
 \end_inset
 
