@@ -58,8 +58,8 @@ populate_row = function(i,mat,dX) {
 populate_row.compiled = cmpfun(populate_row)
 
 
-
-dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
+dX_Sobol = quasirandom.nag(NumberSimulation,3*NumberOfTimesteps,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+#dX_Sobol = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
 #Result = foreach(k=1:NumberSimulation, .combine=rbind) %dopar% {
 for (k in seq(1,NumberSimulation)) {
   #cat(k,"...\n")

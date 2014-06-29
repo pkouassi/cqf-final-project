@@ -43,6 +43,11 @@ ifail <- 0
 ans <- .Fortran("S17AQF",n=as.integer(length(x)),x=x,f=vector("double",length(x)),ivalid=vector("integer",length(x)),ifail=as.integer(ifail))
 ans$f
 
+#------------------------
+#1D
+#------------------------
+
+
 #init working
 dyn.load("C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
 liref = 32 * 1 + 7
@@ -60,4 +65,27 @@ iref=ans$iref #read iref coming from generator
 ifail = 1
 .Fortran("G05YJF",mu=as.numeric(mu),sigma=as.numeric(sigma),n=as.integer(n),quasi=Zvector,iref=iref,ifail=as.integer(ifail))
 
-#### test with 3 dimensions
+
+
+#------------------------
+#Multi Demension
+#------------------------
+
+dyn.load("C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+genid = 1 #we want the sobol generator
+idim = 20
+liref = 32 * idim + 7
+iref = vector("integer",liref)
+ifail = 1
+ans = .Fortran("G05YLF",genid=as.integer(2),idim=as.integer(idim),iref=iref,liref=as.integer(liref),iskip=as.integer(1),ifail=as.integer(ifail))
+
+#G05YJF(mu, sigma, n, Z(1), IREF(1), ifail)
+n = 200
+xmean = rep(0,idim)
+std = rep(1,idim)
+quas = matrix(numeric(1),n,idim)
+ifail = 1
+ans2 = .Fortran("G05YJF",xmean=xmean,std=std,n=as.integer(n),quas=quas,iref=ans$iref,ifail=as.integer(ifail))
+
+ans2$quas[1,]
+
