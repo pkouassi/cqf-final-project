@@ -71,7 +71,7 @@ ComputeBondPrice = function(matrix,timestep,t, T) {
    return(exp(-1*sum((matrix[t_index:T_index,1])*timestep)))  
  }
  
-ComputeLIBORRates = function(matrix,timestep,t,maturity_array) {
+ComputeLIBORRates = function(matrix,timestep,t,T_array) {
    t_index = t/timestep+1
    #cat("t_index:",t_index,"\n")
    result = rep(NA,ncol(matrix))
@@ -89,7 +89,7 @@ ComputeLIBORRates = function(matrix,timestep,t,maturity_array) {
    forward_curve_func = function(x) return(b0+b1*x+b2*x^2+b3*x^3)
    forward_curve_integration_func = function (x) integrate(forward_curve_func,0,x)$value
    
-   return(sapply(maturity_array,forward_curve_integration_func))
+   return(sapply(T_array-t,forward_curve_integration_func))
 }
 
 ComputeCapPrice = function(matrix,timestep,t,T,K) {
@@ -97,18 +97,22 @@ ComputeCapPrice = function(matrix,timestep,t,T,K) {
   #if t=0, the first caplet is skipped (no uncertainty)
   #i.e a 1Y cap that starts at t=0 can be decomposed into 3 caplets (0.25-0.5, 0.5-0.75, 0.75-1.0)
   
+  #define cashflows
   if (t == 0) {
-    libor_dates_array = seq(0.25,T-0.25,by=0.25)
+    start_dates_array = seq(0.25,T-0.25,by=0.25)
+    end_dates_array = seq(0.5,T,by=0.25)
   }
   else
   {
     #these are the start of period for each caplet; date at which libor is observed
     #settlement is done at the end of the period
-    libor_dates_array = seq(t,T-0.25,by=0.25)
+    start_dates_array = seq(t,T-0.25,by=0.25)
+    end_dates_array = seq(t+0.25,T,by=0.25)
   }
   
   #calculate libor rates (continuously componded) for each libor_date
-  libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,libor_dates_array)
+  #for 1*1 cap, we need 4 libor rates: 1, 1.25, 1.50, 1.75
+  libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,end_dates_array)
   libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
   
   #print(libor_dates)
@@ -116,8 +120,8 @@ ComputeCapPrice = function(matrix,timestep,t,T,K) {
   #cat("libor 3m com:",libor_rates_quaterly_comp,"\n")
   
   value = 0
-  for (i in seq(1,length(libor_dates_array))) {
-    caplet = ComputeCapletPrice(libor_dates_array[i],libor_dates_array[i]+0.25,K,libor_rates_quaterly_comp[i])
+  for (i in seq(1,length(start_dates_array))) {
+    caplet = ComputeCapletPrice(start_dates_array[i],end_dates_array[i],K,libor_rates_quaterly_comp[i])
     value = value + caplet
     #cat("caplet:",caplet,"\n")
   }

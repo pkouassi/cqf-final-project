@@ -87,14 +87,18 @@ BootstrapHistoricCreditCurve = function(HistCDSData,HistYieldCurve) {
 
 ConvertHistoricCreditCurveToDataframe = function(HistCreditCurve) {
   #Extract specific info from the historical credit curve and store them in a dataframe
-  HistCreditCurveDataframe = as.data.frame(matrix(NA,ncol=4, nrow=nrow(HistCreditCurve)))
-  names(HistCreditCurveDataframe) = c("Date", "Ticker","SP_5Y", "DP_5Y")
+  HistCreditCurveDataframe = as.data.frame(matrix(NA,ncol=8, nrow=nrow(HistCreditCurve)))
+  names(HistCreditCurveDataframe) = c("Date", "Ticker","SP_5Y", "DP_5Y","HR_5Y","SP_3Y", "DP_3Y","HR_3Y")
   
   for (i in seq(1,nrow(HistCreditCurve))) {
     HistCreditCurveDataframe$Date[i] = HistCreditCurve[i,"Date"]
     HistCreditCurveDataframe$Ticker[i] = HistCreditCurve[i,"Ticker"]
     HistCreditCurveDataframe$SP_5Y[i] = HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years SP
-    HistCreditCurveDataframe$DP_5Y[i] = 1 - HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years DP  
+    HistCreditCurveDataframe$DP_5Y[i] = 1 - HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[5] #5 years DP
+    HistCreditCurveDataframe$HR_5Y[i] = HistCreditCurve[[i,"CreditCurve"]]@hazardrate[5] #Hazard rate between year 4 and 5
+    HistCreditCurveDataframe$SP_3Y[i] = HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[3] #5 years SP
+    HistCreditCurveDataframe$DP_3Y[i] = 1 - HistCreditCurve[[i,"CreditCurve"]]@survivalprobability[3] #5 years DP
+    HistCreditCurveDataframe$HR_3Y[i] = HistCreditCurve[[i,"CreditCurve"]]@hazardrate[3] #Hazard rate between year 4 and 5    
   }
   
   return(HistCreditCurveDataframe)  
