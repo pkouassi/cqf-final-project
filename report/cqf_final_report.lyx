@@ -3,6 +3,11 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -450,9 +455,9 @@ Year of default
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-\tau=F^{-1}(u)=-\frac{\log(1-u)}{\lambda_{\tau}}
-\]
+\begin{equation}
+\tau=F^{-1}(u)=-\frac{\log(1-u)}{\lambda_{\tau}}\label{equation_for_tau}
+\end{equation}
 
 \end_inset
 
@@ -464,11 +469,113 @@ We do not know the exact
 \begin_inset Formula $\lambda_{\tau}$
 \end_inset
 
+for the default time 
+\begin_inset Formula $\tau$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "equation_for_tau"
+
+\end_inset
+
+), we iterate through the term structure of hazard rates by summing up 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+until the inequality begins to hold:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tau=\inf\left\{ t>0:\log(1-u)\geq-\sum_{i=1}^{t}\lambda_{i}\varDelta t_{i}\right\} 
+\]
+
+\end_inset
+
 
 \end_layout
 
 \begin_layout Paragraph
 Exact default time
+\end_layout
+
+\begin_layout Standard
+Exact defaut time 
+\begin_inset Formula $\tau=t_{m-1}+\delta t$
+\end_inset
+
+ where 
+\begin_inset Formula $\delta t$
+\end_inset
+
+ is the 
+\begin_inset Quotes eld
+\end_inset
+
+year fraction
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\delta t=-\frac{1}{\lambda_{m}}\log(\frac{1-u}{P(0,t_{m-1})})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Join Distribution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F(x_{1},x_{2},\ldots,x_{n)}\equiv C(u_{1},u_{2},\ldots,u_{n})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Maximum Likelyhood for Student's copula
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{argmax}\left\{ \sum_{t=1}^{T}\log c(U_{t}^{Hist};\upsilon,\varSigma)\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+c(U;\upsilon,\varSigma)=\frac{1}{\sqrt{|\varSigma|}}\frac{\varGamma(\frac{\upsilon+n}{2})}{\varGamma(\frac{\upsilon}{2})}\left(\frac{\varGamma(\frac{\upsilon}{2})}{\varGamma(\frac{\upsilon+1}{2})}\right)^{n}\frac{\left(1+\frac{T_{\upsilon}^{-1}(U')\sum^{-1}T_{\upsilon}^{-1}(U)}{\upsilon}\right)^{-\frac{\upsilon+n}{2}}}{\prod_{i=1}^{n}\left(1+\frac{T_{\upsilon}^{-1}(u_{i}^{2})}{\upsilon}\right)^{-\frac{\upsilon+1}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spread Calculation
 \end_layout
 
 \begin_layout Subsubsection
@@ -493,6 +600,10 @@ Sampling from Student t copulae
 
 \begin_layout Subsection
 Main result
+\end_layout
+
+\begin_layout Itemize
+pearson / kendall correlation
 \end_layout
 
 \begin_layout Itemize

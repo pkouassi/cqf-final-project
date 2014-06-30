@@ -15,9 +15,12 @@ RecoveryRate = 0.40
 YieldCurve = getYieldCurve(HistoricalYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
 
 
-ZMatrix_studentt = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
+#ZMatrix_studentt = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
 #require(fOptions)
 #ZMatrix_studentt = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+ZMatrix_studentt = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+
+
 YMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 XMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 TauMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
@@ -36,21 +39,21 @@ UMatrix_studentt = pt(XMatrix_studentt, df = degree_freedom)
 #convert U to Tau
 for (i in seq(1,NumberCDS)) {
   CC = NULL
-  cat("i=",i,"\n")
+  cat("Converting u_i into tau_i for Asset",i,"\n")
   if (i == 1) {
-    CC = BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS1_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 2) {
-    CC = BootstrapHistoricCreditCurve(DELL_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS2_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 3) {
-    CC = BootstrapHistoricCreditCurve(HP_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS3_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 4) {
-    CC = BootstrapHistoricCreditCurve(IBM_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS4_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 5) {
-    CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS5_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   TauMatrix_studentt[,i] = HazardExactDefaultTime(CC,UMatrix_studentt[,i])
 }
@@ -62,7 +65,7 @@ colnames(LegCalculation_studentt) = c("DefaultLeg","PremiumLeg")
 #kth to default basket CDS
 k=1
 for (i in seq(1,NumberSimulation)) {
-  if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
+  if (i%%(NumberSimulation/20) == 0) cat((i/NumberSimulation)*100,"% ...\n")
   tau_list = sort(TauMatrix_studentt[i,])
   tau_k = tau_list[k]
   

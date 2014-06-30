@@ -1,14 +1,24 @@
 #Function that parse market data files (Markit) to fetch Historical CDS spreads 
-parseHistoricalCreditData = function(pathname,ticker,ccy,docclause) {
+parseHistoricalCreditData = function(pathname,ticker,ccy,docclause,start_date,end_date) {
   files = list.files(path=pathname, pattern="*.csv", full.names=TRUE, recursive=FALSE)
+  files_within_date_range = rep(NA,length(files))
   
-  MarketData = as.data.frame(matrix(ncol=11, nrow=length(files)))
+  #date filtering
+  for (i in seq(1,length(files))) {
+    file_date = as.Date(substr(basename(files[i]), 6, 12),"%d%b%y") #file e.g. C://temp//markit/Data-01Apr11.csv
+    if (file_date>=start_date && file_date<=end_date) {
+      files_within_date_range[i] = files[i]
+    }
+  }
+  files_within_date_range = files_within_date_range[!is.na(files_within_date_range)]
+
+  MarketData = as.data.frame(matrix(ncol=11, nrow=length(files_within_date_range)))
   names(MarketData) = c("Date", "Ticker","ShortName", "Tier","DocClause","Spread1y","Spread2y","Spread3y","Spread4y","Spread5y","AvRating")
   
   date_format = "%d-%b-%y"  
   error_count=0
   i=1
-  for (file in files) {
+  for (file in files_within_date_range) {
     tmp = read.csv(file,skip=1,header = TRUE, stringsAsFactors = FALSE)    
     index = which((tmp$Ticker == ticker & tmp$Ccy == ccy & tmp$DocClause == docclause))
     if (length(index) == 1) {
@@ -134,6 +144,15 @@ parseHistoricalYieldCurve = function(filename) {
   HistoricYieldCurveMatrix = HistoricYieldCurveMatrix[order(as.numeric(HistoricYieldCurveMatrix[,"Date"])),]  
   cat("USD Yield Curves loaded from",min(historic_yielcurve$Date),"to", max(historic_yielcurve$Date),"\n")
   return(HistoricYieldCurveMatrix)
+}
+
+#export/import data
+export_dataframe = function(dataframe,filename) {
+  write.table(dataframe, file = paste(getwd(),"/../data/",filename,sep=""), sep = ",", col.names = NA,qmethod = "double")
+}
+
+import_dataframe = function(filename) {
+  return(read.table(paste(getwd(),"/../data/",filename,sep=""), header = TRUE, sep = ",", row.names = 1))
 }
 
 #retrieve yield curve as of paste date (previous friday yieldcurve)

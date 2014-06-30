@@ -1,26 +1,26 @@
 #Estimation of hazard rates (empirical marginal distribution)
-BMY_USD_XR_MARGINAL = BMY_USD_XR[BMY_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & BMY_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-DELL_USD_XR_MARGINAL = DELL_USD_XR[DELL_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & DELL_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-HP_USD_XR_MARGINAL = HP_USD_XR[HP_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & HP_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-IBM_USD_XR_MARGINAL = IBM_USD_XR[IBM_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & IBM_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
-PFE_USD_XR_MARGINAL = PFE_USD_XR[PFE_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & PFE_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
+CDS1_USD_XR_MARGINAL = CDS1_USD_XR[CDS1_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & CDS1_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
+CDS2_USD_XR_MARGINAL = CDS2_USD_XR[CDS2_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & CDS2_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
+CDS3_USD_XR_MARGINAL = CDS3_USD_XR[CDS3_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & CDS3_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
+CDS4_USD_XR_MARGINAL = CDS4_USD_XR[CDS4_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & CDS4_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
+CDS5_USD_XR_MARGINAL = CDS5_USD_XR[CDS5_USD_XR$Date>=as.Date("23-MAY-2014","%d-%b-%Y") & CDS5_USD_XR$Date<=as.Date("23-MAY-2014","%d-%b-%Y"),]
 
 #Credit Curve Bootstrapping
 #RR = 0.40
-#CDS1Y = new ("CreditDefaultSwap", maturity = 1, marketprice = BMY_USD_XR_MARGINAL$Spread1y*10000)
-#CDS2Y = new ("CreditDefaultSwap", maturity = 2, marketprice = BMY_USD_XR_MARGINAL$Spread2y*10000)
-#CDS3Y = new ("CreditDefaultSwap", maturity = 3, marketprice = BMY_USD_XR_MARGINAL$Spread3y*10000)
-#CDS4Y = new ("CreditDefaultSwap", maturity = 4, marketprice = BMY_USD_XR_MARGINAL$Spread4y*10000)
-#CDS5Y = new ("CreditDefaultSwap", maturity = 5, marketprice = BMY_USD_XR_MARGINAL$Spread5y*10000)
+#CDS1Y = new ("CreditDefaultSwap", maturity = 1, marketprice = CDS1_USD_XR_MARGINAL$Spread1y*10000)
+#CDS2Y = new ("CreditDefaultSwap", maturity = 2, marketprice = CDS1_USD_XR_MARGINAL$Spread2y*10000)
+#CDS3Y = new ("CreditDefaultSwap", maturity = 3, marketprice = CDS1_USD_XR_MARGINAL$Spread3y*10000)
+#CDS4Y = new ("CreditDefaultSwap", maturity = 4, marketprice = CDS1_USD_XR_MARGINAL$Spread4y*10000)
+#CDS5Y = new ("CreditDefaultSwap", maturity = 5, marketprice = CDS1_USD_XR_MARGINAL$Spread5y*10000)
 #CDScol=c(CDS1Y,CDS2Y,CDS3Y,CDS4Y,CDS5Y)
 #YieldCurve = getYieldCurve(HistYieldCurveMatrix,as.Date("23-MAY-2014","%d-%b-%Y"))
-#BMY_USD_XR_MARGINAL_CREDIT_CURVE = BootstrapCreditCurve(CDScol,RR,YieldCurve)
+#CDS1_USD_XR_MARGINAL_CREDIT_CURVE = BootstrapCreditCurve(CDScol,RR,YieldCurve)
 
 #UTest = runif(5, min = 0, max = 1)
 #
-#BMY_USD_XR_MARGINAL_CREDIT_CURVE@hazardrate
-#ttt = BMY_USD_XR_MARGINAL_CREDIT_CURVE
-#BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL)[1,"CreditCurve"]
+#CDS1_USD_XR_MARGINAL_CREDIT_CURVE@hazardrate
+#ttt = CDS1_USD_XR_MARGINAL_CREDIT_CURVE
+#BootstrapHistoricCreditCurve(CDS1_USD_XR_MARGINAL)[1,"CreditCurve"]
 
 
 
@@ -59,12 +59,12 @@ HazardExactDefaultTime = function(CreditCurve,u_array) {
 
 
 
-#HazardExactDefaultTime(BMY_USD_XR_MARGINAL_CREDIT_CURVE,aaa)
+#HazardExactDefaultTime(CDS1_USD_XR_MARGINAL_CREDIT_CURVE,aaa)
 
 #set.seed(24)
 #aaa = runif(300000, min = 0, max = 1)
-#HazardExactDefaultTime(BMY_USD_XR_MARGINAL_CREDIT_CURVE,aaa)
+#HazardExactDefaultTime(CDS1_USD_XR_MARGINAL_CREDIT_CURVE,aaa)
 
-#sapply(aaa,HazardExactDefaultTime,CreditCurve=BMY_USD_XR_MARGINAL_CREDIT_CURVE)
+#sapply(aaa,HazardExactDefaultTime,CreditCurve=CDS1_USD_XR_MARGINAL_CREDIT_CURVE)
 
 

@@ -13,8 +13,8 @@ YieldCurve = getYieldCurve(HistoricalYieldCurveMatrix,as.Date("23-MAY-2014","%d-
 
 #ZMatrix_gaussian = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
 #using sobol numbers
-require(fOptions)
 ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+#ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
 
 XMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
 UMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
@@ -29,21 +29,21 @@ UMatrix_gaussian = pnorm(XMatrix_gaussian)
 
 for (i in seq(1,NumberCDS)) {
   CC = NULL
-  cat("i=",i,"\n")
+  cat("Converting u_i into tau_i for Asset",i,"\n")
   if (i == 1) {
-    CC = BootstrapHistoricCreditCurve(BMY_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS1_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 2) {
-    CC = BootstrapHistoricCreditCurve(DELL_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS2_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 3) {
-    CC = BootstrapHistoricCreditCurve(HP_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS3_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 4) {
-    CC = BootstrapHistoricCreditCurve(IBM_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS4_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   else if (i == 5) {
-    CC = BootstrapHistoricCreditCurve(PFE_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
+    CC = BootstrapHistoricCreditCurve(CDS5_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
   }
   TauMatrix_gaussian[,i] = HazardExactDefaultTime(CC,UMatrix_gaussian[,i])
 }
@@ -52,73 +52,10 @@ TauMatrix_gaussian
 LegCalculation_gaussian = matrix(data = NA,ncol=2, nrow=NumberSimulation)
 colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg")
 
-#1st to default basket CDS
-for (i in seq(1,NumberSimulation)) {
-  if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
-  min_tau = min(TauMatrix_gaussian[i,])
-  
-  #default leg calculation
-  default_leg = 0
-  if (min_tau == Inf) {
-    #i.e. min_tau > 5. No default within the life of the contract
-    default_leg = 0
-  }
-  else {
-    default_leg = (1-RecoveryRate)*GetDiscountFactor(YieldCurve,min_tau) * (1/5)
-  }
-  
-  #premium leg calculation
-  #One coding solution is to create a variable that accumulates PL at each dt = 0.01 and will need a fiited discounting curve for this increment.
-  #integrate GetDiscountFactor from 0 to min_tau
-  premium_leg = 0
-  if (min_tau == Inf) {
-    #i.e. min_tau > 5. No default within the life of the contract
-    for (j in seq(1,5)) {
-      premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
-    }
-    #too slow using integrate
-    #premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,5)$value
-    premium_leg = premium_leg*(5/5)
-  }
-  else {
-    j=1
-    while (j<min_tau & j<5) {
-      premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
-      j = j+1
-    }
-    premium_leg = premium_leg + GetDiscountFactor(YieldCurve,min_tau)*(min_tau-(j-1))
-    #too slow using integrate
-    #premium_leg = integrate(GetDiscountFactorVector,YieldCurve=YieldCurve,0,min_tau)$value
-    premium_leg = premium_leg*(5/5)
-  }
-  
-  LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
-  LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
-}
-LegCalculation_gaussian
-
-expectation_default_leg_gaussian= mean(LegCalculation_gaussian[,"DefaultLeg"])
-expectation_premium_leg_gaussian= mean(LegCalculation_gaussian[,"PremiumLeg"])
-expectation_spread_gaussian = expectation_default_leg_gaussian/expectation_premium_leg_gaussian
-expectation_spread_gaussian
-
-#convergence diagram
-nbobservation = round(NumberSimulation/10)
-expectation_default_leg_array = rep(NA,nbobservation)
-expectation_premium_leg_array = rep(NA,nbobservation)
-expectation_spread_array = rep(NA,nbobservation)
-
-for (i in seq(1,nbobservation)) {
-  expectation_default_leg_array[i] = mean(LegCalculation_gaussian[1:i,"DefaultLeg"])
-  expectation_premium_leg_array[i] = mean(LegCalculation_gaussian[1:i,"PremiumLeg"])
-  expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
-}
-plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
-
 #kth to default basket CDS
 k=1
 for (i in seq(1,NumberSimulation)) {
-  if (i%%(NumberSimulation/25) == 0) cat((i/NumberSimulation)*100,"% ...\n")
+  if (i%%(NumberSimulation/20) == 0) cat((i/NumberSimulation)*100,"% ...\n")
   tau_list = sort(TauMatrix_gaussian[i,])
   tau_k = tau_list[k]
   
@@ -157,6 +94,8 @@ expectation_premium_leg_gaussian= mean(LegCalculation_gaussian[,"PremiumLeg"])
 expectation_spread_gaussian = expectation_default_leg_gaussian/expectation_premium_leg_gaussian
 expectation_spread_gaussian
 
+cat("expectation_spread_gaussian (generic algo):",expectation_spread_gaussian,"\n")
+
 #convergence diagram
 nbobservation = round(NumberSimulation/10)
 expectation_default_leg_array = rep(NA,nbobservation)
@@ -171,7 +110,6 @@ for (i in seq(1,nbobservation)) {
 plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
 
 
-#truc = cbind(TauMatrix[1:250,1],TauMatrix[1:250,2],TauMatrix[1:250,3],TauMatrix[1:250,4],TauMatrix[1:250,5],LegCalculation[1:250,"DefaultLeg"],LegCalculation[1:250,"PremiumLeg"],LegCalculationBackup[1:250,"DefaultLeg"],LegCalculationBackup[1:250,"PremiumLeg"])
 
 #k=1 ==> 82bp // 0.0082433965 
 #k=2 ==> 18bp

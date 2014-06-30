@@ -11,6 +11,8 @@ print("Program starting...")
 setwd(current_dir)
 
 source("class_definition.R") # define classes
+#install / load dependencies
+source("install_register_packages.R") 
 #historical data loading, cleaning. Credit Curve Construction
 source("market_data_functions.R") 
 source("market_data_loading.R") 
@@ -20,7 +22,11 @@ source("credit_curve_bootstrapping_functions.R")
 source("default_probability_correlation_matrix.R") # load functions and process data
 print(DefaultProbabilityMatrix_GaussianCopula)
 print(DefaultProbabilityMatrix_KendallTau)
+print(DefaultProbabilityMatrix_StudentTCopula)
 cat("degree of freedom",degree_freedom)
+
+#Load NAG library
+source("nag_library_wrapper.R")
 
 #sampling from copula
 source("marginal_default_time.R") #daily cds data loading and function definition

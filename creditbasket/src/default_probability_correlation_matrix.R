@@ -1,16 +1,16 @@
 #arrays of CreditCurve Objects
-BMY_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(BMY_USD_XR,HistoricalYieldCurveMatrix)
-DELL_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(DELL_USD_XR,HistoricalYieldCurveMatrix)
-HP_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(HP_USD_XR,HistoricalYieldCurveMatrix)
-IBM_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(IBM_USD_XR,HistoricalYieldCurveMatrix)
-PFE_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(PFE_USD_XR,HistoricalYieldCurveMatrix)
+CDS1_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(CDS1_USD_XR,HistoricalYieldCurveMatrix)
+CDS2_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(CDS2_USD_XR,HistoricalYieldCurveMatrix)
+CDS3_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(CDS3_USD_XR,HistoricalYieldCurveMatrix)
+CDS4_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(CDS4_USD_XR,HistoricalYieldCurveMatrix)
+CDS5_USD_XR_HistCreditCurve = BootstrapHistoricCreditCurve(CDS5_USD_XR,HistoricalYieldCurveMatrix)
 
 #dataframe with 5Y Survival Probability and Default Probability
-BMY_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(BMY_USD_XR_HistCreditCurve)
-DELL_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(DELL_USD_XR_HistCreditCurve)
-HP_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(HP_USD_XR_HistCreditCurve)
-IBM_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(IBM_USD_XR_HistCreditCurve)
-PFE_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(PFE_USD_XR_HistCreditCurve)
+CDS1_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(CDS1_USD_XR_HistCreditCurve)
+CDS2_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(CDS2_USD_XR_HistCreditCurve)
+CDS3_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(CDS3_USD_XR_HistCreditCurve)
+CDS4_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(CDS4_USD_XR_HistCreditCurve)
+CDS5_USD_XR_HistCreditCurveDataframe = ConvertHistoricCreditCurveToDataframe(CDS5_USD_XR_HistCreditCurve)
 
 #calculate default probability difference
 ComputeDifference = function(HistCreditCurveDataframe) {
@@ -26,22 +26,25 @@ ComputeDifference = function(HistCreditCurveDataframe) {
   return(HistDifference)
 }
 
-BMY_USD_XR_PDdiff = ComputeDifference(BMY_USD_XR_HistCreditCurveDataframe)
-DELL_USD_XR_PDdiff = ComputeDifference(DELL_USD_XR_HistCreditCurveDataframe)
-HP_USD_XR_PDdiff = ComputeDifference(HP_USD_XR_HistCreditCurveDataframe)
-IBM_USD_XR_PDdiff = ComputeDifference(IBM_USD_XR_HistCreditCurveDataframe)
-PFE_USD_XR_PDdiff = ComputeDifference(PFE_USD_XR_HistCreditCurveDataframe)
+CDS1_USD_XR_PDdiff = ComputeDifference(CDS1_USD_XR_HistCreditCurveDataframe)
+CDS2_USD_XR_PDdiff = ComputeDifference(CDS2_USD_XR_HistCreditCurveDataframe)
+CDS3_USD_XR_PDdiff = ComputeDifference(CDS3_USD_XR_HistCreditCurveDataframe)
+CDS4_USD_XR_PDdiff = ComputeDifference(CDS4_USD_XR_HistCreditCurveDataframe)
+CDS5_USD_XR_PDdiff = ComputeDifference(CDS5_USD_XR_HistCreditCurveDataframe)
 
 #represent plot
-plot(BMY_USD_XR_PDdiff$Date,BMY_USD_XR_PDdiff$DP_5Y_change,type="l")
+plot(CDS1_USD_XR_PDdiff$Date,CDS1_USD_XR_PDdiff$DP_5Y_change,type="l")
 
-BMY_USD_XR_PDdiff$DP_5Y_change[32]
+CDS1_USD_XR_PDdiff$DP_5Y_change[33]
 
 #represent histograms
-hist(IBM_USD_XR_PDdiff$DP_5Y_change, breaks=30)
-hist(PFE_USD_XR_PDdiff$DP_5Y_change, breaks=30)
-hist(HP_USD_XR_PDdiff$DP_5Y_change, breaks=30)
-hist(BMY_USD_XR_PDdiff$DP_5Y_change, breaks=30)
+hist(CDS4_USD_XR_PDdiff$DP_5Y_change, breaks=30)
+hist(CDS5_USD_XR_PDdiff$DP_5Y_change, breaks=30)
+hist(CDS3_USD_XR_PDdiff$DP_5Y_change, breaks=30)
+hist(CDS2_USD_XR_PDdiff$DP_5Y_change, breaks=30)
+hist(CDS1_USD_XR_PDdiff$DP_5Y_change, breaks=30)
+
+cbind(CDS1_USD_XR_PDdiff$DP_5Y_change,CDS2_USD_XR_PDdiff$DP_5Y_change,CDS3_USD_XR_PDdiff$DP_5Y_change,CDS4_USD_XR_PDdiff$DP_5Y_change,CDS5_USD_XR_PDdiff$DP_5Y_change)
 
 #correlation for gaussian copula
 transform_pddiff_to_normal = function(X) {
@@ -52,13 +55,15 @@ transform_pddiff_to_normal = function(X) {
 }
 
 #must clean data earlier
-Z_BMY_USD_XR = transform_pddiff_to_normal(BMY_USD_XR_PDdiff$DP_5Y_change)
-Z_PFE_USD_XR = transform_pddiff_to_normal(PFE_USD_XR_PDdiff$DP_5Y_change)
-Z_IBM_USD_XR = transform_pddiff_to_normal(IBM_USD_XR_PDdiff$DP_5Y_change)
-Z_DELL_USD_XR = transform_pddiff_to_normal(DELL_USD_XR_PDdiff$DP_5Y_change)
-Z_HP_USD_XR = transform_pddiff_to_normal(HP_USD_XR_PDdiff$DP_5Y_change)
+Z_CDS1_USD_XR = transform_pddiff_to_normal(CDS1_USD_XR_PDdiff$DP_5Y_change)
+Z_CDS2_USD_XR = transform_pddiff_to_normal(CDS2_USD_XR_PDdiff$DP_5Y_change)
+Z_CDS3_USD_XR = transform_pddiff_to_normal(CDS3_USD_XR_PDdiff$DP_5Y_change)
+Z_CDS4_USD_XR = transform_pddiff_to_normal(CDS4_USD_XR_PDdiff$DP_5Y_change)
+Z_CDS5_USD_XR = transform_pddiff_to_normal(CDS5_USD_XR_PDdiff$DP_5Y_change)
 
-hist(Z_BMY_USD_XR)
+hist(Z_CDS1_USD_XR, breaks=30)
+hist(Z_CDS2_USD_XR, breaks=30)
+
 
 correlation_exclude_spikes = function(Z1,Z2) {
   #check for Inf
@@ -70,13 +75,15 @@ correlation_exclude_spikes = function(Z1,Z2) {
   return(cor(Z1[spikes_for_both==FALSE],Z2[spikes_for_both==FALSE], method = "pearson"))
 }
 
-myPDdiffMatrix = rbind(Z_BMY_USD_XR,Z_PFE_USD_XR,Z_IBM_USD_XR,Z_DELL_USD_XR,Z_HP_USD_XR)
+myPDdiffMatrix = rbind(Z_CDS1_USD_XR,Z_CDS2_USD_XR,Z_CDS3_USD_XR,Z_CDS4_USD_XR,Z_CDS5_USD_XR)
 
 #Correlation for Gaussian copula
 DefaultProbabilityMatrix_GaussianCopula = matrix(NA, 
                            nrow=nrow(myPDdiffMatrix),
                            ncol=nrow(myPDdiffMatrix),
                            byrow = TRUE);
+rownames(DefaultProbabilityMatrix_GaussianCopula) = AssetTicker 
+colnames(DefaultProbabilityMatrix_GaussianCopula) = AssetTicker 
 
 for (i in seq(1,nrow(myPDdiffMatrix))) {
   for (j in seq(1,nrow(myPDdiffMatrix))) {
@@ -84,7 +91,7 @@ for (i in seq(1,nrow(myPDdiffMatrix))) {
   }
 }
 
-cat("Z_BMY_USD_XR,Z_PFE_USD_XR,Z_IBM_USD_XR,Z_DELL_USD_XR,Z_HP_USD_XR\n")
+cat("Z_CDS1_USD_XR,Z_CDS5_USD_XR,Z_CDS4_USD_XR,Z_CDS2_USD_XR,Z_CDS3_USD_XR\n")
 DefaultProbabilityMatrix_GaussianCopula
 
 #linear measure (Pearson)
@@ -104,11 +111,11 @@ transform_pddiff_to_uniform = function(X) {
 }
 
 
-U_BMY_USD_XR = transform_pddiff_to_uniform(BMY_USD_XR_PDdiff$DP_5Y_change)
-U_PFE_USD_XR = transform_pddiff_to_uniform(PFE_USD_XR_PDdiff$DP_5Y_change)
-U_IBM_USD_XR = transform_pddiff_to_uniform(IBM_USD_XR_PDdiff$DP_5Y_change)
-U_DELL_USD_XR = transform_pddiff_to_uniform(DELL_USD_XR_PDdiff$DP_5Y_change)
-U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
+U_CDS1_USD_XR = transform_pddiff_to_uniform(CDS1_USD_XR_PDdiff$DP_5Y_change)
+U_CDS5_USD_XR = transform_pddiff_to_uniform(CDS5_USD_XR_PDdiff$DP_5Y_change)
+U_CDS4_USD_XR = transform_pddiff_to_uniform(CDS4_USD_XR_PDdiff$DP_5Y_change)
+U_CDS2_USD_XR = transform_pddiff_to_uniform(CDS2_USD_XR_PDdiff$DP_5Y_change)
+U_CDS3_USD_XR = transform_pddiff_to_uniform(CDS3_USD_XR_PDdiff$DP_5Y_change)
 
 
 #transform_pddiff_to_uniform_kerneldensity = function(X) {
@@ -118,10 +125,10 @@ U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
 #  U = sapply(X,fn)
 #  return(U)
 #}
-#U_BMY_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(BMY_USD_XR_PDdiff$DP_5Y_change)
-#U_PFE_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(PFE_USD_XR_PDdiff$DP_5Y_change)
-#hist(U_BMY_USD_XR_kerneldensity, breaks = 30)
-#hist(U_PFE_USD_XR_kerneldensity, breaks = 30)
+#U_CDS1_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(CDS1_USD_XR_PDdiff$DP_5Y_change)
+#U_CDS5_USD_XR_kerneldensity = transform_pddiff_to_uniform_kerneldensity(CDS5_USD_XR_PDdiff$DP_5Y_change)
+#hist(U_CDS1_USD_XR_kerneldensity, breaks = 30)
+#hist(U_CDS5_USD_XR_kerneldensity, breaks = 30)
 
 
 
@@ -134,7 +141,7 @@ U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
 #  return(ret)
 #}
 
-#export_to_mathematica(BMY_USD_XR_PDdiff$DP_5Y_change)
+#export_to_mathematica(CDS1_USD_XR_PDdiff$DP_5Y_change)
 
 #import_from_mathematica = function(str) {
 #  tmp = strsplit(str, ",")[[1]]
@@ -148,16 +155,16 @@ U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
 #using logspline package. not very uniform
 #install.packages("logspline")
 #require(logspline)
-#U_BMY_USD_XR_logspline = plogspline(BMY_USD_XR_PDdiff$DP_5Y_change,logspline(BMY_USD_XR_PDdiff$DP_5Y_change))
-#U_PFE_USD_XR_logspline = plogspline(PFE_USD_XR_PDdiff$DP_5Y_change,logspline(PFE_USD_XR_PDdiff$DP_5Y_change))
-#U_IBM_USD_XR_logspline = plogspline(IBM_USD_XR_PDdiff$DP_5Y_change,logspline(IBM_USD_XR_PDdiff$DP_5Y_change))
-#U_DELL_USD_XR_logspline = plogspline(DELL_USD_XR_PDdiff$DP_5Y_change,logspline(DELL_USD_XR_PDdiff$DP_5Y_change))
-#U_HP_USD_XR_logspline = plogspline(HP_USD_XR_PDdiff$DP_5Y_change,logspline(HP_USD_XR_PDdiff$DP_5Y_change))
-#hist(U_BMY_USD_XR_logspline)
-#hist(U_PFE_USD_XR_logspline)
-#hist(U_IBM_USD_XR_logspline)
-#hist(U_DELL_USD_XR_logspline)
-#hist(U_HP_USD_XR_logspline)
+#U_CDS1_USD_XR_logspline = plogspline(CDS1_USD_XR_PDdiff$DP_5Y_change,logspline(CDS1_USD_XR_PDdiff$DP_5Y_change))
+#U_CDS5_USD_XR_logspline = plogspline(CDS5_USD_XR_PDdiff$DP_5Y_change,logspline(CDS5_USD_XR_PDdiff$DP_5Y_change))
+#U_CDS4_USD_XR_logspline = plogspline(CDS4_USD_XR_PDdiff$DP_5Y_change,logspline(CDS4_USD_XR_PDdiff$DP_5Y_change))
+#U_CDS2_USD_XR_logspline = plogspline(CDS2_USD_XR_PDdiff$DP_5Y_change,logspline(CDS2_USD_XR_PDdiff$DP_5Y_change))
+#U_CDS3_USD_XR_logspline = plogspline(CDS3_USD_XR_PDdiff$DP_5Y_change,logspline(CDS3_USD_XR_PDdiff$DP_5Y_change))
+#hist(U_CDS1_USD_XR_logspline)
+#hist(U_CDS5_USD_XR_logspline)
+#hist(U_CDS4_USD_XR_logspline)
+#hist(U_CDS2_USD_XR_logspline)
+#hist(U_CDS3_USD_XR_logspline)
 
 
 #kernel smoothing CDF using density() -- alternative to ecdf
@@ -177,7 +184,7 @@ U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
 #}
 
 #http://www.mathworks.com/help/stats/examples/nonparametric-estimates-of-cumulative-distribution-functions-and-their-inverses.html
-#lulu = IBM_USD_XR_PDdiff$DP_5Y_change
+#lulu = CDS4_USD_XR_PDdiff$DP_5Y_change
 #The ecdf function computes one type of nonparametric CDF estimate, the empirical CDF, which is a stairstep function
 #fn_ecdf = ecdf(lulu)
 #plot(fn_ecdf)
@@ -214,18 +221,20 @@ U_HP_USD_XR = transform_pddiff_to_uniform(HP_USD_XR_PDdiff$DP_5Y_change)
 # }
 
 #get good "uniform" result with ecdf
-hist(U_BMY_USD_XR,breaks = 30)
-hist(U_PFE_USD_XR,breaks = 30)
-hist(U_IBM_USD_XR,breaks = 30)
-hist(U_DELL_USD_XR,breaks = 30)
-hist(U_HP_USD_XR, breaks = 30)
+hist(U_CDS1_USD_XR,breaks = 30)
+hist(U_CDS5_USD_XR,breaks = 30)
+hist(U_CDS4_USD_XR,breaks = 30)
+hist(U_CDS2_USD_XR,breaks = 30)
+hist(U_CDS3_USD_XR, breaks = 30)
 
-myUnifMatrix = rbind(U_BMY_USD_XR,U_PFE_USD_XR,U_IBM_USD_XR,U_DELL_USD_XR,U_HP_USD_XR)
+myUnifMatrix = rbind(U_CDS1_USD_XR,U_CDS2_USD_XR,U_CDS3_USD_XR,U_CDS4_USD_XR,U_CDS5_USD_XR)
 
 DefaultProbabilityMatrix_KendallTau = matrix(NA, 
                                 nrow=nrow(myUnifMatrix),
                                 ncol=nrow(myUnifMatrix),
                                 byrow = TRUE);
+rownames(DefaultProbabilityMatrix_KendallTau) = AssetTicker 
+colnames(DefaultProbabilityMatrix_KendallTau) = AssetTicker 
 
 for (i in seq(1,nrow(myUnifMatrix))) {
   for (j in seq(1,nrow(myUnifMatrix))) {
@@ -238,6 +247,8 @@ for (i in seq(1,nrow(myUnifMatrix))) {
 #correlation matrix to be fed into copula 
 #(copula density fitting and sampling from copula procedure)
 DefaultProbabilityMatrix_StudentTCopula = sin(0.5*pi*DefaultProbabilityMatrix_KendallTau)
+rownames(DefaultProbabilityMatrix_StudentTCopula) = AssetTicker 
+colnames(DefaultProbabilityMatrix_StudentTCopula) = AssetTicker 
 
 #Correlation Experiment: estimate rank correlation for changes in
 #credit spreads, survival probabilities, hazard rates. Rank measures
@@ -245,7 +256,7 @@ DefaultProbabilityMatrix_StudentTCopula = sin(0.5*pi*DefaultProbabilityMatrix_Ke
 
 #MLE for student's t copula
 
-myU = cbind(U_BMY_USD_XR,U_PFE_USD_XR,U_IBM_USD_XR,U_DELL_USD_XR,U_HP_USD_XR)
+myU = cbind(U_CDS1_USD_XR,U_CDS5_USD_XR,U_CDS4_USD_XR,U_CDS2_USD_XR,U_CDS3_USD_XR)
 
 C = function (U,v,Sigma) {
   n = length(U)
@@ -274,16 +285,17 @@ loglikelyhoodfunc = function(UMatrix,v,Sigma) {
   return(value)
 }
 
-#suppress row number 33, all ui = 1 
-loglikelyhoodfunc(myU[-33,],10,DefaultProbabilityMatrix_StudentTCopula)
+#suppress observation where one or more ui = 1.00; these elements crash the MLE
+myU = myU[(myU[,1]!=1.0 & myU[,2]!=1.0 & myU[,3]!=1.0 & myU[,4]!=1.0 & myU[,5]!=1.0),]
+loglikelyhoodfunc(myU,10,DefaultProbabilityMatrix_StudentTCopula)
 
 #plot of the log-lekelyhood funciton
 v_array = seq(1,50)
-loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=myU[-33,],Sigma=DefaultProbabilityMatrix_StudentTCopula)
+loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=myU,Sigma=DefaultProbabilityMatrix_StudentTCopula)
 plot(v_array,loglikelyhood_array,type="l")
 
 #optimization to compute degree of freedom for student t
-degree_freedom = optimize(loglikelyhoodfunc, UMatrix = myU[-33,], Sigma = DefaultProbabilityMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
+degree_freedom = optimize(loglikelyhoodfunc, UMatrix = myU, Sigma = DefaultProbabilityMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
 
 # 
 # UBLN = myU[22,]
