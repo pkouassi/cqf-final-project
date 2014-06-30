@@ -20,9 +20,9 @@ source("credit_curve_bootstrapping_functions.R")
 
 #gaussian correlation matrix, student t correlation matrix and degree of freedom
 source("default_probability_correlation_matrix.R") # load functions and process data
-print(DefaultProbabilityMatrix_GaussianCopula)
-print(DefaultProbabilityMatrix_KendallTau)
-print(DefaultProbabilityMatrix_StudentTCopula)
+print(CorrelationMatrix_GaussianCopula)
+print(CorrelationMatrix_KendallTau)
+print(CorrelationMatrix_StudentTCopula)
 cat("degree of freedom",degree_freedom)
 
 #Estimate Marginal Hazard Rates (empirical marginal distributions)

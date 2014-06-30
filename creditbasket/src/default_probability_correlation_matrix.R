@@ -53,10 +53,10 @@ hist(CDS1_USD_XR_diff$HR_5Y, breaks=30)
 hist(CDS1_USD_XR_diff$HR_5Y_diff, breaks=30)
 hist(CDS1_USD_XR_diff$HR_5Y_logdiff, breaks=30)
 
-hist(CDS2_USD_XR_diff$DP_5Y_change, breaks=30)
-hist(CDS3_USD_XR_diff$DP_5Y_change, breaks=30)
-hist(CDS4_USD_XR_diff$DP_5Y_change, breaks=30)
-hist(CDS5_USD_XR_diff$DP_5Y_change, breaks=30)
+hist(CDS2_USD_XR_diff$DP_5Y_diff, breaks=30)
+hist(CDS3_USD_XR_diff$DP_5Y_diff, breaks=30)
+hist(CDS4_USD_XR_diff$DP_5Y_diff, breaks=30)
+hist(CDS5_USD_XR_diff$DP_5Y_diff, breaks=30)
 
 
 #cbind(CDS1_USD_XR_PDdiff$DP_5Y_change,CDS2_USD_XR_PDdiff$DP_5Y_change,CDS3_USD_XR_PDdiff$DP_5Y_change,CDS4_USD_XR_PDdiff$DP_5Y_change,CDS5_USD_XR_PDdiff$DP_5Y_change)
@@ -70,13 +70,29 @@ transform_pddiff_to_normal = function(X) {
 }
 
 pearson_correlation = function(Z1,Z2) {
-  #check for Inf
-  spikes_for_Z1 = !(Z1 != Inf)
-  spikes_for_Z2 = !(Z2 != Inf)
-  spikes_for_both = spikes_for_Z1 | spikes_for_Z2  
-  #cat(sum(spikes_for_both == TRUE)," date(s) excluded in both time series...\n")
+
+  if (length(Z1) != length(Z2)) {
+    warning("Two vectors have different length. can't compute pearson correlation")
+    return()
+  }
+  else {
+    Z1_observation_to_be_removed = rep(TRUE,length(Z1))
+    Z2_observation_to_be_removed = rep(TRUE,length(Z2))
+    
+    for (i in seq(1,length(Z1))) {
+      if (Z1[i] == Inf | is.na(Z1[i])) Z1_observation_to_be_removed[i] = FALSE
+      if (Z2[i] == Inf | is.na(Z2[i])) Z2_observation_to_be_removed[i] = FALSE
+    }
+    
+    return(cor(Z1[Z1_observation_to_be_removed & Z2_observation_to_be_removed],Z2[Z1_observation_to_be_removed & Z2_observation_to_be_removed], method = "pearson"))
+  }
   
-  return(cor(Z1[spikes_for_both==FALSE],Z2[spikes_for_both==FALSE], method = "pearson"))
+  #check for Inf
+  #spikes_for_Z1 = !(Z1 != Inf)
+  #spikes_for_Z2 = !(Z2 != Inf)
+  #spikes_for_both = spikes_for_Z1 | spikes_for_Z2  
+  #cat(sum(spikes_for_both == TRUE)," date(s) excluded in both time series...\n")
+  #return(cor(Z1[spikes_for_both==FALSE],Z2[spikes_for_both==FALSE], method = "pearson"))
 }
 
 pearson_correlation_matrix = function(matrix) {
@@ -124,7 +140,8 @@ DP_5Y_logdiff_CorrelationMatrix_GaussianCopula = pearson_correlation_matrix(rbin
   transform_pddiff_to_normal(CDS5_USD_XR_diff$DP_5Y_logdiff)))
 
 DP_5Y_logdiff_CorrelationMatrix_GaussianCopula
-
+CorrelationMatrix_GaussianCopula = DP_5Y_logdiff_CorrelationMatrix_GaussianCopula
+  
 #----------------------------------------------------------------------------------
 #Correlation Matrix for Gaussian copula (Hazard Rate - 5Y)
 #----------------------------------------------------------------------------------
@@ -182,11 +199,11 @@ transform_pddiff_to_uniform = function(X) {
 }
 
 
-U_CDS1_USD_XR = transform_pddiff_to_uniform(CDS1_USD_XR_PDdiff$DP_5Y_change)
-U_CDS5_USD_XR = transform_pddiff_to_uniform(CDS5_USD_XR_PDdiff$DP_5Y_change)
-U_CDS4_USD_XR = transform_pddiff_to_uniform(CDS4_USD_XR_PDdiff$DP_5Y_change)
-U_CDS2_USD_XR = transform_pddiff_to_uniform(CDS2_USD_XR_PDdiff$DP_5Y_change)
-U_CDS3_USD_XR = transform_pddiff_to_uniform(CDS3_USD_XR_PDdiff$DP_5Y_change)
+U_CDS1_USD_XR = transform_pddiff_to_uniform(CDS1_USD_XR_diff$DP_5Y_logdiff)
+U_CDS5_USD_XR = transform_pddiff_to_uniform(CDS5_USD_XR_diff$DP_5Y_logdiff)
+U_CDS4_USD_XR = transform_pddiff_to_uniform(CDS4_USD_XR_diff$DP_5Y_logdiff)
+U_CDS2_USD_XR = transform_pddiff_to_uniform(CDS2_USD_XR_diff$DP_5Y_logdiff)
+U_CDS3_USD_XR = transform_pddiff_to_uniform(CDS3_USD_XR_diff$DP_5Y_logdiff)
 
 
 #transform_pddiff_to_uniform_kerneldensity = function(X) {
@@ -300,16 +317,16 @@ hist(U_CDS3_USD_XR, breaks = 30)
 
 myUnifMatrix = rbind(U_CDS1_USD_XR,U_CDS2_USD_XR,U_CDS3_USD_XR,U_CDS4_USD_XR,U_CDS5_USD_XR)
 
-DefaultProbabilityMatrix_KendallTau = matrix(NA, 
+CorrelationMatrix_KendallTau = matrix(NA, 
                                 nrow=nrow(myUnifMatrix),
                                 ncol=nrow(myUnifMatrix),
                                 byrow = TRUE);
-rownames(DefaultProbabilityMatrix_KendallTau) = AssetTicker 
-colnames(DefaultProbabilityMatrix_KendallTau) = AssetTicker 
+rownames(CorrelationMatrix_KendallTau) = AssetTicker 
+colnames(CorrelationMatrix_KendallTau) = AssetTicker 
 
 for (i in seq(1,nrow(myUnifMatrix))) {
   for (j in seq(1,nrow(myUnifMatrix))) {
-    DefaultProbabilityMatrix_KendallTau[i,j] = cor(myUnifMatrix[i,],myUnifMatrix[j,], method = "kendall")
+    CorrelationMatrix_KendallTau[i,j] = cor(myUnifMatrix[i,],myUnifMatrix[j,], method = "kendall")
   }
 }
 
@@ -317,9 +334,9 @@ for (i in seq(1,nrow(myUnifMatrix))) {
 #convert kendall tau coeedficient to normal cooefficient
 #correlation matrix to be fed into copula 
 #(copula density fitting and sampling from copula procedure)
-DefaultProbabilityMatrix_StudentTCopula = sin(0.5*pi*DefaultProbabilityMatrix_KendallTau)
-rownames(DefaultProbabilityMatrix_StudentTCopula) = AssetTicker 
-colnames(DefaultProbabilityMatrix_StudentTCopula) = AssetTicker 
+CorrelationMatrix_StudentTCopula = sin(0.5*pi*CorrelationMatrix_KendallTau)
+rownames(CorrelationMatrix_StudentTCopula) = AssetTicker 
+colnames(CorrelationMatrix_StudentTCopula) = AssetTicker 
 
 #Correlation Experiment: estimate rank correlation for changes in
 #credit spreads, survival probabilities, hazard rates. Rank measures
@@ -358,15 +375,15 @@ loglikelyhoodfunc = function(UMatrix,v,Sigma) {
 
 #suppress observation where one or more ui = 1.00; these elements crash the MLE
 myU = myU[(myU[,1]!=1.0 & myU[,2]!=1.0 & myU[,3]!=1.0 & myU[,4]!=1.0 & myU[,5]!=1.0),]
-loglikelyhoodfunc(myU,10,DefaultProbabilityMatrix_StudentTCopula)
+loglikelyhoodfunc(myU,10,CorrelationMatrix_StudentTCopula)
 
 #plot of the log-lekelyhood funciton
 v_array = seq(1,50)
-loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=myU,Sigma=DefaultProbabilityMatrix_StudentTCopula)
+loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=myU,Sigma=CorrelationMatrix_StudentTCopula)
 plot(v_array,loglikelyhood_array,type="l")
 
 #optimization to compute degree of freedom for student t
-degree_freedom = optimize(loglikelyhoodfunc, UMatrix = myU, Sigma = DefaultProbabilityMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
+degree_freedom = optimize(loglikelyhoodfunc, UMatrix = myU, Sigma = CorrelationMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
 
 # 
 # UBLN = myU[22,]

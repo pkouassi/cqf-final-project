@@ -689,7 +689,18 @@ choice of the stress-testing levels of correlation.
 \begin_layout Standard
 
 \color red
-Limitations: yearly payment instead of quaterly payment ...
+Limitations: 
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+yearly payment instead of quaterly payment ...
+\end_layout
+
+\begin_layout Enumerate
+get CDS spreads for 1,2,3,4,5y (some names don't have.
+ e.g Google)
 \end_layout
 
 \begin_layout Standard

@@ -1,8 +1,8 @@
 #Sampling from gaussian copula
 
 #Test if correlation matrix is positive definite
-DefaultProbabilityMatrix_GaussianCopula
-A_gaussian = chol(DefaultProbabilityMatrix_GaussianCopula)
+CorrelationMatrix_GaussianCopula
+A_gaussian = chol(CorrelationMatrix_GaussianCopula)
 #verification
 t(A_gaussian) %*% A_gaussian
 

@@ -1,11 +1,11 @@
 #Sampling from student t copula
 
 #Test if correlation matrix is positive definite
-DefaultProbabilityMatrix_StudentTCopula
+CorrelationMatrix_StudentTCopula
 degree_freedom
 #degree_freedom = 7
 
-A_studentt = chol(DefaultProbabilityMatrix_StudentTCopula)
+A_studentt = chol(CorrelationMatrix_StudentTCopula)
 #verification
 t(A_studentt) %*% A_studentt
 

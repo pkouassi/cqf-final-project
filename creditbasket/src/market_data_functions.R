@@ -1,14 +1,35 @@
 #Function that parse market data files (Markit) to fetch Historical CDS spreads 
-parseHistoricalCreditData = function(pathname,ticker,ccy,docclause,start_date,end_date) {
+parseHistoricalCreditData = function(pathname,ticker,ccy,docclause,start_date,end_date,frequency="daily") {
   files = list.files(path=pathname, pattern="*.csv", full.names=TRUE, recursive=FALSE)
   files_within_date_range = rep(NA,length(files))
   
   #date filtering
-  for (i in seq(1,length(files))) {
-    file_date = as.Date(substr(basename(files[i]), 6, 12),"%d%b%y") #file e.g. C://temp//markit/Data-01Apr11.csv
-    if (file_date>=start_date && file_date<=end_date) {
-      files_within_date_range[i] = files[i]
-    }
+  #daily frequency
+  if (frequency == "daily") {
+    for (i in seq(1,length(files))) {
+      file_date = as.Date(substr(basename(files[i]), 6, 12),"%d%b%y") #file e.g. C://temp//markit/Data-01Apr11.csv
+      if (file_date>=start_date && file_date<=end_date) {
+        files_within_date_range[i] = files[i]
+      }
+    }    
+  }
+  #weekly frequency. take friday data
+  else if (frequency == "weekly") {
+    for (i in seq(1,length(files))) {
+      file_date = as.Date(substr(basename(files[i]), 6, 12),"%d%b%y") #file e.g. C://temp//markit/Data-01Apr11.csv
+      if (file_date>=start_date && file_date<=end_date && weekdays(file_date)=="Friday") {
+        files_within_date_range[i] = files[i]
+      }
+    }    
+  }
+  else {
+    #if not daily or weekly. assume daily
+    for (i in seq(1,length(files))) {
+      file_date = as.Date(substr(basename(files[i]), 6, 12),"%d%b%y") #file e.g. C://temp//markit/Data-01Apr11.csv
+      if (file_date>=start_date && file_date<=end_date) {
+        files_within_date_range[i] = files[i]
+      }
+    }   
   }
   files_within_date_range = files_within_date_range[!is.na(files_within_date_range)]
 
