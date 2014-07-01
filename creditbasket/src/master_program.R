@@ -36,11 +36,13 @@ source("nag_library_wrapper.R")
 source("monte_carlo_functions.R")
 
 #sampling from gaussian copula
+source("gaussian_copula_functions.R")
 source("sampling_from_gaussian_copula.R")
-print(expectation_spread_gaussian)
+print(spread_gaussian)
 
 #sampling from student t copula
+source("student_t_copula_functions.R")
 source("sampling_from_student_t_copula.R")
-print(expectation_spread_studentt)
+print(spread_studentt)
 
 

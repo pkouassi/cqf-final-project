@@ -1,12 +1,12 @@
 #Estimation of hazard rates (empirical marginal distribution)
-CDS1_USD_XR_MARGINAL = CDS1_USD_XR[CDS1_USD_XR$Date==as.Date("30-APR-2014","%d-%b-%Y") ,]
-CDS2_USD_XR_MARGINAL = CDS2_USD_XR[CDS2_USD_XR$Date==as.Date("30-APR-2014","%d-%b-%Y") ,]
-CDS3_USD_XR_MARGINAL = CDS3_USD_XR[CDS3_USD_XR$Date==as.Date("30-APR-2014","%d-%b-%Y") ,]
-CDS4_USD_XR_MARGINAL = CDS4_USD_XR[CDS4_USD_XR$Date==as.Date("30-APR-2014","%d-%b-%Y") ,]
-CDS5_USD_XR_MARGINAL = CDS5_USD_XR[CDS5_USD_XR$Date==as.Date("30-APR-2014","%d-%b-%Y") ,]
+CDS1_USD_XR_MARGINAL = CDS1_USD_XR[CDS1_USD_XR$Date==as.Date("25-APR-2014","%d-%b-%Y") ,]
+CDS2_USD_XR_MARGINAL = CDS2_USD_XR[CDS2_USD_XR$Date==as.Date("25-APR-2014","%d-%b-%Y") ,]
+CDS3_USD_XR_MARGINAL = CDS3_USD_XR[CDS3_USD_XR$Date==as.Date("25-APR-2014","%d-%b-%Y") ,]
+CDS4_USD_XR_MARGINAL = CDS4_USD_XR[CDS4_USD_XR$Date==as.Date("25-APR-2014","%d-%b-%Y") ,]
+CDS5_USD_XR_MARGINAL = CDS5_USD_XR[CDS5_USD_XR$Date==as.Date("25-APR-2014","%d-%b-%Y") ,]
 
 #Get Yield Curve
-YieldCurve = getYieldCurve(HistoricalYieldCurveMatrix,as.Date("30-APR-2014","%d-%b-%Y"))
+YieldCurve = getYieldCurve(HistoricalYieldCurveMatrix,as.Date("25-APR-2014","%d-%b-%Y"))
 
 #Credit Curve Bootstrapping
 CDS1_USD_XR_MARGINAL_CreditCurve = BootstrapHistoricCreditCurve(CDS1_USD_XR_MARGINAL,HistoricalYieldCurveMatrix)[[1,"CreditCurve"]]
