@@ -205,62 +205,13 @@ portfolio credit derivatives
 \end_layout
 
 \begin_layout Standard
-
-\color blue
 The report should cover the following items:
 \end_layout
 
 \begin_layout Itemize
-
-\color blue
 A full mathematical description of the models employed as well as numerical
  methods.
- Include discussion and tests for accuracy.
- Inlcude discussion and tests for accuracy and convergence
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Results presented using a plenty of tables and figures, together with sensible
- interpretation
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Instructions on how to use the software if that's not obvious.
- The code must be thoroughly tested amd well documented
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Pros and cons of a particular models and its implementation, together with
- possible improvements
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Demonstrate 
-\begin_inset Quotes eld
-\end_inset
-
-the specials
-\begin_inset Quotes erd
-\end_inset
-
- of you implementation, such as research, re-coding of numerical methods,
- using the 
-\begin_inset Quotes eld
-\end_inset
-
-industrial-strength
-\begin_inset Quotes erd
-\end_inset
-
- libraries of C++, Python or NAG
+ Include discussion
 \end_layout
 
 \begin_layout Subsection

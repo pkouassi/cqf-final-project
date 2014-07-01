@@ -1,11 +1,96 @@
-BasketCDSPricing_GaussianCopula = function(CreditCurve1,CreditCurve2,CreditCurve3,CreditCurve4,CreditCurve5,YieldCurve,CorrelationMatrix,RecoveryRate,k=1,NumberSimulation=300000) {
+FTDS_GaussianCopula = function(CreditCurveCollection,NumberCDS,DiscountCurve,CorrelationMatrix,RecoveryRate,NumberSimulation) {
+  #cat("NumberSimulation:",NumberSimulation,"\n")
+  #Test if correlation matrix is positive definite
+  A_gaussian = t(chol(CorrelationMatrix))
+  
+  ZMatrix_gaussian = matrix(rep(rnorm(NumberSimulation, mean = 0, sd = 1),NumberCDS),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
+  
+  #cat("NumberSimulation:",NumberSimulation,"\n")
+  XMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+  #we impose correlation
+  for (i in seq(1,NumberSimulation)) {
+    XMatrix_gaussian[i,] = t(A_gaussian %*% ZMatrix_gaussian[i,]) # t() in order to keep X as a row vector
+  }
+  
+  #Use normal CDF to map to uniform vector U
+  UMatrix_gaussian = pnorm(XMatrix_gaussian)
+  #cat("nrow U:",nrow(UMatrix_gaussian),"*",ncol(UMatrix_gaussian),"\n")
+  
+  TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+  for (i in seq(1,NumberCDS)) {
+    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
+  }
+  #cat("nrow Tau:",nrow(TauMatrix_gaussian),"*",ncol(TauMatrix_gaussian),"\n")
+  
+  FTDS_LegCalculation_gaussian = matrix(data = NA,ncol=2, nrow=NumberSimulation)
+  colnames(FTDS_LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg")
+  
+  #cat("nrow LegCalculation:",nrow(FTDS_LegCalculation_gaussian),"*",ncol(FTDS_LegCalculation_gaussian),"\n")
+  
+  #first to default basket CDS
+  for (i in seq(1,NumberSimulation)) {
+    if ((i/NumberSimulation*100)%%25 == 0) cat((i/NumberSimulation)*100,"% ...\n")
+    
+    tau_list = sort(TauMatrix_gaussian[i,])
+    tau_1 = tau_list[1]
+    
+    #default leg calculation // in continuous time
+    default_leg = 0
+    if (tau_1 == Inf) {
+      #i.e. tau_k > 5. Number of default is below k during the life of the contract
+      default_leg = 0
+    }
+    else {
+      default_leg = (1-RecoveryRate)*GetDiscountFactor(DiscountCurve,tau_1) * (1/NumberCDS)
+    }
+    
+    #premium leg calculation // in disctrete time (yearly payment)
+    #One coding solution is to create a variable that accumulates PL at each dt = 0.01 and will need a fiited discounting curve for this increment.
+    #integrate GetDiscountFactor from 0 to min_tau
+    premium_leg = 0
+    if (tau_1 == Inf) {
+      #i.e. No default within the life of the contract
+      for (j in seq(1,5)) {
+        premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
+      }
+      #premium_leg = premium_leg*(5/5)
+    }
+    else {
+      j=1
+      while (j<tau_1 & j<5) {
+        premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
+        j = j+1
+      }
+      premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,tau_1)*(tau_1-(j-1))
+    }
+    
+    FTDS_LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
+    FTDS_LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
+    
+  }
+  
+  
+  #print(cbind(TauMatrix_gaussian,FTDS_LegCalculation_gaussian[,"DefaultLeg"],FTDS_LegCalculation_gaussian[,"PremiumLeg"]))
+  print(cbind(TauMatrix_gaussian,FTDS_LegCalculation_gaussian[,"DefaultLeg"],FTDS_LegCalculation_gaussian[,"PremiumLeg"]))
+  
+  expectation_ftds_default_leg_gaussian= mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"])
+  expectation_ftds_premium_leg_gaussian= mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"])
+  expectation_ftds_spread_gaussian = expectation_ftds_default_leg_gaussian/expectation_ftds_premium_leg_gaussian
+  
+  cat("======> expectation default leg:",mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"]),"\n")
+  cat("======> expectation premium leg:",mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"]),"\n")
+  return(expectation_ftds_spread_gaussian)
+}
+
+
+BasketCDSPricing_GaussianCopula = function(CreditCurve1,CreditCurve2,CreditCurve3,CreditCurve4,CreditCurve5,DiscountCurve,CorrelationMatrix,RecoveryRate,k=1,NumberSimulation=300000) {
   NumberCDS = 5
   #Test if correlation matrix is positive definite
-  A_gaussian = chol(CorrelationMatrix)
+  A_gaussian = t(chol(CorrelationMatrix)) # CorrelationMatrix = A_gaussian %*% t(A_gaussian)
   
-  #ZMatrix_gaussian = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
+  ZMatrix_gaussian = cbind(rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1),rnorm(NumberSimulation, mean = 0, sd = 1))
   #using sobol numbers
-  ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+  #ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
   #ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
   
   XMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
@@ -41,6 +126,7 @@ BasketCDSPricing_GaussianCopula = function(CreditCurve1,CreditCurve2,CreditCurve
   
   LegCalculation_gaussian = matrix(data = NA,ncol=2, nrow=NumberSimulation)
   colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg")
+  #colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg","DefaultLegCont","PremiumLegCont")
   
   #kth to default basket CDS
   for (i in seq(1,NumberSimulation)) {
@@ -48,38 +134,49 @@ BasketCDSPricing_GaussianCopula = function(CreditCurve1,CreditCurve2,CreditCurve
     tau_list = sort(TauMatrix_gaussian[i,])
     tau_k = tau_list[k]
     
-    #default leg calculation
+    #default leg calculation // in continuous time
     default_leg = 0
     if (tau_k == Inf) {
       #i.e. tau_k > 5. Number of default is below k during the life of the contract
       default_leg = 0
     }
     else {
-      default_leg = (1-RecoveryRate)*GetDiscountFactor(YieldCurve,tau_k) * (1/5)
+      default_leg = (1-RecoveryRate)*GetDiscountFactor(DiscountCurve,tau_k) * (1/5)
     }
     
-    #premium leg calculation
+    #premium leg calculation // in disctrete time (yearly payment)
     #One coding solution is to create a variable that accumulates PL at each dt = 0.01 and will need a fiited discounting curve for this increment.
     #integrate GetDiscountFactor from 0 to min_tau
     premium_leg = 0
     if (tau_list[1] == Inf) {
       #i.e. No default within the life of the contract
       for (j in seq(1,5)) {
-        premium_leg = premium_leg + GetDiscountFactor(YieldCurve,j)*1
+        premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
       }
       premium_leg = premium_leg*(5/5)
     }
     else {
-      premium_leg = compute_premium_leg(YieldCurve,k,tau_list)
+      premium_leg = compute_premium_leg(DiscountCurve,k,tau_list)
     }
     
     LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
     LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
+    
+    #test in continuous tinme for k=1
+    #LegCalculation_gaussian[i,"DefaultLegCont"] = (1-R)*GetDiscountFactor(DiscountCurve,tau_list[1])*(1/5)
+    #LegCalculation_gaussian[i,"PremiumLegCont"] = GetDiscountFactor(DiscountCurve,tau_list[1])*(5/5)
   }
+  
+  print(cbind(TauMatrix_gaussian[,1],TauMatrix_gaussian[,2],TauMatrix_gaussian[,3],TauMatrix_gaussian[,4],TauMatrix_gaussian[,5],LegCalculation_gaussian[,"DefaultLeg"],LegCalculation_gaussian[,"PremiumLeg"]))
   
   expectation_default_leg_gaussian= mean(LegCalculation_gaussian[,"DefaultLeg"])
   expectation_premium_leg_gaussian= mean(LegCalculation_gaussian[,"PremiumLeg"])
   expectation_spread_gaussian = expectation_default_leg_gaussian/expectation_premium_leg_gaussian
+  
+  cat("======> expectation default leg:",mean(LegCalculation_gaussian[,"DefaultLeg"]),"\n")
+  cat("======> expectation premium leg:",mean(LegCalculation_gaussian[,"PremiumLeg"]),"\n")
+  #cat("======> expectation default leg (cont. time):",mean(LegCalculation_gaussian[,"DefaultLegCont"]),"\n")
+  #cat("======> expectation premium leg (cont. time):",mean(LegCalculation_gaussian[,"PremiumLegCont"]),"\n")
   
   #convergence diagram
   nbobservation = round(NumberSimulation/10)
@@ -94,5 +191,5 @@ BasketCDSPricing_GaussianCopula = function(CreditCurve1,CreditCurve2,CreditCurve
   }
   plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
   
-  return(expectation_spread_gaussian)
+  return(expectation_spread_gaussian*10000) #result is return in basis point
 }

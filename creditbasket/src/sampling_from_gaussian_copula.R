@@ -8,11 +8,30 @@ spread_gaussian = BasketCDSPricing_GaussianCopula(CDS1_USD_XR_MARGINAL_CreditCur
 
 
 UniformCorrelationMatrix = function(rho,n) matrix(rho,nrow=n,ncol=n) + (1-rho)*diag(n)
-corrmat = UniformCorrelationMatrix(sqrt(0.6),5)
-cc = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = 400.00),
-                       new ("CreditDefaultSwap", maturity = 2, marketprice = 400.00),
-                       new ("CreditDefaultSwap", maturity = 3, marketprice = 400.00),
-                       new ("CreditDefaultSwap", maturity = 4, marketprice = 400.00),
-                       new ("CreditDefaultSwap", maturity = 5, marketprice = 400.00)),0.40,YieldCurve)
 
-BasketCDSPricing_GaussianCopula(cc,cc,cc,cc,cc,YieldCurve,corrmat,0.40,2,50000)
+
+objective_function = function(x) {
+  res = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = x),
+                               new ("CreditDefaultSwap", maturity = 2, marketprice = x),
+                               new ("CreditDefaultSwap", maturity = 3, marketprice = x),
+                               new ("CreditDefaultSwap", maturity = 4, marketprice = x),
+                               new ("CreditDefaultSwap", maturity = 5, marketprice = x)),0.40,yieldcurve_test)
+  return(res@hazardrate[5]-0.01)
+}
+uniroot(objective_function,lower=0,upper=10000)
+
+
+yieldcurve_test = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.05*x)))
+cc = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = 60.301),
+                            new ("CreditDefaultSwap", maturity = 2, marketprice = 60.301),
+                            new ("CreditDefaultSwap", maturity = 3, marketprice = 60.301),
+                            new ("CreditDefaultSwap", maturity = 4, marketprice = 60.301),
+                            new ("CreditDefaultSwap", maturity = 5, marketprice = 60.301)),0.40,yieldcurve_test)
+
+corr_mat = UniformCorrelationMatrix(0.3,5)
+BasketCDSPricing_GaussianCopula(cc,cc,cc,cc,cc,yieldcurve_test,corr_mat,0.40,1,100)
+
+#**********************************************
+
+FTDS_GaussianCopula(c(cc,cc),2,yieldcurve_test,UniformCorrelationMatrix(0.3,2),0.40,100)
+
