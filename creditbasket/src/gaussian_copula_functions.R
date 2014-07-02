@@ -1,11 +1,10 @@
-FTDS_GaussianCopula = function(CreditCurveCollection,NumberCDS,DiscountCurve,CorrelationMatrix,RecoveryRate,NumberSimulation) {
-  #cat("NumberSimulation:",NumberSimulation,"\n")
+FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,RecoveryRate,NumberSimulation) {
+  NumberCDS = length(CreditCurveCollection)
   #Test if correlation matrix is positive definite
   A_gaussian = t(chol(CorrelationMatrix))
   
-  ZMatrix_gaussian = matrix(rep(rnorm(NumberSimulation, mean = 0, sd = 1),NumberCDS),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
+  ZMatrix_gaussian = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
   
-  #cat("NumberSimulation:",NumberSimulation,"\n")
   XMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   #we impose correlation
   for (i in seq(1,NumberSimulation)) {
@@ -14,25 +13,21 @@ FTDS_GaussianCopula = function(CreditCurveCollection,NumberCDS,DiscountCurve,Cor
   
   #Use normal CDF to map to uniform vector U
   UMatrix_gaussian = pnorm(XMatrix_gaussian)
-  #cat("nrow U:",nrow(UMatrix_gaussian),"*",ncol(UMatrix_gaussian),"\n")
   
   TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   for (i in seq(1,NumberCDS)) {
     TauMatrix_gaussian[,i] = HazardExactDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
   }
-  #cat("nrow Tau:",nrow(TauMatrix_gaussian),"*",ncol(TauMatrix_gaussian),"\n")
   
   FTDS_LegCalculation_gaussian = matrix(data = NA,ncol=2, nrow=NumberSimulation)
   colnames(FTDS_LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg")
-  
-  #cat("nrow LegCalculation:",nrow(FTDS_LegCalculation_gaussian),"*",ncol(FTDS_LegCalculation_gaussian),"\n")
   
   #first to default basket CDS
   for (i in seq(1,NumberSimulation)) {
     if ((i/NumberSimulation*100)%%25 == 0) cat((i/NumberSimulation)*100,"% ...\n")
     
     tau_list = sort(TauMatrix_gaussian[i,])
-    tau_1 = tau_list[1]
+    tau_1 = tau_list[1]      
     
     #default leg calculation // in continuous time
     default_leg = 0
@@ -50,32 +45,50 @@ FTDS_GaussianCopula = function(CreditCurveCollection,NumberCDS,DiscountCurve,Cor
     premium_leg = 0
     if (tau_1 == Inf) {
       #i.e. No default within the life of the contract
-      for (j in seq(1,5)) {
-        premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
-      }
+      #for (j in seq(1,5)) {
+      #  premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
+      #}
+      premium_leg = integrate(GetDiscountFactorVector,lower=0,upper=5,YieldCurve=DiscountCurve)$value
       #premium_leg = premium_leg*(5/5)
     }
     else {
-      j=1
-      while (j<tau_1 & j<5) {
-        premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
-        j = j+1
-      }
-      premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,tau_1)*(tau_1-(j-1))
+      #j=1
+      #while (j<tau_1 & j<5) {
+      #  premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
+      #  j = j+1
+      #}
+      #premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,tau_1)*(tau_1-(j-1))
+      premium_leg = integrate(GetDiscountFactorVector,lower=0,upper=tau_1,YieldCurve=DiscountCurve)$value
     }
     
-    FTDS_LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
-    FTDS_LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
+    #don't take into account when Tau is too small (i.e <3M)
+    if (tau_1 > 0.25) {
+      FTDS_LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
+      FTDS_LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
+    }
     
   }
   
-  
-  #print(cbind(TauMatrix_gaussian,FTDS_LegCalculation_gaussian[,"DefaultLeg"],FTDS_LegCalculation_gaussian[,"PremiumLeg"]))
   print(cbind(TauMatrix_gaussian,FTDS_LegCalculation_gaussian[,"DefaultLeg"],FTDS_LegCalculation_gaussian[,"PremiumLeg"]))
   
-  expectation_ftds_default_leg_gaussian= mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"])
-  expectation_ftds_premium_leg_gaussian= mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"])
+  #expectation_ftds_default_leg_gaussian = mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"])
+  #expectation_ftds_premium_leg_gaussian = mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"])
+  expectation_ftds_default_leg_gaussian = mean(FTDS_LegCalculation_gaussian[!is.na(FTDS_LegCalculation_gaussian[,"DefaultLeg"]),])
+  expectation_ftds_premium_leg_gaussian = mean(FTDS_LegCalculation_gaussian[!is.na(FTDS_LegCalculation_gaussian[,"PremiumLeg"]),])
   expectation_ftds_spread_gaussian = expectation_ftds_default_leg_gaussian/expectation_ftds_premium_leg_gaussian
+  
+  for (i in seq(1,NumberCDS)) {
+    cat("Number of Default for CDS",i,":",sum(TauMatrix_gaussian[,i]!=Inf),"(percentage:",sum(TauMatrix_gaussian[,i]!=Inf)/NumberSimulation*100,"%)","\n")
+  }
+  
+  counter_morethanonedefault = 0
+  counter_totaldefault = 0
+  for (i in seq(1,NumberSimulation)) {
+    if (sum(TauMatrix_gaussian[i,]!=Inf)>1) counter_morethanonedefault = counter_morethanonedefault + 1
+    if (sum(TauMatrix_gaussian[i,]!=Inf)>0) counter_totaldefault = counter_totaldefault + 1
+  }
+  cat("Number of simulation where more than 1 default:", counter_morethanonedefault, "\n")
+  cat("Number of simulation with default:", counter_totaldefault, "\n")
   
   cat("======> expectation default leg:",mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"]),"\n")
   cat("======> expectation premium leg:",mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"]),"\n")
