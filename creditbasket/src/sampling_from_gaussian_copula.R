@@ -21,7 +21,7 @@ objective_function = function(x) {
 uniroot(objective_function,lower=0,upper=10000)
 
 
-yieldcurve_test = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.05*x)))
+yieldcurve_test = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.01*x)))
 
 cc = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = 60.301),
                             new ("CreditDefaultSwap", maturity = 2, marketprice = 60.301),
@@ -41,8 +41,8 @@ BasketCDSPricing_GaussianCopula(cc,cc,cc,cc,cc,yieldcurve_test,UniformCorrelatio
 
 #**********************************************
 
-FTDS_GaussianCopula(c(cc,cc),2,yieldcurve_test,UniformCorrelationMatrix(0.3,2),0.40,100)
 FTDS_GaussianCopula(c(cc,cc,cc,cc,cc),yieldcurve_test,UniformCorrelationMatrix(0.3,5),0.40,10000)
+FTDS_GaussianCopula(c(cc,cc,cc,cc,cc),yieldcurve_test,UniformCorrelationMatrix(0.0,5),0.40,300000)
 
 
 spread_50 = 50
@@ -54,6 +54,8 @@ cc_50 = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketpri
 
 FTDS_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_test,UniformCorrelationMatrix(0.6,5),0.40,10000)
 
+FTDS_GaussianCopula(c(cc_50),yieldcurve_test,UniformCorrelationMatrix(0.6,1),0.40,1000)
+
 
 spread_350 = 350 
 cc_350 = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = spread_350),
@@ -63,5 +65,28 @@ cc_350 = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketpr
                                 new ("CreditDefaultSwap", maturity = 5, marketprice = spread_350)),0.40,yieldcurve_test)
 
 FTDS_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50,cc_350,cc_350,cc_350,cc_350,cc_350),yieldcurve_test,UniformCorrelationMatrix(0.0,10),0.40,10000)
+
+############
+#@Comparison with Bloomberg CDSN
+
+yieldcurve_bbg = getYieldCurve(HistoricalYieldCurveMatrix,as.Date("25-APR-2014","%d-%b-%Y"))
+GetFlatCreditCurve = function(x,yc) {
+  return(BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 2, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 3, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 4, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 5, marketprice = x)),0.40,yc))
+}
+
+
+cc_IBM = GetFlatCreditCurve(40.06,yieldcurve_bbg)
+cc_PFI = GetFlatCreditCurve(23.44,yieldcurve_bbg)
+cc_DEL = GetFlatCreditCurve(244.88,yieldcurve_bbg)
+cc_HPQ = GetFlatCreditCurve(22.00,yieldcurve_bbg)
+cc_BMY = GetFlatCreditCurve(70.38,yieldcurve_bbg)
+
+FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_test,UniformCorrelationMatrix(0.5,5),0.40,10000)
+
+
 
 

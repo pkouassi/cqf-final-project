@@ -32,11 +32,21 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
     #default leg calculation // in continuous time
     default_leg = 0
     if (tau_1 == Inf) {
-      #i.e. tau_k > 5. Number of default is below k during the life of the contract
+      #i.e. tau_1 > 5. Number of default is below k during the life of the contract
       default_leg = 0
     }
     else {
-      default_leg = (1-RecoveryRate)*GetDiscountFactor(DiscountCurve,tau_1) * (1/NumberCDS)
+      #default_leg = (1-RecoveryRate)*GetDiscountFactor(DiscountCurve,tau_1) * (1/NumberCDS)
+      #df = integrate(GetDiscountFactorVector,lower=0,upper=tau_1,YieldCurve=DiscountCurve)$value
+      #df = GetDiscountFactor(DiscountCurve,tau_1) 
+      #default_leg = (1-RecoveryRate)* df * (1/NumberCDS)
+      #cat("1-R:",1-RecoveryRate," / tau_1:",tau_1," / df:",df,"1/NumberCDS:",1/NumberCDS,"default leg:",default_leg,"\n")
+      
+      for (j in seq(1,5)) {
+        if (tau_1>(j-1) && tau_1<=j) {
+          default_leg = default_leg + (1-RecoveryRate) * GetDiscountFactor(DiscountCurve,j) * (1/NumberCDS)
+        }
+      }
     }
     
     #premium leg calculation // in disctrete time (yearly payment)
@@ -45,10 +55,10 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
     premium_leg = 0
     if (tau_1 == Inf) {
       #i.e. No default within the life of the contract
-      #for (j in seq(1,5)) {
-      #  premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
-      #}
-      premium_leg = integrate(GetDiscountFactorVector,lower=0,upper=5,YieldCurve=DiscountCurve)$value
+      for (j in seq(1,5)) {
+        premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,j)*1
+      }
+      #premium_leg = integrate(GetDiscountFactorVector,lower=0,upper=5,YieldCurve=DiscountCurve)$value
       #premium_leg = premium_leg*(5/5)
     }
     else {
@@ -58,23 +68,34 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
       #  j = j+1
       #}
       #premium_leg = premium_leg + GetDiscountFactor(DiscountCurve,tau_1)*(tau_1-(j-1))
-      premium_leg = integrate(GetDiscountFactorVector,lower=0,upper=tau_1,YieldCurve=DiscountCurve)$value
+      #premium_leg = integrate(GetDiscountFactorVector,lower=0,upper=tau_1,YieldCurve=DiscountCurve)$value
+      
+      for (j in seq(1,5)) {
+        if (tau_1>(j-1) && tau_1<=j) {
+          premium_leg = premium_leg + (1-RecoveryRate) * GetDiscountFactor(DiscountCurve,j) * (1/NumberCDS)
+        }
+        else {
+          
+        }
+      }
+      
     }
     
     #don't take into account when Tau is too small (i.e <3M)
-    if (tau_1 > 0.25) {
+    #if (tau_1 > 0.25) {
       FTDS_LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
       FTDS_LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg  
-    }
+    #}
     
   }
   
-  print(cbind(TauMatrix_gaussian,FTDS_LegCalculation_gaussian[,"DefaultLeg"],FTDS_LegCalculation_gaussian[,"PremiumLeg"]))
   
-  #expectation_ftds_default_leg_gaussian = mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"])
-  #expectation_ftds_premium_leg_gaussian = mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"])
-  expectation_ftds_default_leg_gaussian = mean(FTDS_LegCalculation_gaussian[!is.na(FTDS_LegCalculation_gaussian[,"DefaultLeg"]),])
-  expectation_ftds_premium_leg_gaussian = mean(FTDS_LegCalculation_gaussian[!is.na(FTDS_LegCalculation_gaussian[,"PremiumLeg"]),])
+  SimulationResult = cbind(TauMatrix_gaussian,FTDS_LegCalculation_gaussian[,"DefaultLeg"],FTDS_LegCalculation_gaussian[,"PremiumLeg"])
+  
+  expectation_ftds_default_leg_gaussian = mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"])
+  expectation_ftds_premium_leg_gaussian = mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"])
+  #expectation_ftds_default_leg_gaussian = mean(FTDS_LegCalculation_gaussian[!is.na(FTDS_LegCalculation_gaussian[,"DefaultLeg"]),])
+  #expectation_ftds_premium_leg_gaussian = mean(FTDS_LegCalculation_gaussian[!is.na(FTDS_LegCalculation_gaussian[,"PremiumLeg"]),])
   expectation_ftds_spread_gaussian = expectation_ftds_default_leg_gaussian/expectation_ftds_premium_leg_gaussian
   
   for (i in seq(1,NumberCDS)) {
@@ -90,9 +111,10 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
   cat("Number of simulation where more than 1 default:", counter_morethanonedefault, "\n")
   cat("Number of simulation with default:", counter_totaldefault, "\n")
   
-  cat("======> expectation default leg:",mean(FTDS_LegCalculation_gaussian[,"DefaultLeg"]),"\n")
-  cat("======> expectation premium leg:",mean(FTDS_LegCalculation_gaussian[,"PremiumLeg"]),"\n")
-  return(expectation_ftds_spread_gaussian)
+  cat("======> expectation default leg:",expectation_ftds_default_leg_gaussian,"\n")
+  cat("======> expectation premium leg:",expectation_ftds_premium_leg_gaussian,"\n")
+  
+  return(list(result=expectation_ftds_spread_gaussian,matsim=SimulationResult))
 }
 
 
