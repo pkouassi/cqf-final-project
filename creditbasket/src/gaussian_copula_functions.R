@@ -139,23 +139,23 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
   cat("======> expectation premium leg:",expectation_ftds_premium_leg_gaussian,"\n")
   
   #convergence diagram
-  step=10
-  nbobservation = round(NumberSimulation/step)
-  expectation_spread_array = rep(NA,nbobservation)
+  observations = seq(100,NumberSimulation, by=100)
+  #nbobservation = round(NumberSimulation/step)
+  expectation_spread_array = rep(NA,length(observations))
   
-  for (i in seq(1,nbobservation)) {
+  for (i in seq(1,length(observations))) {
     #expectation_default_leg_array[i] = mean(LegCalculation_gaussian[1:i,"DefaultLeg"])
     #expectation_premium_leg_array[i] = mean(LegCalculation_gaussian[1:i,"PremiumLeg"])  
-    expectation_spread_array[i] = mean(FTDS_LegCalculation_gaussian[1:i*step,"spread"])
+    expectation_spread_array[i] = mean(FTDS_LegCalculation_gaussian[1:observations[i],"spread"])
     #expectation_spread_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
   }
-  plot(seq(1,nbobservation),expectation_spread_array, type="l", log="x")
+  plot(observations,expectation_spread_array, type="l", log="x")
   
-  return(list(result=expectation_ftds_spread_gaussian,result2=expectation_ftds_default_leg_gaussian/expectation_ftds_premium_leg_gaussian,matsim=SimulationResult))
+  return(list(result1=expectation_ftds_default_leg_gaussian/expectation_ftds_premium_leg_gaussian*10000,result2=expectation_ftds_spread_gaussian*10000,matsim=SimulationResult))
 }
 
-BasketCDSPricing_GaussianCopulaV2 = function(CreditCurve1,CreditCurve2,CreditCurve3,CreditCurve4,CreditCurve5,DiscountCurve,CorrelationMatrix,RecoveryRate,k=1,NumberSimulation=300000) {
-  NumberCDS = 5
+BasketCDSPricing_GaussianCopulaV2 = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,RecoveryRate,k=1,NumberSimulation=300000) {
+  NumberCDS = length(CreditCurveCollection)
   #Test if correlation matrix is positive definite
   A_gaussian = t(chol(CorrelationMatrix)) # CorrelationMatrix = A_gaussian %*% t(A_gaussian)
   
@@ -175,37 +175,22 @@ BasketCDSPricing_GaussianCopulaV2 = function(CreditCurve1,CreditCurve2,CreditCur
   
   UMatrix_gaussian = pnorm(XMatrix_gaussian)
   
+  TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   for (i in seq(1,NumberCDS)) {
-    CC = NULL
-    if (i == 1) {
-      CC = CreditCurve1
-    }
-    else if (i == 2) {
-      CC = CreditCurve2
-    }
-    else if (i == 3) {
-      CC = CreditCurve3
-    }
-    else if (i == 4) {
-      CC = CreditCurve4
-    }
-    else if (i == 5) {
-      CC = CreditCurve5
-    }
-    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CC,UMatrix_gaussian[,i])
+    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
   }
   
-  LegCalculation_gaussian = matrix(data = NA,ncol=3, nrow=NumberSimulation)
-  colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg","Spread")
+  LegCalculation_gaussian = matrix(data = NA,ncol=4, nrow=NumberSimulation)
+  colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg","Spread","tau_k")
   #colnames(LegCalculation_gaussian) = c("DefaultLeg","PremiumLeg","DefaultLegCont","PremiumLegCont")
   
   #kth to default basket CDS
   for (i in seq(1,NumberSimulation)) {
     if ((i/NumberSimulation*100)%%25 == 0) cat((i/NumberSimulation)*100,"% ...\n")
     tau_list = sort(TauMatrix_gaussian[i,])
-    tau_k = tau_list[k]
-    
-    if (tau_k<0.5) tau_k = 0.5
+    #assume that tau cannot be smaller than 0.25 (3M)
+    #tau_list[tau_list<0.25] = 0.25
+    tau_k = tau_list[k]    
     
     #default leg calculation // in continuous time
     default_leg = 0
@@ -235,13 +220,15 @@ BasketCDSPricing_GaussianCopulaV2 = function(CreditCurve1,CreditCurve2,CreditCur
     LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
     LegCalculation_gaussian[i,"PremiumLeg"] = premium_leg
     LegCalculation_gaussian[i,"Spread"] = default_leg/premium_leg
+    LegCalculation_gaussian[i,"tau_k"] = tau_k
     
     #test in continuous tinme for k=1
     #LegCalculation_gaussian[i,"DefaultLegCont"] = (1-R)*GetDiscountFactor(DiscountCurve,tau_list[1])*(1/5)
     #LegCalculation_gaussian[i,"PremiumLegCont"] = GetDiscountFactor(DiscountCurve,tau_list[1])*(5/5)
   }
   
-  Simulation = cbind(TauMatrix_gaussian[,1],TauMatrix_gaussian[,2],TauMatrix_gaussian[,3],TauMatrix_gaussian[,4],TauMatrix_gaussian[,5],LegCalculation_gaussian[,"DefaultLeg"],LegCalculation_gaussian[,"PremiumLeg"],LegCalculation_gaussian[,"Spread"])
+  #Simulation = cbind(TauMatrix_gaussian[,1],TauMatrix_gaussian[,2],TauMatrix_gaussian[,3],TauMatrix_gaussian[,4],TauMatrix_gaussian[,5],LegCalculation_gaussian[,"DefaultLeg"],LegCalculation_gaussian[,"PremiumLeg"],LegCalculation_gaussian[,"Spread"])
+  SimulationResult = cbind(TauMatrix_gaussian,LegCalculation_gaussian[,"DefaultLeg"],LegCalculation_gaussian[,"PremiumLeg"],LegCalculation_gaussian[,"Spread"],LegCalculation_gaussian[,"tau_k"])
   
   expectation_default_leg_gaussian= mean(LegCalculation_gaussian[,"DefaultLeg"])
   expectation_premium_leg_gaussian= mean(LegCalculation_gaussian[,"PremiumLeg"])
@@ -254,21 +241,21 @@ BasketCDSPricing_GaussianCopulaV2 = function(CreditCurve1,CreditCurve2,CreditCur
   #cat("======> expectation premium leg (cont. time):",mean(LegCalculation_gaussian[,"PremiumLegCont"]),"\n")
   
   #convergence diagram
-  nbobservation = round(NumberSimulation/10)
-  expectation_default_leg_array = rep(NA,nbobservation)
-  expectation_premium_leg_array = rep(NA,nbobservation)
-  expectation_spread_1_array = rep(NA,nbobservation)
-  expectation_spread_2_array = rep(NA,nbobservation)
+  observations = seq(100,NumberSimulation,by=100)
+  expectation_default_leg_array = rep(NA,length(observations))
+  expectation_premium_leg_array = rep(NA,length(observations))
+  expectation_spread_1_array = rep(NA,length(observations))
+  expectation_spread_2_array = rep(NA,length(observations))
   
-  for (i in seq(1,nbobservation)) {
-    expectation_default_leg_array[i] = mean(LegCalculation_gaussian[1:i*10,"DefaultLeg"])
-    expectation_premium_leg_array[i] = mean(LegCalculation_gaussian[1:i*10,"PremiumLeg"])
+  for (i in seq(1,length(observations))) {
+    expectation_default_leg_array[i] = mean(LegCalculation_gaussian[1:observations[i],"DefaultLeg"])
+    expectation_premium_leg_array[i] = mean(LegCalculation_gaussian[1:observations[i],"PremiumLeg"])
     expectation_spread_1_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
-    expectation_spread_2_array[i] = mean(LegCalculation_gaussian[1:i*10,"Spread"])
+    expectation_spread_2_array[i] = mean(LegCalculation_gaussian[1:observations[i],"Spread"])
   }
-  matplot(seq(1,nbobservation),cbind(expectation_spread_1_array,expectation_spread_2_array), type="l")
+  matplot(observations,cbind(expectation_spread_1_array,expectation_spread_2_array), type="l")
   
-  return(list(result1=spread_gaussian_1*10000,result2=spread_gaussian_2*10000,matsim=Simulation)) #result is return in basis point
+  return(list(result1=spread_gaussian_1*10000,result2=spread_gaussian_2*10000,matsim=SimulationResult)) #result is return in basis point
 }
 
 BasketCDSPricing_GaussianCopula = function(CreditCurve1,CreditCurve2,CreditCurve3,CreditCurve4,CreditCurve5,DiscountCurve,CorrelationMatrix,RecoveryRate,k=1,NumberSimulation=300000) {

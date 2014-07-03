@@ -15,7 +15,7 @@ objective_function = function(x) {
                                new ("CreditDefaultSwap", maturity = 2, marketprice = x),
                                new ("CreditDefaultSwap", maturity = 3, marketprice = x),
                                new ("CreditDefaultSwap", maturity = 4, marketprice = x),
-                               new ("CreditDefaultSwap", maturity = 5, marketprice = x)),0.40,yieldcurve_test)
+                               new ("CreditDefaultSwap", maturity = 5, marketprice = x)),0.40,yieldcurve_flat)
   return(res@hazardrate[5]-0.01)
 }
 uniroot(objective_function,lower=0,upper=10000)
@@ -86,10 +86,31 @@ cc_DEL = GetFlatCreditCurve(244.88,yieldcurve_bbg)
 cc_HPQ = GetFlatCreditCurve(22.00,yieldcurve_bbg)
 cc_BMY = GetFlatCreditCurve(70.38,yieldcurve_bbg)
 
-ans = FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.5,5),0.40,1000000)
-ans$result; ans$result2
+ans = FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.99,5),0.40,100000)
+ans$result1; ans$result2
+
+ans2 = BasketCDSPricing_GaussianCopulaV2(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.99,5),0.40,4,50000)
+ans2$result1; ans2$result2
 
 toto = ans$matsim
+
+#--------------matching MPRA
+# 60.301 ~ h = 0.01
+#cc_1 = GetFlatCreditCurve(60.301,yieldcurve_bbg)
+cc_1 = GetFlatCreditCurve(60.301,yieldcurve_bbg)
+
+ans2 = BasketCDSPricing_GaussianCopulaV2(c(cc_1,cc_1,cc_1,cc_1,cc_1),yieldcurve_bbg,UniformCorrelationMatrix(0.3,5),0.40,1,1000000)
+ans2$result1; ans2$result2
+
+ans2 = BasketCDSPricing_GaussianCopulaV2(c(cc_1,cc_1,cc_1,cc_1,cc_1),yieldcurve_bbg,UniformCorrelationMatrix(0.3,5),0.40,2,1000000)
+ans2$result1; ans2$result2
+
+ans2 = BasketCDSPricing_GaussianCopulaV2(c(cc_1,cc_1,cc_1,cc_1,cc_1),yieldcurve_bbg,UniformCorrelationMatrix(0.3,5),0.40,3,1000000)
+ans2$result1; ans2$result2
+
+ans2 = BasketCDSPricing_GaussianCopulaV2(c(cc_1,cc_1,cc_1,cc_1,cc_1),yieldcurve_bbg,UniformCorrelationMatrix(0.3,5),0.40,4,1000000)
+ans2$result1; ans2$result2
+
 
 #############
 #Retour au kth basket
@@ -99,6 +120,24 @@ cc_60 = GetFlatCreditCurve(60,yieldcurve_bbg)
 ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(sqrt(0.6),5),0.40,1,2000000)
 ans4$result2
 
-ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(sqrt(0.6),5),0.40,2,300000)
+ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(0.5,5),0.40,2,300000)
 ans4$result2
 
+cc_307 = GetFlatCreditCurve(307.6266,yieldcurve_bbg)
+ans6= BasketCDSPricing_GaussianCopulaV2(c(cc_307,cc_307,cc_307,cc_307,cc_307),yieldcurve_bbg,UniformCorrelationMatrix(0.5,5),0.40,1,50000)
+ans2$result1; ans$result2
+
+#############
+#Compare with xls
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.00*x)))
+cc_60 = GetFlatCreditCurve(60.370,yieldcurve_flat)
+
+BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = 60),
+                       new ("CreditDefaultSwap", maturity = 2, marketprice = 60),
+                       new ("CreditDefaultSwap", maturity = 3, marketprice = 60),
+                       new ("CreditDefaultSwap", maturity = 4, marketprice = 60),
+                       new ("CreditDefaultSwap", maturity = 5, marketprice = 60)),0.40,yieldcurve_flat)
+
+ans = FTDS_GaussianCopula(c(cc_60,cc_60,cc_60),yieldcurve_bbg,UniformCorrelationMatrix(0.3,3),0.40,1000)
+ans$result1; ans$result2
