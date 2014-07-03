@@ -96,5 +96,9 @@ toto = ans$matsim
 
 
 cc_60 = GetFlatCreditCurve(60,yieldcurve_bbg)
-ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(0.3,5),0.40,1,100000)
+ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(sqrt(0.6),5),0.40,1,2000000)
+ans4$result2
+
+ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(sqrt(0.6),5),0.40,2,300000)
+ans4$result2
 

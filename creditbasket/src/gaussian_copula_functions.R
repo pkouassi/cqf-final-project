@@ -266,7 +266,7 @@ BasketCDSPricing_GaussianCopulaV2 = function(CreditCurve1,CreditCurve2,CreditCur
     expectation_spread_1_array[i] = expectation_default_leg_array[i]/expectation_premium_leg_array[i] 
     expectation_spread_2_array[i] = mean(LegCalculation_gaussian[1:i*10,"Spread"])
   }
-  matplot(seq(1,nbobservation),cbind(expectation_spread_1_array,expectation_spread_2_array), type="l", log="x")
+  matplot(seq(1,nbobservation),cbind(expectation_spread_1_array,expectation_spread_2_array), type="l")
   
   return(list(result1=spread_gaussian_1*10000,result2=spread_gaussian_2*10000,matsim=Simulation)) #result is return in basis point
 }
