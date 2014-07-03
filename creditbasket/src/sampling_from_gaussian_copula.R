@@ -50,9 +50,10 @@ cc_50 = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketpri
                                new ("CreditDefaultSwap", maturity = 2, marketprice = spread_50),
                                new ("CreditDefaultSwap", maturity = 3, marketprice = spread_50),
                                new ("CreditDefaultSwap", maturity = 4, marketprice = spread_50),
-                               new ("CreditDefaultSwap", maturity = 5, marketprice = spread_50)),0.40,yieldcurve_test)
+                               new ("CreditDefaultSwap", maturity = 5, marketprice = spread_50)),0.40,yieldcurve_bbg)
 
-FTDS_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_test,UniformCorrelationMatrix(0.6,5),0.40,10000)
+lali = FTDS_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_bbg,UniformCorrelationMatrix(0.6,5),0.40,100000)
+lali$result
 
 FTDS_GaussianCopula(c(cc_50),yieldcurve_test,UniformCorrelationMatrix(0.6,1),0.40,1000)
 
@@ -62,9 +63,9 @@ cc_350 = BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketpr
                                 new ("CreditDefaultSwap", maturity = 2, marketprice = spread_350),
                                 new ("CreditDefaultSwap", maturity = 3, marketprice = spread_350),
                                 new ("CreditDefaultSwap", maturity = 4, marketprice = spread_350),
-                                new ("CreditDefaultSwap", maturity = 5, marketprice = spread_350)),0.40,yieldcurve_test)
+                                new ("CreditDefaultSwap", maturity = 5, marketprice = spread_350)),0.40,yieldcurve_bbg)
 
-FTDS_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50,cc_350,cc_350,cc_350,cc_350,cc_350),yieldcurve_test,UniformCorrelationMatrix(0.0,10),0.40,10000)
+ans3=FTDS_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50,cc_350,cc_350,cc_350,cc_350,cc_350),yieldcurve_bbg,UniformCorrelationMatrix(0.0,10),0.40,10000)
 
 ############
 #@Comparison with Bloomberg CDSN
@@ -85,8 +86,15 @@ cc_DEL = GetFlatCreditCurve(244.88,yieldcurve_bbg)
 cc_HPQ = GetFlatCreditCurve(22.00,yieldcurve_bbg)
 cc_BMY = GetFlatCreditCurve(70.38,yieldcurve_bbg)
 
-FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_test,UniformCorrelationMatrix(0.5,5),0.40,10000)
+ans = FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.5,5),0.40,1000000)
+ans$result; ans$result2
+
+toto = ans$matsim
+
+#############
+#Retour au kth basket
 
 
-
+cc_60 = GetFlatCreditCurve(60,yieldcurve_bbg)
+ans4= BasketCDSPricing_GaussianCopulaV2(cc_60,cc_60,cc_60,cc_60,cc_60,yieldcurve_bbg,UniformCorrelationMatrix(0.3,5),0.40,1,100000)
 
