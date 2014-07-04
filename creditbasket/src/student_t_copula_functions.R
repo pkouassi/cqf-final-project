@@ -41,7 +41,7 @@ BasketCDSPricing_StudentTCopula = function(CreditCurve1,CreditCurve2,CreditCurve
     else if (i == 5) {
       CC = CreditCurve5
     }
-    TauMatrix_studentt[,i] = HazardExactDefaultTime(CC,UMatrix_studentt[,i])
+    TauMatrix_studentt[,i] = ConvertToDefaultTime(CC,UMatrix_studentt[,i])
   }
   
   LegCalculation_studentt = matrix(data = NA,ncol=2, nrow=NumberSimulation)

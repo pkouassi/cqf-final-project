@@ -1,29 +1,12 @@
-#The real stuff
-
-yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.00*x)))
-cc_60 = GetFlatCreditCurve(60.370,yieldcurve_flat)
-ans = BasketCDSPricing_GaussianCopula(c(cc_60,cc_60,cc_60,cc_60,cc_60),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.40,100000)
-ans$singlename_sim
-ans$tau
-
-
-
-
-
-
-
-
-
 #Sampling from gaussian copula
-spread_gaussian = BasketCDSPricing_GaussianCopula(CDS1_USD_XR_MARGINAL_CreditCurve,
-                                CDS2_USD_XR_MARGINAL_CreditCurve,
-                                CDS3_USD_XR_MARGINAL_CreditCurve,
-                                CDS4_USD_XR_MARGINAL_CreditCurve,
-                                CDS5_USD_XR_MARGINAL_CreditCurve,
-                                YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1,50000)
 
+ans = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
+                                  CDS2_USD_XR_MARGINAL_CreditCurve,
+                                  CDS3_USD_XR_MARGINAL_CreditCurve,
+                                  CDS4_USD_XR_MARGINAL_CreditCurve,
+                                  CDS5_USD_XR_MARGINAL_CreditCurve),
+                                  YieldCurve,CorrelationMatrix_GaussianCopula,0.40,10000)
 
-UniformCorrelationMatrix = function(rho,n) matrix(rho,nrow=n,ncol=n) + (1-rho)*diag(n)
 
 
 objective_function = function(x) {
@@ -35,6 +18,44 @@ objective_function = function(x) {
   return(res@hazardrate[5]-0.01)
 }
 uniroot(objective_function,lower=0,upper=10000)
+
+
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.00*x)))
+cc_60 = GetFlatCreditCurve(60.370,yieldcurve_flat)
+ans = BasketCDSPricing_GaussianCopula(c(cc_60,cc_60,cc_60,cc_60,cc_60),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.40,100000)
+ans$basket_spreads
+ans$singlename_spreads
+ans$basket_sim
+ans$singlename_sim
+ans$tau
+
+#first to default
+plot(seq(100,100000),ans$basket_sim[100:100000,1]/ans$basket_sim[100:100000,6],type="l",log="x")
+
+#second to default
+plot(seq(100,100000),ans$basket_sim[100:100000,2]/ans$basket_sim[100:100000,7],type="l",log="x")
+
+#third to default
+plot(seq(100,100000),ans$basket_sim[100:100000,3]/ans$basket_sim[100:100000,8],type="l",log="x")
+
+
+
+
+
+
+
+
+
+
+#Sampling from gaussian copula
+
+
+
+
+
+
+
 
 
 yieldcurve_test = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.01*x)))

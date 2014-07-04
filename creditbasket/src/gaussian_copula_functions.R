@@ -17,7 +17,7 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
   
   TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   for (i in seq(1,NumberCDS)) {
-    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
+    TauMatrix_gaussian[,i] = ConvertToDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
   }
   
   FTDS_LegCalculation_gaussian = matrix(data = NA,ncol=4, nrow=NumberSimulation)
@@ -181,15 +181,17 @@ BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,C
   
   TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   for (i in seq(1,NumberCDS)) {
-    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
+    TauMatrix_gaussian[,i] = ConvertToDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
   }
   
   #Matrix that will keep track of the single-name Premium Leg / Default Leg
   SingleName_PremiumLeg = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   SingleName_DefaultLeg = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+  SingleName_FairSpread = rep(NA,NumberCDS)
   #Matrix that will keep track of the k-th basket CDS Premium Leg / Default Leg
   Basket_PremiumLeg = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   Basket_DefaultLeg = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
+  Basket_FairSpread = rep(NA,NumberCDS)
   
   #Monte Carlo Loop
   for (i in seq(1,NumberSimulation)) {
@@ -241,9 +243,7 @@ BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,C
       if (nbdefault > 0 && sorted_tau[k] != Inf) {
         # if there is at least 1 default (>0) and there is a kth default
         # premium leg
-        #!A REVOIR, make compute premium leg generic
-        #!!!!!!!!!!!!!!!!!!!!
-        premium_leg = compute_premium_leg(DiscountCurve,k,sorted_tau)
+        premium_leg = ComputePremiumLeg(DiscountCurve,NumberCDS,k,sorted_tau)
         if (i==1) Basket_PremiumLeg[i,k]  = premium_leg
         else Basket_PremiumLeg[i,k] = ((i-1)*Basket_PremiumLeg[i-1,k] + premium_leg)/i
         # default leg
@@ -269,14 +269,14 @@ BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,C
   }
   
   for (j in seq(1,NumberCDS)) {
-    cat("CDS",j,"===>","default_leg=",SingleName_DefaultLeg[NumberSimulation,j],"premium_leg=",SingleName_PremiumLeg[NumberSimulation,j],"par_spread=",SingleName_DefaultLeg[NumberSimulation,j]/SingleName_PremiumLeg[NumberSimulation,j],"\n")
+    cat("CDS",j,"===>","default_leg=",SingleName_DefaultLeg[NumberSimulation,j],"premium_leg=",SingleName_PremiumLeg[NumberSimulation,j],"par_spread=",SingleName_FairSpread[j] <- SingleName_DefaultLeg[NumberSimulation,j]/SingleName_PremiumLeg[NumberSimulation,j]*10000,"\n")
   }
   
   for (k in seq(1,NumberCDS)) {
-    cat(k,"th to default basket ===>","default_leg=",Basket_DefaultLeg[NumberSimulation,k],"premium_leg=",Basket_PremiumLeg[NumberSimulation,k],"par_spread=",Basket_DefaultLeg[NumberSimulation,k]/Basket_PremiumLeg[NumberSimulation,k]*10000,"\n")
+    cat(k,"th to default basket ===>","default_leg=",Basket_DefaultLeg[NumberSimulation,k],"premium_leg=",Basket_PremiumLeg[NumberSimulation,k],"par_spread=",Basket_FairSpread[k] <- Basket_DefaultLeg[NumberSimulation,k]/Basket_PremiumLeg[NumberSimulation,k]*10000,"\n")
   }
   
-  return(list(singlename_sim=cbind(SingleName_DefaultLeg,SingleName_PremiumLeg),tau=TauMatrix_gaussian))
+  return(list(basket_spreads=Basket_FairSpread,singlename_spreads=SingleName_FairSpread,basket_sim=cbind(Basket_DefaultLeg,Basket_PremiumLeg),singlename_sim=cbind(SingleName_DefaultLeg,SingleName_PremiumLeg),tau=TauMatrix_gaussian))
 }
 
 BasketCDSPricing_GaussianCopulaV2 = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,RecoveryRate,k=1,NumberSimulation=300000) {
@@ -303,7 +303,7 @@ BasketCDSPricing_GaussianCopulaV2 = function(CreditCurveCollection,DiscountCurve
   
   TauMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   for (i in seq(1,NumberCDS)) {
-    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
+    TauMatrix_gaussian[,i] = ConvertToDefaultTime(CreditCurveCollection[[i]],UMatrix_gaussian[,i])
   }
   
   LegCalculation_gaussian = matrix(data = NA,ncol=4, nrow=NumberSimulation)
@@ -340,7 +340,7 @@ BasketCDSPricing_GaussianCopulaV2 = function(CreditCurveCollection,DiscountCurve
       premium_leg = premium_leg*(5/5)
     }
     else {
-      premium_leg = compute_premium_leg(DiscountCurve,k,tau_list)
+      premium_leg = ComputePremiumLeg(DiscountCurve,k,tau_list)
     }
     
     LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
@@ -422,7 +422,7 @@ BasketCDSPricing_GaussianCopulaV1 = function(CreditCurve1,CreditCurve2,CreditCur
     else if (i == 5) {
       CC = CreditCurve5
     }
-    TauMatrix_gaussian[,i] = HazardExactDefaultTime(CC,UMatrix_gaussian[,i])
+    TauMatrix_gaussian[,i] = ConvertToDefaultTime(CC,UMatrix_gaussian[,i])
   }
   
   LegCalculation_gaussian = matrix(data = NA,ncol=2, nrow=NumberSimulation)
@@ -457,7 +457,7 @@ BasketCDSPricing_GaussianCopulaV1 = function(CreditCurve1,CreditCurve2,CreditCur
       premium_leg = premium_leg*(5/5)
     }
     else {
-      premium_leg = compute_premium_leg(DiscountCurve,k,tau_list)
+      premium_leg = ComputePremiumLeg(DiscountCurve,k,tau_list)
     }
     
     LegCalculation_gaussian[i,"DefaultLeg"] = default_leg
