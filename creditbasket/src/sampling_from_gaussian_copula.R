@@ -1,3 +1,19 @@
+#The real stuff
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.00*x)))
+cc_60 = GetFlatCreditCurve(60.370,yieldcurve_flat)
+ans = BasketCDSPricing_GaussianCopula(c(cc_60,cc_60,cc_60,cc_60,cc_60),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.40,100000)
+ans$singlename_sim
+ans$tau
+
+
+
+
+
+
+
+
+
 #Sampling from gaussian copula
 spread_gaussian = BasketCDSPricing_GaussianCopula(CDS1_USD_XR_MARGINAL_CreditCurve,
                                 CDS2_USD_XR_MARGINAL_CreditCurve,
@@ -86,7 +102,7 @@ cc_DEL = GetFlatCreditCurve(244.88,yieldcurve_bbg)
 cc_HPQ = GetFlatCreditCurve(22.00,yieldcurve_bbg)
 cc_BMY = GetFlatCreditCurve(70.38,yieldcurve_bbg)
 
-ans = FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.99,5),0.40,100000)
+ans = FTDS_GaussianCopula(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.5,5),0.40,100000)
 ans$result1; ans$result2
 
 ans2 = BasketCDSPricing_GaussianCopulaV2(c(cc_IBM,cc_PFI,cc_DEL,cc_HPQ,cc_BMY),yieldcurve_bbg,UniformCorrelationMatrix(0.99,5),0.40,4,50000)
