@@ -1,0 +1,40 @@
+#better algo
+25 % ...
+50 % ...
+75 % ...
+100 % ...
+CDS 1 ===> default_leg= 0.029208 premium_leg= 4.877279 par_spread= 0.005988585 
+CDS 2 ===> default_leg= 0.029346 premium_leg= 4.875812 par_spread= 0.00601869 
+CDS 3 ===> default_leg= 0.029568 premium_leg= 4.874739 par_spread= 0.006065556 
+CDS 4 ===> default_leg= 0.02982 premium_leg= 4.872426 par_spread= 0.006120154 
+CDS 5 ===> default_leg= 0.029622 premium_leg= 4.876695 par_spread= 0.006074195 
+1 th to default basket ===> default_leg= 0.022776 premium_leg= 4.491709 par_spread= 50.70676 
+2 th to default basket ===> default_leg= 0.005262 premium_leg= 4.894808 par_spread= 10.75017 
+3 th to default basket ===> default_leg= 0.0012228 premium_leg= 4.97379 par_spread= 2.458487 
+4 th to default basket ===> default_leg= 0.0002196 premium_leg= 4.994733 par_spread= 0.4396631 
+5 th to default basket ===> default_leg= 3.24e-05 premium_leg= 4.999103 par_spread= 0.06481163 
+
+#Compute premium algo (reviewed)
+25 % ...
+50 % ...
+75 % ...
+100 % ...
+CDS 1 ===> default_leg= 0.028818 premium_leg= 4.879419 par_spread= 0.005906031 
+CDS 2 ===> default_leg= 0.02952 premium_leg= 4.876179 par_spread= 0.00605392 
+CDS 3 ===> default_leg= 0.029706 premium_leg= 4.873321 par_spread= 0.006095637 
+CDS 4 ===> default_leg= 0.029748 premium_leg= 4.875705 par_spread= 0.006101271 
+CDS 5 ===> default_leg= 0.02952 premium_leg= 4.877356 par_spread= 0.00605246 
+1 th to default basket ===> default_leg= 0.0228684 premium_leg= 4.492996 par_spread= 50.89788 
+2 th to default basket ===> default_leg= 0.00522 premium_leg= 4.895933 par_spread= 10.66191 
+3 th to default basket ===> default_leg= 0.0011436 premium_leg= 4.97605 par_spread= 2.298209 
+4 th to default basket ===> default_leg= 0.0001992 premium_leg= 4.995339 par_spread= 0.3987717 
+5 th to default basket ===> default_leg= 3.12e-05 premium_leg= 4.99918 par_spread= 0.06241023 
+
+
+#crude algo
+1 th to default basket ===> default_leg= 0.0227808 premium_leg= 4.485608 par_spread= 50.78643 
+2 th to default basket ===> default_leg= 0.005112 premium_leg= 4.910394 par_spread= 10.41057 
+3 th to default basket ===> default_leg= 0.0011784 premium_leg= 4.983176 par_spread= 2.364757 
+4 th to default basket ===> default_leg= 0.00018 premium_leg= 4.997786 par_spread= 0.3601595 
+5 th to default basket ===> default_leg= 9.6e-06 premium_leg= 4.999951 par_spread= 0.01920019 
+

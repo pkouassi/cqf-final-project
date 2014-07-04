@@ -19,7 +19,7 @@ objective_function = function(x) {
 }
 uniroot(objective_function,lower=0,upper=10000)
 
-
+#Risk and sensitivity analysis
 
 yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.00*x)))
 cc_60 = GetFlatCreditCurve(60.370,yieldcurve_flat)
@@ -39,8 +39,10 @@ plot(seq(100,100000),ans$basket_sim[100:100000,2]/ans$basket_sim[100:100000,7],t
 #third to default
 plot(seq(100,100000),ans$basket_sim[100:100000,3]/ans$basket_sim[100:100000,8],type="l",log="x")
 
-
-
+#rnorm vs. sobol
+#first_to_default.rnorm = ans$basket_sim[250:100000,1]/ans$basket_sim[250:100000,6]
+#first_to_default.sobol = ans$basket_sim[250:100000,1]/ans$basket_sim[250:100000,6]
+#matplot(seq(250,100000),cbind(first_to_default.rnorm,first_to_default.sobol),type="l",log="x")
 
 
 
