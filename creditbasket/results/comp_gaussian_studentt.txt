@@ -1,0 +1,24 @@
+********* Student T
+
+CDS 1 ===> default_leg= 0.01281031 premium_leg= 4.783065 par_spread= 26.78264 
+CDS 2 ===> default_leg= 0.03147401 premium_leg= 4.720332 par_spread= 66.67754 
+CDS 3 ===> default_leg= 0.0378727 premium_leg= 4.718275 par_spread= 80.26811 
+CDS 4 ===> default_leg= 0.01892434 premium_leg= 4.762822 par_spread= 39.73347 
+CDS 5 ===> default_leg= 0.01418975 premium_leg= 4.772096 par_spread= 29.73484 
+1 th to default basket ===> default_leg= 0.01694766 premium_leg= 4.579966 par_spread= 37.00391 
+2 th to default basket ===> default_leg= 0.004273524 premium_leg= 4.75757 par_spread= 8.982578 
+3 th to default basket ===> default_leg= 0.001390114 premium_leg= 4.792023 par_spread= 2.900892 
+4 th to default basket ===> default_leg= 0.000385832 premium_leg= 4.805902 par_spread= 0.8028295 
+5 th to default basket ===> default_leg= 5.708979e-05 premium_leg= 4.811759 par_spread= 0.1186464 
+
+****************** Gaussian Copula
+CDS 1 ===> default_leg= 0.01224929 premium_leg= 4.783317 par_spread= 25.60837 
+CDS 2 ===> default_leg= 0.03320357 premium_leg= 4.715435 par_spread= 70.41464 
+CDS 3 ===> default_leg= 0.03884762 premium_leg= 4.718333 par_spread= 82.33335 
+CDS 4 ===> default_leg= 0.01955207 premium_leg= 4.761317 par_spread= 41.06441 
+CDS 5 ===> default_leg= 0.01393555 premium_leg= 4.771493 par_spread= 29.20584 
+1 th to default basket ===> default_leg= 0.01816176 premium_leg= 4.55988 par_spread= 39.82947 
+2 th to default basket ===> default_leg= 0.003961372 premium_leg= 4.763152 par_spread= 8.316703 
+3 th to default basket ===> default_leg= 0.001143441 premium_leg= 4.79725 par_spread= 2.383535 
+4 th to default basket ===> default_leg= 0.0002462809 premium_leg= 4.809457 par_spread= 0.5120762 
+5 th to default basket ===> default_leg= 4.47619e-05 premium_leg= 4.812182 par_spread= 0.09301788 

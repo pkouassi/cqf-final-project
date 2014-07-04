@@ -118,3 +118,11 @@ ComputePremiumLeg = function(YieldCurve,NumberCDS,k,tau_arr) {
 }
 
 UniformCorrelationMatrix = function(rho,n) matrix(rho,nrow=n,ncol=n) + (1-rho)*diag(n)
+
+GetFlatCreditCurve = function(x,yc) {
+  return(BootstrapCreditCurve(c(new ("CreditDefaultSwap", maturity = 1, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 2, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 3, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 4, marketprice = x),
+                                new ("CreditDefaultSwap", maturity = 5, marketprice = x)),0.40,yc))
+}
