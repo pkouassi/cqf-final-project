@@ -43,7 +43,7 @@ CDS4_USD_XR_diff = ComputeDifference(CDS4_USD_XR_HistCreditCurveDataframe)
 CDS5_USD_XR_diff = ComputeDifference(CDS5_USD_XR_HistCreditCurveDataframe)
 
 #represent plot
-plot(CDS1_USD_XR_diff$Date,CDS1_USD_XR_diff$DP_5Y_diff,type="l")
+plot(CDS1_USD_XR_diff$Date,CDS1_USD_XR_diff$DP_5Y_diff,type="l",main="",ylab="5Y default probability difference",xlab="date")
 #CDS1_USD_XR_PDdiff$DP_5Y_change[33]
 
 #represent histograms
@@ -127,6 +127,32 @@ DP_5Y_diff_CorrelationMatrix_GaussianCopula
 
 hist(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_diff), breaks=30)
 hist(transform_to_normal(CDS2_USD_XR_diff$DP_5Y_diff), breaks=30)
+hist(transform_to_normal(CDS3_USD_XR_diff$DP_5Y_diff), breaks=30)
+
+#par(mfrow=c(1,2))
+#plot(density(CDS1_USD_XR_diff$DP_5Y_diff[!is.na(CDS1_USD_XR_diff$DP_5Y_diff)]),main="5Y Def. Prob. (diff)",ylab="",xlab="", col="black",lty=1)
+#plot(density(CDS1_USD_XR_diff$DP_5Y_logdiff[!is.na(CDS1_USD_XR_diff$DP_5Y_logdiff)]),main="5Y Def. Prob. (log diff)",ylab="",xlab="",col="black",lty=1)
+
+#legend(0.02, 25, c("5Y Default Probability difference","5Y Default Probability log difference"), col = c("black"),
+#       text.col = "black", lty = c(1,2), pch = c(NA),
+#       merge = TRUE, bg = "gray90")
+
+#matplot(cbind(density(CDS1_USD_XR_diff$DP_5Y_diff)$y,density(CDS1_USD_XR_diff$DP_5Y_logdiff)$y))
+
+#install.packages("sfsmisc")
+# require(sfsmisc)
+#ecdf_native = ecdf(CDS1_USD_XR_diff$DP_5Y_diff)
+#plot(ecdf_native(CDS1_USD_XR_diff$DP_5Y_diff),type="l")
+#ecdf_native(CDS1_USD_XR_diff$DP_5Y_diff) == 1
+# hist(ecdf_native(CDS1_USD_XR_diff$DP_5Y_diff), breaks=30)
+# ecdf_density = empirical_cdf_density(CDS1_USD_XR_diff$DP_5Y_diff)
+# sapply(CDS1_USD_XR_diff$DP_5Y_diff,ecdf_density)
+# 
+# par(mfrow=c(2,1))
+# hist(ecdf_native(CDS1_USD_XR_diff$DP_5Y_diff), breaks=30, main="Distribution of U obtained using ecdf()",xlab="")
+# hist(sapply(CDS1_USD_XR_diff$DP_5Y_diff,ecdf_density), breaks=30, main="Distribution of U obtained using density()",xlab="")
+# 
+# xxxx = seq(min(fn_density$x),max(fn_density$x),length=1000)
 
 #----------------------------------------------------------------------------------
 #Correlation Matrix for Gaussian copula (Log Difference of Default Probability - 5Y)
@@ -138,6 +164,8 @@ DP_5Y_logdiff_CorrelationMatrix_GaussianCopula = pearson_correlation_matrix(rbin
   transform_to_normal(CDS3_USD_XR_diff$DP_5Y_logdiff),
   transform_to_normal(CDS4_USD_XR_diff$DP_5Y_logdiff),
   transform_to_normal(CDS5_USD_XR_diff$DP_5Y_logdiff)))
+
+hist(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff), breaks=30)
 
 DP_5Y_logdiff_CorrelationMatrix_GaussianCopula
 CorrelationMatrix_GaussianCopula = DP_5Y_logdiff_CorrelationMatrix_GaussianCopula
@@ -182,19 +210,35 @@ HR_5Y_logdiff_CorrelationMatrix_GaussianCopula = pearson_correlation_matrix(rbin
 
 HR_5Y_logdiff_CorrelationMatrix_GaussianCopula
 
+#par(mfrow=c(1,3))
+#plot(density(CDS1_USD_XR_diff$HR_5Y[!is.na(CDS1_USD_XR_diff$HR_5Y)]),main="Hazard rate",ylab="",xlab="",  ,col="black",lty=1)
+#plot(density(CDS1_USD_XR_diff$HR_5Y_diff[!is.na(CDS1_USD_XR_diff$HR_5Y_diff)]),main="Hazard rate (diff)",ylab="",xlab="",col="black",lty=1)
+#plot(density(CDS1_USD_XR_diff$HR_5Y_logdiff[!is.na(CDS1_USD_XR_diff$HR_5Y_logdiff)]),main="Hazard rate (log diff)",ylab="",xlab="",col="black",lty=1)
+
+#plot(density(CDS1_USD_XR_diff$HR_5Y[!is.na(CDS1_USD_XR_diff$HR_5Y)]),main="Kernel density plot for difference and log difference",ylab="",xlab="",  xaxt='n', yaxt='n',col="black",lty=1)
+#par(new=TRUE)
+#plot(density(CDS1_USD_XR_diff$HR_5Y_diff[!is.na(CDS1_USD_XR_diff$HR_5Y_diff)]),main="Kernel density plot for difference and log difference",ylab="",xlab="",  xaxt='n', yaxt='n',col="black",lty=1)
+#par(new=TRUE)
+#plot(density(CDS1_USD_XR_diff$HR_5Y_logdiff[!is.na(CDS1_USD_XR_diff$HR_5Y_logdiff)]),main="",ylab="",xlab="",xaxt='n', yaxt='n',col="black",lty=2)
+#par(new=FALSE)
+
+#legend(0.02, 25, c("5Y Default Probability difference","5Y Default Probability log difference"), col = c("black"),
+#       text.col = "black", lty = c(1,2), pch = c(NA),
+#       merge = TRUE, bg = "gray90")
+
 #linear measure (Pearson)
 #cor(x,y,method = "pearson")
 
 
 
-#transform_to_uniform_kerneldensity = function(X) {
-  #ecdf does not rely on kernel density
-  #ecdf (Empirical CDF) in R instead of kernel densities. It summarizes the data into something like a smooth CDF line while graphing all the data points
-#  fn = empirical_cdf_density(X) 
-#  U = sapply(X,fn)
-#  return(U)
-#}
-#U_CDS1_USD_XR_kerneldensity = transform_to_uniform_kerneldensity(CDS1_USD_XR_PDdiff$DP_5Y_change)
+# transform_to_uniform_kerneldensity = function(X) {
+#   #ecdf does not rely on kernel density
+#   #ecdf (Empirical CDF) in R instead of kernel densities. It summarizes the data into something like a smooth CDF line while graphing all the data points
+#   fn = empirical_cdf_density(X) 
+#   U = sapply(X,fn)
+#   return(U)
+# }
+# U_CDS1_USD_XR_kerneldensity = transform_to_uniform_kerneldensity(CDS1_USD_XR_diff$DP_5Y_diff)
 #U_CDS5_USD_XR_kerneldensity = transform_to_uniform_kerneldensity(CDS5_USD_XR_PDdiff$DP_5Y_change)
 #hist(U_CDS1_USD_XR_kerneldensity, breaks = 30)
 #hist(U_CDS5_USD_XR_kerneldensity, breaks = 30)
@@ -266,28 +310,28 @@ HR_5Y_logdiff_CorrelationMatrix_GaussianCopula
 #xxxx = seq(min(fn_density$x),max(fn_density$x),length=1000)
 #plot(xxxx,sapply(xxxx,fn_empirical_cdf_density),type="l",col="red",xlim=plot_x_lim, ylim=plot_y_lim)
 
-# empirical_cdf_density = function(data) {
-#   density = density(data)
-#   func = function(x) {
-#     if (length(x) == 1) {
-#       cat("sigle value\n")
-#       if (x <= min(density$x)) {
-#         return(0)
-#       }
-#       else {
-#         return(integrate.xy(density$x,density$y,min(density$x),min(x,max(density$x))))
-#       }     
-#     }
-#     else if (length(x) == 0) {
-#       cat("error: input parameter of length zero\n")
-#     }
-#     else {
-#       cat("multi value\n")
-#       return(sapply(x,empirical_cdf_density))
-#     }    
-#   }
-#   return(func)
-# }
+#  empirical_cdf_density = function(data) {
+#    density = density(data)
+#    func = function(x) {
+#      if (length(x) == 1) {
+#        cat("single value\n")
+#        if (x <= min(density$x)) {
+#          return(0)
+#        }
+#        else {
+#          return(integrate.xy(density$x,density$y,min(density$x),min(x,max(density$x))))
+#        }     
+#      }
+#      else if (length(x) == 0) {
+#        cat("error: input parameter of length zero\n")
+#      }
+#      else {
+#        cat("multi value\n")
+#        return(sapply(x,empirical_cdf_density))
+#      }    
+#    }
+#    return(func)
+#  }
 
 #Correlation for Student t copula
 
