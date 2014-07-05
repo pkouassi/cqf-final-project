@@ -10349,8 +10349,34 @@ Proposing that a caplet priced under LMM (lognormal factors) and Black's
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
+\mbox{Bl}(K,F_{i}(0),\zeta_{i}) & = & \mathbb{E^{Q}}\left[F_{i}(t)-K\right]^{+}\\
+ & = & F_{i}(0)\Phi(d_{1})-K\Phi(d_{2})
 \end{eqnarray*}
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+d_{1} & = & \frac{\log\frac{F}{K}+\frac{\zeta^{2}}{2}}{\zeta}\\
+d_{2} & = & \frac{\log\frac{F}{K}-\frac{\zeta^{2}}{2}}{\zeta}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in these formulae 
+\begin_inset Formula $\zeta^{2}=\zeta_{i}^{2}T_{i}$
 \end_inset
 
 
@@ -10360,8 +10386,24 @@ Proposing that a caplet priced under LMM (lognormal factors) and Black's
 Main result
 \end_layout
 
+\begin_layout Standard
+
+\color red
+A successful project will provide convergent pricing of interest rate derivative
+s based on one's own implementation of at least two numerical methods within
+ the chosen HJM or LMM model.
+ Pricing examples must oer a sensible view, e.g., cap or swaption prices across
+ a range of strikes or maturities (volatility smile).
+ Report on this topic should discuss model risk that comes from calibraiton
+ (tting) of volatility functions and discounting curve (if involved).
+\end_layout
+
 \begin_layout Subsubsection
 Principal Component Analysis
+\end_layout
+
+\begin_layout Standard
+comparison over different perdiod
 \end_layout
 
 \begin_layout Subsubsection
