@@ -45,9 +45,11 @@ ans14 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yi
 ans15 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.9,5),0.40,1000000,"nag-sobol")
 ans16 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.99,5),0.40,1000000,"nag-sobol")
 
-ans17 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.99,5),0.30,1000000,"nag-sobol")
-ans18 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.99,5),0.50,1000000,"nag-sobol")
-ans19 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.99,5),0.60,1000000,"nag-sobol")
+#to be re-run
+ans17 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.30,1000000,"nag-sobol")
+ans18 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.50,1000000,"nag-sobol")
+ans19 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.60,1000000,"nag-sobol")
+#-------------
 
 yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.01*x)))
 cc_100 = GetFlatCreditCurve(50,yieldcurve_flat)
@@ -65,35 +67,35 @@ yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sappl
 cc_100 = GetFlatCreditCurve(50,yieldcurve_flat)
 ans23 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
 
+#to be re-run
 #sobol / convergence
-
 ans24 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS2_USD_XR_MARGINAL_CreditCurve,
                                           CDS3_USD_XR_MARGINAL_CreditCurve,
                                           CDS4_USD_XR_MARGINAL_CreditCurve,
                                           CDS5_USD_XR_MARGINAL_CreditCurve),
-                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000,"nag-sobol")
+                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"nag-sobol")
 
 ans25 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS2_USD_XR_MARGINAL_CreditCurve,
                                           CDS3_USD_XR_MARGINAL_CreditCurve,
                                           CDS4_USD_XR_MARGINAL_CreditCurve,
                                           CDS5_USD_XR_MARGINAL_CreditCurve),
-                                          YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000,"nag-niederreiter")
+                                          YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"nag-niederreiter")
 
 ans26 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS2_USD_XR_MARGINAL_CreditCurve,
                                           CDS3_USD_XR_MARGINAL_CreditCurve,
                                           CDS4_USD_XR_MARGINAL_CreditCurve,
                                           CDS5_USD_XR_MARGINAL_CreditCurve),
-                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000,"nag-faure")
+                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"nag-faure")
 
 ans27 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS2_USD_XR_MARGINAL_CreditCurve,
                                           CDS3_USD_XR_MARGINAL_CreditCurve,
                                           CDS4_USD_XR_MARGINAL_CreditCurve,
                                           CDS5_USD_XR_MARGINAL_CreditCurve),
-                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000,"rnorm")
+                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"rnorm")
 
 
 

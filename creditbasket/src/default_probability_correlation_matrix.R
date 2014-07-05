@@ -133,7 +133,7 @@ hist(transform_to_normal(CDS3_USD_XR_diff$DP_5Y_diff), breaks=30)
 #plot(density(CDS1_USD_XR_diff$DP_5Y_diff[!is.na(CDS1_USD_XR_diff$DP_5Y_diff)]),main="5Y Def. Prob. (diff)",ylab="",xlab="", col="black",lty=1)
 #plot(density(CDS1_USD_XR_diff$DP_5Y_logdiff[!is.na(CDS1_USD_XR_diff$DP_5Y_logdiff)]),main="5Y Def. Prob. (log diff)",ylab="",xlab="",col="black",lty=1)
 
-#legend(0.02, 25, c("5Y Default Probability difference","5Y Default Probability log difference"), col = c("black"),
+# legend(0.02, 25, c("5Y Default Probability difference","5Y Default Probability log difference"), col = c("black"),
 #       text.col = "black", lty = c(1,2), pch = c(NA),
 #       merge = TRUE, bg = "gray90")
 
@@ -454,12 +454,14 @@ U_array = U_array[(U_array[,1]!=1.0 & U_array[,2]!=1.0 & U_array[,3]!=1.0 & U_ar
 #loglikelyhoodfunc(U_array,10,CorrelationMatrix_StudentTCopula)
 
 #plot of the log-lekelyhood funciton
-v_array = seq(1,50)
+v_array = seq(1,60,by=1)
 loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=U_array,Sigma=CorrelationMatrix_StudentTCopula)
-plot(v_array,loglikelyhood_array,type="l")
+plot(v_array,loglikelyhood_array,type="l",xlab="Degrees of freedom",ylab="Log-likelyhood",log="y",ylim=c(105,115))
 
 #optimization to compute degree of freedom for student t
 degree_freedom = optimize(loglikelyhoodfunc, UMatrix = U_array, Sigma = CorrelationMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
+
+loglikelyhoodfunc(U_array,0.1,CorrelationMatrix_StudentTCopula)
 
 # 
 # UBLN = U_array[22,]

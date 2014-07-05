@@ -1,4 +1,4 @@
-BasketCDSPricing_StudentTCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,DegreeFreedom,RecoveryRate,NumberSimulation=300000) {
+BasketCDSPricing_StudentTCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,DegreeFreedom,RecoveryRate,NumberSimulation=300000,GenType="rnorm") {
   Maturity = 5
   NumberCDS = length(CreditCurveCollection)
   
@@ -7,6 +7,26 @@ BasketCDSPricing_StudentTCopula = function(CreditCurveCollection,DiscountCurve,C
   if (CholError) {
     warning("CorrelationMatrix is not positive definite. BasketCDSPricing stops here...")
     return()
+  }
+  
+  # Pseudo random genetor or quasi random generator
+  if (GenType == "rnorm") {
+    ZMatrix_studentt = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
+  }
+  else if (GenType == "sobol") {
+    ZMatrix_studentt = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+  }
+  else if (GenType == "nag-sobol") {
+    ZMatrix_studentt = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  }
+  else if (GenType == "nag-niederreiter") {
+    ZMatrix_studentt = quasirandom.nag(NumberSimulation,NumberCDS,"niederreiter","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  }
+  else if (GenType == "nag-faure") {
+    ZMatrix_studentt = quasirandom.nag(NumberSimulation,NumberCDS,"faure","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  }
+  else {
+    ZMatrix_studentt = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
   }
   
   #ZMatrix_studentt = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
