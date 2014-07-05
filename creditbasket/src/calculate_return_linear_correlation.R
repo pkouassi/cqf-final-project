@@ -34,6 +34,8 @@ PFE_Returns = GetStockReturn("stock_PFE.csv",as.Date("06-MAY-2013","%d-%b-%Y"),a
 #(BMY_Returns$Date == IBM_Returns$Date)
 #(BMY_Returns$Date == PFE_Returns$Date)
 
+#plot(density(BMY_Returns$Return),main="Stock log returns",ylab="",xlab="", col="black",lty=1)
+
 
 returns_linear_correlation_match_dates = function(R1,R2) {
   cat("R1: ", nrow(R1), " return(s)\n")

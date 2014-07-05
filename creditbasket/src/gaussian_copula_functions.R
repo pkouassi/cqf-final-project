@@ -154,7 +154,7 @@ FTDS_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMa
   return(list(result=expectation_ftds_default_leg_gaussian/expectation_ftds_premium_leg_gaussian*10000,matsim=SimulationResult))
 }
 
-BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,RecoveryRate,NumberSimulation=300000) {
+BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,CorrelationMatrix,RecoveryRate,NumberSimulation=300000,GenType="rnorm") {
   Maturity = 5
   NumberCDS = length(CreditCurveCollection)
   
@@ -165,10 +165,26 @@ BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,C
     return()
   }
   
-  #ZMatrix_gaussian = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
-  #using sobol numbers
-  ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
-  #ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  # Pseudo random genetor or quasi random generator
+  if (GenType == "rnorm") {
+    ZMatrix_gaussian = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
+  }
+  else if (GenType == "sobol") {
+    ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+  }
+  else if (GenType == "nag-sobol") {
+    ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  }
+  else if (GenType == "nag-niederreiter") {
+    ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"niederreiter","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  }
+  else if (GenType == "nag-faure") {
+    ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"faure","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+  }
+  else {
+    ZMatrix_gaussian = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
+  }
+
     
   XMatrix_gaussian = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   #we impose correlation

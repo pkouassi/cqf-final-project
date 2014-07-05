@@ -23,7 +23,7 @@ quasirandom.nag = function(n, dimension, gentype, dllpathname){
   liref = 32 * idim + 7
   iref = vector("integer",liref)
   ifail = 1
-  ans_init = .Fortran("G05YLF",genid=as.integer(2),idim=as.integer(idim),iref=iref,liref=as.integer(liref),iskip=as.integer(1),ifail=as.integer(ifail))
+  ans_init = .Fortran("G05YLF",genid=as.integer(genid),idim=as.integer(idim),iref=iref,liref=as.integer(liref),iskip=as.integer(1),ifail=as.integer(ifail))
   
   #generation of the quasi-random numbers
   xmean = rep(0,idim)
