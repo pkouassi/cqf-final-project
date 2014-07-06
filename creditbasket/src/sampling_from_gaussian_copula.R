@@ -83,6 +83,13 @@ ans25 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS5_USD_XR_MARGINAL_CreditCurve),
                                           YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"nag-niederreiter")
 
+ans27 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
+                                          CDS2_USD_XR_MARGINAL_CreditCurve,
+                                          CDS3_USD_XR_MARGINAL_CreditCurve,
+                                          CDS4_USD_XR_MARGINAL_CreditCurve,
+                                          CDS5_USD_XR_MARGINAL_CreditCurve),
+                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"rnorm")
+
 ans26 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS2_USD_XR_MARGINAL_CreditCurve,
                                           CDS3_USD_XR_MARGINAL_CreditCurve,
@@ -90,12 +97,7 @@ ans26 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                           CDS5_USD_XR_MARGINAL_CreditCurve),
                                         YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"nag-faure")
 
-ans27 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
-                                          CDS2_USD_XR_MARGINAL_CreditCurve,
-                                          CDS3_USD_XR_MARGINAL_CreditCurve,
-                                          CDS4_USD_XR_MARGINAL_CreditCurve,
-                                          CDS5_USD_XR_MARGINAL_CreditCurve),
-                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"rnorm")
+
 
 
 

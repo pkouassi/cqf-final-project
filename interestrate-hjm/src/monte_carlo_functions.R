@@ -1,5 +1,6 @@
 ans_hjm1 = HeathJarrowMortonPricing("bond",0,c(1,2),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"rnorm")
 
+ans_hjm2 = HeathJarrowMortonPricing("cap",1,2,c(0.005,0.01,0.02,0.03,0.04),ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"rnorm")
 
 HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputData,DiscountCurve,NumberSimulation=10000,GenType="rnorm") {
   #parallel computing set-up
@@ -72,7 +73,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   }
   
   # Monte Carlo loop
-  Result = foreach(k=1:NumberSimulation, .combine=rbind, .export=c("ComputeBondPrice")) %dopar% {
+  Result = foreach(k=1:NumberSimulation, .combine=rbind, .export=c("ComputeBondPrice","ComputeLIBORRates","ComputeCapPrice","ComputeCapletPrice","GetDiscountFactor")) %dopar% {
   #for (k in seq(1,NumberSimulation)) {    
     if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
     # matrix init
@@ -87,19 +88,33 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     
     # Instrument specific code
     if (instrument == "bond") {
-      # Code for Bond
+      # Code for bond
       bond_array = rep(NA,length(T_array)) 
       for (j in seq(1,length(T_array))) {
         bond_array[j] = ComputeBondPrice(mat,timestep,t,T_array[j])
       }
       res = c(bond=bond_array)
     }
+    else if (instrument == "cap") {
+      # Code for cap
+      # We need the forward rates from t+0.25 to T
+      #libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,1,seq(1.25,5.00,by=0.25))
+      libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,t,seq(t+0.25,max(T_array),by=0.25))
+      libor_simply_compounded_array = 4*(exp(libor_continuously_compounded_array/4)-1) #3M compounding
+      
+      cap_array = matrix(NA,nrow=length(K_array),ncol=1)
+      for (j in seq(1,length(K_array))) {
+        cap_array[j] = ComputeCapPrice(mat,timestep,t,T_array,K_array[j],DiscountCurve)
+      }
+      res = c(cap=cap_array,libor=libor_simply_compounded_array)
+    }
   }
   stopCluster(cl)
   
   if (instrument == "bond") {
+    #Result formating for bond
     price=rep(NA,length(T_array))
-    if (length(T_array) ==1) {
+    if (length(T_array) == 1) {
       cat("Bond Z[",t,",",T_array,"]=",price <- mean(Result[,"bond"]),"\n")
     }
     else {
@@ -109,6 +124,17 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     }
     return(list(price=price))
   }
-  
+  else if (instrument == "cap") {
+    #Result formating for cap
+    price=rep(NA,length(K_array))
+    if (length(K_array) == 1) {
+      cat("Cap[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"cap"]),"\n")
+    }
+    else {
+      for (j in seq(1,length(K_array))) {
+        cat("Cap[",t,",",T_array,",",K_array[j],"]=",price[j] <- mean(Result[,paste("cap",j,sep="")]),"\n")
+      }
+    }
+  }
   
 }

@@ -10047,19 +10047,16 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename pasted2.png
-	scale 70
+	filename plot_rnorm_sobol_niederreiter.png
+	scale 45
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Sobol / Rnorm convergence diagram
+Sobol / Niederreiter / Rnorm convergence diagram
 \end_layout
 
 \end_inset
@@ -10251,8 +10248,8 @@ Cap/Floor pricing
 We also need to price simple interest rate options, such as caps and oors.
  A cap can be treated as a sum of caplets, each re-setting (expiring) at
  Ti and maturing at Ti+1.
- The rate is paid for the time i = Ti+1􀀀Ti.
- The amount of interest accrued is equal to L(Ti; Ti+1)(Ti+1􀀀Ti) = fii
+ The rate is paid for the time i = Ti+1 to Ti.
+ The amount of interest accrued is equal to L(Ti; Ti+1)(Ti+1 Ti) = fii
 \end_layout
 
 \begin_layout Standard
@@ -10326,16 +10323,6 @@ Proposing that a caplet priced under LMM (lognormal factors) and Black's
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline*}
-\end{multline*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
 \begin{eqnarray*}
 \mbox{Cpl}^{LMM}(0,T_{i},T_{i+1},K) & = & \mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})\\
  & = & Z(0,T_{i+1})\times\tau_{i}\times\mbox{Bl}(K,F_{i}(0),\zeta_{i})
@@ -10386,24 +10373,8 @@ in these formulae
 Main result
 \end_layout
 
-\begin_layout Standard
-
-\color red
-A successful project will provide convergent pricing of interest rate derivative
-s based on one's own implementation of at least two numerical methods within
- the chosen HJM or LMM model.
- Pricing examples must oer a sensible view, e.g., cap or swaption prices across
- a range of strikes or maturities (volatility smile).
- Report on this topic should discuss model risk that comes from calibraiton
- (tting) of volatility functions and discounting curve (if involved).
-\end_layout
-
 \begin_layout Subsubsection
 Principal Component Analysis
-\end_layout
-
-\begin_layout Standard
-comparison over different perdiod
 \end_layout
 
 \begin_layout Subsubsection
@@ -10537,7 +10508,7 @@ key "key-2"
 
 \end_inset
 
-
+dgdgd
 \end_layout
 
 \end_body

@@ -79,7 +79,7 @@ ComputeLIBORRates = function(matrix,timestep,t,T_array) {
    x1 = seq(1/12,by=1/12,length=ncol(matrix))
    x2 = x1^2
    x3 = x2^3
-   y = mat[t_index,]
+   y = matrix[t_index,]
    fit = lm(y~x1+x2+x3)
    
    b0 = as.numeric(fit$coefficients["(Intercept)"])
@@ -92,7 +92,7 @@ ComputeLIBORRates = function(matrix,timestep,t,T_array) {
    return(sapply(T_array-t,forward_curve_integration_func))
 }
 
-ComputeCapPrice = function(matrix,timestep,t,T,K) {
+ComputeCapPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
   #A cap can be decomposed into quaterly caplets 
   #if t=0, the first caplet is skipped (no uncertainty)
   #i.e a 1Y cap that starts at t=0 can be decomposed into 3 caplets (0.25-0.5, 0.5-0.75, 0.75-1.0)
@@ -121,7 +121,7 @@ ComputeCapPrice = function(matrix,timestep,t,T,K) {
   
   value = 0
   for (i in seq(1,length(start_dates_array))) {
-    caplet = ComputeCapletPrice(start_dates_array[i],end_dates_array[i],K,libor_rates_quaterly_comp[i])
+    caplet = ComputeCapletPrice(start_dates_array[i],end_dates_array[i],K,libor_rates_quaterly_comp[i],DiscountCurve)
     value = value + caplet
     #cat("caplet:",caplet,"\n")
   }
@@ -131,9 +131,9 @@ ComputeCapPrice = function(matrix,timestep,t,T,K) {
  
 
  
-ComputeCapletPrice = function(t_start,t_end,K,libor) {
+ComputeCapletPrice = function(t_start,t_end,K,libor,DiscountCurve) {
   #cat("libor=",libor,"/DF=",GetDiscountFactor(ValuationDateOISYieldCurve,t_end),"/Tau=",t_end-t_start,"\n")
-  value = max(libor-K,0)*GetDiscountFactor(ValuationDateOISYieldCurve,t_end)*(t_end-t_start)
+  value = max(libor-K,0)*GetDiscountFactor(DiscountCurve,t_end)*(t_end-t_start)
   return(value)
 } 
  

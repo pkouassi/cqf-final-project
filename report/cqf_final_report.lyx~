@@ -10302,31 +10302,81 @@ Black76
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
+The formula is used to convert cap/ oor prices to implied volatilities.
+ The discussion below assumes that caplet prices are known However, in practice
+ we strip caplet prices (3M period) from market-traded cap prices (1Y period).
+ Prices are quoted in terms of implied volatility.
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
+\begin_layout Standard
+Proposing that a caplet priced under LMM (lognormal factors) and Black's
+ caplet price (market) are the same,
 \end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{Cpl}^{LMM}(0,T_{i},T_{i+1},K)=\mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})
+\]
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+\end{multline*}
+
+\end_inset
+
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mbox{Cpl}^{LMM}(0,T_{i},T_{i+1},K) & = & \mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})\\
+ & = & Z(0,T_{i+1})\times\tau_{i}\times\mbox{Bl}(K,F_{i}(0),\zeta_{i})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mbox{Bl}(K,F_{i}(0),\zeta_{i}) & = & \mathbb{E^{Q}}\left[F_{i}(t)-K\right]^{+}\\
+ & = & F_{i}(0)\Phi(d_{1})-K\Phi(d_{2})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+d_{1} & = & \frac{\log\frac{F}{K}+\frac{\zeta^{2}}{2}}{\zeta}\\
+d_{2} & = & \frac{\log\frac{F}{K}-\frac{\zeta^{2}}{2}}{\zeta}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in these formulae 
+\begin_inset Formula $\zeta^{2}=\zeta_{i}^{2}T_{i}$
 \end_inset
 
 
@@ -10387,10 +10437,6 @@ Discounting
 \begin_layout Itemize
 OIS discounting.
  comparison OIS discounting // internal ZCB
-\end_layout
-
-\begin_layout Itemize
-
 \end_layout
 
 \begin_layout Subsection

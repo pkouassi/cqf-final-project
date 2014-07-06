@@ -13,6 +13,10 @@ loadOneName <- function(objName, file, envir = parent.frame(),
 install.packages("R.utils")
 library("R.utils") 
 
+saveRDS(ans24,"D:/temp/R-workspace/ans24-sobol.rds")
+#test.ans24 = readRDS("D:/temp/R-workspace/ans24.rds")
+saveRDS(ans25,"D:/temp/R-workspace/ans25-niederreiter.rds")
+saveRDS(ans27,"D:/temp/R-workspace/ans27-rnorm.rds")
 
 ans1 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans1"]]
 
@@ -42,6 +46,59 @@ ans13 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans13"]]
 ans14 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans14"]]
 ans15 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans15"]]
 ans16 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans16"]]
+
+ans24 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans24"]]
+
+attributes(ans24)
+
+Y = ans24$basket_sim[,1]/ans24$basket_sim[,6]
+
+#1st to default
+# step = 100
+# nbobs = round(nrow(ans24$basket_sim)/step)
+# sobol = rep(NA,nbobs)
+# niederreiter = rep(NA,nbobs)
+# rnorm = rep(NA,nbobs)
+# for (i in seq(1,nbobs)) {
+#   sobol[i] = ans24$basket_sim[i*step,1]/ans24$basket_sim[i*step,6]
+#   niederreiter[i] = ans25$basket_sim[i*step,1]/ans25$basket_sim[i*step,6]
+#   rnorm[i] = ans27$basket_sim[i*step,1]/ans27$basket_sim[i*step,6]
+# }
+# 
+# matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,niederreiter),type="l",log="x",col=c("black","black","black"),lty = c(3,1,5),xlab="Number of Simulations",ylab="1st to default basket fair spread")
+# legend(10000, 0.0026, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Niederreiter"), col = c("black","black","black"), text.col = "black", lty = c(3,1,5),
+#        merge = TRUE, bg = "gray90")
+
+#close-up
+# step = 1000
+# nbobs = round(nrow(ans24$basket_sim)/step)
+# sobol = rep(NA,nbobs)
+# niederreiter = rep(NA,nbobs)
+# rnorm = rep(NA,nbobs)
+# start_index = round(nbobs*2/3)
+# for (i in seq(1,nbobs)) {
+#   sobol[i] = ans24$basket_sim[i*step,1]/ans24$basket_sim[i*step,6]
+#   niederreiter[i] = ans25$basket_sim[i*step,1]/ans25$basket_sim[i*step,6]
+#   rnorm[i] = ans27$basket_sim[i*step,1]/ans27$basket_sim[i*step,6]
+# }
+# matplot(seq(start_index,nbobs)*step,cbind(sobol[start_index:nbobs],niederreiter[start_index:nbobs]),type
+#         ="l",col=c("black","black","black"),lty = c(3,1,5),xlab="Number of Simulations",ylab="1st to default basket fair spread")
+
+#2nd to default
+# step = 100
+# nbobs = round(nrow(ans24$basket_sim)/step)
+# sobol = rep(NA,nbobs)
+# niederreiter = rep(NA,nbobs)
+# rnorm = rep(NA,nbobs)
+# for (i in seq(1,nbobs)) {
+#   sobol[i] = ans24$basket_sim[i*step,2]/ans24$basket_sim[i*step,7]
+#   niederreiter[i] = ans25$basket_sim[i*step,2]/ans25$basket_sim[i*step,7]
+#   rnorm[i] = ans27$basket_sim[i*step,2]/ans27$basket_sim[i*step,7]
+# }
+# 
+# matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,niederreiter),type="l",log="x",col=c("black","black","black"),lty = c(3,1,5),xlab="Number of Simulations",ylab="1st to default basket fair spread")
+# legend(10000, 0.0026, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Niederreiter"), col = c("black","black","black"), text.col = "black", lty = c(3,1,5),
+#        merge = TRUE, bg = "gray90")
 
 ans6$basket_spreads
 

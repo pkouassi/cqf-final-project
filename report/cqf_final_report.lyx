@@ -7267,7 +7267,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7276,7 +7276,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7285,7 +7285,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7312,7 +7312,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7321,7 +7321,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7330,7 +7330,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7982,7 +7982,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -7991,7 +7991,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8000,7 +8000,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8027,7 +8027,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8036,7 +8036,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8045,7 +8045,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8693,7 +8693,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8702,7 +8702,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8711,7 +8711,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8738,7 +8738,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8747,7 +8747,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -8756,7 +8756,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9370,7 +9370,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9379,7 +9379,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9388,7 +9388,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9415,7 +9415,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9424,7 +9424,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9433,7 +9433,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -10047,19 +10047,16 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename pasted2.png
-	scale 70
+	filename plot_rnorm_sobol_niederreiter.png
+	scale 45
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Sobol / Rnorm convergence diagram
+Sobol / Niederreiter / Rnorm convergence diagram
 \end_layout
 
 \end_inset
