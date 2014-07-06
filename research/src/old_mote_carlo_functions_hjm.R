@@ -23,5 +23,3 @@ ans_hjm3 = HeathJarrowMortonPricing("swap",1,c(2,3,4,5),NA,ValuationDateForwardC
 ans_hjm4 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"nag-sobol")
 
 persp(strike_list*100, maturity_list, ans_hjm4$price ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Price")
-
-

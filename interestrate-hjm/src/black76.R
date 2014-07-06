@@ -146,3 +146,31 @@ Black76CapImpliedVolatility = function(t,T,K,libor_rates_array,premium) {
     return(res$root)
   }
 }
+
+Black76SwaptionPricing = function(t,T,K,libor_rates_array,sigma) {
+  #define cashflows
+  start_dates_array = seq(t,T-0.25,by=0.25)
+  end_dates_array = seq(t+0.25,T,by=0.25)
+
+  
+  #verifiy that we have one libor rate for each period
+  if (length(start_dates_array) != length(libor_rates_array)) {
+    cat("error: there is not the same the number of periods and libor rates\n")
+    cat("period start dates:",start_dates_array,"\n")
+    cat("period end dates:",end_dates_array,"\n")
+    cat("libor rates:",libor_rates_array,"\n")
+    return()
+  }
+  
+  value = 0
+  for (i in seq(1,length(start_dates_array))) {
+    tmp = Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])
+    #cat("Bl76:",Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma),"\n")
+    #cat("caplet:",caplet,"\n")
+    value = value + tmp
+  }
+  #cat("cap:",value,"\n")
+  
+  return(value)
+}
+
