@@ -10248,8 +10248,8 @@ Cap/Floor pricing
 We also need to price simple interest rate options, such as caps and oors.
  A cap can be treated as a sum of caplets, each re-setting (expiring) at
  Ti and maturing at Ti+1.
- The rate is paid for the time i = Ti+1􀀀Ti.
- The amount of interest accrued is equal to L(Ti; Ti+1)(Ti+1􀀀Ti) = fii
+ The rate is paid for the time i = Ti+1 to Ti.
+ The amount of interest accrued is equal to L(Ti; Ti+1)(Ti+1 Ti) = fii
 \end_layout
 
 \begin_layout Standard
@@ -10315,16 +10315,6 @@ Proposing that a caplet priced under LMM (lognormal factors) and Black's
 \[
 \mbox{Cpl}^{LMM}(0,T_{i},T_{i+1},K)=\mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})
 \]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{multline*}
-\end{multline*}
 
 \end_inset
 
@@ -10518,7 +10508,7 @@ key "key-2"
 
 \end_inset
 
-
+dgdgd
 \end_layout
 
 \end_body
