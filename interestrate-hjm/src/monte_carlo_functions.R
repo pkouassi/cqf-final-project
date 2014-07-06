@@ -6,6 +6,10 @@ ans_hjm2 = HeathJarrowMortonPricing("cap",1,maturity_list,strike_list,ValuationD
 
 persp(strike_list*100, maturity_list, ans_hjm2$iv*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility")
 
+ans_hjm3 = HeathJarrowMortonPricing("swap",1,c(2,3,4,5),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"nag-sobol")
+
+ans_hjm4 = HeathJarrowMortonPricing("swaption",1,c(2,3,4),c(0.001,0.002,0.005,0.01,0.02),ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"nag-sobol")
+
 HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputData,DiscountCurve,NumberSimulation=10000,GenType="rnorm") {
   #parallel computing set-up
   cl = makeCluster(detectCores())
@@ -77,7 +81,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   }
   
   # Monte Carlo loop
-  Result = foreach(k=1:NumberSimulation, .combine=rbind, .export=c("ComputeBondPrice","ComputeLIBORRates","ComputeCapPrice","ComputeCapletPrice","GetDiscountFactor")) %dopar% {
+  Result = foreach(k=1:NumberSimulation, .combine=rbind, .export=c("ComputeBondPrice","ComputeLIBORRates","ComputeCapPrice","ComputeCapletPrice","GetDiscountFactor","ComputeForwardStartingParSwapPrice","ComputePayerSwaptionPrice")) %dopar% {
   #for (k in seq(1,NumberSimulation)) {    
     if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
     # matrix init
@@ -115,6 +119,25 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       }
       res = c(cap=cap_array,libor=libor_simply_compounded_array)
     }
+    else if (instrument == "swap") {
+      # Code for forward starting par swap
+      swap_array = rep(NA,length(T_array))
+      for (j in seq(1,length(T_array))) {
+        swap_array[j] = ComputeForwardStartingParSwapPrice(mat,timestep,t,T_array[j],DiscountCurve)
+      }      
+      res=c(swap=swap_array)
+    }
+    else if (instrument == "swaption") {
+      # Code for payer swaption. call on swap rate
+      swaption_array = rep(NA,length(K_array)*length(T_array))
+      for (l in seq(1,length(T_array))) {
+        for (j in seq(1,length(K_array))) {
+          #cat((l-1)*length(K_array)+j,"T=",T_array[l],"K=",K_array[j],"\n")
+          swaption_array[(l-1)*length(K_array)+j] = ComputePayerSwaptionPrice(mat,timestep,t,T_array[l],K_array[j],DiscountCurve)
+        }
+      }
+      res=c(swaption=swaption_array)
+    }  
   }
   stopCluster(cl)
   
@@ -171,6 +194,38 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     }
     
     return(list(price=price,iv=iv,libor=libor))
+  }
+  else if (instrument == "swap") {
+    # Result formating for par swap
+    price=rep(NA,length(T_array))
+    if (length(T_array) == 1) {
+      cat("Forward Swap[",t,",",T_array,"]=",price <- mean(Result[,"swap"]),"\n")
+    }
+    else {
+      for (j in seq(1,length(T_array))) {
+        cat("Forward Swap[",t,",",T_array[j],"]=",price[j] <- mean(Result[,paste("swap",j,sep="")]),"\n")
+      }
+    }
+    
+    return(list(price=price))
+  }
+  else if (instrument == "swaption") {
+    # Result formating for swaption
+    # price computation
+    price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
+    if (length(K_array) == 1 && length(T_array) == 1) {
+      cat("Swaption[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"swaption"]),"\n")
+    }
+    else {
+      for (l in seq(1,length(T_array))) {
+        for (j in seq(1,length(K_array))) {
+          #cat("item",(l-1)*length(K_array)+j,"\n")
+          cat("Swaption[",t,",",T_array[l],",",K_array[j],"]=",price[j,l] <- mean(Result[,paste("swaption",(l-1)*length(K_array)+j,sep="")]),"\n")
+        }
+      }
+    }
+    
+    return(list(price=price))
   }
   
 }

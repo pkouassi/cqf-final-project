@@ -111,7 +111,7 @@ ComputeCapPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
   }
   
   #calculate libor rates (continuously componded) for each libor_date
-  #for 1*1 cap, we need 4 libor rates: 1, 1.25, 1.50, 1.75
+  #for 1*2 cap, we need 4 libor rates: [1,1.25], [1.25,1.50], [1.50,1.75], [1.75,2]
   libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,end_dates_array)
   libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
   
@@ -129,7 +129,6 @@ ComputeCapPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
   return(value)
 }
  
-
  
 ComputeCapletPrice = function(t_start,t_end,K,libor,DiscountCurve) {
   #cat("libor=",libor,"/DF=",GetDiscountFactor(ValuationDateOISYieldCurve,t_end),"/Tau=",t_end-t_start,"\n")
@@ -137,21 +136,41 @@ ComputeCapletPrice = function(t_start,t_end,K,libor,DiscountCurve) {
   return(value)
 } 
  
- 
-ComputeSwaptionPrice = function(matrix,timestep,t,T,K) {
-  #Swaption pricing. Fixed vs. Floating Swap with 3M frequency
-  if (t == 0) {
-    warning("t should be greater than zero\n")
-  }
-  else
-  {
-    start_dates_array = seq(t,T-0.25,by=0.25)
-    end_dates_array = seq(t+0.25,T,by=0.25)
-  }
+
+ComputeForwardStartingParSwapPrice = function(matrix,timestep,t,T,DiscountCurve) {
+  #define cashflows. Fixed vs. Floating Swap with 3M frequency
+  start_dates_array = seq(t,T-0.25,by=0.25)
+  end_dates_array = seq(t+0.25,T,by=0.25)
   
   #calculate libor rates (continuously componded) for each libor_date
-  libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,libor_dates_array)
+  #for 1*2 swap, we need 4 libor rates: [1,1.25], [1.25,1.50], [1.50,1.75], [1.75,2]
+  libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,end_dates_array)
   libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
   
-  spread = 0
+  tmpfunc = function(x) {
+    fixed_leg = 0
+    floating_leg = 0
+    for (i in seq(1,length(end_dates_array))) {
+      fixed_leg = fixed_leg + 1*x*(end_dates_array[i]-start_dates_array[i])*GetDiscountFactor(DiscountCurve,end_dates_array[i])
+      floating_leg = floating_leg + 1*libor_rates_quaterly_comp[i]*(end_dates_array[i]-start_dates_array[i])*GetDiscountFactor(DiscountCurve,end_dates_array[i])
+    }
+    value = floating_leg - fixed_leg
+  }
+  
+  value = uniroot(tmpfunc,lower=-0.5,upper=0.5)$root
+  #cat("par swap:",value,"\n")
+  
+  return(value)  
+}  
+ 
+ComputePayerSwaptionPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
+  #Swaption pricing 
+  #define cashflows
+  start_dates_array = seq(t,T-0.25,by=0.25)
+  end_dates_array = seq(t+0.25,T,by=0.25)
+  
+  value = max(ComputeForwardStartingParSwapPrice(matrix,timestep,t,T,DiscountCurve)-K,0)*GetDiscountFactor(DiscountCurve,t)
+  return(value)
 }
+ 
+ 
