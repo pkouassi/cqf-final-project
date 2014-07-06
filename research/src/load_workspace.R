@@ -18,12 +18,49 @@ saveRDS(ans24,"D:/temp/R-workspace/ans24-sobol.rds")
 saveRDS(ans25,"D:/temp/R-workspace/ans25-niederreiter.rds")
 saveRDS(ans27,"D:/temp/R-workspace/ans27-rnorm.rds")
 
+saveRDS(ans17,"D:/temp/R-workspace/ans17.rds")
+saveRDS(ans18,"D:/temp/R-workspace/ans18.rds")
+saveRDS(ans19,"D:/temp/R-workspace/ans19.rds")
+
+saveRDS(ans_student1,"D:/temp/R-workspace/ans_student1.rds")
+saveRDS(ans_student2,"D:/temp/R-workspace/ans_student2.rds")
+saveRDS(ans_student3,"D:/temp/R-workspace/ans_student3.rds")
+saveRDS(ans_student4,"D:/temp/R-workspace/ans_student4.rds")
+saveRDS(ans_student5,"D:/temp/R-workspace/ans_student5.rds")
+saveRDS(ans_student6,"D:/temp/R-workspace/ans_student6.rds")
+saveRDS(ans_student7,"D:/temp/R-workspace/ans_student7.rds")
+saveRDS(ans_student8,"D:/temp/R-workspace/ans_student8.rds")
+saveRDS(ans_student9,"D:/temp/R-workspace/ans_student9.rds")
+saveRDS(ans_student10,"D:/temp/R-workspace/ans_student10.rds")
+saveRDS(ans_student11,"D:/temp/R-workspace/ans_student11.rds")
+saveRDS(ans_student12,"D:/temp/R-workspace/ans_student12.rds")
+saveRDS(ans_student13,"D:/temp/R-workspace/ans_student13.rds")
+saveRDS(ans_student14,"D:/temp/R-workspace/ans_student14.rds")
+saveRDS(ans_student15,"D:/temp/R-workspace/ans_student15.rds")
+saveRDS(ans_student16,"D:/temp/R-workspace/ans_student16.rds")
+
+
+
+
+
 ans1 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans1"]]
 
 ans2 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans2"]]
 ans3 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans3"]]
 ans4 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans4"]]
 ans5 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans5"]]
+
+#plot impact of recovery rate
+X = c(30,40,50,60)
+Y = matrix(NA,nrow=5,ncol=4)
+Y[,1] = ans17$basket_spreads
+Y[,2] = ans3$basket_spreads
+Y[,3] = ans18$basket_spreads
+Y[,4] = ans19$basket_spreads
+matplot(X,t(Y),type="b",ylab="Basket spread (bp)",xlab="Recovery rate (%)", col="black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5))
+legend(53.5, 96, c("1st to default","2nd to default","3rd to default","4th to default","5th to default"), col = c("black"),       text.col = "black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5),
+       merge = TRUE, bg = "gray90")
+
 
 X = c(50,100,250,500)
 Y = matrix(NA,nrow=5,ncol=4)

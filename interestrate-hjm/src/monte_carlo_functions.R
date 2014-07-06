@@ -1,6 +1,10 @@
 ans_hjm1 = HeathJarrowMortonPricing("bond",0,c(1,2),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"rnorm")
 
-ans_hjm2 = HeathJarrowMortonPricing("cap",1,c(2,3,4),c(0.005,0.01,0.02,0.03,0.04,0.05,0.06,0.07),ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,1000,"nag-sobol")
+maturity_list = c(2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75,5)
+strike_list = c(0.001,0.002,0.005,0.01,0.015,0.02,0.025,0.03,0.035,0.04)
+ans_hjm2 = HeathJarrowMortonPricing("cap",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"nag-sobol")
+
+persp(strike_list*100, maturity_list, ans_hjm2$iv*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility")
 
 HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputData,DiscountCurve,NumberSimulation=10000,GenType="rnorm") {
   #parallel computing set-up
@@ -115,7 +119,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   stopCluster(cl)
   
   if (instrument == "bond") {
-    #Result formating for bond
+    # Result formating for bond
     price=rep(NA,length(T_array))
     if (length(T_array) == 1) {
       cat("Bond Z[",t,",",T_array,"]=",price <- mean(Result[,"bond"]),"\n")
@@ -128,7 +132,8 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     return(list(price=price))
   }
   else if (instrument == "cap") {
-    #Result formating for cap
+    # Result formating for cap
+    # price computation
     price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
     if (length(K_array) == 1 && length(T_array) == 1) {
       cat("Cap[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"cap"]),"\n")
@@ -141,7 +146,31 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
         }
       }
     }
-    return(list(price=price))
+    
+    #implied volatility computation
+    libor_T = seq(t+0.25,max(T_array),by=0.25)
+    libor = rep(NA,length(libor_T))
+    if (length(libor_T) == 1) {
+      cat("Libor[",t,",",libor_T,"]=",libor <- mean(Result[,"libor"]),"\n")
+    }
+    else {
+      for (j in seq(1,length(libor_T))) {
+        cat("Libor[",t,",",libor_T[j],"]=",libor[j] <- mean(Result[,paste("libor",j,sep="")]),"\n")
+      }
+    }
+    
+    iv = matrix(NA,nrow=length(K_array),ncol=length(T_array))
+    for (l in seq(1,length(T_array))) {
+      cat("T=",T_array[l],"\n")
+      libor_list = libor[1:((T_array[l]-t)/0.25)]
+      print(libor_list)
+      
+      for (j in seq(1,length(K_array))) {
+        iv[j,l] = Black76CapImpliedVolatility(t,T_array[l],K_array[j],libor_list,price[j,l])  
+      }
+    }
+    
+    return(list(price=price,iv=iv,libor=libor))
   }
   
 }
