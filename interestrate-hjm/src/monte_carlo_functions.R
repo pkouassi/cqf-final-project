@@ -1,6 +1,6 @@
 ans_hjm1 = HeathJarrowMortonPricing("bond",0,c(1,2),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"rnorm")
 
-ans_hjm2 = HeathJarrowMortonPricing("cap",1,2,c(0.005,0.01,0.02,0.03,0.04),ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"rnorm")
+ans_hjm2 = HeathJarrowMortonPricing("cap",1,c(2,3,4),c(0.005,0.01,0.02,0.03,0.04,0.05,0.06,0.07),ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,1000,"nag-sobol")
 
 HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputData,DiscountCurve,NumberSimulation=10000,GenType="rnorm") {
   #parallel computing set-up
@@ -102,9 +102,12 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,t,seq(t+0.25,max(T_array),by=0.25))
       libor_simply_compounded_array = 4*(exp(libor_continuously_compounded_array/4)-1) #3M compounding
       
-      cap_array = matrix(NA,nrow=length(K_array),ncol=1)
-      for (j in seq(1,length(K_array))) {
-        cap_array[j] = ComputeCapPrice(mat,timestep,t,T_array,K_array[j],DiscountCurve)
+      cap_array = rep(NA,length(K_array)*length(T_array))
+      for (l in seq(1,length(T_array))) {
+        for (j in seq(1,length(K_array))) {
+          #cat((l-1)*length(K_array)+j,"T=",T_array[l],"K=",K_array[j],"\n")
+          cap_array[(l-1)*length(K_array)+j] = ComputeCapPrice(mat,timestep,t,T_array[l],K_array[j],DiscountCurve)
+        }
       }
       res = c(cap=cap_array,libor=libor_simply_compounded_array)
     }
@@ -126,15 +129,19 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   }
   else if (instrument == "cap") {
     #Result formating for cap
-    price=rep(NA,length(K_array))
-    if (length(K_array) == 1) {
+    price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
+    if (length(K_array) == 1 && length(T_array) == 1) {
       cat("Cap[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"cap"]),"\n")
     }
     else {
-      for (j in seq(1,length(K_array))) {
-        cat("Cap[",t,",",T_array,",",K_array[j],"]=",price[j] <- mean(Result[,paste("cap",j,sep="")]),"\n")
+      for (l in seq(1,length(T_array))) {
+        for (j in seq(1,length(K_array))) {
+          #cat("item",(l-1)*length(K_array)+j,"\n")
+          cat("Cap[",t,",",T_array[l],",",K_array[j],"]=",price[j,l] <- mean(Result[,paste("cap",(l-1)*length(K_array)+j,sep="")]),"\n")
+        }
       }
     }
+    return(list(price=price))
   }
   
 }
