@@ -39,6 +39,17 @@ saveRDS(ans_student14,"D:/temp/R-workspace/ans_student14.rds")
 saveRDS(ans_student15,"D:/temp/R-workspace/ans_student15.rds")
 saveRDS(ans_student16,"D:/temp/R-workspace/ans_student16.rds")
 
+saveRDS(ans_hjm1,"D:/temp/R-workspace/ans_hjm1.rds")
+saveRDS(ans_hjm1bis,"D:/temp/R-workspace/ans_hjm1bis.rds")
+saveRDS(ans_hjm2,"D:/temp/R-workspace/ans_hjm2.rds")
+saveRDS(ans_hjm3,"D:/temp/R-workspace/ans_hjm3.rds")
+saveRDS(ans_hjm4,"D:/temp/R-workspace/ans_hjm4.rds")
+saveRDS(ans_hjm5,"D:/temp/R-workspace/ans_hjm5.rds")
+saveRDS(ans_hjm6,"D:/temp/R-workspace/ans_hjm6.rds")
+saveRDS(ans_hjm7,"D:/temp/R-workspace/ans_hjm7.rds")
+saveRDS(ans_hjm8,"D:/temp/R-workspace/ans_hjm8.rds")
+
+
 
 
 

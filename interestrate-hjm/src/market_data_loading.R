@@ -26,5 +26,8 @@ plot(ValuationDateOISSpotCurve$time,ValuationDateOISSpotCurve$rate,type="l")
 
 #calculate discount factors and define yieldcurve
 ValuationDateOISDiscountCurve = list(time=ValuationDateOISSpotCurve$time,discountfactor=exp(-1*ValuationDateOISSpotCurve$rate/100*ValuationDateOISSpotCurve$time))
-ValuationDateOISYieldCurve = new ("YieldCurve", time = ValuationDateOISDiscountCurve$time, discountfactor = ValuationDateOISDiscountCurve$discountfactor)  
-plot(ValuationDateOISDiscountCurve$time,ValuationDateOISDiscountCurve$discountfactor,type="l")
+ValuationDateOISYieldCurve = new ("YieldCurve", time = ValuationDateOISDiscountCurve$time, discountfactor = ValuationDateOISDiscountCurve$discountfactor)
+par(mfrow=c(1,2))
+plot(ValuationDateOISDiscountCurve$time,ValuationDateOISDiscountCurve$discountfactor,type="l",xlab="Time",ylab="Discount factor")
+plot(ValuationDateOISDiscountCurve$time,ValuationDateOISSpotCurve$rate,type="l",xlab="Time",ylab="Discount rate")
+par(mfrow=c(1,1))

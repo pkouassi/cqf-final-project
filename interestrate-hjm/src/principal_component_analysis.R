@@ -133,5 +133,7 @@ matplot(Maturity,cbind(PC2_volatility,sapply(Maturity,PC2_volatility_fitted)),ty
 matplot(Maturity,cbind(PC3_volatility,sapply(Maturity,PC3_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC3",lty=c(2,1))
 matplot(Maturity,cbind(PC4_volatility,sapply(Maturity,PC4_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC4",lty=c(2,1))
 matplot(Maturity,cbind(PC5_volatility,sapply(Maturity,PC5_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC5",lty=c(2,1))
-par(mfrow=c(1,1))
+#restore par defaults
+par(mfrow=c(1,1),mar=c(5, 4, 4, 2))
+
 
