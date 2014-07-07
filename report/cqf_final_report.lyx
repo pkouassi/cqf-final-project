@@ -11937,7 +11937,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9555
 \end_layout
 
 \end_inset
@@ -11946,7 +11946,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9304
 \end_layout
 
 \end_inset
@@ -11955,7 +11955,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9037
 \end_layout
 
 \end_inset
@@ -11975,7 +11975,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-1
+NA
 \end_layout
 
 \end_inset
@@ -11984,7 +11984,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9844
 \end_layout
 
 \end_inset
@@ -11993,7 +11993,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9627
 \end_layout
 
 \end_inset
@@ -12002,7 +12002,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9375
 \end_layout
 
 \end_inset
@@ -12011,7 +12011,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9105
 \end_layout
 
 \end_inset
@@ -15907,8 +15907,17 @@ Convergence and stability
 \end_layout
 
 \begin_layout Standard
-Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter,
- Faure)
+Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter)
+\end_layout
+
+\begin_layout Standard
+Note: Niderrreiter cannot be used in this case.
+ implementation given in NAG is limited to 318 dimensions.
+\end_layout
+
+\begin_layout Standard
+if GENID ¼ 1, 1 IDIM 8300; if GENID ¼ 2, 1 IDIM 1111; if GENID ¼ 3, 1 IDIM
+ 318; if GENID ¼ 4, 1 IDIM 40.
 \end_layout
 
 \begin_layout Subsection

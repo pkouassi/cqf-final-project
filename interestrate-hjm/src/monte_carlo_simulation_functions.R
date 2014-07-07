@@ -8,7 +8,14 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   NumberPC = 5
   MaxMaturity = 5
   maturityBucket = 1/12
-  NumberOfYear = 4 #projection of the forward rates evolation over 2 years
+  if (instrument == "bond") {
+    NumberOfYear = max(T_array) #bond price computation requires projection of forward rates until T
+  }
+  else {
+    #other products only require projection of forward rates until t
+    NumberOfYear = t
+  }
+  
   timestep = 0.01 #size of timestep for projection
   NumberOfTimesteps = NumberOfYear/timestep
   
@@ -198,34 +205,40 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   else if (instrument == "swap") {
     # Result formating for par swap
     price=rep(NA,length(T_array))
+    simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(T_array) == 1) {
       cat("Forward Swap[",t,",",T_array,"]=",price <- mean(Result[,"swap"]),"\n")
+      simulation_array = cbind(simulation_array,Result[,"swap"])
     }
     else {
       for (j in seq(1,length(T_array))) {
         cat("Forward Swap[",t,",",T_array[j],"]=",price[j] <- mean(Result[,paste("swap",j,sep="")]),"\n")
+        simulation_array = cbind(simulation_array,Result[,paste("swap",j,sep="")])
       }
     }
     
-    return(list(price=price))
+    return(list(price=price,simulation=simulation_array))
   }
   else if (instrument == "swaption") {
     # Result formating for swaption
     # price computation
     price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
+    simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(K_array) == 1 && length(T_array) == 1) {
       cat("Swaption[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"swaption"]),"\n")
+      simulation_array = cbind(simulation_array,ResultResult[,"swaption"])
     }
     else {
       for (l in seq(1,length(T_array))) {
         for (j in seq(1,length(K_array))) {
           #cat("item",(l-1)*length(K_array)+j,"\n")
           cat("Swaption[",t,",",T_array[l],",",K_array[j],"]=",price[j,l] <- mean(Result[,paste("swaption",(l-1)*length(K_array)+j,sep="")]),"\n")
+          simulation_array = cbind(simulation_array,Result[,paste("swaption",j,sep="")])
         }
       }
     }
     
-    return(list(price=price))
+    return(list(price=price,simulation=simulation_array))
   }
   
 }

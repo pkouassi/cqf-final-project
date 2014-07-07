@@ -121,6 +121,10 @@ This paper addresses the pricing of multi-name credit derivatives (sampling
 \end_layout
 
 \begin_layout Abstract
+- kth to default basket 
+\end_layout
+
+\begin_layout Abstract
 - correlation matrix estimation
 \end_layout
 
@@ -133,7 +137,15 @@ This paper addresses the pricing of multi-name credit derivatives (sampling
 \end_layout
 
 \begin_layout Abstract
+-----
+\end_layout
 
+\begin_layout Abstract
+HJM framework
+\end_layout
+
+\begin_layout Abstract
+PCA
 \end_layout
 
 \begin_layout Abstract
