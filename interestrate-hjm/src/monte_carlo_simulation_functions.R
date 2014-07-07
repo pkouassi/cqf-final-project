@@ -8,7 +8,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   NumberPC = 5
   MaxMaturity = 5
   maturityBucket = 1/12
-  NumberOfYear = 2 #projection of the forward rates evolation over 2 years
+  NumberOfYear = 4 #projection of the forward rates evolation over 2 years
   timestep = 0.01 #size of timestep for projection
   NumberOfTimesteps = NumberOfYear/timestep
   
@@ -138,31 +138,34 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   if (instrument == "bond") {
     # Result formating for bond
     price=rep(NA,length(T_array))
+    simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(T_array) == 1) {
       cat("Bond Z[",t,",",T_array,"]=",price <- mean(Result[,"bond"]),"\n")
-      return(list(price=price,simulation=Result[,"bond"]))
+      simulation_array = cbind(simulation_array,Result[,"bond"])
     }
     else {
-      simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
       for (j in seq(1,length(T_array))) {
         cat("Bond Z[",t,",",T_array[j],"]=",price[j] <- mean(Result[,paste("bond",j,sep="")]),"\n")
         simulation_array = cbind(simulation_array,Result[,paste("bond",j,sep="")])
       }
-      return(list(price=price,simulation=simulation_array))
     }
+    return(list(price=price,simulation=simulation_array))
   }
   else if (instrument == "cap") {
     # Result formating for cap
     # price computation
     price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
+    simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(K_array) == 1 && length(T_array) == 1) {
       cat("Cap[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"cap"]),"\n")
+      simulation_array = cbind(simulation_array,ResultResult[,"cap"])
     }
     else {
       for (l in seq(1,length(T_array))) {
         for (j in seq(1,length(K_array))) {
           #cat("item",(l-1)*length(K_array)+j,"\n")
           cat("Cap[",t,",",T_array[l],",",K_array[j],"]=",price[j,l] <- mean(Result[,paste("cap",(l-1)*length(K_array)+j,sep="")]),"\n")
+          simulation_array = cbind(simulation_array,Result[,paste("cap",j,sep="")])
         }
       }
     }
@@ -190,7 +193,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       }
     }
     
-    return(list(price=price,iv=iv,libor=libor))
+    return(list(price=price,iv=iv,libor=libor,simulation=simulation_array))
   }
   else if (instrument == "swap") {
     # Result formating for par swap

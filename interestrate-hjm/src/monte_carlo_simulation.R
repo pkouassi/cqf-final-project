@@ -1,5 +1,5 @@
-ans_hjm1 = HeathJarrowMortonPricing("bond",0,c(1,2,3,4,5),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,10000,"nag-sobol")
-ans_hjm1bis = HeathJarrowMortonPricing("bond",1,c(2,3,4,5),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,10000,"nag-sobol")
+ans_hjm1 = HeathJarrowMortonPricing("bond",0,c(1,2,3,4),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,100,"sobol")
+
 
 
 #ans_hjm1.rnorm = ans_hjm1

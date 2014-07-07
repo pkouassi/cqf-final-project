@@ -49,9 +49,27 @@ saveRDS(ans_hjm6,"D:/temp/R-workspace/ans_hjm6.rds")
 saveRDS(ans_hjm7,"D:/temp/R-workspace/ans_hjm7.rds")
 saveRDS(ans_hjm8,"D:/temp/R-workspace/ans_hjm8.rds")
 
+ans_hjm1 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm1.rds")
+#ans_hjm1bis = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm1bis.rds")
+ans_hjm2 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm2.rds")
+ans_hjm3 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm3.rds")
+ans_hjm4 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm4.rds")
 
+1st to default
+step = 1
+nbobs = round(nrow(ans1$basket_sim)/step)
+sobol = rep(NA,nbobs)
+niederreiter = rep(NA,nbobs)
+rnorm = rep(NA,nbobs)
+for (i in seq(1,nbobs)) {
+  sobol[i] = ans1$basket_sim[i*step,1]/ans24$basket_sim[i*step,6]
+  niederreiter[i] = ans25$basket_sim[i*step,1]/ans25$basket_sim[i*step,6]
+  rnorm[i] = ans27$basket_sim[i*step,1]/ans27$basket_sim[i*step,6]
+}
 
-
+matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,niederreiter),type="l",log="x",col=c("black","black","black"),lty = c(3,1,5),xlab="Number of Simulations",ylab="1st to default basket fair spread")
+legend(10000, 0.0026, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Niederreiter"), col = c("black","black","black"), text.col = "black", lty = c(3,1,5),
+       merge = TRUE, bg = "gray90")
 
 
 ans1 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans1"]]

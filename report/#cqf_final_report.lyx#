@@ -117,7 +117,35 @@ thispagestyle{empty}
 \begin_layout Abstract
 This paper addresses the pricing of multi-name credit derivatives (sampling
  by copula) and interest rate derivatives (Heath–Jarrow–Morton framework).
- The purpose is to describe techniques xxxx.
+ The credit-derivatives topic purpose is to describe techniques xxxx.
+\end_layout
+
+\begin_layout Abstract
+- kth to default basket 
+\end_layout
+
+\begin_layout Abstract
+- correlation matrix estimation
+\end_layout
+
+\begin_layout Abstract
+- sampling by copula (simulation)
+\end_layout
+
+\begin_layout Abstract
+- model implementation
+\end_layout
+
+\begin_layout Abstract
+-----
+\end_layout
+
+\begin_layout Abstract
+HJM framework
+\end_layout
+
+\begin_layout Abstract
+PCA
 \end_layout
 
 \begin_layout Abstract
@@ -16734,6 +16762,16 @@ J.
 \shape italic
 ull.
  Options, Futures, and Other Derivatives
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Duffie [1998]
 \end_layout
 
 \end_body
