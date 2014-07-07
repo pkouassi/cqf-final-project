@@ -115,57 +115,53 @@ thispagestyle{empty}
 \end_layout
 
 \begin_layout Abstract
-This paper addresses the pricing of multi-name credit derivatives (sampling
- by copula) and interest rate derivatives (Heath–Jarrow–Morton framework).
- The credit-derivatives topic purpose is to describe techniques xxxx.
+This final project consists of two sub-projects: Basket Credit Default Swap
+ (Section 1) and Interest Rate Derivatives (Section 2).
+ Section 1 addresses the pricing of Basket Credit Default Swaps (a.k.a k-th-defaul
+t Basket Crdit Default Swap).
+ We will see that correlation plays an important role in the pricing of
+ these products (these products are generally traded by the correlation
+ desk); we will therefore deep dive in the estimation of the correlation
+ matrix and other input parameter before covering the sampling by copulae
+ (Gaussian copulae and Student's t copulae).
+ Part 2 addresses the pricing of various IBOR
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
+ interest rates at which banks offer to lend unsecured funds to other banks
+ in interbank markets.
+ LIBOR is the most famous reference but there are other (EURIBOR, SIBOR,
+ etc.)
+\end_layout
+
+\end_inset
+
+ fixings linked derivatives (Bonds, Caps/Floors and swaptions) using the
+ Heath–Jarrow–Morton framework.
+ This framework relies on the estimation of historical forward rates volatility
+ in order to simulate the evolution of the forward rates in the future.
+ We will describe the principal component analysis (PCA) which will help
+ us to identify the main factors which influance the volatility forward
+ curve before covering the Monte Carlo simulation which projects the forward
+ curve, compute the IBOR rates and price interest derivatives instruments.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Keywords
+\series default
+: Basket Default Swaps, Monte Carlo method, Gaussian copulae, Student t
+ copulae
 \end_layout
 
 \begin_layout Abstract
-- kth to default basket 
-\end_layout
-
-\begin_layout Abstract
-- correlation matrix estimation
-\end_layout
-
-\begin_layout Abstract
-- sampling by copula (simulation)
-\end_layout
-
-\begin_layout Abstract
-- model implementation
-\end_layout
-
-\begin_layout Abstract
------
-\end_layout
-
-\begin_layout Abstract
-HJM framework
-\end_layout
-
-\begin_layout Abstract
-PCA
-\end_layout
-
-\begin_layout Abstract
-This paper addresses the pricing of multiname credit derivatives and CDO
- tranches.
- The purpose is to describe a widely applicable technique for e¢ciently
- pricing these products when a large number of credits are involved.
- The curse of dimensionality is solved thanks to the use of a small number
- of latent factors that drive the dependence between default times.
- Thanks to the factor approach, we can provide semiexplicit expressions
- for basket credit derivatives and synthetic CDO’s.
- This results in a substantial reduction in computational time compared
- with Monte Carlo simulation techniques.
- Moreover, this approach is parsimonious with respect to the number of parameter
-s, thus easing calibration.
- The pricing of …rst to default swaps has initially relied on reduced form
- models (see Duffie [1998]) and leads to simple expressions of prices.
- However, no such simple results can be derived for more general basket
- credit derivatives or CDO’s.
- In Duffie and Gârleanu [2001], dependence of default times is
 \begin_inset Newpage newpage
 \end_inset
 
@@ -183,7 +179,43 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-Fair Spread for Basket CDS
+Todo 
+\end_layout
+
+\begin_layout Standard
+The report should cover the following items:
+\end_layout
+
+\begin_layout Standard
+• A full mathematical description of the models employed as well as numerical
+ methods.
+ Include discussion and tests for accuracy.
+ Inlcude discussion and tests for accuracy and convergence
+\end_layout
+
+\begin_layout Standard
+• Results presented using a plenty of tables and figures, together with
+ sensible interpretation
+\end_layout
+
+\begin_layout Standard
+• Instructions on how to use the software if that's not obvious.
+ The code must be thoroughly tested amd well documented
+\end_layout
+
+\begin_layout Standard
+• Pros and cons of a particular models and its implementation, together
+ with possible improvements
+\end_layout
+
+\begin_layout Standard
+• Demonstrate “the specials” of you implementation, such as research, re-coding
+ of numerical methods, using the “industrial-strength” libraries of C++,
+ Python or NAG
+\end_layout
+
+\begin_layout Section
+Basket Credit Default Swap
 \end_layout
 
 \begin_layout Subsection
@@ -191,121 +223,78 @@ Introduction
 \end_layout
 
 \begin_layout Standard
+A basket default swap is like an insurance contract that offers protection
+ against the event of the 
+\begin_inset Formula $k^{th}$
+\end_inset
 
-\color red
-Price a fair spread for a Basket CDS with at least 5 reference names using
- the sampling from a copula algorithms.
- The input of the appropriate default correlation, preferably estimated
- from the historical CDS data, is required.
- The fair spread is calculated as an expectation over the joint distribution
- of default times.
- In order to convert simulated uniform random variables to default times,
- you will need their marginal distributions, dened empirically by hazard
- rates.
- The hazard rates are bootstrapped from traded credit spreads (CDS) under
- the assumption of being piecewise constant.
+ default on a basket of 
+\begin_inset Formula $n$
+\end_inset
+
+ (
+\begin_inset Formula $n\geq k$
+\end_inset
+
+) reference names.
+ It is similar to a plain vanilla credit default swap but the credit event
+ to insure against is the event of the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ default.
+ The spread (premium) is paid as an insurance fee until maturity or the
+ event of the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ default in return for a compensation for the loss.
+ If the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ default occurs, protection payment We denote by 
+\begin_inset Formula $s^{k^{th}}$
+\end_inset
+
+ the fair spread in a 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default swap, i.e, the spread making the value of this swap today equal
+ to zero (Default leg = Premium leg).
+ The most common type of basket default swaps is the first-to-default swap
+ (FTDS), i.e 
+\begin_inset Formula $k=1$
+\end_inset
+
+ where the seller compensates the buyer for the loss on the reference name
+ which defaults first.
+ 
 \end_layout
 
 \begin_layout Standard
-
-\color red
-A successful project will implement sampling from both, Gaussian and Student's
- t copulae, pricing for 1st to 5th to default basket swaps as well as elaborate
- sensitivity analysis for the prices of these contracts.
- Key numerical aspect for the topic is the use of low discrepancy sequences
- (e.g., Halton, Sobol).
-\end_layout
-
-\begin_layout Standard
-Introduction on product
-\end_layout
-
-\begin_layout Standard
-The most common type of basket default swaps is the first-to-default swap
- (FTDS), where the seller compensates the buyer any loss of the principal
- and also, possibly, the accrued interest of the asset in the reference
- basket which defaults first.
- The main difference between (FTDS) and a credit default swap (CDS) is the
- event causing payout for the contract (in one case, it is the first default
- of any of a list of names and in the other is default of a single name).
- A nth to default basket default swap gives protection against the nth default
- in the underlyings pool of credits.
- We are going to present different pricing methodologies for this product.
-\end_layout
-
-\begin_layout Standard
-Trend / growth of 
-\begin_inset Quotes eld
+We will study baskets with 5 reference names of 5 years maturity in order
+ to keep the calculation fast; however the code that has been implemented
+ can handle 
+\begin_inset Formula $n$
 \end_inset
 
-portfolio credit derivatives
-\begin_inset Quotes erd
+ references names.The appropriate default correlation and other input parameters
+ are estimated from historical credit curves (probabilities of survival
+ and hazard rates; historical credit spreads are used as input to bootstrap
+ historical credit curves).The fair spread of the 
+\begin_inset Formula $k^{th}$
 \end_inset
 
- (Basket default swap, CDO)
-\end_layout
-
-\begin_layout Standard
-==================
-\end_layout
-
-\begin_layout Standard
-
-\color blue
-The report should cover the following items:
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-A full mathematical description of the models employed as well as numerical
- methods.
- Include discussion and tests for accuracy.
- Inlcude discussion and tests for accuracy and convergence
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Results presented using a plenty of tables and figures, together with sensible
- interpretation
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Instructions on how to use the software if that's not obvious.
- The code must be thoroughly tested amd well documented
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Pros and cons of a particular models and its implementation, together with
- possible improvements
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Demonstrate 
-\begin_inset Quotes eld
-\end_inset
-
-the specials
-\begin_inset Quotes erd
-\end_inset
-
- of you implementation, such as research, re-coding of numerical methods,
- using the 
-\begin_inset Quotes eld
-\end_inset
-
-industrial-strength
-\begin_inset Quotes erd
-\end_inset
-
- libraries of C++, Python or NAG
+-to-default swap is calculated as an expectation over the joint distribution
+ of default times and will be computed by sampling from copulae (using pseudo
+ random and quasi random number).
+ We will explore 2 types of elliptical (Gaussian and Student t copulas)
+ and compare the results we obtain.
+ We use a LIBOR curve as discount curve for the historical credit curve
+ bootstrapping (used to estimate input parameters), the hazard rates bootstrappi
+ng and the basket spread calculation.
 \end_layout
 
 \begin_layout Subsection
@@ -320,6 +309,14 @@ The report must contain a sucient description of the mathematical model,
 
 \begin_layout Subsubsection
 Credit Default Swap pricing
+\end_layout
+
+\begin_layout Definition
+lallalla 
+\end_layout
+
+\begin_layout Remark
+dsfgsd dfg fgd g
 \end_layout
 
 \begin_layout Standard
@@ -11725,6 +11722,11 @@ Dual curve pricing
 \end_layout
 
 \begin_layout Itemize
+OIS spot curve available until 5Y - so we use it.
+ after 5Y, we must use the OIS spread over LIBOR
+\end_layout
+
+\begin_layout Itemize
 Usage of OIS or SONIA rates to construct discount factors is compatible
  with the market model that relies on shifting numerarie Q(m) (an account
  for which rate is xed every night).
@@ -15956,6 +15958,26 @@ The algorithm implemented for this project (Interest Rate Derivatives using
 
 \begin_layout Enumerate
 Load 
+\end_layout
+
+\begin_layout Subsubsection
+Pros and Cons
+\end_layout
+
+\begin_layout Standard
+Cons: did not use monthly forward for PCA
+\end_layout
+
+\begin_layout Standard
+Cons: very computing intensive
+\end_layout
+
+\begin_layout Standard
+Pro: numerical integration instead of trapezium rule
+\end_layout
+
+\begin_layout Standard
+Pro: dual-curve - OIS
 \end_layout
 
 \begin_layout Subsubsection
