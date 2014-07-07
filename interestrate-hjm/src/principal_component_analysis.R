@@ -9,27 +9,32 @@ Maturity = c(0.08, seq(0.5,25,by=0.5))
 
 #Forward Rates term structure plotting
 plot_x_lim = c(0,25);
-plot_y_lim = c(0,8);
-matplot(Maturity,cbind(HistoricalForwardCurve[1,],HistoricalForwardCurve[500,],HistoricalForwardCurve[700,]),type="l",col=c("blue","pink","yellow"),main="Forward Rates Term Structure",xlab="Maturity, year",ylab="Forward Curve",xlim=plot_x_lim, ylim=plot_y_lim,lwd=2,lty=1)
+plot_y_lim = c(0,5);
+matplot(Maturity,cbind(HistoricalForwardCurve[1,],HistoricalForwardCurve[250,],HistoricalForwardCurve[500,],HistoricalForwardCurve[750,]),type="l",col=c("black","dodgerblue2","darkorchid1","green2"),xlab="Maturity, year",ylab="Forward Curve",xlim=plot_x_lim, ylim=plot_y_lim,lwd=1,lty=c(1,1,1,1))
+legend(19, 1.6, c("June 2011","June 2012","June 2013","May 2014"), col = c("black"),
+              text.col = c("black","dodgerblue2","darkorchid1","green2"), lty = c(1,1,1,1), pch = c(NA),
+              merge = TRUE, bg = "gray90")
+       
 #plot(Maturity,HistoricalForwardCurve[2000,],type="l",lwd=2,xlim=plot_x_lim, ylim=plot_y_lim,col ="purple",
 #     main="",xlab="",ylab="")
 
 #return matrix calculation
-HistoricalForwardReturn = matrix(NA, 
+HistoricalForwardDifference = matrix(NA, 
              nrow=(nrow(HistoricalForwardCurve)-1),
              ncol=ncol(HistoricalForwardCurve),
              byrow = TRUE);
-HistoricalForwardReturnDate = rep(as.Date("01 Jan 70","%d %b %y",nrow(HistoricalForwardCurve)-1))
+HistoricalForwardDifferenceDate = rep(as.Date("01 Jan 70","%d %b %y",nrow(HistoricalForwardCurve)-1))
 
 for (i in seq(1,nrow(HistoricalForwardCurve)-1)) {
-  HistoricalForwardReturnDate[i] = HistoricalForwardCurveDate[i+1]
-  HistoricalForwardReturn[i,] = HistoricalForwardCurve[i+1,] - HistoricalForwardCurve[i,]
+  HistoricalForwardDifferenceDate[i] = HistoricalForwardCurveDate[i+1]
+  #we calculate log difference since we arew in low interest rate regime since 2008
+  HistoricalForwardDifference[i,] = log(HistoricalForwardCurve[i+1,]/HistoricalForwardCurve[i,])
 }  
   
 #covariance matrix calculation
 #multiply by 252 to annualize the variance (we calculate daily return)
 # divide by (100 * 100) because rates are expressed in percentage (i.e. 2 for 2% instead of 0.02)
-CovarianceMatrix = cov(HistoricalForwardReturn) * 252 / (100*100)
+CovarianceMatrix = cov(HistoricalForwardDifference) * 252 / (100*100)
 eigen_values_list = EigenValuesVector(CovarianceMatrix,10^-20)
 eigen_vectors_list = EigenValuesMatrix(CovarianceMatrix,10^-20)
 eigen_values_list_sorted = sort(eigen_values_list,decreasing = TRUE)
@@ -37,22 +42,33 @@ eigen_values_list_sorted = sort(eigen_values_list,decreasing = TRUE)
 PC1_lamda = eigen_values_list_sorted[1]
 PC2_lamda = eigen_values_list_sorted[2]
 PC3_lamda = eigen_values_list_sorted[3]
+PC4_lamda = eigen_values_list_sorted[4]
+PC5_lamda = eigen_values_list_sorted[5]
 
 PC1_index = which(eigen_values_list == PC1_lamda)
 PC2_index = which(eigen_values_list == PC2_lamda)
 PC3_index = which(eigen_values_list == PC3_lamda)
+PC4_index = which(eigen_values_list == PC4_lamda)
+PC5_index = which(eigen_values_list == PC5_lamda)
   
-cat("1st PC:",Maturity[PC1_index],"==> lambda=",PC1_lamda,", cumul weight (%):",(PC1_lamda/sum(eigen_values_list))*100,"\n")
-cat("2nd PC:",Maturity[PC2_index],"==> lambda=",PC2_lamda,", cumul weight (%):",((PC1_lamda+PC2_lamda)/sum(eigen_values_list))*100,"\n")
-cat("3rd PC:",Maturity[PC3_index],"==> lambda=",PC3_lamda,", cumul weight (%):",((PC1_lamda+PC2_lamda+PC3_lamda)/sum(eigen_values_list))*100,"\n")
+cat("1st PC:",Maturity[PC1_index],"==> lambda=",PC1_lamda,"weight (%):",(PC1_lamda/sum(eigen_values_list))*100,", cumul weight (%):",(PC1_lamda/sum(eigen_values_list))*100,"\n")
+cat("2nd PC:",Maturity[PC2_index],"==> lambda=",PC2_lamda,"weight (%):",(PC2_lamda/sum(eigen_values_list))*100,", cumul weight (%):",((PC1_lamda+PC2_lamda)/sum(eigen_values_list))*100,"\n")
+cat("3rd PC:",Maturity[PC3_index],"==> lambda=",PC3_lamda,"weight (%):",(PC3_lamda/sum(eigen_values_list))*100,", cumul weight (%):",((PC1_lamda+PC2_lamda+PC3_lamda)/sum(eigen_values_list))*100,"\n")
+cat("4th PC:",Maturity[PC4_index],"==> lambda=",PC4_lamda,"weight (%):",(PC4_lamda/sum(eigen_values_list))*100,", cumul weight (%):",((PC1_lamda+PC2_lamda+PC3_lamda+PC4_lamda)/sum(eigen_values_list))*100,"\n")
+cat("5th PC:",Maturity[PC5_index],"==> lambda=",PC5_lamda,"weight (%):",(PC5_lamda/sum(eigen_values_list))*100,", cumul weight (%):",((PC1_lamda+PC2_lamda+PC3_lamda+PC4_lamda+PC5_lamda)/sum(eigen_values_list))*100,"\n")
+
 
 PC1_eigen_vector = eigen_vectors_list[,PC1_index]
 PC2_eigen_vector = eigen_vectors_list[,PC2_index]
 PC3_eigen_vector = eigen_vectors_list[,PC3_index]
+PC4_eigen_vector = eigen_vectors_list[,PC4_index]
+PC5_eigen_vector = eigen_vectors_list[,PC5_index]
 
 PC1_volatility = sqrt(PC1_lamda)*PC1_eigen_vector
 PC2_volatility = sqrt(PC2_lamda)*PC2_eigen_vector
 PC3_volatility = sqrt(PC3_lamda)*PC3_eigen_vector
+PC4_volatility = sqrt(PC4_lamda)*PC4_eigen_vector
+PC5_volatility = sqrt(PC5_lamda)*PC5_eigen_vector
 
 PC1_volatility_fitted = function(x) {
   b0 = median(PC1_volatility)
@@ -79,6 +95,8 @@ GetVolatilityFitFunction = function(volatility) {
 
 PC2_volatility_fitted = GetVolatilityFitFunction(PC2_volatility)
 PC3_volatility_fitted = GetVolatilityFitFunction(PC3_volatility)
+PC4_volatility_fitted = GetVolatilityFitFunction(PC4_volatility)
+PC5_volatility_fitted = GetVolatilityFitFunction(PC5_volatility)
 
 #Vectorized version of fitted function (required for integration)
 PC1_volatility_fitted_vector = function(X){
@@ -90,8 +108,30 @@ PC2_volatility_fitted_vector = function(X){
 PC3_volatility_fitted_vector = function(X){
   return(sapply(X,PC3_volatility_fitted))
 }
+PC4_volatility_fitted_vector = function(X){
+  return(sapply(X,PC4_volatility_fitted))
+}
+PC5_volatility_fitted_vector = function(X){
+  return(sapply(X,PC5_volatility_fitted))
+}
 
 
-matplot(Maturity,cbind(PC1_volatility,sapply(Maturity,PC1_volatility_fitted)),type="l",col=c("blue","red"))
-matplot(Maturity,cbind(PC2_volatility,sapply(Maturity,PC2_volatility_fitted)),type="l",col=c("blue","red"))
-matplot(Maturity,cbind(PC3_volatility,sapply(Maturity,PC3_volatility_fitted)),type="l",col=c("blue","red"))
+matplot(Maturity,100*cbind(PC1_eigen_vector,PC2_eigen_vector,PC3_eigen_vector,PC4_eigen_vector,PC5_eigen_vector),type="l", col=c("black","dodgerblue2","darkorchid1","gold2","green2"),lwd=1, lty=1,ylab="Eigen vectors",xlab="Maturity")
+legend(21.2, 65, c("PC1","PC2","PC3","PC4","PC5"), col = c("black","dodgerblue2","darkorchid1","green2"),
+       text.col = "black", lty = c(1,1,1,1), pch = c(NA),
+       merge = TRUE, bg = "gray90")
+
+#matplot(Maturity,cbind(PC1_volatility,PC2_volatility,PC3_volatility,PC4_volatility,PC5_volatility),type="l", col=c("black","dodgerblue2","darkorchid1","goldenrod3","green2"),lwd=1, lty=1, pch=c(1,2,3,4,5),ylab="",xlab="")
+
+layout(matrix(c(1,1,2,3,4,5), nrow=3, ncol=2, byrow = TRUE))
+par(mar=c(2,2,2,2))
+matplot(Maturity,cbind(PC1_volatility,sapply(Maturity,PC1_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC1",lty=c(2,1))
+legend(20, 0.005, c("Actual volatility","Fitted function"), col = c("blue","red"),
+       text.col = "black", lty=c(2,1), pch = c(NA),
+       merge = TRUE, bg = "gray90")
+matplot(Maturity,cbind(PC2_volatility,sapply(Maturity,PC2_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC2",lty=c(2,1))
+matplot(Maturity,cbind(PC3_volatility,sapply(Maturity,PC3_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC3",lty=c(2,1))
+matplot(Maturity,cbind(PC4_volatility,sapply(Maturity,PC4_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC4",lty=c(2,1))
+matplot(Maturity,cbind(PC5_volatility,sapply(Maturity,PC5_volatility_fitted)),type="l",col=c("blue","red"),xlab="Maturity",ylab="Volatility",main="PC5",lty=c(2,1))
+par(mfrow=c(1,1))
+

@@ -5,6 +5,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   cat("Number of core(s) to be used for calculation:",getDoParWorkers(),"\n")
   
   #set parameters for HJM framework
+  NumberPC = 5
   MaxMaturity = 5
   maturityBucket = 1/12
   NumberOfYear = 2 #projection of the forward rates evolation over 2 years
@@ -16,12 +17,17 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   volatility_1 = rep(NA,length(MaturityList))
   volatility_2 = rep(NA,length(MaturityList))
   volatility_3 = rep(NA,length(MaturityList))
+  volatility_4 = rep(NA,length(MaturityList))
+  volatility_5 = rep(NA,length(MaturityList))
+  
   
   for (j in seq(1,length(MaturityList))) {
     drift[j] = M(MaturityList[j])
     volatility_1[j] = PC1_volatility_fitted(MaturityList[j])
     volatility_2[j] = PC2_volatility_fitted(MaturityList[j])
     volatility_3[j] = PC3_volatility_fitted(MaturityList[j])
+    volatility_4[j] = PC4_volatility_fitted(MaturityList[j])
+    volatility_5[j] = PC5_volatility_fitted(MaturityList[j])
   }
   
   #create function to populate HJM matrix (performance reason)
@@ -33,14 +39,14 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     {
       #Equation: F + drift*dt+SUM(vol*dX_i)*SQRT(dt)+dF/dtau*dt
       result[j] = mat[i-1,j] + drift[j]*timestep + 
-        sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
+        sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3],volatility_4[j]*dX[i-1,4],volatility_5[j]*dX[i-1,5])*sqrt(timestep) +
         ((mat[i-1,j+1]-mat[i-1,j])/(maturityBucket))*timestep 
     }
     
     #Last row 
     #use backward difference for dF/dTau on last column
     result[ncol(mat)] = mat[i-1,j] + drift[j]*timestep + 
-      sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3])*sqrt(timestep) +
+      sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3],volatility_4[j]*dX[i-1,4],volatility_5[j]*dX[i-1,5])*sqrt(timestep) +
       ((mat[i-1,j]-mat[i-1,j-1])/(
         maturityBucket))*timestep 
     
@@ -50,22 +56,22 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   
   # Pseudo random genetor or quasi random generator
   if (GenType == "rnorm") {
-    dX_array = matrix(rnorm(NumberSimulation*3*NumberOfTimesteps, mean = 0, sd = 1),nrow=NumberSimulation,ncol=3*NumberOfTimesteps,byrow=FALSE)
+    dX_array = matrix(rnorm(NumberSimulation*NumberPC*NumberOfTimesteps, mean = 0, sd = 1),nrow=NumberSimulation,ncol=NumberPC*NumberOfTimesteps,byrow=FALSE)
   }
   else if (GenType == "sobol") {
-    dX_array = rnorm.sobol(n = NumberSimulation, dimension = 3*NumberOfTimesteps , scrambling = 3)
+    dX_array = rnorm.sobol(n = NumberSimulation, dimension = NumberPC*NumberOfTimesteps , scrambling = 3)
   }
   else if (GenType == "nag-sobol") {
-    dX_array = quasirandom.nag(NumberSimulation,3*NumberOfTimesteps,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+    dX_array = quasirandom.nag(NumberSimulation,NumberPC*NumberOfTimesteps,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
   }
   else if (GenType == "nag-niederreiter") {
-    dX_array = quasirandom.nag(NumberSimulation,3*NumberOfTimesteps,"niederreiter","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+    dX_array = quasirandom.nag(NumberSimulation,NumberPC*NumberOfTimesteps,"niederreiter","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
   }
   else if (GenType == "nag-faure") {
-    dX_array = quasirandom.nag(NumberSimulation,3*NumberOfTimesteps,"faure","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+    dX_array = quasirandom.nag(NumberSimulation,NumberPC*NumberOfTimesteps,"faure","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
   }
   else {
-    dX_array = matrix(rnorm(NumberSimulation*3*NumberOfTimesteps, mean = 0, sd = 1),nrow=NumberSimulation,ncol=3*NumberOfTimesteps,byrow=FALSE)
+    dX_array = matrix(rnorm(NumberSimulation*NumberPC*NumberOfTimesteps, mean = 0, sd = 1),nrow=NumberSimulation,ncol=NumberPC*NumberOfTimesteps,byrow=FALSE)
   }
   
   # Monte Carlo loop
@@ -76,7 +82,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     mat = matrix(NA, nrow=(NumberOfTimesteps+1),ncol=length(MaturityList),byrow = TRUE);
     mat[1,] = ForwardInputData[1:length(MaturityList)]
     # Take one new row of dX for this simulation
-    dX = matrix(dX_array[k,],ncol=3,nrow=NumberOfTimesteps,byrow = TRUE)
+    dX = matrix(dX_array[k,],ncol=NumberPC,nrow=NumberOfTimesteps,byrow = TRUE)
     
     for (i in seq(2,nrow(mat))) {
       mat[i,] =  populate_row.compiled(i,mat,dX)
@@ -175,9 +181,9 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     
     iv = matrix(NA,nrow=length(K_array),ncol=length(T_array))
     for (l in seq(1,length(T_array))) {
-      cat("T=",T_array[l],"\n")
+      #cat("T=",T_array[l],"\n")
       libor_list = libor[1:((T_array[l]-t)/0.25)]
-      print(libor_list)
+      #print(libor_list)
       
       for (j in seq(1,length(K_array))) {
         iv[j,l] = Black76CapImpliedVolatility(t,T_array[l],K_array[j],libor_list,price[j,l])  

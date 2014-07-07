@@ -10492,6 +10492,56 @@ Principal Component Analysis
 \end_layout
 
 \begin_layout Standard
+PCA is carried out numerically, by nding the orthogonal representation to
+ a covariance matrix of the original factors.
+ This is known under the general terms of `matrix factorisation' and `matrix
+ decomposition'.
+ Orthogonal decomposition is specically known as `eigendecompo- sition'
+ and more widespread spectral decomposition.
+\end_layout
+
+\begin_layout Standard
+Application of PCA to some data covariance matrix means spectral decomposition
+ to
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varSigma=V\Lambda V^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where is a matrix with eigenvalues along its diagonal and zeros elsewhere,
+ and V ec(V) is a matrix with eigenvectors in its columns.
+ Eigenvalues must be positive 
+\begin_inset Formula $\lambda_{1}>\ldots>\lambda_{n}>0$
+\end_inset
+
+and are often ranked.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Lambda=\left(\begin{array}[t]{ccc}
+\lambda_{1}\\
+ & \ddots\\
+ &  & \lambda_{n}
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Polynomial tting by cubic spline is a popular choice
 \end_layout
 
