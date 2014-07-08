@@ -308,70 +308,125 @@ ng and the basket spread calculation.
 Model and hypothesis
 \end_layout
 
-\begin_layout Standard
-The report must contain a sucient description of the mathematical model,
- numerical methods and their properties.
- In-depth study is welcome but report should be relevant.
-\end_layout
-
 \begin_layout Subsubsection
-Credit Default Swap pricing
+Poisson process
 \end_layout
 
 \begin_layout Definition
-lallalla 
+Default indicator function
 \end_layout
 
-\begin_layout Remark
-dsfgsd dfg fgd g
-\end_layout
-
-\begin_layout Standard
-CDS pricing in the context of the intensity approach
-\end_layout
-
-\begin_layout Standard
-We use the default indicator function (the indicator function of the default
- event) abd the survival indicator function (one minus the defautl indicator
- function) to model default risk 
-\end_layout
-
-\begin_layout Standard
-Survival indicator function:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
-I(t) & = & 1_{\{\tau>T\}}=\begin{cases}
-1 & \mbox{if }\tau>T\\
-0 & \mbox{if }\tau\leq T
-\end{cases}
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-We can model the arrival of default as the first jump of a Poisson process
- with intensity 
-\begin_inset Formula $\lambda$
+\begin_layout Definition
+To model the arrival of a credit event we need to model an unknow random
+ point in time 
+\begin_inset Formula $\tau\in\mathbb{R}_{+}$
 \end_inset
 
 .
- Its associated survival probability 
-\begin_inset Formula $P(t,T)$
-\end_inset
-
- can be obtained as:
+ We define the default indicator function (indicator function of the default
+ event) to model default risk
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-P(t,T)=\exp(-\lambda(T-t))
+I_{Default}(t)=1_{\{\tau>T\}}=\begin{cases}
+1 & \mbox{if }\tau<T\\
+0 & \mbox{if }\tau\geq T
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Default survival function
+\end_layout
+
+\begin_layout Definition
+We define also the survival indicator function 
+\begin_inset Formula $I_{Survival}(t)=1-I_{Default}(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+I_{Survival}(t)=1_{\{\tau>T\}}=\begin{cases}
+1 & \mbox{if }\tau>T\\
+0 & \mbox{if }\tau\leq T
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Poisson process
+\end_layout
+
+\begin_layout Definition
+We use a Poisson process characterized by its parameter 
+\begin_inset Formula $\lambda$
+\end_inset
+
+(intensity of the process) to describe the default time of a company.
+ The default time can be viewed as the first jump of a Poisson process.
+ Based on the nature of the intensity  function, the Poisson process  can be 
+ classified as time homogeneous Poisson process or time  inhomogeneous Poisson p
+rocess.
+\end_layout
+
+\begin_layout Itemize
+Poisson processes have no memory
+\end_layout
+
+\begin_layout Itemize
+The inter-arrival times of Poisson processes (
+\begin_inset Formula $\tau_{n+1}-\tau_{n})$
+\end_inset
+
+ are exponentially distributed
+\end_layout
+
+\begin_layout Itemize
+Two or more jumps at excately the same time have probability zero
+\end_layout
+
+\begin_layout Definition
+Homogeneous Poisson process
+\end_layout
+
+\begin_layout Definition
+A homogeneous Poisson process is defined as a process with stationary independan
+t increments and initial value of zero.
+ The times between two consecutive jumps are independently and identically
+ distributed as an exponential random variable with mean 
+\begin_inset Formula $\frac{1}{\lambda}$
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is constant in time.
+ If we define the default time 
+\begin_inset Formula $\tau$
+\end_inset
+
+ as the first jump, the probability of an event can be expressed as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Q\left\{ \tau\in[t,t+dt]|\tau\geq t\right\} =\lambda dt
 \]
 
 \end_inset
@@ -380,29 +435,117 @@ P(t,T)=\exp(-\lambda(T-t))
 \end_layout
 
 \begin_layout Standard
-Note that the intensity 
-\begin_inset Formula $\lambda$
+Therefore, we can express the survival probability 
+\begin_inset Formula $Q(t,T)$
 \end_inset
 
-is constant.
- i.e.
- it does not depend on time.
+ between 
+\begin_inset Formula $t$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ as:
 \end_layout
 
 \begin_layout Standard
-If the insitity 
+\begin_inset Formula 
+\[
+Q(t,T)=\exp(-\lambda(T-t))
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Inhomogeneous Poisson process
+\end_layout
+
+\begin_layout Definition
+A inhomogeneous Poisson process is defined as a process with a non-negative
+ deterministic and time varying intensity function 
 \begin_inset Formula $\lambda(t)$
 \end_inset
 
- is a non-negative funciton of time, we can derive the survival probability
- for an inhomegeneous Poisson process as:
+.
+ In this case, we can derive the survival probability as:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-P(t,T)=\exp(-\intop_{t}^{T}\lambda(s)\; ds)
-\end{equation}
+\[
+Q(t,T)=\exp\left(-\int_{t}^{T}\lambda(s)\; ds\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+In this case the intensity (default hazard rate) depends on the time horizon
+ 
+\begin_inset Formula $T$
+\end_inset
+
+: we obtain a term structure of hazard rates when matching market prices.
+\end_layout
+
+\begin_layout Subsubsection
+Credit Default Swap pricing
+\end_layout
+
+\begin_layout Standard
+There are two main families of model to price Credit Default Swap: the structura
+l models and the reduced form models.
+ Structural models are based on the complete knowledge of a detailed information
+ set (e.g.
+ Merton model 1974, Black and Cox 1976).
+ In contrast, the reduced form approach (a.k.a.
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+standard model
+\begin_inset Quotes erd
+\end_inset
+
+ or JP Morgan approach in the literature) is based on the information set
+ available in the market.
+ In this section, we will describe the reduced form approach.
+\end_layout
+
+\begin_layout Definition
+Mathematical setup
+\end_layout
+
+\begin_layout Definition
+Let us suppose that there are 
+\begin_inset Formula $N$
+\end_inset
+
+ perdiods, indexed by 
+\begin_inset Formula $n=1,\ldots,N$
+\end_inset
+
+.
+ Each perdiod is of length 
+\begin_inset Formula $\varDelta t,$
+\end_inset
+
+expressed in years.
+ Therefore, time intervals are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ \left(0,\varDelta t\right),\left(\varDelta t,2\varDelta t\right),\ldots,\left((N-1)\varDelta t,N\varDelta t\right)\right\} 
+\]
 
 \end_inset
 
@@ -410,23 +553,46 @@ P(t,T)=\exp(-\intop_{t}^{T}\lambda(s)\; ds)
 \end_layout
 
 \begin_layout Standard
-Note that the default hazard rate depends on the time horizon T: the term
- structure of hazard rates is not flat, but given by 
-\begin_inset Formula $\lambda(T)$
-\end_inset
-
-, so we can reach every term structure we desire as to match the market.
+The end of period can be expressed as:
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\[
+T_{n}=n\varDelta t
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
 Premium leg
 \end_layout
 
+\begin_layout Definition
+We denote the 
+\begin_inset Formula $N$
+\end_inset
+
+-period CDS spread as 
+\begin_inset Formula $S_{N},$
+\end_inset
+
+stated as an annualized percentage of the nominal value of the contract.
+ We set the nominal value to 1.
+ We assume that defaults occur only at the end of the period, so the premiums
+ will be paid until the end of the period.
+ Since the premium payments are made as long as the reference security survives,
+ the expected present value of the premium leg is:
+\end_layout
+
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-PL_{N}=S_{N}\sum_{n=1}^{N}D(0,T_{n})P(T_{n})(\varDelta t_{n})
-\end{equation}
+\[
+PL_{N}=S_{N}\sum_{n=1}^{N}D(0,T_{n})Q(T_{n})(\varDelta t_{n})
+\]
 
 \end_inset
 
@@ -434,44 +600,91 @@ PL_{N}=S_{N}\sum_{n=1}^{N}D(0,T_{n})P(T_{n})(\varDelta t_{n})
 \end_layout
 
 \begin_layout Standard
+where 
+\begin_inset Formula $\varDelta n$
+\end_inset
+
+ is the year fraction corresponding to 
+\begin_inset Formula $T_{n-1}-T_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $Q(T_{n})$
+\end_inset
+
+ is the survival probability up to time 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+.
+ This accounts for the expected present value of payments made from the
+ buyer to the seller.
+\end_layout
+
+\begin_layout Definition
 Default leg
 \end_layout
 
+\begin_layout Definition
+The expected loss payment in period 
+\begin_inset Formula $n$
+\end_inset
+
+ is based on the probability of default in period 
+\begin_inset Formula $n$
+\end_inset
+
+, conditional on no default in a prior period.
+ This probability is given by the probability of surviving until period
+ 
+\begin_inset Formula $n-1$
+\end_inset
+
+ and then defaulting in period 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ Therefore, the expected present value of loss payments is:
+\end_layout
+
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
+\[
 DL_{N}=(1-R)\sum_{n=1}^{N}D(0,T_{n})(P(T_{n-1})-P(T_{n}))
-\end{equation}
+\]
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-CDS Pricing: Fair spread
+\begin_layout Definition
+Fair spread
 \end_layout
 
-\begin_layout Standard
-The fair pricing of the N-period CDS, i.e.
+\begin_layout Definition
+The fair pricing of the 
+\begin_inset Formula $N$
+\end_inset
+
+−period CDS, i.e.
  the fair quote of the spread 
 \begin_inset Formula $S_{N}$
 \end_inset
 
-, must be such that the expected present value of the payments made by the
- buyer and the seller are equal, i.e.
+, must be such that the expected present value of payments made by buyer
+ and seller are equal, i.e.
  
 \begin_inset Formula $PL_{N}=DL_{N}$
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ Thus we obtain
 \begin_inset Formula 
-\begin{equation}
+\[
 S_{N}=\frac{(1-R)\sum_{n=1}^{N}D(0,T_{n})(P(T_{n-1})-P(T_{n}))}{\sum_{n=1}^{N}D(0,T_{n})P(T_{n})(\varDelta t_{n})}
-\end{equation}
+\]
 
 \end_inset
 

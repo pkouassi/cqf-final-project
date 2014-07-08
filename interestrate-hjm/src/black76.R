@@ -12,7 +12,7 @@ Black76OptionPricing = function(type,F,K,Time,sigma) {
   }
 }
 
-#implement root finding using newton raphason
+#implement root finding using newton raphson
 Black76ImpliedVolatilityBisection = function(type,F,K,Time,Premium, SigmaMin, SigmaMax, Iteration, MaxIteration, MaxError) {
   
   SigmaMid = SigmaMin + (SigmaMax - SigmaMin)/2;
@@ -147,37 +147,27 @@ Black76CapImpliedVolatility = function(t,T,K,libor_rates_array,premium) {
   }
 }
 
-Black76SwaptionPricing = function(t,T,K,libor_rates_array,sigma) {
-  #define cashflows
+Black76SwaptionPricing = function(t,T,K,F,sigma) {
+  #we assume quaterly compounded swaptions
+  #m=4
+  #value = ((1-1/((1+F/m)^((T-t)*m)))/F)*GetDiscountFactor(ValuationDateOISYieldCurve,t)*Black76OptionPricing("call",F,K,t,sigma)
   start_dates_array = seq(t,T-0.25,by=0.25)
   end_dates_array = seq(t+0.25,T,by=0.25)
-
   
-  #verifiy that we have one libor rate for each period
-  if (length(start_dates_array) != length(libor_rates_array)) {
-    cat("error: there is not the same the number of periods and libor rates\n")
-    cat("period start dates:",start_dates_array,"\n")
-    cat("period end dates:",end_dates_array,"\n")
-    cat("libor rates:",libor_rates_array,"\n")
-    return()
-  }
-  
+  #Fromula from Brigo / Mercurio 2006. p20.
   value = 0
-  #for (i in seq(1,length(start_dates_array))) {
-  #  tmp = Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])
-    #cat("Bl76:",Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma),"\n")
-    #cat("caplet:",caplet,"\n")
-  #  value = value + tmp
-  #}
-  #cat("cap:",value,"\n")
-  #value = (1-1/(1+))
+  for (i in seq(1,length(end_dates_array))) {
+    value = value + (end_dates_array[i]-start_dates_array[i])*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])
+  }
+  value = value * Black76OptionPricing("call",F,K,t,sigma) 
   
+
   return(value)
 }
 
-Black76SwaptionImpliedVolatility = function(t,T,K,libor_rates_array,premium) {
+Black76SwaptionImpliedVolatility = function(t,T,K,F,premium) {
   #define objective function
-  f = function(sigma) return(Black76SwaptionPricing(t,T,K,libor_rates_array,sigma)-premium)
+  f = function(sigma) return(Black76SwaptionPricing(t,T,K,F,sigma)-premium)
   
   res <- try( uniroot(f,lower=0,upper=10), silent=TRUE )
   if (inherits(res, "try-error")) 

@@ -130,8 +130,11 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     }
     else if (instrument == "swaption") {
       # Code for payer swaption. call on swap rate
-      libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,t,seq(t+0.25,max(T_array),by=0.25))
-      libor_simply_compounded_array = 4*(exp(libor_continuously_compounded_array/4)-1) #3M compounding
+      # calculate of forward swap rate
+      swap_array = rep(NA,length(T_array))
+      for (j in seq(1,length(T_array))) {
+        swap_array[j] = ComputeForwardStartingParSwapPrice(mat,timestep,t,T_array[j],DiscountCurve)
+      }
       
       swaption_array = rep(NA,length(K_array)*length(T_array))
       for (l in seq(1,length(T_array))) {
@@ -140,7 +143,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
           swaption_array[(l-1)*length(K_array)+j] = ComputePayerSwaptionPrice(mat,timestep,t,T_array[l],K_array[j],DiscountCurve)
         }
       }
-      res=c(swaption=swaption_array,libor=libor_simply_compounded_array)
+      res=c(swaption=swaption_array,swap=swap_array)
     }  
   }
   stopCluster(cl)
@@ -167,8 +170,8 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
     simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(K_array) == 1 && length(T_array) == 1) {
-      cat("Cap[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"cap"]),"\n")
-      simulation_array = cbind(simulation_array,ResultResult[,"cap"])
+      cat("Cap[",t,",",T_array,",",K_array,"]=",price[1,1] <- mean(Result[,"cap"]),"\n")
+      simulation_array = cbind(simulation_array,Result[,"cap"])
     }
     else {
       for (l in seq(1,length(T_array))) {
@@ -229,43 +232,46 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     price=matrix(NA,nrow=length(K_array),ncol=length(T_array))
     simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(K_array) == 1 && length(T_array) == 1) {
-      cat("Swaption[",t,",",T_array,",",K_array,"]=",price <- mean(Result[,"swaption"]),"\n")
-      simulation_array = cbind(simulation_array,ResultResult[,"swaption"])
+      cat("Swaption[",t,",",T_array,",",K_array,"]=",price[1,1] <- GetDiscountFactor(DiscountCurve,t)*mean(Result[,"swaption"]),"\n")
+      simulation_array = cbind(simulation_array,Result[,"swaption"])
     }
     else {
       for (l in seq(1,length(T_array))) {
         for (j in seq(1,length(K_array))) {
           #cat("item",(l-1)*length(K_array)+j,"\n")
-          cat("Swaption[",t,",",T_array[l],",",K_array[j],"]=",price[j,l] <- mean(Result[,paste("swaption",(l-1)*length(K_array)+j,sep="")]),"\n")
+          cat("Swaption[",t,",",T_array[l],",",K_array[j],"]=",price[j,l] <- GetDiscountFactor(DiscountCurve,t)*mean(Result[,paste("swaption",(l-1)*length(K_array)+j,sep="")]),"\n")
           simulation_array = cbind(simulation_array,Result[,paste("swaption",j,sep="")])
         }
       }
     }
     
     #implied volatility computation
-    libor_T = seq(t+0.25,max(T_array),by=0.25)
-    libor = rep(NA,length(libor_T))
-    if (length(libor_T) == 1) {
-      cat("Libor[",t,",",libor_T,"]=",libor <- mean(Result[,"libor"]),"\n")
+    swap = rep(NA,length(T_array))
+    if (length(T_array) == 1) {
+      cat("Swap[",t,",",T_array,"]=",swap <- mean(Result[,"swap"]),"\n")
     }
     else {
-      for (j in seq(1,length(libor_T))) {
-        cat("Libor[",t,",",libor_T[j],"]=",libor[j] <- mean(Result[,paste("libor",j,sep="")]),"\n")
+      for (j in seq(1,length(T_array))) {
+         cat("Swap[",t,",",T_array[j],"]=",swap[j] <- mean(Result[,paste("swap",j,sep="")]),"\n")
       }
     }
     
     iv = matrix(NA,nrow=length(K_array),ncol=length(T_array))
-    #for (l in seq(1,length(T_array))) {
+    #print(price)
+    for (l in seq(1,length(T_array))) {
       #cat("T=",T_array[l],"\n")
-    #  libor_list = libor[1:((T_array[l]-t)/0.25)]
+      #  libor_list = libor[1:((T_array[l]-t)/0.25)]
       #print(libor_list)
       
-    #  for (j in seq(1,length(K_array))) {
-    #    iv[j,l] = Black76SwaptionImpliedVolatility(t,T_array[l],K_array[j],libor_list,price[j,l])  
-    #  }
-    #}
+      for (j in seq(1,length(K_array))) {
+        #cat("l=",l,"j=",j,"\n")
+        #cat("t=",t,"T=",T=T_array[l],"K=",K_array[j],"swap=",swap[l],"premium=",price[j,l],"\n")
+        iv[j,l] = Black76SwaptionImpliedVolatility(t,T_array[l],K_array[j],swap[l],price[j,l])  
+      }
+    }
+    #print(iv)
     
-    return(list(price=price,iv=iv,libor=libor,simulation=simulation_array))
+    return(list(price=price,iv=iv,swap=swap,simulation=simulation_array))
   }
   
 }
@@ -423,8 +429,11 @@ ComputeForwardStartingParSwapPrice = function(matrix,timestep,t,T,DiscountCurve)
     fixed_leg = 0
     floating_leg = 0
     for (i in seq(1,length(end_dates_array))) {
-      fixed_leg = fixed_leg + 1*x*(end_dates_array[i]-start_dates_array[i])*GetDiscountFactor(DiscountCurve,end_dates_array[i])
-      floating_leg = floating_leg + 1*libor_rates_quaterly_comp[i]*(end_dates_array[i]-start_dates_array[i])*GetDiscountFactor(DiscountCurve,end_dates_array[i])
+      # Cashflows must be discounted to t (start date of the swap) not to today (0)
+      # DF[0,Ti] = DF[0,t]*DF[t,Ti]
+      # i.e. DF[t,Ti] = DF[0,Ti] / DF[0,t]
+      fixed_leg = fixed_leg + 1*x*(end_dates_array[i]-start_dates_array[i])*(GetDiscountFactor(DiscountCurve,end_dates_array[i])/GetDiscountFactor(DiscountCurve,t))
+      floating_leg = floating_leg + 1*libor_rates_quaterly_comp[i]*(end_dates_array[i]-start_dates_array[i])*(GetDiscountFactor(DiscountCurve,end_dates_array[i])/GetDiscountFactor(DiscountCurve,t))
     }
     value = floating_leg - fixed_leg
   }
@@ -441,7 +450,18 @@ ComputePayerSwaptionPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
   start_dates_array = seq(t,T-0.25,by=0.25)
   end_dates_array = seq(t+0.25,T,by=0.25)
   
-  value = max(ComputeForwardStartingParSwapPrice(matrix,timestep,t,T,DiscountCurve)-K,0)*GetDiscountFactor(DiscountCurve,t)
+  #calculate libor rates (continuously componded) for each libor_date
+  libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,end_dates_array)
+  libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
+  
+  #brigo / mercurio 2006. p19
+  value = 0
+  for (i in seq(1,length(end_dates_array))) {
+    value = value + (GetDiscountFactor(DiscountCurve,end_dates_array[i])/GetDiscountFactor(DiscountCurve,t))*(end_dates_array[i]-start_dates_array[i])*(libor_rates_quaterly_comp[i]-K)
+  }
+  
+  value = max(value,0)
+  #max(ComputeForwardStartingParSwapPrice(matrix,timestep,t,T,DiscountCurve)-K,0)*GetDiscountFactor(DiscountCurve,t)
   return(value)
 }
  

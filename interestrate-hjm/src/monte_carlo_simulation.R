@@ -44,7 +44,7 @@ ans_hjm8 = HeathJarrowMortonPricing("swap",1,c(2,3,4,5),NA,ValuationDateForwardC
 cat("time to complete",Sys.time()-timestamp,"\n")
 
 timestamp = Sys.time()
-ans_hjm9 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"nag-sobol")
+ans_hjm9 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"sobol")
 cat("time to complete",Sys.time()-timestamp,"\n")
 
 timestamp = Sys.time()
@@ -53,6 +53,18 @@ cat("time to complete",Sys.time()-timestamp,"\n")
 
 timestamp = Sys.time()
 ans_hjm11 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"rnorm")
+cat("time to complete",Sys.time()-timestamp,"\n")
+
+timestamp = Sys.time()
+#maturity_list = c(2,2.5,3,3.5,4,4.5,5)
+maturity_list = c(2,3)
+strike_list = c(0.001,0.002,0.005,0.01,0.015,0.02)
+ans_hjm12 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"sobol")
+persp(strike_list*100, maturity_list, ans_hjm12$price ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Volatility")
+cat("time to complete",Sys.time()-timestamp,"\n")
+
+timestamp = Sys.time()
+ans_hjm13 = HeathJarrowMortonPricing("cap",1,2,c(0.001,0.002,0.003,0.004,0.005,0.01),ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"rnorm")
 cat("time to complete",Sys.time()-timestamp,"\n")
 
 # 
