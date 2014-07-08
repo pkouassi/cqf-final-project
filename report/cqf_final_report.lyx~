@@ -6,6 +6,13 @@
 \begin_preamble
 \usepackage{amsmath}
 \DeclareMathOperator*{\E}{\mathbb{E}}
+\fancyhf{}% Clear fancy header/footer
+\fancyhead[R]{Bertrand Le Nézet}
+\fancyhead[CO]{}
+\fancyfoot[R]{\thepage}
+\makeatletter
+\let\ps@plain\ps@fancy% Plain page style = fancy page style
+\makeatother
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -68,7 +75,7 @@ figs-within-sections
 \quotes_language english
 \papercolumns 1
 \papersides 1
-\paperpagestyle default
+\paperpagestyle fancy
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -124,7 +131,7 @@ t Basket Crdit Default Swap).
  desk); we will therefore deep dive in the estimation of the correlation
  matrix and other input parameter before covering the sampling by copulae
  (Gaussian copulae and Student's t copulae).
- Part 2 addresses the pricing of various IBOR
+ Section 2 addresses the pricing of various IBOR
 \begin_inset Foot
 status collapsed
 
@@ -157,7 +164,8 @@ Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
 \series bold
 Keywords
 \series default
-: lala, lali, lolo, tati
+: Basket Default Swaps, Monte Carlo method, Gaussian copulae, Student t
+ copulae
 \end_layout
 
 \begin_layout Abstract
@@ -287,8 +295,8 @@ We will study baskets with 5 reference names of 5 years maturity in order
 \end_inset
 
 -to-default swap is calculated as an expectation over the joint distribution
- of default times and will be computed by sampling from copulae (using pseudo
- random and quasi random number).
+ of default times and will be computed by sampling from copulae (using pseudo-ra
+ndom and quasi-random numbers).
  We will explore 2 types of elliptical (Gaussian and Student t copulas)
  and compare the results we obtain.
  We use a LIBOR curve as discount curve for the historical credit curve
@@ -10178,7 +10186,77 @@ CDS spread from Markit (XR more liquid)
 \end_layout
 
 \begin_layout Subsubsection
-Package
+Instructions and package description
+\end_layout
+
+\begin_layout Standard
+This program has been written using R (version 3.1.0, 64-bit) and Rstudio
+ as IDE.
+ In order to launch this program, please follow this procedure:
+\end_layout
+
+\begin_layout Enumerate
+Copy the whole folder 
+\begin_inset Quotes eld
+\end_inset
+
+creditbasket
+\begin_inset Quotes erd
+\end_inset
+
+ to your local computer (e.g.
+ C:
+\backslash
+temp
+\backslash
+creditbasket)
+\end_layout
+
+\begin_layout Enumerate
+Open the file 
+\begin_inset Quotes eld
+\end_inset
+
+creditbasket
+\backslash
+src
+\backslash
+master_program.R
+\begin_inset Quotes erd
+\end_inset
+
+ (e.g.
+ C:
+\backslash
+temp
+\backslash
+creditbasket
+\backslash
+src
+\backslash
+master_program.R)
+\end_layout
+
+\begin_layout Enumerate
+Update the value of the variable 
+\series bold
+current_dir
+\series default
+ to match your environment (e.g.
+ current_dir = "C:/temp/creditbasket/src")
+\end_layout
+
+\begin_layout Enumerate
+Launch R
+\end_layout
+
+\begin_layout Enumerate
+type: source ("C:/temp/creditbasket/src/master_program.R") (replace the path
+ to master_program.R to match your environment)
+\end_layout
+
+\begin_layout Enumerate
+The program will start.
 \end_layout
 
 \begin_layout Standard
@@ -10233,7 +10311,9 @@ Description
 \begin_layout Plain Layout
 
 \size footnotesize
-./interestrate-hjm
+.
+\backslash
+interestrate-hjm
 \end_layout
 
 \end_inset
@@ -10266,7 +10346,11 @@ Top folder
 \begin_layout Plain Layout
 
 \size footnotesize
-./interestrate-hjm/src
+.
+\backslash
+interestrate-hjm
+\backslash
+src
 \end_layout
 
 \end_inset
@@ -10696,7 +10780,11 @@ Calls above mentionned functions; plots volatility surfaces and convergence
 \begin_layout Plain Layout
 
 \size footnotesize
-./interestrate-hjm/data
+.
+\backslash
+interestrate-hjm
+\backslash
+data
 \end_layout
 
 \end_inset
@@ -10884,15 +10972,21 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-
-\color red
-Work on this topic must focus on the end result: pricing of bonds, caps
- and oors (working and pricing vanilla and Bermudan swaptions is an extra),
- as opposed to the calibration of HJM or BGM (LMM) model per se.
- Both models impose the no-arbitrage restriction: the drift cannot be random
- and depends on volatility of forward rates.
- The distinction is how this key input is estimated: from interest rates
- data (historic) or market instruments (forward-looking).
+The Heath–Jarrow–Morton (HJM) framework is a framework that model the evolution
+ of the yield curve by representing the evolution of the instantenuous forward
+ rates.
+ This model impose the no-arbitrage restriction: the drift can't be random
+ and depends on the volatility of forward rates.
+ In HJM, volatility of forward rates is estimated from historic interest
+ rate data (historical forward rates in our case).
+ We will show how the principal component analysis is conducted (estimation
+ and analysis of covariance matrices) to identify the major factors which
+ influance the evolution of the yield curve before describing the projection
+ of the forward curve and the pricing of various interest rate derivatives
+ instrument using Monte Carlo simulation (using pseudo-random and quasi-random
+ numbers).
+ We use an OIS spot curve as discounting curve in order to reflect the cost
+ of funding.
 \end_layout
 
 \begin_layout Subsection
@@ -11245,6 +11339,13 @@ d_{2} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)-\frac{\sigma^{2}(
 
 \begin_layout Subsection
 Main result
+\end_layout
+
+\begin_layout Standard
+Implementation of PCA, curve-tting, and numerical integration will enable
+ you to conduct Monte-Carlo.
+ To achieve price convergence it might be necessary to conduct > 10; 000
+ simulations.
 \end_layout
 
 \begin_layout Subsubsection
@@ -11938,7 +12039,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9555
 \end_layout
 
 \end_inset
@@ -11947,7 +12048,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9304
 \end_layout
 
 \end_inset
@@ -11956,7 +12057,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9037
 \end_layout
 
 \end_inset
@@ -11976,7 +12077,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-1
+NA
 \end_layout
 
 \end_inset
@@ -11985,7 +12086,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9844
 \end_layout
 
 \end_inset
@@ -11994,7 +12095,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9627
 \end_layout
 
 \end_inset
@@ -12003,7 +12104,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9375
 \end_layout
 
 \end_inset
@@ -12012,7 +12113,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.9105
 \end_layout
 
 \end_inset

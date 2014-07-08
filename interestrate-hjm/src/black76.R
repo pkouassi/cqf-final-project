@@ -163,14 +163,30 @@ Black76SwaptionPricing = function(t,T,K,libor_rates_array,sigma) {
   }
   
   value = 0
-  for (i in seq(1,length(start_dates_array))) {
-    tmp = Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])
+  #for (i in seq(1,length(start_dates_array))) {
+  #  tmp = Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma)*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])*(end_dates_array[i]-start_dates_array[i])
     #cat("Bl76:",Black76OptionPricing("call",libor_rates_array[i],K,start_dates_array[i],sigma),"\n")
     #cat("caplet:",caplet,"\n")
-    value = value + tmp
-  }
+  #  value = value + tmp
+  #}
   #cat("cap:",value,"\n")
+  #value = (1-1/(1+))
   
   return(value)
 }
 
+Black76SwaptionImpliedVolatility = function(t,T,K,libor_rates_array,premium) {
+  #define objective function
+  f = function(sigma) return(Black76SwaptionPricing(t,T,K,libor_rates_array,sigma)-premium)
+  
+  res <- try( uniroot(f,lower=0,upper=10), silent=TRUE )
+  if (inherits(res, "try-error")) 
+  { 
+    warning("unable to find a root\n")
+    return(NA)
+  }
+  else 
+  { 
+    return(res$root)
+  }  
+}

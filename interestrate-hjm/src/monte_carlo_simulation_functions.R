@@ -130,6 +130,9 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     }
     else if (instrument == "swaption") {
       # Code for payer swaption. call on swap rate
+      libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,t,seq(t+0.25,max(T_array),by=0.25))
+      libor_simply_compounded_array = 4*(exp(libor_continuously_compounded_array/4)-1) #3M compounding
+      
       swaption_array = rep(NA,length(K_array)*length(T_array))
       for (l in seq(1,length(T_array))) {
         for (j in seq(1,length(K_array))) {
@@ -137,7 +140,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
           swaption_array[(l-1)*length(K_array)+j] = ComputePayerSwaptionPrice(mat,timestep,t,T_array[l],K_array[j],DiscountCurve)
         }
       }
-      res=c(swaption=swaption_array)
+      res=c(swaption=swaption_array,libor=libor_simply_compounded_array)
     }  
   }
   stopCluster(cl)
@@ -204,6 +207,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   }
   else if (instrument == "swap") {
     # Result formating for par swap
+    # price computation
     price=rep(NA,length(T_array))
     simulation_array = matrix(NA,nrow=NumberSimulation,ncol=0)
     if (length(T_array) == 1) {
@@ -238,7 +242,30 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       }
     }
     
-    return(list(price=price,simulation=simulation_array))
+    #implied volatility computation
+    libor_T = seq(t+0.25,max(T_array),by=0.25)
+    libor = rep(NA,length(libor_T))
+    if (length(libor_T) == 1) {
+      cat("Libor[",t,",",libor_T,"]=",libor <- mean(Result[,"libor"]),"\n")
+    }
+    else {
+      for (j in seq(1,length(libor_T))) {
+        cat("Libor[",t,",",libor_T[j],"]=",libor[j] <- mean(Result[,paste("libor",j,sep="")]),"\n")
+      }
+    }
+    
+    iv = matrix(NA,nrow=length(K_array),ncol=length(T_array))
+    #for (l in seq(1,length(T_array))) {
+      #cat("T=",T_array[l],"\n")
+    #  libor_list = libor[1:((T_array[l]-t)/0.25)]
+      #print(libor_list)
+      
+    #  for (j in seq(1,length(K_array))) {
+    #    iv[j,l] = Black76SwaptionImpliedVolatility(t,T_array[l],K_array[j],libor_list,price[j,l])  
+    #  }
+    #}
+    
+    return(list(price=price,iv=iv,libor=libor,simulation=simulation_array))
   }
   
 }
