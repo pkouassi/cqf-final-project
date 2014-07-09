@@ -39,8 +39,8 @@ saveRDS(ans_student14,"D:/temp/R-workspace/ans_student14.rds")
 saveRDS(ans_student15,"D:/temp/R-workspace/ans_student15.rds")
 saveRDS(ans_student16,"D:/temp/R-workspace/ans_student16.rds")
 
-saveRDS(ans_hjm1,"D:/temp/R-workspace/ans_hjm1.rds")
-saveRDS(ans_hjm1bis,"D:/temp/R-workspace/ans_hjm1bis.rds")
+#saveRDS(ans_hjm1,"D:/temp/R-workspace/ans_hjm1.rds")
+#saveRDS(ans_hjm1bis,"D:/temp/R-workspace/ans_hjm1bis.rds")
 saveRDS(ans_hjm2,"D:/temp/R-workspace/ans_hjm2.rds")
 saveRDS(ans_hjm3,"D:/temp/R-workspace/ans_hjm3.rds")
 saveRDS(ans_hjm4,"D:/temp/R-workspace/ans_hjm4.rds")
@@ -48,6 +48,9 @@ saveRDS(ans_hjm5,"D:/temp/R-workspace/ans_hjm5.rds")
 saveRDS(ans_hjm6,"D:/temp/R-workspace/ans_hjm6.rds")
 saveRDS(ans_hjm7,"D:/temp/R-workspace/ans_hjm7.rds")
 saveRDS(ans_hjm8,"D:/temp/R-workspace/ans_hjm8.rds")
+saveRDS(ans_hjm9,"D:/temp/R-workspace/ans_hjm9.rds")
+saveRDS(ans_hjm10,"D:/temp/R-workspace/ans_hjm10.rds")
+saveRDS(ans_hjm11,"D:/temp/R-workspace/ans_hjm111.rds")
 
 ans_hjm1 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm1.rds")
 #ans_hjm1bis = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm1bis.rds")
@@ -55,7 +58,33 @@ ans_hjm2 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm2.rds")
 ans_hjm3 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm3.rds")
 ans_hjm4 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm4.rds")
 
-1st to default
+#plot convergence for 
+#1st to default
+step = 10
+nbobs = round(nrow(ans_hjm2$simulation)/step)
+sobol = rep(NA,nbobs)
+rnorm = rep(NA,nbobs)
+for (i in seq(1,nbobs)) {
+  sobol[i] = mean(ans_hjm2$simulation[1:i*step,52])
+  rnorm[i] = mean(ans_hjm4$simulation[1:i*step,52])
+}
+matplot(seq(1,nbobs)*step,cbind(rnorm,sobol),type="l",log="x",col=c("red","blue"),lty = c(3,1),xlab="Number of Simulations",ylab="Cap price")
+legend(460, 0.0096, c("Pseudo random number - rnorm()","Quasi random number - Sobol"), col = c("red","blue"), text.col = "black", lty = c(3,1,5),merge = TRUE, bg = "gray90")
+
+#convergence diagram for a swap (1*5)
+step = 10
+nbobs = round(nrow(ans_hjm2$simulation)/step)
+sobol = rep(NA,nbobs)
+rnorm = rep(NA,nbobs)
+for (i in seq(1,nbobs)) {
+  sobol[i] = mean(ans_hjm5$simulation[1:i*step,4])
+  rnorm[i] = mean(ans_hjm8$simulation[1:i*step,4])
+}
+matplot(seq(1,nbobs)*step,cbind(rnorm,sobol),type="l",log="x",col=c("red","blue"),lty = c(3,1),xlab="Number of Simulations",ylab="Swap price")
+legend(460, 0.0544, c("Pseudo random number - rnorm()","Quasi random number - Sobol"), col = c("red","blue"), text.col = "black", lty = c(3,1,5),merge = TRUE, bg = "gray90")
+
+
+#1st to default
 step = 1
 nbobs = round(nrow(ans1$basket_sim)/step)
 sobol = rep(NA,nbobs)

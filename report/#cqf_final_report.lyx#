@@ -426,7 +426,7 @@ t increments and initial value of zero.
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Q\left\{ \tau\in[t,t+dt]|\tau\geq t\right\} =\lambda dt
+P\left\{ \tau\in[t,t+dt]|\tau\geq t\right\} =\lambda dt
 \]
 
 \end_inset
@@ -436,7 +436,7 @@ Q\left\{ \tau\in[t,t+dt]|\tau\geq t\right\} =\lambda dt
 
 \begin_layout Standard
 Therefore, we can express the survival probability 
-\begin_inset Formula $Q(t,T)$
+\begin_inset Formula $P(t,T)$
 \end_inset
 
  between 
@@ -453,7 +453,7 @@ Therefore, we can express the survival probability
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Q(t,T)=\exp(-\lambda(T-t))
+P(t,T)=\exp(-\lambda(T-t))
 \]
 
 \end_inset
@@ -478,7 +478,7 @@ A inhomogeneous Poisson process is defined as a process with a non-negative
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Q(t,T)=\exp\left(-\int_{t}^{T}\lambda(s)\; ds\right)
+P(t,T)=\exp\left(-\int_{t}^{T}\lambda(s)\; ds\right)
 \]
 
 \end_inset
@@ -696,11 +696,70 @@ Bootstrapping survival probailities and hazard rates
 \end_layout
 
 \begin_layout Standard
-Iterative process
+We have described previously how to calculate the spread 
+\begin_inset Formula $S_{n}$
+\end_inset
+
+ from the survival probabilities 
+\begin_inset Formula $P(T_{n})$
+\end_inset
+
+ with 
+\begin_inset Formula $n\in[1,N]$
+\end_inset
+
+ and the discounting curve.
+ The discounting curve is quoted in the market (bond markets, money market,
+ etc.) but the survival probabilities are not quoted in the market.
+ The participants in the Credit Default Swap market (Over-the-counter market)
+ are quoting CDS spread instead (i.e.
+ 
+\begin_inset Formula $S_{n}$
+\end_inset
+
+ are known but 
+\begin_inset Formula $P(T_{n})$
+\end_inset
+
+ are not known).
+ This is a typical example of inverse problem that we encounter often in
+ quantitative finance.
+ As in other similar cases, we will calculate the survival probabilities
+ 
+\begin_inset Formula $P(T_{n})$
+\end_inset
+
+ with 
+\begin_inset Formula $n\in[1,N]$
+\end_inset
+
+ recursively.
+ i.e.
+ We will start by find 
+\begin_inset Formula $P(T_{1})$
+\end_inset
+
+ which will help us to find 
+\begin_inset Formula $P(T_{2})$
+\end_inset
+
+ which will help us to find 
+\begin_inset Formula $P(T_{3})$
+\end_inset
+
+, etc.
 \end_layout
 
-\begin_layout Standard
-First step N=1
+\begin_layout Definition
+First step for survival probabilities
+\end_layout
+
+\begin_layout Definition
+For 
+\begin_inset Formula $n=1$
+\end_inset
+
+, we obtain the following equation after a couple of algebraic manipulation:
 \end_layout
 
 \begin_layout Standard
@@ -708,8 +767,9 @@ First step N=1
 \begin{eqnarray*}
 PL_{1} & = & DL_{1}\\
 S_{1}D(0,T_{1})P(T_{1})\varDelta t_{1} & = & (1-R)D(0,T_{1})(P(T_{0})-(P(T_{1}))\\
- & ...\\
-P(T_{1}) & = & \frac{(1-R)}{(1-R)+\varDelta t_{1}S_{1}}
+ & \ldots\\
+D(0,T_{1})P(T_{1})(S_{1}\varDelta t_{1}+L) & = & LD(0,T_{1})P(T_{0})\\
+P(T_{1}) & = & \frac{L}{L+\varDelta t_{1}S_{1}}
 \end{eqnarray*}
 
 \end_inset
@@ -718,31 +778,87 @@ P(T_{1}) & = & \frac{(1-R)}{(1-R)+\varDelta t_{1}S_{1}}
 \end_layout
 
 \begin_layout Standard
-Subsequent steps (n = N)
+with 
+\begin_inset Formula $R$
+\end_inset
+
+ the recovery rate and 
+\begin_inset Formula $L$
+\end_inset
+
+ the loss given defaut defined as 
+\begin_inset Formula $L=1-R$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Subsequent steps (
+\begin_inset Formula $n=N$
+\end_inset
+
+) for survival probabilities
+\end_layout
+
+\begin_layout Definition
+The general expression is given by this formula
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
+\begin{multline*}
 P(T_{N})=\frac{\sum_{n=1}^{N-1}D(0,T_{n})\left[(1-R)P(T_{n-1})-((1-R)+\varDelta t_{n}S_{N})P(T_{n})\right]}{D(0,T_{N})((1-R)+\varDelta t_{N}S_{N})}\\
 +\frac{P(T_{N-1})(1-R)}{((1-R)+\varDelta t_{N}S_{N})}
-\end{multline}
+\end{multline*}
 
 \end_inset
 
 
 \end_layout
 
+\begin_layout Remark*
+We can clearly see that
+\begin_inset Formula $P(T_{N})$
+\end_inset
+
+ depends on 
+\begin_inset Formula $P(T_{N-1})$
+\end_inset
+
+.
+ This explains why we need to apply a bootsrapping process
+\end_layout
+
+\begin_layout Definition*
+Hazard rates (non-cumulative)
+\end_layout
+
 \begin_layout Standard
-Once bootstrapped, we can derive the non cumulative hazard rate function
- from the term structure of cumulative survival probabilities:
+We can calculate the non-cumulative hazard rate 
+\begin_inset Formula $\lambda_{n}$
+\end_inset
+
+ from the two survival probabilities 
+\begin_inset Formula $P(T_{n})$
+\end_inset
+
+ and 
+\begin_inset Formula $P(T_{n-1})$
+\end_inset
+
+.
+ We have seen earlier the relationship between the survival probability
+ and the hazard rate in the case of an inhomogeneous Poisson process.
+ This is the same relationship is if we assume the hazard rate function
+ to be piecewise constant:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{eqnarray}
-P(0,t_{m}) & = & \exp(-\intop_{0}^{t_{m}}\lambda_{s}\; ds)=\exp(-\sum_{i=1}^{m}\lambda_{i}\varDelta t{}_{i})
-\end{eqnarray}
+\begin{eqnarray*}
+P(0,T_{n}) & = & \exp(-\intop_{0}^{T{}_{n}}\lambda_{s}\; ds)=\exp(-\sum_{i=1}^{n}\lambda_{i}\varDelta t{}_{i})
+\end{eqnarray*}
 
 \end_inset
 
@@ -750,20 +866,40 @@ P(0,t_{m}) & = & \exp(-\intop_{0}^{t_{m}}\lambda_{s}\; ds)=\exp(-\sum_{i=1}^{m}\
 \end_layout
 
 \begin_layout Standard
-Assuming the hazard rate funciton as piecewise constant, we bootstrap iterativel
-y for each tenor 
-\begin_inset Formula $\varDelta t_{i}$
-\end_inset
-
-(year).
- We can express the hazard rate as a ratio of survival probabilities:
+From the previous equation, we can deduce that
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-\lambda_{m}=-\frac{1}{\varDelta t}\log(\frac{P(0,t_{m})}{P(0,t_{m-1})})\label{eq:hazard_rate}
-\end{equation}
+\begin{eqnarray*}
+P(0,T_{n}) & = & \exp(-\sum_{i=1}^{n-1}\lambda_{i}\varDelta t{}_{i}-\lambda_{n}\varDelta t_{n})\\
+ & = & \exp(-\sum_{i=1}^{n-1}\lambda_{i}\varDelta t{}_{i})\times\exp(-\lambda_{n}\varDelta t_{n})\\
+ & = & P(0,T_{n-1})\times\exp(-\lambda_{n}\varDelta t_{n})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This automatically give the expression that expresses the hazard rate as
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+log
+\begin_inset Quotes erd
+\end_inset
+
+ difference of two survival probabilities:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{n}=-\frac{1}{\varDelta t}\log(\frac{P(0,T{}_{n})}{P(0,T_{n-1})})
+\]
 
 \end_inset
 
@@ -771,53 +907,172 @@ y for each tenor
 \end_layout
 
 \begin_layout Subsubsection
-Marginal default time
-\end_layout
-
-\begin_layout Paragraph
-Year of default
+Marginal default time// Converting uniform variables to exact default times
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\tau=F^{-1}(u)=-\frac{\log(1-u)}{\lambda_{\tau}}\label{equation_for_tau}
-\end{equation}
+The calculation of the basket spread that is part of the sampling from copula
+ procedure
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Sampling from copula will be described in detail later in this document
+\end_layout
 
 \end_inset
 
+ requires default times.
+ The procedure will first generate a vector of correlated uniform variable
+ 
+\begin_inset Formula $(u_{1},\ldots u_{n})$
+\end_inset
 
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of reference names in the basket CDS.
+ It will then need to convert this vector of correlated uniform variables
+ 
+\begin_inset Formula $(u_{1},\ldots u_{n})$
+\end_inset
+
+ into a vector of default times.
+ This section explains how the exact default time can be calculated using
+ the hazard rates (non-cumulative) term strcuture of a given reference name.
+ 
 \end_layout
 
 \begin_layout Standard
-We do not know the exact 
-\begin_inset Formula $\lambda_{\tau}$
+For a Poisson process, the probability distribution of the waiting time
+ until the next event (i.e.
+ default in our case) is an exponential distribution.
+ We can therefore use the Poisson CDF 
+\begin_inset Formula $\left(F(\tau,\lambda)\right)$
 \end_inset
 
-for the default time 
+to convert 
 \begin_inset Formula $\tau$
 \end_inset
 
- in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "equation_for_tau"
-
+ to a probability 
+\begin_inset Formula $u\in[0,1]$
 \end_inset
 
-), we iterate through the term structure of hazard rates by summing up 
-\begin_inset Formula $\lambda_{i}$
-\end_inset
-
-until the inequality begins to hold:
+:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
+u=F(\tau;\lambda_{\tau})=\begin{cases}
+1-\exp(-\lambda_{\tau}\tau) & \mbox{when}\tau\geq0\\
+0 & \mbox{otherwise}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By imversing the above equation, we obtain:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tau=F^{-1}(u;\lambda_{\tau})=-\frac{\log(1-u)}{\lambda_{\tau}}\mbox{for u\in[0,1]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have assumed hazard rate to piecewise constant when we bootstrapped the
+ credit curve; therefore we don't have the exact value of 
+\begin_inset Formula $\lambda_{\tau}$
+\end_inset
+
+ (hazard rate 
+\begin_inset Formula $\lambda$
+\end_inset
+
+for a given value of 
+\begin_inset Formula $\tau$
+\end_inset
+
+).
+ We will therefore need to apply the following procedure to estimate the
+ exact default time 
+\begin_inset Formula $\tau$
+\end_inset
+
+ for a given uniform variable 
+\begin_inset Formula $u$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+Find the year of default (i.e.
+ find 
+\begin_inset Formula $n$
+\end_inset
+
+ so that the default occurs between 
+\begin_inset Formula $t_{n-1}$
+\end_inset
+
+and 
+\begin_inset Formula $t_{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Estimate the exact default time 
+\begin_inset Formula $\delta t$
+\end_inset
+
+ within the year of default
+\end_layout
+
+\begin_layout Definition
+Year of default
+\end_layout
+
+\begin_layout Standard
+We iterate through the term structure of hazard rates by summing up 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+ i until the inequality begins to hold.
+ 
+\begin_inset Formula 
+\[
 \tau=\inf\left\{ t>0:\log(1-u)\geq-\sum_{i=1}^{t}\lambda_{i}\varDelta t_{i}\right\} 
 \]
 
+\end_inset
+
+Where inf is the matematical operator that represent the infinimum of a
+ set
+\end_layout
+
+\begin_layout Remark*
+If the inequality holds after adding 
+\begin_inset Formula $\lambda_{n},$
+\end_inset
+
+then it means that 
+\begin_inset Formula $t_{n-1}<\tau<t_{n}$
 \end_inset
 
 
@@ -12340,7 +12595,11 @@ NA
 \end_layout
 
 \begin_layout Subsubsection
-Caps pricing
+Cap pricing
+\end_layout
+
+\begin_layout Standard
+30,000 simul
 \end_layout
 
 \begin_layout Itemize
@@ -13447,7 +13706,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0076
 \end_layout
 
 \end_inset
@@ -13456,7 +13715,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0066
 \end_layout
 
 \end_inset
@@ -13465,7 +13724,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0042
 \end_layout
 
 \end_inset
@@ -13474,7 +13733,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0014
 \end_layout
 
 \end_inset
@@ -13483,7 +13742,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0000
 \end_layout
 
 \end_inset
@@ -13492,7 +13751,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -13501,7 +13760,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -13519,7 +13778,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+81.53
 \end_layout
 
 \end_inset
@@ -13528,7 +13787,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+42.88
 \end_layout
 
 \end_inset
@@ -13537,7 +13796,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+24.17
 \end_layout
 
 \end_inset
@@ -13546,7 +13805,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+15.99
 \end_layout
 
 \end_inset
@@ -13555,7 +13814,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+11.13
 \end_layout
 
 \end_inset
@@ -13564,7 +13823,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -13573,7 +13832,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -13665,7 +13924,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-120.29
+120.30
 \end_layout
 
 \end_inset
@@ -13674,7 +13933,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-80.99
+81.07
 \end_layout
 
 \end_inset
@@ -13683,7 +13942,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-42.84
+43.00
 \end_layout
 
 \end_inset
@@ -13692,7 +13951,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-22.72
+23.00
 \end_layout
 
 \end_inset
@@ -13701,7 +13960,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-12.12
+12.38
 \end_layout
 
 \end_inset
@@ -13710,7 +13969,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-8.64
+8.86
 \end_layout
 
 \end_inset
@@ -13719,7 +13978,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-7.12
+7.33
 \end_layout
 
 \end_inset
@@ -13739,7 +13998,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0838
 \end_layout
 
 \end_inset
@@ -13748,7 +14007,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0809
 \end_layout
 
 \end_inset
@@ -13757,7 +14016,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0727
 \end_layout
 
 \end_inset
@@ -13766,7 +14025,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0603
 \end_layout
 
 \end_inset
@@ -13775,7 +14034,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0400
 \end_layout
 
 \end_inset
@@ -13784,7 +14043,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0244
 \end_layout
 
 \end_inset
@@ -13793,7 +14052,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0130
 \end_layout
 
 \end_inset
@@ -13811,7 +14070,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+154.42
 \end_layout
 
 \end_inset
@@ -13820,7 +14079,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+108.51
 \end_layout
 
 \end_inset
@@ -13829,7 +14088,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+64.15
 \end_layout
 
 \end_inset
@@ -13838,7 +14097,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+37.43
 \end_layout
 
 \end_inset
@@ -13847,7 +14106,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+18.76
 \end_layout
 
 \end_inset
@@ -13856,7 +14115,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+11.84
 \end_layout
 
 \end_inset
@@ -13865,7 +14124,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+8.44
 \end_layout
 
 \end_inset
@@ -13885,7 +14144,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.159
 \end_layout
 
 \end_inset
@@ -13894,7 +14153,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1552
 \end_layout
 
 \end_inset
@@ -13903,7 +14162,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1442
 \end_layout
 
 \end_inset
@@ -13912,7 +14171,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1272
 \end_layout
 
 \end_inset
@@ -13921,7 +14180,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0976
 \end_layout
 
 \end_inset
@@ -13930,7 +14189,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0727
 \end_layout
 
 \end_inset
@@ -13939,7 +14198,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0521
 \end_layout
 
 \end_inset
@@ -13957,7 +14216,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+203.57
 \end_layout
 
 \end_inset
@@ -13966,7 +14225,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+133.43
 \end_layout
 
 \end_inset
@@ -13975,7 +14234,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+81.17
 \end_layout
 
 \end_inset
@@ -13984,7 +14243,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+51.51
 \end_layout
 
 \end_inset
@@ -13993,7 +14252,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+28.16
 \end_layout
 
 \end_inset
@@ -14002,7 +14261,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+17.98
 \end_layout
 
 \end_inset
@@ -14011,7 +14270,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+12.47
 \end_layout
 
 \end_inset
@@ -14065,6 +14324,10 @@ instert plot
 
 \begin_layout Subsubsection
 Swap pricing
+\end_layout
+
+\begin_layout Standard
+explain notation
 \end_layout
 
 \begin_layout Standard
@@ -14196,7 +14459,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0183
 \end_layout
 
 \end_inset
@@ -14205,7 +14468,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0298
 \end_layout
 
 \end_inset
@@ -14214,7 +14477,7 @@ t
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0424
 \end_layout
 
 \end_inset
@@ -14243,7 +14506,7 @@ NA
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0131
 \end_layout
 
 \end_inset
@@ -14252,7 +14515,7 @@ NA
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0255
 \end_layout
 
 \end_inset
@@ -14261,7 +14524,7 @@ NA
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0389
 \end_layout
 
 \end_inset
@@ -14299,7 +14562,7 @@ NA
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0161
 \end_layout
 
 \end_inset
@@ -14308,7 +14571,7 @@ NA
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0301
 \end_layout
 
 \end_inset
@@ -14319,10 +14582,6 @@ NA
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-swap curve
 \end_layout
 
 \begin_layout Subsubsection
@@ -16223,7 +16482,82 @@ Convergence and stability
 
 \begin_layout Standard
 Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter,
- Faure)
+ Faure).
+\end_layout
+
+\begin_layout Standard
+===> Niederreiter not applicable because it's limited to 318 dimension (in
+ nag lib)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename plot_cap_convergence_diagram.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Convergence diagram for a cap price
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename plot_convergence_diagram_swap.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Convergence diagram for a swap price (1*5)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -17107,24 +17441,6 @@ key "key-1"
 \end_inset
 
 Duffie [1998]
-\end_layout
-
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-2"
-
-\end_inset
-
-D.
- Brigo and F.
- Mercurio.
- 
-\shape italic
-Interest Rate Models - Theory and Practive
-\shape default
-.
- Springer
 \end_layout
 
 \end_body
