@@ -1123,6 +1123,201 @@ year fraction
 \end_layout
 
 \begin_layout Subsubsection
+Join distribution // Sampling from copula
+\end_layout
+
+\begin_layout Standard
+The most important problem in the pricing of basket credit default swaps
+ is the modelling of the joint default times.
+ A multivariate joint distribution is a multidimensional analytical construction
+ (
+\begin_inset Formula $F(x_{1},\ldots,x_{n})=\mbox{Pr}(X_{1}\leq x_{1},\ldots,X_{n}\leq x_{n}$
+\end_inset
+
+)that is hard to work with especially in high dimension.
+ The better approach to isolate dependence structure among multiple variables
+ is a copula.
+ Copula approach separates the joint distribution into two parts:
+\end_layout
+
+\begin_layout Itemize
+marginal distributions for each variable
+\end_layout
+
+\begin_layout Itemize
+and their dependance structure
+\end_layout
+
+\begin_layout Standard
+The joint distribution function of 
+\begin_inset Formula $n$
+\end_inset
+
+ uniform random variables 
+\begin_inset Formula $U_{1},\ldots,U_{n}$
+\end_inset
+
+is the Copula function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C(u_{1},\ldots,u_{n};\varSigma_{\rho})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the dependance structure is defined by either a correlation matrix
+ 
+\begin_inset Formula $\varSigma_{\rho}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varSigma_{\rho}=\begin{pmatrix}1 & \sigma_{i,j} & \sigma_{i,j}\\
+\sigma_{i,j} & \ddots & \sigma_{i,j}\\
+\sigma_{i,j} & \sigma_{i,j} & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+Equicorrelation between all reference names is sometimes assumed, in this
+ case we have a single parameter 
+\begin_inset Formula $\forall i\forall j,\sigma_{i,j}=\rho$
+\end_inset
+
+ that defines the dependance structure.
+\end_layout
+
+\begin_layout Itemize
+( =In this section, we will introduce the concept of a copula function and
+ explain how copulas can be used for modelling dependence.
+ 
+\end_layout
+
+\begin_layout Standard
+================
+\end_layout
+
+\begin_layout Standard
+Sklar (1959) shows the importance of copulas as a universal tool for studying
+ multivariate distributions.
+ 
+\end_layout
+
+\begin_layout Standard
+Sampling from copula is a method to structure Monte-Carlo simulation.
+ For each simulation, do the following:
+\end_layout
+
+\begin_layout Itemize
+Generate a vector 
+\begin_inset Formula $(z{}_{1},\ldots,z_{n})$
+\end_inset
+
+ of 
+\begin_inset Formula $n$
+\end_inset
+
+ uncorrelated random normal variables (
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of reference name is the basket CDS)
+\end_layout
+
+\begin_layout Itemize
+Impose correlation on the vector 
+\begin_inset Formula $(z_{1},\ldots,z_{n})$
+\end_inset
+
+ using a correlation matrix and obtain the vector 
+\begin_inset Formula $(x_{1},\ldots,x_{n})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Use the Normal / Student's t CDF to transform the vector 
+\begin_inset Formula $(x_{1},\ldots,x_{n})$
+\end_inset
+
+ to a vector 
+\begin_inset Formula $(u_{1},\ldots,u_{n})$
+\end_inset
+
+ of variables uniformly distributed over 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Convert the vector 
+\begin_inset Formula $(u_{1},\ldots,u_{n})$
+\end_inset
+
+ to a vector of default times 
+\begin_inset Formula $(\tau_{1},\ldots,\tau_{n})$
+\end_inset
+
+ using the hazard rate term structure of each reference name (i.e.
+ use the hazard rates term structure of the reference name 
+\begin_inset Formula $n$
+\end_inset
+
+ to convert 
+\begin_inset Formula $u_{n}$
+\end_inset
+
+ into 
+\begin_inset Formula $\tau_{n}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+2.
+ By definition, applying the cumulative distribution function (CDF) to a
+ random variable (r.v.) results in a r.v.
+ that is uniform on the interval [0, 1].
+ Let X a random variable with continuous distribution function FX, FX(X)
+ is uniformly distributed on the interval [0,1].
+ This result is known as the probability integral transformation theorem
+ and present many statistical procedures.
+ With this result in hand, we may introduce the copula using basic statistical
+ theory.
+ In particular, the copula C for (X,Y) is just the joint distribution function
+ for the random couple FX(X), FY(Y) provided FX and FY are continuous.
+\end_layout
+
+\begin_layout Standard
+The previous representation is called canonical representation of the distributi
+on.
+ Thus, copulas link joint distribution functions to their margins.
+ Then, in continuous distribution, the problem of obtaining the joint distributi
+on has reduced to selecting the appropriate copula.
+ We can build multidimensional distributions with different marginals.
+\end_layout
+
+\begin_layout Subsubsection
 Join Distribution
 \end_layout
 

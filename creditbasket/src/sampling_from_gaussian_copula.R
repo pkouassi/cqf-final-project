@@ -98,7 +98,15 @@ ans26 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                         YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"nag-faure")
 
 
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.01*x)))
+cc_entity1 = GetFlatCreditCurve(20.50,yieldcurve_flat)
+cc_entity2 = GetFlatCreditCurve(20.6150,yieldcurve_flat)
+cc_entity3 = GetFlatCreditCurve(20,yieldcurve_flat)
 
+ans27 = BasketCDSPricing_GaussianCopula(c(cc_entity1,
+                                          cc_entity2,
+                                          cc_entity3),
+                                       yieldcurve_flat,UniformCorrelationMatrix(0.30,3),0.40,10000,"sobol")
 
 
 #ans$basket_spreads

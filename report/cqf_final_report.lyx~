@@ -1016,45 +1016,45 @@ for a given value of
 \begin_inset Formula $u$
 \end_inset
 
-.
+:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Enumerate
+Find the year of default (i.e.
+ find 
+\begin_inset Formula $n$
+\end_inset
+
+ so that the default occurs between 
+\begin_inset Formula $t_{n-1}$
+\end_inset
+
+and 
+\begin_inset Formula $t_{n}$
+\end_inset
+
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Enumerate
+Estimate the exact default time 
+\begin_inset Formula $\delta t$
+\end_inset
+
+ within the year of default
+\end_layout
+
+\begin_layout Definition
 Year of default
 \end_layout
 
-\begin_layout Paragraph
-Year of default
-\end_layout
-
 \begin_layout Standard
-We do not know the exact 
-\begin_inset Formula $\lambda_{\tau}$
-\end_inset
-
-for the default time 
-\begin_inset Formula $\tau$
-\end_inset
-
- in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "equation_for_tau"
-
-\end_inset
-
-), we iterate through the term structure of hazard rates by summing up 
+We iterate through the term structure of hazard rates by summing up 
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
-until the inequality begins to hold:
-\end_layout
-
-\begin_layout Standard
+ i until the inequality begins to hold.
+ 
 \begin_inset Formula 
 \[
 \tau=\inf\left\{ t>0:\log(1-u)\geq-\sum_{i=1}^{t}\lambda_{i}\varDelta t_{i}\right\} 
@@ -1062,23 +1062,40 @@ until the inequality begins to hold:
 
 \end_inset
 
+Where inf is the matematical operator that represent the infinimum of a
+ set
+\end_layout
+
+\begin_layout Remark*
+If the inequality holds after adding 
+\begin_inset Formula $\lambda_{n},$
+\end_inset
+
+then it means that 
+\begin_inset Formula $t_{n-1}<\tau<t_{n}$
+\end_inset
+
 
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Definition
 Exact default time
 \end_layout
 
-\begin_layout Standard
-Exact defaut time 
-\begin_inset Formula $\tau=t_{m-1}+\delta t$
+\begin_layout Definition
+We define the defaut time 
+\begin_inset Formula $\tau$
+\end_inset
+
+so that 
+\begin_inset Formula $\tau=t_{n-1}+\delta t$
 \end_inset
 
  where 
-\begin_inset Formula $\delta t$
+\begin_inset Formula $\tau_{n}$
 \end_inset
 
- is the 
+ is the year of default and is the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1086,18 +1103,143 @@ year fraction
 \begin_inset Quotes erd
 \end_inset
 
+ within the year of default.
+ From the previous formula, we can calculate 
+\begin_inset Formula $\delta t$
+\end_inset
 
+ as:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\delta t=-\frac{1}{\lambda_{m}}\log(\frac{1-u}{P(0,t_{m-1})})
+\delta t=-\frac{1}{\lambda_{n}}\log(\frac{1-u}{P(0,t_{n-1})})
 \]
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Join distribution // Sampling from copula
+\end_layout
+
+\begin_layout Standard
+The most important problem in the pricing of basket credit default swaps
+ is the modelling of the joint default times.
+ In this section, we will introduce the concept of a copula function and
+ explain how copulas can be used for modelling dependence.
+ 
+\end_layout
+
+\begin_layout Standard
+================
+\end_layout
+
+\begin_layout Standard
+Sklar (1959) shows the importance of copulas as a universal tool for studying
+ multivariate distributions.
+ 
+\end_layout
+
+\begin_layout Standard
+Sampling from copula is a method to structure Monte-Carlo simulation.
+ For each simulation, do the following:
+\end_layout
+
+\begin_layout Itemize
+Generate a vector 
+\begin_inset Formula $(z{}_{1},\ldots,z_{n})$
+\end_inset
+
+ of 
+\begin_inset Formula $n$
+\end_inset
+
+ uncorrelated random normal variables (
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of reference name is the basket CDS)
+\end_layout
+
+\begin_layout Itemize
+Impose correlation on the vector 
+\begin_inset Formula $(z_{1},\ldots,z_{n})$
+\end_inset
+
+ using a correlation matrix and obtain the vector 
+\begin_inset Formula $(x_{1},\ldots,x_{n})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Use the Normal / Student's t CDF to transform the vector 
+\begin_inset Formula $(x_{1},\ldots,x_{n})$
+\end_inset
+
+ to a vector 
+\begin_inset Formula $(u_{1},\ldots,u_{n})$
+\end_inset
+
+ of variables uniformly distributed over 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Convert the vector 
+\begin_inset Formula $(u_{1},\ldots,u_{n})$
+\end_inset
+
+ to a vector of default times 
+\begin_inset Formula $(\tau_{1},\ldots,\tau_{n})$
+\end_inset
+
+ using the hazard rate term structure of each reference name (i.e.
+ use the hazard rates term structure of the reference name 
+\begin_inset Formula $n$
+\end_inset
+
+ to convert 
+\begin_inset Formula $u_{n}$
+\end_inset
+
+ into 
+\begin_inset Formula $\tau_{n}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+2.
+ By definition, applying the cumulative distribution function (CDF) to a
+ random variable (r.v.) results in a r.v.
+ that is uniform on the interval [0, 1].
+ Let X a random variable with continuous distribution function FX, FX(X)
+ is uniformly distributed on the interval [0,1].
+ This result is known as the probability integral transformation theorem
+ and present many statistical procedures.
+ With this result in hand, we may introduce the copula using basic statistical
+ theory.
+ In particular, the copula C for (X,Y) is just the joint distribution function
+ for the random couple FX(X), FY(Y) provided FX and FY are continuous.
+\end_layout
+
+\begin_layout Standard
+The previous representation is called canonical representation of the distributi
+on.
+ Thus, copulas link joint distribution functions to their margins.
+ Then, in continuous distribution, the problem of obtaining the joint distributi
+on has reduced to selecting the appropriate copula.
+ We can build multidimensional distributions with different marginals.
 \end_layout
 
 \begin_layout Subsubsection
