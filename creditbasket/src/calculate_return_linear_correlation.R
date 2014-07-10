@@ -56,8 +56,6 @@ returns_linear_correlation_match_dates = function(R1,R2) {
 
 myReturnMatrix = cbind(BMY_Returns$Return,TMSNRC_Returns$Return,HPQ_Returns$Return,IBM_Returns$Return,PFE_Returns$Return)
 
-myReturnArray = c(BMY_Returns,RSH_Returns,HPQ_Returns,IBM_Returns,PFE_Returns)
-
 #Correlation of stock returns
 ReturnCorrelationMatrix = matrix(NA, 
               nrow=ncol(myReturnMatrix),
@@ -76,4 +74,27 @@ for (i in seq(1,ncol(myReturnMatrix))) {
 }
 
 ReturnCorrelationMatrix
+
+#----------------------------------------------------------------------------------
+#Rolling 60days correlation (stock log return
+#----------------------------------------------------------------------------------
+
+
+
+lag = 60
+rolling_correlation_1vs5 = rep(NA,length(BMY_Returns$Return)-lag)
+rolling_correlation_3vs4 = rep(NA,length(BMY_Returns$Return)-lag)
+asset1 = BMY_Returns$Return
+asset2 = TMSNRC_Returns$Return
+asset3 = HPQ_Returns$Return
+asset4 = IBM_Returns$Return
+asset5 = PFE_Returns$Return
+for (i in seq(1,length(rolling_correlation_1vs5))) {
+  rolling_correlation_1vs5[i] = pearson_correlation(asset1[i:(i+(lag-1))],asset5[i:(i+(lag-1))])
+  rolling_correlation_3vs4[i] = pearson_correlation(asset3[i:(i+(lag-1))],asset4[i:(i+(lag-1))])
+}
+matplot(seq(1,length(rolling_correlation_1vs5)),cbind(rolling_correlation_1vs5,rolling_correlation_3vs4),type="l",col=c("black","blue"),lty=1,xlab="Time",ylab="Correlation",ylim=c(0,0.75))
+legend(146, 0.14, c("Corr(BMY,PFE)","Corr(HP,IBM)"), col = c("black","blue"), text.col = "black", lty = c(1,1), pch = c(NA),
+       merge = TRUE, bg = "gray90")
+
 

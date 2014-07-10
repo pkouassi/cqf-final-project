@@ -169,7 +169,53 @@ hist(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff), breaks=30)
 
 DP_5Y_logdiff_CorrelationMatrix_GaussianCopula
 CorrelationMatrix_GaussianCopula = DP_5Y_logdiff_CorrelationMatrix_GaussianCopula
-  
+
+
+#----------------------------------------------------------------------------------
+#Rolling 60days correlation (Log Difference of Default Probability - 5Y)
+#----------------------------------------------------------------------------------
+lag = 10
+rolling_correlation_1vs5 = rep(NA,length(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff))-lag)
+rolling_correlation_3vs4 = rep(NA,length(transform_to_normal(CDS3_USD_XR_diff$DP_5Y_logdiff))-lag)
+asset1 = transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff)
+asset2 = transform_to_normal(CDS2_USD_XR_diff$DP_5Y_logdiff)
+asset3 = transform_to_normal(CDS3_USD_XR_diff$DP_5Y_logdiff)
+asset4 = transform_to_normal(CDS4_USD_XR_diff$DP_5Y_logdiff)
+asset5 = transform_to_normal(CDS5_USD_XR_diff$DP_5Y_logdiff)
+for (i in seq(1,length(rolling_correlation_1vs5))) {
+  rolling_correlation_1vs5[i] = pearson_correlation(asset1[1:(i+(lag-1))],asset5[1:(i+(lag-1))])
+  rolling_correlation_3vs4[i] = pearson_correlation(asset3[1:(i+(lag-1))],asset4[1:(i+(lag-1))])  
+}
+
+#par(mfrow=c(3,1))
+#plot(seq(1,length(rolling_correlation_1vs5)),rolling_correlation_1vs5,type="l")
+#plot(seq(1,length(rolling_correlation_1vs5)),rolling_correlation_3vs4,type="l")
+#plot(seq(1,length(rolling_correlation_1vs5)),rolling_correlation_2vs3,type="l")
+#matplot(seq(1,length(rolling_correlation_1vs5)),cbind(rolling_correlation_1vs5,rolling_correlation_3vs4,rolling_correlation_2vs3),type="l")
+matplot(seq(1,length(rolling_correlation_1vs5)),cbind(rolling_correlation_1vs5,rolling_correlation_3vs4),type="l",col=c("black","blue"),lty=1,xlab="Time",ylab="Correlation",ylim=c(0,0.75))
+legend(305, 0.14, c("Corr(BMY,PFE)","Corr(HP,IBM)"), col = c("black","blue"), text.col = "black", lty = c(1,1), pch = c(NA),
+merge = TRUE, bg = "gray90")
+
+#------------------------
+#correlation stability
+#------------------------
+
+lag_70=70
+rolling_correlation_1vs5_lag_70 = rep(NA,length(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff))-lag_70)
+lag_90=130
+rolling_correlation_1vs5_lag_90 = rep(NA,length(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff))-lag_70)
+lag_110=170
+rolling_correlation_1vs5_lag_110 = rep(NA,length(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff))-lag_70)
+
+for (i in seq(1,length(rolling_correlation_1vs5))) {
+  rolling_correlation_1vs5_lag_70[i] = pearson_correlation(asset1[i:(i+(lag_70-1))],asset5[i:(i+(lag_70-1))])
+  rolling_correlation_1vs5_lag_90[i] = pearson_correlation(asset1[i:(i+(lag_90-1))],asset5[i:(i+(lag_90-1))])
+  rolling_correlation_1vs5_lag_110[i] = pearson_correlation(asset1[i:(i+(lag_110-1))],asset5[i:(i+(lag_110-1))])
+}
+
+matplot(cbind(rolling_correlation_1vs5_lag_70,rolling_correlation_1vs5_lag_90,rolling_correlation_1vs5_lag_110),type="l",lty=1)
+
+#par(mfrow=c(1,1))
 #----------------------------------------------------------------------------------
 #Correlation Matrix for Gaussian copula (Hazard Rate - 5Y)
 #----------------------------------------------------------------------------------
@@ -209,6 +255,27 @@ HR_5Y_logdiff_CorrelationMatrix_GaussianCopula = pearson_correlation_matrix(rbin
   transform_to_normal(CDS5_USD_XR_diff$HR_5Y_logdiff)))
 
 HR_5Y_logdiff_CorrelationMatrix_GaussianCopula
+
+#----------------------------------------------------------------------------------
+#Rolling 60days correlation (Log Difference of Hazard rates - 5Y)
+#----------------------------------------------------------------------------------
+
+lag = 60
+rolling_correlation_1vs5 = rep(NA,length(transform_to_normal(CDS1_USD_XR_diff$HR_5Y_logdiff))-lag)
+rolling_correlation_3vs4 = rep(NA,length(transform_to_normal(CDS3_USD_XR_diff$HR_5Y_logdiff))-lag)
+asset1 = transform_to_normal(CDS1_USD_XR_diff$HR_5Y_logdiff)
+asset2 = transform_to_normal(CDS2_USD_XR_diff$HR_5Y_logdiff)
+asset3 = transform_to_normal(CDS3_USD_XR_diff$HR_5Y_logdiff)
+asset4 = transform_to_normal(CDS4_USD_XR_diff$HR_5Y_logdiff)
+asset5 = transform_to_normal(CDS5_USD_XR_diff$HR_5Y_logdiff)
+for (i in seq(1,length(rolling_correlation_1vs5))) {
+  rolling_correlation_1vs5[i] = pearson_correlation(asset1[i:(i+(lag-1))],asset5[i:(i+(lag-1))])
+  rolling_correlation_3vs4[i] = pearson_correlation(asset3[i:(i+(lag-1))],asset4[i:(i+(lag-1))])
+}
+matplot(seq(1,length(rolling_correlation_1vs5)),cbind(rolling_correlation_1vs5,rolling_correlation_3vs4),type="l",col=c("black","blue"),lty=1,xlab="Time",ylab="Correlation",ylim=c(0,0.75))
+legend(305, 0.14, c("Corr(BMY,PFE)","Corr(HP,IBM)"), col = c("black","blue"), text.col = "black", lty = c(1,1), pch = c(NA),
+       merge = TRUE, bg = "gray90")
+
 
 #par(mfrow=c(1,3))
 #plot(density(CDS1_USD_XR_diff$HR_5Y[!is.na(CDS1_USD_XR_diff$HR_5Y)]),main="Hazard rate",ylab="",xlab="",  ,col="black",lty=1)
