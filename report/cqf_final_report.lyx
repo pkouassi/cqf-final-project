@@ -13,6 +13,11 @@
 \makeatletter
 \let\ps@plain\ps@fancy% Plain page style = fancy page style
 \makeatother
+
+\usepackage{prettyref}
+\newrefformat{tab}{Table\,\ref{#1}}
+\newrefformat{fig}{Figure\,\ref{#1}}
+\newrefformat{eq}{Eq.\,\textup{(\ref{#1})}}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -1123,13 +1128,102 @@ year fraction
 \end_layout
 
 \begin_layout Subsubsection
-Join distribution // Sampling from copula
+Join distribution
 \end_layout
 
 \begin_layout Standard
 The most important problem in the pricing of basket credit default swaps
  is the modelling of the joint default times.
- A multivariate joint distribution is a multidimensional analytical construction
+ A marginal distribution of a random variable 
+\begin_inset Formula $X$
+\end_inset
+
+ is defined by its CDF:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F(x)=\mbox{Pr}(X\leq x)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The joint distribution function of two random variable 
+\begin_inset Formula $X_{1}$
+\end_inset
+
+and 
+\begin_inset Formula $X_{2}$
+\end_inset
+
+is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F(x_{1},x_{2})=\mbox{Pr}(X_{1}\leq x_{1},X_{2}\leq x_{2})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The joint distribution of 
+\begin_inset Formula $n$
+\end_inset
+
+ random variables 
+\begin_inset Formula $X_{1},\ldots,X_{n}$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F(x_{1},\ldots,x_{n})=\mbox{Pr}(X_{1}\leq x_{1},\ldots,X_{n}\leq x_{n})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can model the default risk of our basket CDS if the joint default distributio
+n function is known:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F(t_{1},\ldots,t_{n})=\mbox{Pr}(\tau_{1}\leq t_{1},\ldots,\tau_{n}\leq t_{n})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\tau_{i}\leq t_{i}$
+\end_inset
+
+means a default event.
+\end_layout
+
+\begin_layout Standard
+A multivariate joint distribution is a multidimensional analytical construction
  (
 \begin_inset Formula $F(x_{1},\ldots,x_{n})=\mbox{Pr}(X_{1}\leq x_{1},\ldots,X_{n}\leq x_{n}$
 \end_inset
@@ -1203,20 +1297,157 @@ Equicorrelation between all reference names is sometimes assumed, in this
  that defines the dependance structure.
 \end_layout
 
-\begin_layout Itemize
-( =In this section, we will introduce the concept of a copula function and
- explain how copulas can be used for modelling dependence.
- 
+\begin_layout Definition
+Copula as a joint distribution
+\end_layout
+
+\begin_layout Definition
+In order to obtain the expression for the copula function in terms of 
+\begin_inset Formula $u_{i}$
+\end_inset
+
+, we transform a random variable by its own CDF.
+ For the random variables 
+\begin_inset Formula $X_{1},\ldots,X_{n}$
+\end_inset
+
+ with a flexible choice of marginal dsitribution 
+\begin_inset Formula $F_{1}(x_{1}),\ldots,F_{n}(x_{n})$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-================
+\begin_inset Formula 
+\begin{eqnarray*}
+C(u_{1},u_{2},\ldots,u_{n}) & \equiv & \mbox{Pr}(U_{1}\leq u_{1},\ldots,U_{n}\leq u_{n})\\
+ & = & \mbox{Pr}(F_{1}(X_{1}),\ldots,F_{n}(X_{n}))\\
+ & = & \mbox{Pr}(X_{1}\leq x_{1},\ldots,X_{n}\leq x_{n})\\
+ & \equiv & F(x_{1},\ldots,x_{n})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Sklar theorem
+\end_layout
+
+\begin_layout Definition
+Sklar proved that for every multivariate CDF 
+\begin_inset Formula $F$
+\end_inset
+
+ with marginals 
+\begin_inset Formula $F_{i}$
+\end_inset
+
+, there exist some copula fonction 
+\begin_inset Formula $C$
+\end_inset
+
+ such that:
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula 
+\[
+F(x_{1},x_{2},\ldots,x_{n)}\equiv C(u_{1},u_{2},\ldots,u_{n})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+and if the joint distribution is continuous then the copula function 
+\begin_inset Formula $C$
+\end_inset
+
+ is unique.
+\end_layout
+
+\begin_layout Remark*
+Sklar theorem shows that we can obtain and rely on the copula function to
+ model dependence structure
+\end_layout
+
+\begin_layout Definition
+Multivariate Gaussian copula
+\end_layout
+
+\begin_layout Definition
+The multivariate Gaussian Copula function can be expressed as
 \end_layout
 
 \begin_layout Standard
-Sklar (1959) shows the importance of copulas as a universal tool for studying
- multivariate distributions.
- 
+\begin_inset Formula 
+\[
+C(u_{1},u_{2},\ldots,u_{n})=\Phi_{n}(\Phi^{-1}(u_{1}),\ldots,\Phi^{-1}(u_{n});\Sigma)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\Phi_{n}$
+\end_inset
+
+is the CDF for the multivariate standard normal distribution.
+ There is no closed-form solution for this copula function
+\end_layout
+
+\begin_layout Definition
+Multivariate Student's t copula
+\end_layout
+
+\begin_layout Definition
+The multivariate Student's t Copula function can be expressed as
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula 
+\[
+C(u_{1},u_{2},\ldots,u_{n})=T_{\nu}(T_{\nu}^{-1}(u_{1}),\ldots,T_{\nu}^{-1}(u_{n});\Sigma)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Student's t copula density function is 
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula 
+\[
+c(U;\nu,\varSigma)=\frac{1}{\sqrt{|\varSigma|}}\frac{\varGamma(\frac{\nu+n}{2})}{\varGamma(\frac{\nu}{2})}\left(\frac{\varGamma(\frac{v}{2})}{\varGamma(\frac{\nu+1}{2})}\right)^{n}\frac{\left(1+\frac{T_{\nu}^{-1}(U')\sum^{-1}T_{\nu}^{-1}(U)}{\nu}\right)^{-\frac{\nu+n}{2}}}{\prod_{i=1}^{n}\left(1+\frac{T_{\nu}^{-1}(u_{i}^{2})}{\nu}\right)^{-\frac{\nu+1}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+where 
+\begin_inset Formula $U=(u_{1},\ldots,u_{n})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Sampling from copula
 \end_layout
 
 \begin_layout Standard
@@ -1294,39 +1525,131 @@ Convert the vector
 \end_layout
 
 \begin_layout Standard
-2.
- By definition, applying the cumulative distribution function (CDF) to a
- random variable (r.v.) results in a r.v.
- that is uniform on the interval [0, 1].
- Let X a random variable with continuous distribution function FX, FX(X)
- is uniformly distributed on the interval [0,1].
- This result is known as the probability integral transformation theorem
- and present many statistical procedures.
- With this result in hand, we may introduce the copula using basic statistical
- theory.
- In particular, the copula C for (X,Y) is just the joint distribution function
- for the random couple FX(X), FY(Y) provided FX and FY are continuous.
+The benefit of the copula method is separation of:
 \end_layout
 
-\begin_layout Standard
-The previous representation is called canonical representation of the distributi
-on.
- Thus, copulas link joint distribution functions to their margins.
- Then, in continuous distribution, the problem of obtaining the joint distributi
-on has reduced to selecting the appropriate copula.
- We can build multidimensional distributions with different marginals.
+\begin_layout Itemize
+dependance structure and
+\end_layout
+
+\begin_layout Itemize
+marginal distribution for the default time 
+\begin_inset Formula $\tau_{i}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
-Join Distribution
+Correlation matrix for Gaussian copulae
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-F(x_{1},x_{2},\ldots,x_{n)}\equiv C(u_{1},u_{2},\ldots,u_{n})
-\]
+Gaussian copulae require linear correlation.
+ Linear correlation is always estimated from Normal variables.
+ The following steps explain how to estimate the correlation matrix that
+ can be used in sampling from Gaussian copulae:
+\end_layout
 
+\begin_layout Enumerate
+Transfrom data 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ into uniform 
+\begin_inset Formula $\mathbf{U}=\mathbf{\hat{F}(X)}$
+\end_inset
+
+, where 
+\begin_inset Formula $\mathbf{U}$
+\end_inset
+
+ is properly scaled 
+\begin_inset Formula $\in\left[0,1\right]$
+\end_inset
+
+and 
+\begin_inset Formula $\mathbf{\hat{F}(X)}$
+\end_inset
+
+ is the empirical cumulative density function (CDF)
+\end_layout
+
+\begin_layout Enumerate
+Apply inverse Normal CDF 
+\begin_inset Formula $\mathbf{Z}=\mathbf{\Phi^{-1}(U)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate a linear correlation (Pearson) matrix 
+\begin_inset Formula $\mathbf{\hat{\mathbf{\varSigma}}=\mbox{corr}(Z)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+Correlating returns by a linear measure (Pearson) assumes they are Normally
+ distributed
+\end_layout
+
+\begin_layout Subsubsection
+Correlation matrix for Student's t copulae
+\end_layout
+
+\begin_layout Standard
+Student's t copulae require linear correlation (this is true for all elliptical
+ copulas).
+ The following steps explain how to estimate the correlation matrix that
+ can be used in sampling from Student's t copulae:
+\end_layout
+
+\begin_layout Enumerate
+Transfrom data matrix
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ into uniform using
+\begin_inset Formula $\mathbf{U}=\mathbf{\hat{F}(X)}$
+\end_inset
+
+, where 
+\begin_inset Formula $\mathbf{\hat{F}(X)}$
+\end_inset
+
+ is the empirical cumulative density function (CDF)
+\end_layout
+
+\begin_layout Enumerate
+Calculate correlation matrix 
+\begin_inset Formula $\hat{\sum}_{K}$
+\end_inset
+
+ by applying Kendall's tau or another rank measure to 
+\begin_inset Formula $U$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate a linear correlation matrix 
+\begin_inset Formula $\mathbf{\hat{\mathbf{\varSigma}}}$
+\end_inset
+
+by applying the formula 
+\begin_inset Formula $\rho=\sin(\frac{\pi}{2}\rho_{K})$
+\end_inset
+
+on each of the element 
+\begin_inset Formula $\rho_{K}$
+\end_inset
+
+of the matrix
+\begin_inset Formula $\hat{\sum}_{K}$
 \end_inset
 
 
@@ -1359,27 +1682,15 @@ c(U;\nu,\varSigma)=\frac{1}{\sqrt{|\varSigma|}}\frac{\varGamma(\frac{\nu+n}{2})}
 \end_layout
 
 \begin_layout Subsubsection
-Spread Calculation
-\end_layout
-
-\begin_layout Subsubsection
-Correlation Matrix for Gaussian Copulae
-\end_layout
-
-\begin_layout Subsubsection
-Correlation Matrix and Degree of Freedom for Student t Copulae
-\end_layout
-
-\begin_layout Subsubsection
-Modelling join default times
-\end_layout
-
-\begin_layout Subsubsection
 Sampling from Gaussian copulae
 \end_layout
 
 \begin_layout Subsubsection
 Sampling from Student t copulae
+\end_layout
+
+\begin_layout Subsubsection
+Spread Calculation
 \end_layout
 
 \begin_layout Subsection
@@ -1391,14 +1702,14 @@ Correlation matrix for gaussian copula
 \end_layout
 
 \begin_layout Standard
-One of the most important step in pricing Basket Default Swap is the estimation
- of the correlation matrix.
+One of the most important step in pricing Basket Credit Default Swap is
+ the estimation of the correlation matrix.
  The correlation matrix is generally obtained through historical sampling.
- Sereval ways to estimate the correlation matrix have been researched:
+ Sereval ways to estimate the Gaussian correlation matrix have been researched:
 \end_layout
 
 \begin_layout Itemize
-Difference of default probability / Log difference of default probability
+Difference of default probabilities / Log difference of default probabilities
 \end_layout
 
 \begin_layout Itemize
@@ -1414,7 +1725,7 @@ Daily observation vs.
 Stock return (daily)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Description
 
 \series bold
 Methodology
@@ -1430,17 +1741,40 @@ Historical credit spreads have been obtained from Markit for year 2011 until
 status open
 
 \begin_layout Plain Layout
-Data as of 30/04/2014
+Market data as of 30/04/2014
 \end_layout
 
 \end_inset
 
  gives more details on the CDS contracts we have worked with.
- The Doc Clause stipulates whether restructuring is considered as a credit
- event or not.
- The XR Doc Clause excludes restructuring.
- All CDS have been choosen with XR Doc Clause because XR CDS are the most
- liquid in the United States.
+ The restructuring clause (Doc Clause) stipulates whether restructuring
+ is considered as a credit event or not.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+XR
+\begin_inset Quotes erd
+\end_inset
+
+ means 
+\begin_inset Quotes eld
+\end_inset
+
+No restructuring
+\begin_inset Quotes erd
+\end_inset
+
+.
+ All CDS have been choosen with the restructuring clause 
+\begin_inset Quotes eld
+\end_inset
+
+XR
+\begin_inset Quotes erd
+\end_inset
+
+ because these are considered as the most liquid in the United States.
 \begin_inset Newline newline
 \end_inset
 
@@ -1454,6 +1788,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -1465,55 +1800,60 @@ status open
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
 \size scriptsize
-Credit Entity
+Credit entity
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
 \size scriptsize
 Ticker
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
 \size scriptsize
 Tier
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
 \size scriptsize
 Doc Clause
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
 \size scriptsize
 Rating
 \end_layout
@@ -1942,7 +2282,7 @@ Two ways to transform data to uniform pseudo-samples
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Description
 
 \series bold
 Difference of default probability / Log difference of default probability
