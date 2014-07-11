@@ -11851,6 +11851,12 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
+
+\color red
+give explanations
+\end_layout
+
+\begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="10">
 <features rotate="0" tabularvalignment="middle">
@@ -12555,13 +12561,30 @@ Impact of the recover rate
 
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection*
 Impact of the discount curve on the fair spread
 \end_layout
 
+\begin_layout Itemize
+CDS spread = 50 basis points
+\end_layout
+
+\begin_layout Itemize
+Equicorrelation = 30%
+\end_layout
+
+\begin_layout Itemize
+Degree of freedom (for Student's t): 10
+\end_layout
+
+\begin_layout Itemize
+1,000,000 simulations
+\end_layout
+
 \begin_layout Standard
-50bp, 30% corr.
- gfdg j l f sadf fas df fsdaa fsaf sd fasf saf asf.
+
+\color red
+Comments ????
 \end_layout
 
 \begin_layout Standard

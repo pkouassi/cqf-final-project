@@ -9924,7 +9924,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+43.6619
 \end_layout
 
 \end_inset
@@ -9942,7 +9942,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+41.7913
 \end_layout
 
 \end_inset
@@ -9998,7 +9998,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6.5649
 \end_layout
 
 \end_inset
@@ -10016,7 +10016,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+7.5139
 \end_layout
 
 \end_inset
@@ -10072,7 +10072,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.1302
 \end_layout
 
 \end_inset
@@ -10090,7 +10090,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.6419
 \end_layout
 
 \end_inset
@@ -10146,7 +10146,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1506
 \end_layout
 
 \end_inset
@@ -10164,7 +10164,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.2943
 \end_layout
 
 \end_inset
@@ -10220,7 +10220,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0067
 \end_layout
 
 \end_inset
@@ -10238,7 +10238,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0217
 \end_layout
 
 \end_inset
@@ -10373,7 +10373,8 @@ to default spread by 8 (
  spread of any reference name.
  
 \color red
-Since the reference names are correlated, Why??? provide explanations ....
+Since the reference names are correlated, Why??? less invidual default,
+ therefore less provide explanations ....
 \end_layout
 
 \begin_layout Standard
