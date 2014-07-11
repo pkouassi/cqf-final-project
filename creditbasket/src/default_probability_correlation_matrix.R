@@ -174,7 +174,7 @@ CorrelationMatrix_GaussianCopula = DP_5Y_logdiff_CorrelationMatrix_GaussianCopul
 #----------------------------------------------------------------------------------
 #Rolling 60days correlation (Log Difference of Default Probability - 5Y)
 #----------------------------------------------------------------------------------
-lag = 10
+lag = 60
 rolling_correlation_1vs5 = rep(NA,length(transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff))-lag)
 rolling_correlation_3vs4 = rep(NA,length(transform_to_normal(CDS3_USD_XR_diff$DP_5Y_logdiff))-lag)
 asset1 = transform_to_normal(CDS1_USD_XR_diff$DP_5Y_logdiff)
@@ -183,8 +183,8 @@ asset3 = transform_to_normal(CDS3_USD_XR_diff$DP_5Y_logdiff)
 asset4 = transform_to_normal(CDS4_USD_XR_diff$DP_5Y_logdiff)
 asset5 = transform_to_normal(CDS5_USD_XR_diff$DP_5Y_logdiff)
 for (i in seq(1,length(rolling_correlation_1vs5))) {
-  rolling_correlation_1vs5[i] = pearson_correlation(asset1[1:(i+(lag-1))],asset5[1:(i+(lag-1))])
-  rolling_correlation_3vs4[i] = pearson_correlation(asset3[1:(i+(lag-1))],asset4[1:(i+(lag-1))])  
+  rolling_correlation_1vs5[i] = pearson_correlation(asset1[i:(i+(lag-1))],asset5[i:(i+(lag-1))])
+  rolling_correlation_3vs4[i] = pearson_correlation(asset3[i:(i+(lag-1))],asset4[i:(i+(lag-1))])  
 }
 
 #par(mfrow=c(3,1))
@@ -193,7 +193,7 @@ for (i in seq(1,length(rolling_correlation_1vs5))) {
 #plot(seq(1,length(rolling_correlation_1vs5)),rolling_correlation_2vs3,type="l")
 #matplot(seq(1,length(rolling_correlation_1vs5)),cbind(rolling_correlation_1vs5,rolling_correlation_3vs4,rolling_correlation_2vs3),type="l")
 matplot(seq(1,length(rolling_correlation_1vs5)),cbind(rolling_correlation_1vs5,rolling_correlation_3vs4),type="l",col=c("black","blue"),lty=1,xlab="Time",ylab="Correlation",ylim=c(0,0.75))
-legend(305, 0.14, c("Corr(BMY,PFE)","Corr(HP,IBM)"), col = c("black","blue"), text.col = "black", lty = c(1,1), pch = c(NA),
+legend(68.5, 0.14, c("Corr(BMY,PFE)","Corr(HP,IBM)"), col = c("black","blue"), text.col = "black", lty = c(1,1), pch = c(NA),
 merge = TRUE, bg = "gray90")
 
 #------------------------
