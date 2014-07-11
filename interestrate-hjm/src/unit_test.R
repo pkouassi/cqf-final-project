@@ -5,8 +5,29 @@ tt = parseHistoricalForwardCurve(shortend_filename,longend_filename)
 
 #eigen values / vectors
 #comparaison 
-EigenValuesVector(E,10^-16)
-eigen(E, TRUE, only.values = FALSE)
+toto.values = EigenValuesVector(H,10^-16)
+toto.vectors = EigenValuesMatrix(H,10^-16)
+
+tata = eigen(H, FALSE, only.values = FALSE)
+tata.values = tata$values
+tata.vectors = tata$vectors
+
+toto.values; tata.values
+toto.vectors; tata.vectors
+
+toto.vectors %*% diag(toto.values,3)  %*% solve(toto.vectors)
+tata.vectors %*% diag(tata.values,3)  %*% solve(tata.vectors)
+
+#2 methods equivalent when symetric
+
+#debugging
+
+r <- eigen(G)
+V <- r$vectors
+lam <- r$values
+Lmbd =diag(lam)
+
+V  %*% 
 
 #eigen(CovarianceMatrix, TRUE, only.values = FALSE)$value
 #sort(EigenValuesVector(CovarianceMatrix,10^-16),decreasing = TRUE)
@@ -55,6 +76,20 @@ E = matrix(
   nrow=3,              # number of rows 
   ncol=3,              # number of columns 
   byrow = TRUE)        # fill matrix by rows 
+
+G = matrix( 
+  c(2, 1, 10, 1, 2, 4,17, 51,1), # the data elements 
+  nrow=3,              # number of rows 
+  ncol=3,              # number of columns 
+  byrow = TRUE)        # fill matrix by rows 
+
+H = matrix( 
+  c(1, 0.33, 0.50, 0.33, 1, 0.60,0.5,0.6,1), # the data elements 
+  nrow=3,              # number of rows 
+  ncol=3,              # number of columns 
+  byrow = TRUE)        # fill matrix by rows 
+
+
 
 #Test trapezium rule
 f = function(x) sqrt((2*x+1))

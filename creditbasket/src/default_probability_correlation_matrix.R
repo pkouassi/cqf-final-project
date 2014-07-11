@@ -499,7 +499,7 @@ C = function (U,v,Sigma) {
 #test of C
 #C(U_array[22,],2,DefaultProbabilityMatrix_StudentTCopula)
 
-loglikelyhoodfunc = function(UMatrix,v,Sigma) {
+loglikelihoodfunc = function(UMatrix,v,Sigma) {
   value = 0
   for (i in seq(1,nrow(UMatrix))) {
     value = value + log(C(UMatrix[i,],v,Sigma))
@@ -518,17 +518,17 @@ U_array = cbind(transform_to_uniform(CDS1_USD_XR_diff$DP_5Y_logdiff),
 
 U_array = U_array[(U_array[,1]!=1.0 & U_array[,2]!=1.0 & U_array[,3]!=1.0 & U_array[,4]!=1.0 & U_array[,5]!=1.0) &
                   !is.na(U_array[,1]) & !is.na(U_array[,2]) & !is.na(U_array[,3]) & !is.na(U_array[,4]) & !is.na(U_array[,5]),]
-#loglikelyhoodfunc(U_array,10,CorrelationMatrix_StudentTCopula)
+#loglikelihoodfunc(U_array,10,CorrelationMatrix_StudentTCopula)
 
-#plot of the log-lekelyhood funciton
+#plot of the log-likelihood function
 v_array = seq(1,60,by=1)
-loglikelyhood_array = sapply(v_array,loglikelyhoodfunc,UMatrix=U_array,Sigma=CorrelationMatrix_StudentTCopula)
-plot(v_array,loglikelyhood_array,type="l",xlab="Degrees of freedom",ylab="Log-likelyhood",log="y",ylim=c(105,115))
+loglikelihood_array = sapply(v_array,loglikelihoodfunc,UMatrix=U_array,Sigma=CorrelationMatrix_StudentTCopula)
+plot(v_array,loglikelihood_array,type="l",xlab="Degrees of freedom",ylab="Log-likelyhood",log="y",ylim=c(105,115))
 
 #optimization to compute degree of freedom for student t
-degree_freedom = optimize(loglikelyhoodfunc, UMatrix = U_array, Sigma = CorrelationMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
+degree_freedom = optimize(loglikelihoodfunc, UMatrix = U_array, Sigma = CorrelationMatrix_StudentTCopula, interval=c(1, 50),maximum=TRUE)$maximum
 
-loglikelyhoodfunc(U_array,0.1,CorrelationMatrix_StudentTCopula)
+loglikelihoodfunc(U_array,0.1,CorrelationMatrix_StudentTCopula)
 
 # 
 # UBLN = U_array[22,]

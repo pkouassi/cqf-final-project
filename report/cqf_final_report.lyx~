@@ -9924,7 +9924,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+43.6619
 \end_layout
 
 \end_inset
@@ -9942,7 +9942,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+41.7913
 \end_layout
 
 \end_inset
@@ -9998,7 +9998,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6.5649
 \end_layout
 
 \end_inset
@@ -10016,7 +10016,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+7.5139
 \end_layout
 
 \end_inset
@@ -10072,7 +10072,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.1302
 \end_layout
 
 \end_inset
@@ -10090,7 +10090,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.6419
 \end_layout
 
 \end_inset
@@ -10146,7 +10146,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1506
 \end_layout
 
 \end_inset
@@ -10164,7 +10164,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.2943
 \end_layout
 
 \end_inset
@@ -10220,7 +10220,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0067
 \end_layout
 
 \end_inset
@@ -10238,7 +10238,7 @@ Fair spread (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0217
 \end_layout
 
 \end_inset
@@ -10373,7 +10373,8 @@ to default spread by 8 (
  spread of any reference name.
  
 \color red
-Since the reference names are correlated, Why??? provide explanations ....
+Since the reference names are correlated, Why??? less invidual default,
+ therefore less 1st default alone provide explanations ....
 \end_layout
 
 \begin_layout Standard
@@ -11121,7 +11122,17 @@ What are your levels of correlations obtained from changes in traded CDS
 \end_layout
 
 \begin_layout Standard
-gjhgjComments on correlation dependant
+
+\color red
+as correlation increases, less default alone and more group / joined defaults.
+ therefore the first to default decrease and the 3/4/5 default increase.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+second-to-default increase until a certain inflexion point (around 70%);
+ after that the spread of the second-to-default decreases 
 \end_layout
 
 \begin_layout Standard
@@ -11853,7 +11864,7 @@ Degree of freedom (for Student's t): 10
 \begin_layout Standard
 
 \color red
-give explanations
+explore larger recovery rate ????
 \end_layout
 
 \begin_layout Standard
@@ -12584,7 +12595,7 @@ Degree of freedom (for Student's t): 10
 \begin_layout Standard
 
 \color red
-Comments ????
+Comments ???? explore granular 
 \end_layout
 
 \begin_layout Standard
@@ -13297,19 +13308,57 @@ Impact of yield curve
 
 \end_layout
 
+\begin_layout Subsubsection*
+Stress testing of correlation matrix
+\end_layout
+
+\begin_layout Standard
+
+\color red
+historical sampling of default correlation matrix, and
+\end_layout
+
+\begin_layout Standard
+
+\color red
+choice of the stress-testing levels of correlation.
+\end_layout
+
 \begin_layout Subsection
 Convergence and stability
 \end_layout
 
 \begin_layout Standard
-Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter,
- Faure)
+I have run 1,000,000 simulations using pseudo-random numbers (rnorm native
+ function in R) and quasi-random numbers (Sobol, Niederreiter) through the
+ NAG library.
+ With this data, i have a convergence diagram that compares the convergence
+ of these 3 types of numbers.
+ The simulation that uses pseudo-random number is the slowest to converge:
+ we can still observe significant variation in spread after 300,000 simulations.
+ On the other hand, simulations that use Sobol and Niederreiter numbers
+ seem to stabilize after 100,000 simulations.
+
+\color red
+ See Peter jackel lecture for more comments.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
-\color blue
-Inlcude discussion and tests for accuracy and convergence
+\color red
+Add Halton using r?
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Comments on accuracy???
+\end_layout
+
+\begin_layout Standard
+
+\color red
+include graph in color??? close-up on the end???
 \end_layout
 
 \begin_layout Standard
@@ -13342,17 +13391,35 @@ Sobol / Niederreiter / Rnorm convergence diagram
 
 \end_layout
 
+\begin_layout Subsubsection*
+Impact of the increase of the number of reference names
+\end_layout
+
+\begin_layout Standard
+
+\color red
+?????
+\end_layout
+
 \begin_layout Subsection
 Numerical implementation
 \end_layout
 
-\begin_layout Standard
-Include notes on algorithms and code in your report, noting which numerical
- methods you have re-coded.
+\begin_layout Subsubsection
+Highlights
 \end_layout
 
-\begin_layout Subsubsection
-Instruction
+\begin_layout Itemize
+Integration with NAG library (professional routine).
+ identify closest positive definite correlation matrix using NAG???
+\end_layout
+
+\begin_layout Itemize
+Pricing code that allows pricing of 
+\begin_inset Formula $n$
+\end_inset
+
+ reference names basket
 \end_layout
 
 \begin_layout Subsubsection
@@ -13360,25 +13427,639 @@ Algorithm
 \end_layout
 
 \begin_layout Subsubsection
-Highlights
-\end_layout
-
-\begin_layout Standard
-Integration with NAG
-\end_layout
-
-\begin_layout Subsubsection
 Market data
 \end_layout
 
 \begin_layout Standard
-Weekly discount curve
+Two types of market data have been required for this implementation:
+\end_layout
+
+\begin_layout Itemize
+Credit default swap spreads
+\end_layout
+
+\begin_layout Itemize
+Discounting curve
+\end_layout
+
+\begin_layout Subsubsection*
+Credit default swap spreads
 \end_layout
 
 \begin_layout Standard
-CDS spread from Markit (XR more liquid)
+Historical CDS spreads for the following entities have been obtained from
+ Markit:
 \end_layout
 
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="7">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Ticker
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+RedCode
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Tier
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Curreny
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+DocClause
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Sector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Region
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BMY 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1C1134
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SNRFOR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Healthcare
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N.Amer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TRI
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8GD65J
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SNRFOR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Consumer Services
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N.Amer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+HPQ
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+46AA59
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SNRFOR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Technology
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N.Amer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+IBM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+49EB20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SNRFOR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Technology
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N.Amer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PFE 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7I8789
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SNRFOR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Healthcare
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N.Amer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Discounting curve
+\end_layout
+
+\begin_layout Standard
+Historical discounting curves have been obtained from Bloomberg using the
+ following Bloomberg Tickers:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bloomberg Ticker
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S0023D 1Y BLC2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Discount factor (LIBOR curve) for 1Y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S0023D 2Y BLC2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Discount factor (LIBOR curve) for 2Y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S0023D 3Y BLC2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Discount factor (LIBOR curve) for 3Y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S0023D 4Y BLC2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Discount factor (LIBOR curve) for 4Y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S0023D 5Y BLC2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Discount factor (LIBOR curve) for 5Y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Pros and Cons
+\end_layout
+
+\begin_layout Itemize
+Pros
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Usage of NAG
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+?????
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Cons
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Premium leg - annual payment.
+ standard is quaterly
+\end_layout
+
+\begin_layout Itemize
+Default leg - should be in discrete time (quaterly payment) instead of continuou
+s time
+\end_layout
+
+\begin_layout Itemize
+Should be implemented in C++ for better design object oriented design and
+ faster computation (multithreading, etc.)
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Instructions and package description
 \end_layout
@@ -14128,35 +14809,6 @@ BOE OIS spot curve
 
 \end_layout
 
-\begin_layout Subsubsection
-Pros and Cons
-\end_layout
-
-\begin_layout Standard
-
-\color red
-Limitations: 
-\end_layout
-
-\begin_layout Enumerate
-
-\color red
-yearly payment instead of quaterly payment ...
-\end_layout
-
-\begin_layout Enumerate
-get CDS spreads for 1,2,3,4,5y (some names don't have.
- e.g Google)
-\end_layout
-
-\begin_layout Subsection
-Conclusion
-\end_layout
-
-\begin_layout Standard
-La conclusion ...
-\end_layout
-
 \begin_layout Section
 Interest Rate Derivatives
 \end_layout
@@ -14171,7 +14823,7 @@ The Heath–Jarrow–Morton (HJM) framework is a framework that model the evolut
  rates.
  This model impose the no-arbitrage restriction: the drift can't be random
  and depends on the volatility of forward rates.
- In HJM, volatility of forward rates is estimated from historic interest
+ In HJM, volatility of forward rates is estimated from historical interest
  rate data (historical forward rates in our case).
  We will show how the principal component analysis is conducted (estimation
  and analysis of covariance matrices) to identify the major factors which
@@ -14179,8 +14831,17 @@ The Heath–Jarrow–Morton (HJM) framework is a framework that model the evolut
  of the forward curve and the pricing of various interest rate derivatives
  instrument using Monte Carlo simulation (using pseudo-random and quasi-random
  numbers).
- We use an OIS spot curve as discounting curve in order to reflect the cost
- of funding.
+ We use an OIS
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Overnight indexed swap
+\end_layout
+
+\end_inset
+
+ spot curve as discounting curve in order to reflect the cost of funding.
 \end_layout
 
 \begin_layout Subsection
@@ -14189,6 +14850,123 @@ Model, hypothesis
 
 \begin_layout Subsubsection
 Pricincipal component analysis
+\end_layout
+
+\begin_layout Subsubsection*
+Forward rate notation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f(t,T)=\overline{f}(t,T-t)=\overline{f}(t,\tau)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is the constant maturity as seen from time 
+\begin_inset Formula $t=t^{*}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+df(t,T)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\overline{f}(t,\tau)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Covariance matrix
+\end_layout
+
+\begin_layout Standard
+The covariance matrix is obtained by following these steps:
+\end_layout
+
+\begin_layout Enumerate
+Gather a 
+\begin_inset Formula $n\times m$
+\end_inset
+
+ matrix of historical forward rates (
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of observations, 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of maturities).
+\end_layout
+
+\begin_layout Enumerate
+Calculate an 
+\begin_inset Formula $(n-1)\times m$
+\end_inset
+
+ matrix of daily differences (log differences)
+\end_layout
+
+\begin_layout Enumerate
+Calculate the covariance of the matrix of daily changes expressed in percentages
+ 
+\begin_inset Formula $\varSigma_{daily}$
+\end_inset
+
+ 
+\begin_inset Formula $(m\times m)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Obtain the covariance matrix 
+\begin_inset Formula $\varSigma$
+\end_inset
+
+ of (annualised and expressed in decimal) as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varSigma=\frac{252}{100\times100}\varSigma_{daily}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Matrix decomposition via Jacobi transformation
 \end_layout
 
 \begin_layout Standard
@@ -14317,8 +15095,14 @@ m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsubsection
 Multi-Factor Musiela Parametrization
+\end_layout
+
+\begin_layout Standard
+The forward rates we obtain from Bank of England are expressed for maturities
+ (e.g.
+ tenors like 3M, 6M, 1Y, 1Y) instead of maturity dates.
 \end_layout
 
 \begin_layout Standard
@@ -14421,7 +15205,7 @@ Cap-Floor=N\sum_{i=\alpha+1}^{\beta}(L(0,T_{i-1},Ti)\times\tau_{i}\times Z(0,T_{
 
 \end_inset
 
-N 
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -20102,12 +20886,42 @@ BOE OIS spot curve
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Conclusion
 \end_layout
 
 \begin_layout Standard
 La conclusion ...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Appendix
+\end_layout
+
+\begin_layout Subsection*
+Appendix A
+\end_layout
+
+\begin_layout Subsection*
+Appendix B
+\end_layout
+
+\begin_layout Standard
+fsdfsdfsd
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Bibliography

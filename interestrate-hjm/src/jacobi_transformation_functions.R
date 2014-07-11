@@ -67,7 +67,13 @@ JacobiRotationMatrix = function(param,size) {
 
 JacobiA = function(A, size) {
   #define P
-  P = JacobiRotationMatrix(JacobiRotationParameter(A),nrow(A))
+  rotation_param = JacobiRotationParameter(A)
+  #cat("Rot. param:",rotation_param,"\n")
+  P = JacobiRotationMatrix(rotation_param,nrow(A))
+  #cat("A:\n")
+  #print(A)
+  #cat("P:\n")
+  #print(P)
   #Rotation occurs below as A'=P'x A x P
   A_next = t(P) %*% (A %*% P)
   return(A_next)
@@ -116,13 +122,17 @@ EigenValuesMatrix = function (A,tolerance) {
   current_V = diag(n)
   sumsquare = UpperTriangleSumSquare(current_A)
   k = 0
-  while (sumsquare > tolerance) {
+  while (sumsquare > tolerance) {    
+    next_A = JacobiA(current_A,n)
+    next_V = JacobiV(current_A,current_V,n)
     #cat("--------------\n")
     #cat("k=",k,"\n")
     #cat("sumsquare=",sumsquare,"\n")
+    #cat("next A:","\n")
+    #print(next_A)
+    #cat("next V:","\n")
+    #print(next_V)
     
-    next_A = JacobiA(current_A,n)
-    next_V = JacobiV(current_A,current_V,n)
     sumsquare = UpperTriangleSumSquare(next_A)
     #recurrence
     current_A = next_A
