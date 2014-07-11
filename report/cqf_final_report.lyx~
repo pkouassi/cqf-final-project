@@ -9496,7 +9496,7 @@ Degree of Freedom
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -9651,16 +9651,29 @@ The fair spread of the
 \begin_inset Formula $k^{th}$
 \end_inset
 
-to-default 
+to-default for 
+\begin_inset Formula $k>1$
+\end_inset
+
+ are smaller with the Gaussian copulae than with the Student's t copulae.
+ The t-distribution (when 
+\begin_inset Formula $\nu<25)$
+\end_inset
+
+has heavier tails than the normal distribution; it means that it is more
+ prone to producing values that fall far from its mean.
+ I believe this explains why the the spread of 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+to-default for 
+\begin_inset Formula $k>1$
+\end_inset
+
+ are higher with the Student's copule than with the Gaussian copulae.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="8">
 <features rotate="0" tabularvalignment="middle">
@@ -10274,54 +10287,97 @@ Fair spread (bp)
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Formula $k^{th}$
-\end_inset
-
-to default basket pricing
-\begin_inset Newline newline
-\end_inset
-
-Gaussian copula vs.
- Student T copula
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Weekly observations correlation matrix
-\end_layout
-
-\begin_layout Itemize
-The fair spread for k-th to default Basket CDS should be less than k-1 to
- default.
- Why? 
-\end_layout
-
 \begin_layout Subsubsection
 Risk and sensitivity analysis
 \end_layout
 
-\begin_layout Paragraph
-Impact of credit quality of individual reference name on the fair spread
+\begin_layout Standard
+This section explores the impacts of the model input parameters on the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ to default fair spread.
+ We are moving one parameter at a time in order to clearly identify its
+ impact; also we simplify the overall setup by taking the following assumptions:
+\end_layout
+
+\begin_layout Itemize
+Homogeneous basket of 5 reference names with constant CDS spreads (flat
+ term structure)
+\end_layout
+
+\begin_layout Itemize
+Equicorrelation between all reference names
+\end_layout
+
+\begin_layout Itemize
+Constant interest rate
+\end_layout
+
+\begin_layout Subsubsection*
+Impact of credit quality of individual reference names
+\end_layout
+
+\begin_layout Itemize
+Equicorrelation = 30%
+\end_layout
+
+\begin_layout Itemize
+Interest rate = 1%
+\end_layout
+
+\begin_layout Itemize
+Degree of freedom (for Student's t): 10
+\end_layout
+
+\begin_layout Itemize
+1,000,000 simulations
 \end_layout
 
 \begin_layout Standard
-yield curve flat, 1%.
- correlation uniform 30%.
- 1 million simulation.
- Degree of Freedom of 10
+The decresase of credit quality of the individual reference names (i.e increase
+ of their CDS spread) does not have the impact in all 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+to default fair spread.
+ The bigger 
+\begin_inset Formula $k$
+\end_inset
+
+ is, the bigger is the impact of the decrease of credit quality on the spread
+ 
+\begin_inset Formula $s^{k}$
+\end_inset
+
+is (Figure 1.11).
+ For instant the increase of the CDS spread from 50 basis points to 500
+ basis points multiplies the 
+\begin_inset Formula $1^{st}$
+\end_inset
+
+to default spread by 8 (
+\begin_inset Formula $\frac{347.4121}{42.6791}\thicksim8$
+\end_inset
+
+) but it multiplies by 45(
+\begin_inset Formula $\frac{74.6040}{1.6561}\thicksim45$
+\end_inset
+
+) the 
+\begin_inset Formula $3^{rd}$
+\end_inset
+
+ to default spread.
+ We can observe that first-to-default spread is always lower than the CDS
+ spread of any reference name.
+ 
+\color red
+Since the reference names are correlated, Why??? provide explanations ....
+\end_layout
+
+\begin_layout Standard
+shows 
 \end_layout
 
 \begin_layout Standard
@@ -10360,7 +10416,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -10369,7 +10425,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -10378,7 +10434,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -10405,7 +10461,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -10414,7 +10470,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -10423,7 +10479,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11029,14 +11085,43 @@ Impact of credit quality on kth to default fair spread (Gaussian copula)
 Impact of correlation on the fair spread
 \end_layout
 
-\begin_layout Standard
-yield curve flat, 1%.
- 100 bp.
- 1 million simultion
+\begin_layout Itemize
+CDS spread = 100 basis points
 \end_layout
 
 \begin_layout Itemize
-choice of the stress-testing levels of correlation.
+Interest rate = 1%
+\end_layout
+
+\begin_layout Itemize
+Degree of freedom (for Student's t): 10
+\end_layout
+
+\begin_layout Itemize
+1,000,000 simulations
+\end_layout
+
+\begin_layout Standard
+
+\color red
+As default correlation increases to very high levels, spreads for different
+ 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ to default instrument lapse.
+ Why?
+\end_layout
+
+\begin_layout Standard
+
+\color red
+What are your levels of correlations obtained from changes in traded CDS
+ price?
+\end_layout
+
+\begin_layout Standard
+gjhgjComments on correlation dependant
 \end_layout
 
 \begin_layout Standard
@@ -11075,7 +11160,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11084,7 +11169,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11093,7 +11178,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11120,7 +11205,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11129,7 +11214,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11138,7 +11223,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11741,13 +11826,28 @@ Impact of correlation on kth to default fair spread (Gaussian copula)
 
 \end_layout
 
-\begin_layout Paragraph*
+\begin_layout Subsubsection*
 Impact of the recovery rate on the fair spread
 \end_layout
 
-\begin_layout Standard
-30% correlation, 100bp.
- 1% interest rate
+\begin_layout Itemize
+CDS spread = 100 basis points
+\end_layout
+
+\begin_layout Itemize
+Equicorrelation = 30%
+\end_layout
+
+\begin_layout Itemize
+Interest rate = 1%
+\end_layout
+
+\begin_layout Itemize
+Degree of freedom (for Student's t): 10
+\end_layout
+
+\begin_layout Itemize
+1,000,000 simulations
 \end_layout
 
 \begin_layout Standard
@@ -11786,7 +11886,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11795,7 +11895,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11804,7 +11904,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11831,7 +11931,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11840,7 +11940,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -11849,7 +11949,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -12500,7 +12600,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -12509,7 +12609,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -12518,7 +12618,7 @@ Gaussian Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -12545,7 +12645,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -12554,7 +12654,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -12563,7 +12663,7 @@ Student T Copula
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -14988,7 +15088,7 @@ T
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -14997,7 +15097,7 @@ T
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15006,7 +15106,7 @@ T
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15015,7 +15115,7 @@ T
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15252,7 +15352,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15261,7 +15361,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15270,7 +15370,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15279,7 +15379,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15288,7 +15388,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15297,7 +15397,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15324,7 +15424,7 @@ Implied Volatility (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15333,7 +15433,7 @@ Implied Volatility (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15342,7 +15442,7 @@ Implied Volatility (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15351,7 +15451,7 @@ Implied Volatility (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15360,7 +15460,7 @@ Implied Volatility (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15369,7 +15469,7 @@ Implied Volatility (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15401,7 +15501,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15410,7 +15510,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15419,7 +15519,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15428,7 +15528,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15437,7 +15537,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15446,7 +15546,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15473,7 +15573,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15482,7 +15582,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15491,7 +15591,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15500,7 +15600,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15509,7 +15609,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15518,7 +15618,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15876,7 +15976,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15885,7 +15985,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15894,7 +15994,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15903,7 +16003,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15912,7 +16012,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15921,7 +16021,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15948,7 +16048,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15957,7 +16057,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15966,7 +16066,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15975,7 +16075,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15984,7 +16084,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -15993,7 +16093,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16025,7 +16125,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16034,7 +16134,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16043,7 +16143,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16052,7 +16152,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16061,7 +16161,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16070,7 +16170,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16097,7 +16197,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16106,7 +16206,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16115,7 +16215,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16124,7 +16224,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16133,7 +16233,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16142,7 +16242,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16967,7 +17067,7 @@ T (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16976,7 +17076,7 @@ T (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -16985,7 +17085,7 @@ T (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17240,7 +17340,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17249,7 +17349,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17258,7 +17358,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17267,7 +17367,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17276,7 +17376,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17285,7 +17385,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17294,7 +17394,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17321,7 +17421,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17330,7 +17430,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17339,7 +17439,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17348,7 +17448,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17357,7 +17457,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17366,7 +17466,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17375,7 +17475,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17407,7 +17507,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17416,7 +17516,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17425,7 +17525,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17434,7 +17534,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17443,7 +17543,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17452,7 +17552,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17461,7 +17561,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17488,7 +17588,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17497,7 +17597,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17506,7 +17606,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17515,7 +17615,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17524,7 +17624,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17533,7 +17633,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17542,7 +17642,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17938,7 +18038,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17947,7 +18047,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17956,7 +18056,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17965,7 +18065,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17974,7 +18074,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17983,7 +18083,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -17992,7 +18092,7 @@ Price
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18019,7 +18119,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18028,7 +18128,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18037,7 +18137,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18046,7 +18146,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18055,7 +18155,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18064,7 +18164,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18073,7 +18173,7 @@ Implied Volatility
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18105,7 +18205,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18114,7 +18214,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18123,7 +18223,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18132,7 +18232,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18141,7 +18241,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18150,7 +18250,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18159,7 +18259,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18186,7 +18286,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18195,7 +18295,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18204,7 +18304,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18213,7 +18313,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18222,7 +18322,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18231,7 +18331,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -18240,7 +18340,7 @@ K (%)
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout 
+\begin_layout Plain Layout
 
 \end_layout
 
