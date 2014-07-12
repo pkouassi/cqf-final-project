@@ -14,7 +14,10 @@ BasketCDSPricing_StudentTCopula = function(CreditCurveCollection,DiscountCurve,C
     ZMatrix_studentt = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
   }
   else if (GenType == "sobol") {
-    ZMatrix_studentt = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+    ZMatrix_studentt = sobol(NumberSimulation, dim = NumberCDS, normal = TRUE, scrambling = 3)
+  }
+  else if (GenType == "halton") {
+    ZMatrix_studentt = halton(NumberSimulation, dim = NumberCDS, normal = TRUE)
   }
   else if (GenType == "nag-sobol") {
     ZMatrix_studentt = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")

@@ -22,6 +22,30 @@ saveRDS(ans17,"D:/temp/R-workspace/ans17.rds")
 saveRDS(ans18,"D:/temp/R-workspace/ans18.rds")
 saveRDS(ans19,"D:/temp/R-workspace/ans19.rds")
 
+###
+
+saveRDS(ans24,"D:/temp/R-workspace/ans24-bis.rds")
+saveRDS(ans25,"D:/temp/R-workspace/ans25-bis.rds")
+saveRDS(ans26,"D:/temp/R-workspace/ans26-bis.rds")
+saveRDS(ans27,"D:/temp/R-workspace/ans27-bis.rds")
+saveRDS(ans28,"D:/temp/R-workspace/ans28.rds")
+saveRDS(ans29,"D:/temp/R-workspace/ans29.rds")
+saveRDS(ans30,"D:/temp/R-workspace/ans30.rds")
+saveRDS(ans31,"D:/temp/R-workspace/ans31.rds")
+saveRDS(ans32,"D:/temp/R-workspace/ans32.rds")
+saveRDS(ans33,"D:/temp/R-workspace/ans33.rds")
+saveRDS(ans34,"D:/temp/R-workspace/ans34.rds")
+saveRDS(ans35,"D:/temp/R-workspace/ans35.rds")
+saveRDS(ans36,"D:/temp/R-workspace/ans36.rds")
+saveRDS(ans37,"D:/temp/R-workspace/ans37.rds")
+saveRDS(ans38,"D:/temp/R-workspace/ans38.rds")
+saveRDS(ans39,"D:/temp/R-workspace/ans39.rds")
+saveRDS(ans40,"D:/temp/R-workspace/ans40.rds")
+
+
+
+#
+
 saveRDS(ans_student1,"D:/temp/R-workspace/ans_student1.rds")
 saveRDS(ans_student2,"D:/temp/R-workspace/ans_student2.rds")
 saveRDS(ans_student3,"D:/temp/R-workspace/ans_student3.rds")
@@ -153,16 +177,17 @@ Y = ans24$basket_sim[,1]/ans24$basket_sim[,6]
 # nbobs = round(nrow(ans24$basket_sim)/step)
 # sobol = rep(NA,nbobs)
 # niederreiter = rep(NA,nbobs)
+# halton = rep(NA,nbobs)
 # rnorm = rep(NA,nbobs)
 # for (i in seq(1,nbobs)) {
 #   sobol[i] = ans24$basket_sim[i*step,1]/ans24$basket_sim[i*step,6]
 #   niederreiter[i] = ans25$basket_sim[i*step,1]/ans25$basket_sim[i*step,6]
+#   halton[i] = ans28$basket_sim[i*step,1]/ans28$basket_sim[i*step,6]
 #   rnorm[i] = ans27$basket_sim[i*step,1]/ans27$basket_sim[i*step,6]
 # }
 # 
-# matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,niederreiter),type="l",log="x",col=c("black","black","black"),lty = c(3,1,5),xlab="Number of Simulations",ylab="1st to default basket fair spread")
-# legend(10000, 0.0026, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Niederreiter"), col = c("black","black","black"), text.col = "black", lty = c(3,1,5),
-#        merge = TRUE, bg = "gray90")
+# matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,halton,niederreiter),type="l",log="x",col=c("red","blue","chartreuse4","purple"),lty = c(1,1,1,1),xlab="Number of Simulations",ylab="1st to default basket fair spread")
+# legend(5000, 0.00325, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Halton","Quasi random number - Niederreiter"), col = c("red","blue","chartreuse4","purple"), text.col = "black", lty = c(1,1,1,1),merge = TRUE, bg = "gray90")
 
 #close-up
 # step = 1000
@@ -194,6 +219,47 @@ Y = ans24$basket_sim[,1]/ans24$basket_sim[,6]
 # matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,niederreiter),type="l",log="x",col=c("black","black","black"),lty = c(3,1,5),xlab="Number of Simulations",ylab="1st to default basket fair spread")
 # legend(10000, 0.0026, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Niederreiter"), col = c("black","black","black"), text.col = "black", lty = c(3,1,5),
 #        merge = TRUE, bg = "gray90")
+
+#impact of recovery rate
+ans2 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans2"]]
+ans17 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans17"]]
+ans18 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans18"]]
+ans19 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans19"]]
+
+
+X = c(20,30,40,50,60,70,80,90,99)
+Y = matrix(NA,nrow=5,ncol=9)
+Y[,1] = ans36$basket_spreads
+Y[,2] = ans17$basket_spreads
+Y[,3] = ans2$basket_spreads
+Y[,4] = ans18$basket_spreads
+Y[,5] = ans19$basket_spreads
+Y[,6] = ans37$basket_spreads
+Y[,7] = ans38$basket_spreads
+Y[,8] = ans39$basket_spreads
+Y[,9] = ans40$basket_spreads
+matplot(X,t(Y),type="b",ylab="Basket spread (bp)",xlab="Recovery rate (%)", col="black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5))
+
+################
+ans20 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans20"]]
+ans21 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans21"]]
+ans22 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans22"]]
+ans23 <- loadToEnv("D:/temp/R-workspace/gausian_simulation.RData")[["ans23"]]
+
+X = c(0.1,0.5,1,1.5,2,2.5,3,3.5,5)
+Y = matrix(NA,nrow=5,ncol=length(X))
+Y[,1] = ans30$basket_spreads
+Y[,2] = ans31$basket_spreads
+Y[,3] = ans20$basket_spreads
+Y[,4] = ans32$basket_spreads
+Y[,5] = ans21$basket_spreads
+Y[,6] = ans33$basket_spreads
+Y[,7] = ans22$basket_spreads
+Y[,8] = ans34$basket_spreads
+Y[,9] = ans23$basket_spreads
+matplot(X,t(Y)[,1],type="b",ylab="Basket spread (bp)",xlab="Recovery rate (%)", col="black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5))
+
+##############
 
 ans6$basket_spreads
 

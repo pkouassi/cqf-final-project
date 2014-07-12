@@ -12555,7 +12555,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Impact of the recover rate
+Impact of the recovery rate
 \end_layout
 
 \end_inset
@@ -13315,7 +13315,7 @@ Stress testing of correlation matrix
 \begin_layout Standard
 
 \color red
-historical sampling of default correlation matrix, and
+historical sampling of default correlation max, and
 \end_layout
 
 \begin_layout Standard
@@ -13391,16 +13391,6 @@ Sobol / Niederreiter / Rnorm convergence diagram
 
 \end_layout
 
-\begin_layout Subsubsection*
-Impact of the increase of the number of reference names
-\end_layout
-
-\begin_layout Standard
-
-\color red
-?????
-\end_layout
-
 \begin_layout Subsection
 Numerical implementation
 \end_layout
@@ -13411,6 +13401,8 @@ Highlights
 
 \begin_layout Itemize
 Integration with NAG library (professional routine).
+
+\color red
  identify closest positive definite correlation matrix using NAG???
 \end_layout
 
@@ -14807,6 +14799,10 @@ BOE OIS spot curve
 \end_inset
 
 
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -14944,37 +14940,71 @@ Forward rates are bootstrapped using actual or synthetic zero-coupon bonds
 Heath–Jarrow–Morton
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout Definition
+Single-factor HJM model
 \end_layout
 
-\begin_layout Standard
-Instantenuous forward rate f(t,T), as seen from time t, starts at time T
- and applies over an instant 
-\begin_inset Formula $\varDelta t\rightarrow0$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-It is a number from a continusous process.
+\begin_layout Definition
+The stochastic differential equation for an instantenuous forward rate is
+ written as:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{eqnarray*}
-f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
- & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
-\end{eqnarray*}
+\[
+df(t,T)=m(t,T)dt+\nu(t,T)dX
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $m(t,T)$
+\end_inset
+
+ is the risk-neutral drift represented by no arbitrage condition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+m(t,T)=\nu(t,T)\intop_{t}^{T}\nu(t,s)\; ds
+\]
 
 \end_inset
 
 
 \end_layout
 
+\begin_layout Remark*
+The risk-neutral drift depends on volatility
+\end_layout
+
 \begin_layout Standard
-In general, the N-dimensional SDE (multi-factor HJM) is as follows:
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+A single-factor model for a spot interest rate cannot hope to capture the
+ richness of the yield curves observed in practice.
+ Generally speaking, a spot rate model with one source of randomness may
+ be good at reflecting the overall level of a yield curve but fails when
+ it comes to shifts in the yield curve that are substantially different
+ at different maturities
+\end_layout
+
+\begin_layout Definition*
+Multi-factor HJM model
+\end_layout
+
+\begin_layout Definition*
+The 
+\begin_inset Formula $N$
+\end_inset
+
+-dimensional stochastic differential equation (multi-factor HJM) is as follows:
 \end_layout
 
 \begin_layout Standard
@@ -14989,7 +15019,11 @@ df(t,T)=m(t,T)dt+\sum_{i=1}^{N}\nu_{i}(t,T)dX_{i}
 \end_layout
 
 \begin_layout Standard
-with the risk-neutral drift
+where 
+\begin_inset Formula $m(t,T)$
+\end_inset
+
+ is the risk-neutral drift represented by no arbitrage condition:
 \end_layout
 
 \begin_layout Standard
@@ -15003,73 +15037,99 @@ m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
 
 \end_layout
 
+\begin_layout Remark*
+Multi-factor means adding sources of randomness 
+\begin_inset Formula $dX_{i}$
+\end_inset
+
+.
+ Foactos must be uncorrelated, otherwise their impact would be overlapping
+ and the model would require cross-terms and estimation of correlations
+ 
+\begin_inset Formula $\mathbb{E}\left[dX_{i}dX_{j}\right]=\rho dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Musiela parametrization
+\end_layout
+
+\begin_layout Standard
+It is useful to model the volatity of the forward rate for various maturities
+ (6 months, one year, two years, etc.) and not at each maturity dates (1
+ Jan 2014, 1 Jun 2014, etc.).
+ Therefore we need to re-parameterise the volatility, the drift and the
+ stochastic differential equation as function of tenor time 
+\begin_inset Formula $\tau=T-t$
+\end_inset
+
+.
+ We call 
+\begin_inset Formula $\overline{\nu}$
+\end_inset
+
+ the volatility function expressed as a function of tenor time:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nu(t,T)=\overline{\nu}(t,T-t)=\overline{\nu}(t,\tau)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Single-factor HJM model (Musiela parametrization)
+\end_layout
+
+\begin_layout Definition
+The stochastic differential equation for an instantenuous forward rate (expresse
+d as a function of tenor time) is written as:
+\begin_inset Formula 
+\[
+d\overline{f}(t,\tau)=\overline{m}(t,\tau)dt+\overline{\nu}(t,\tau)dX
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\overline{m}(t,\tau)$
+\end_inset
+
+ is the risk-neutral drift (expressed as a function of tenor time):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{m}(t,\tau)=\overline{\nu}(t,\tau)\intop_{0}^{\tau}\overline{\nu}(t,s)\; ds+\frac{\partial}{\partial\tau}\overline{f}(t,\tau)
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Multi-factor Musiela parametrization
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout Definition
+Multi-factor HJM model (Musiela parametrization)
 \end_layout
 
 \begin_layout Definition
-The forward rates we obtain from Bank of England are expressed for maturities
- (e.g.
- tenors like 1M, 2M, 6M, 1Y) instead of maturity dates.
- change from 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-f(t,T)=\overline{f}(t,T-t)=\overline{f}(t,\tau)
-\]
-
+The 
+\begin_inset Formula $N$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\color red
-where 
-\begin_inset Formula $\tau$
-\end_inset
-
- is the constant maturity as seen from time 
-\begin_inset Formula $t=t^{*}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-df(t,T)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-d\overline{f}(t,\tau)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The forward rates we obtain from Bank of England are expressed for maturities
- (e.g.
- tenors like 3M, 6M, 1Y, 1Y) instead of maturity dates.
- change from 
+-dimensional stochastic differential equation is as follows:
 \end_layout
 
 \begin_layout Standard
@@ -15078,6 +15138,22 @@ The forward rates we obtain from Bank of England are expressed for maturities
 d\overline{f}(t,\tau)=\left(\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{t}^{T}\overline{\nu}_{i}(t,s)\; ds+\frac{\partial\overline{f}(t,\tau)}{\partial\tau}\right)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
 \]
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+The model work with 
+\begin_inset Formula $k<N$
+\end_inset
+
+ volatility functions that determine the diffusion of 
+\begin_inset Formula $k$
+\end_inset
+
+ independant factors represented by the uncorrelated Brownian Motions 
+\begin_inset Formula $dX_{i}$
 \end_inset
 
 
@@ -15116,7 +15192,8 @@ Calculate an
 \begin_inset Formula $(n-1)\times m$
 \end_inset
 
- matrix of daily differences (log differences)
+ matrix of daily differences (log differences since we are using data in
+ a low-rate regime - from June 2011 to May 2014)
 \end_layout
 
 \begin_layout Enumerate
@@ -15679,60 +15756,32 @@ d_{2} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)-\frac{\sigma^{2}(
 Main result
 \end_layout
 
-\begin_layout Standard
-Implementation of PCA, curve-tting, and numerical integration will enable
- you to conduct Monte-Carlo.
- To achieve price convergence it might be necessary to conduct > 10; 000
- simulations.
-\end_layout
-
 \begin_layout Subsubsection
 Principal Component Analysis
 \end_layout
 
 \begin_layout Standard
-The covariance between daily differences has to be re-annualised by the
- factor of 252.The Bank of England's data provides rates as percentages,
- and therefore, we adjust covariance by 1 1002 .
- The total adjustment is 252 10;000.
-\end_layout
-
-\begin_layout Standard
-A technical condition ensuring real and positive eigenvalues (they represent
- variance) are obtained by decomposition is for the matrix to be positive
- denite or semi-positive denite.
-\end_layout
-
-\begin_layout Standard
-PCA on log-difference in forward rates 
-\begin_inset Formula $\log f(t+\varDelta t)-\log f(t)$
+I have worked with 3 years of GBP historical forward curves obtained from
+ Bank Of England (Bank Liability Curve constructed from LIBOR-linked instruments
+ between 01/06/2011 and 30/05/2014).
+ For the principal component analysis, I have taken the one-month rate from
+ the short-end file (one-month to five-year rates) and all the rates from
+ the long-end file (6-months, 1-year, ...
+ 25-years).
+ The proces to calculate the covariance matrix is the one summarized in
+ the 
+\begin_inset Quotes eld
 \end_inset
 
+Model and hypothesis
+\begin_inset Quotes erd
+\end_inset
 
-\end_layout
-
-\begin_layout Itemize
-log difference / difference
-\end_layout
-
-\begin_layout Itemize
-1 year / 2 years / 3 years
-\end_layout
-
-\begin_layout Standard
-The principal component analysis (PCA) is a major step in any implementation
- of the Heath–Jarrow–Morton (HJM) framework.
- It is the step that estimates the volatility function for the historical
- forward rates and therefore influance the drift of the forward rates in
- our projection (the HJM drift depends on volatility as we have seen in
- equation 2.2.2).
-\end_layout
-
-\begin_layout Standard
-We are working with Bank of England data (Bank Liability Curve constructed
- from LIBOR-linked instruments) observed beween the 1st June 2010 and the
- 30th May 2014.
- We can observe a certain homogeneity between these curves
+ section (data must re-annualized and converted from percentages to decimals).
+ The plot (Figure 2.1) shows the yield curve at different time between June
+ 2011 and May 2014.
+ We can observe a certain homogeneity between these various curves.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -15766,7 +15815,61 @@ GBP Forward rate term structure between June 2011 and May 2014
 \end_layout
 
 \begin_layout Standard
-Principal components:
+Usign the Jacobi transformation on the covariance matrix 
+\begin_inset Formula $\varSigma$
+\end_inset
+
+, we obtain the eigenvalues and eigenvectors of 
+\begin_inset Formula $\varSigma$
+\end_inset
+
+.
+ I have sorted the eigenvalues and calculated their weight and cumulative
+ weight to identify how many factors i should consider to cover at least
+ 95% of the movement of the curve.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{Weight}(\lambda_{k})=\frac{\lambda_{k}}{\sum_{i=1}^{N}\lambda_{i}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{CumulativeWeight(\lambda_{k})=\frac{\sum_{i=1}^{k}\lambda_{i}}{\sum_{i=1}^{N}\lambda_{i}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the dimension of the covariance matrix (i.e.
+ the number of eigenvalues).
+\end_layout
+
+\begin_layout Standard
+I have decided to take 5 factors into account: all combined, they explain
+ 97.26% of the movement of the curve.
+ The below table gives the eigenvalue, the tenor 
+\begin_inset Formula $\tau$
+\end_inset
+
+, the weight and the cumulative weight for each of these principal components
+ (factors).
 \end_layout
 
 \begin_layout Standard
@@ -15783,7 +15886,7 @@ Principal components:
 \begin_inset Text
 
 \begin_layout Plain Layout
-Principal Component
+Principal component
 \end_layout
 
 \end_inset
@@ -15804,7 +15907,10 @@ Principal Component
 \begin_inset Text
 
 \begin_layout Plain Layout
-Time
+\begin_inset Formula $\tau$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -16022,7 +16128,7 @@ PC4
 \begin_inset Text
 
 \begin_layout Plain Layout
-PC4
+PC5
 \end_layout
 
 \end_inset
@@ -16072,6 +16178,363 @@ PC4
 \end_layout
 
 \begin_layout Standard
+The plot (Figure 2.2) shows the eigenvectors of the 5 principal components
+ that i have selected.
+ The plot (Figure 2.3) shows the volatilities 
+\begin_inset Formula $\overline{\nu}_{i}(t,T)=\sqrt{\lambda_{i}}e^{(i)}$
+\end_inset
+
+ and their fitted volatility function.
+ The table table gives the parameters 
+\begin_inset Formula $(\beta_{0},\beta_{1},\beta_{2},\beta_{3})$
+\end_inset
+
+ for these functions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Principal component
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\beta_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\beta_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PC1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00156
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PC2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00249
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.00065
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00004
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PC3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00126
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.00061
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PC4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.00007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PC5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.00014
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.00004
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As expected, we can observe a 
+\begin_inset Quotes eld
+\end_inset
+
+parallel shift
+\begin_inset Quotes erd
+\end_inset
+
+ for PC1; it defines the general shape of the yield curve and accounts for
+ 68% of the changes in the yield curve on its own.
+ Finally, we can observe that the fitted functions are crossing the 
+\begin_inset Formula $x$
+\end_inset
+
+ axis (i.e.
+ 
+\begin_inset Formula $f(x)=0$
+\end_inset
+
+) pretty much for the same value as the actual volatility function.
+ This is regarded as a criterion for 
+\begin_inset Quotes eld
+\end_inset
+
+good fitting
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -16091,7 +16554,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Eigen vectors for the 5 major Principal Components
+Eigen vectors for the 5 principal components
 \end_layout
 
 \end_inset
@@ -16102,10 +16565,6 @@ Eigen vectors for the 5 major Principal Components
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-dfgdg
 \end_layout
 
 \begin_layout Standard
@@ -16142,28 +16601,29 @@ Actual volatility vs.
 
 \end_layout
 
-\begin_layout Standard
-Not a perfect fit
-\end_layout
-
-\begin_layout Standard
-Report on this topic should discuss model risk that comes from calibraiton
- (tting) of volatility functions and discounting curve (if involved).
-\end_layout
-
-\begin_layout Standard
-
-\color red
-A general criterion is that a good t crosses axe X about the same points
- as the tted function.
-\end_layout
-
 \begin_layout Subsubsection
-Discounting
+OIS Discounting
+\end_layout
+
+\begin_layout Standard
+Discounting is a key aspect of pricing because interest rate derivatives
+ are decomposable into cashflows.
+ The usage of OIS rates to construct discount factors is compatible with
+ the market model that relies on shifting numeraire 
+\begin_inset Formula $\mathbb{Q}(m)$
+\end_inset
+
+ (a special account for which rate is fixed every night).
+ I have used the GBP OIS spot curve obtained Bank Of England (UK OIS spot
+ curve) which gives us discount rates (bootstrapped from overnight index
+ swap rates) from for a wide range of maturities since 2009.
+ Bank Of England provides us with OIS discount rates from 1 month to 5 years
+ (every month in between); they don't provide us with OIS discount rates
+ beyong 5 years 
 \end_layout
 
 \begin_layout Itemize
-Dual curve pricing
+Dual curve pricing (an account for which th
 \end_layout
 
 \begin_layout Itemize
@@ -16202,7 +16662,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-GBP OIS Dsicount Curve
+GBP OIS Discount Curve
 \end_layout
 
 \end_inset
@@ -16224,7 +16684,7 @@ Zero Coupond Bond pricing
 \end_layout
 
 \begin_layout Standard
-10,000 simulations.
+30,000 simulations.
 \end_layout
 
 \begin_layout Standard
@@ -20471,6 +20931,11 @@ Newton-Raphson to calculate Implied Volatility
 Market data
 \end_layout
 
+\begin_layout Standard
+GBP historical forward curves obtained from Bank Of England..
+ website
+\end_layout
+
 \begin_layout Subsubsection
 Algorithm
 \end_layout
@@ -21248,6 +21713,10 @@ BOE OIS spot curve
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newpage newpage
 \end_inset
 
 

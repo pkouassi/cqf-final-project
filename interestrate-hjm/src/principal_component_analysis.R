@@ -10,9 +10,9 @@ Maturity = c(0.08, seq(0.5,25,by=0.5))
 #Forward Rates term structure plotting
 plot_x_lim = c(0,25);
 plot_y_lim = c(0,5);
-matplot(Maturity,cbind(HistoricalForwardCurve[1,],HistoricalForwardCurve[250,],HistoricalForwardCurve[500,],HistoricalForwardCurve[750,]),type="l",col=c("black","dodgerblue2","darkorchid1","green2"),xlab="Maturity, year",ylab="Forward Curve",xlim=plot_x_lim, ylim=plot_y_lim,lwd=1,lty=c(1,1,1,1))
-legend(19, 1.6, c("June 2011","June 2012","June 2013","May 2014"), col = c("black"),
-              text.col = c("black","dodgerblue2","darkorchid1","green2"), lty = c(1,1,1,1), pch = c(NA),
+matplot(Maturity,cbind(HistoricalForwardCurve[1,],HistoricalForwardCurve[250,],HistoricalForwardCurve[500,],HistoricalForwardCurve[750,]),type="l",col=c("black","dodgerblue2","darkorchid1","chartreuse3"),xlab="Maturity, year",ylab="Forward Curve",xlim=plot_x_lim, ylim=plot_y_lim,lwd=1,lty=c(1,1,1,1))
+legend(19, 1.6, c("June 2011","June 2012","June 2013","May 2014"), col = c("black","dodgerblue2","darkorchid1","chartreuse3"),
+              text.col = c("black"), lty = c(1,1,1,1), pch = c(NA),
               merge = TRUE, bg = "gray90")
        
 #plot(Maturity,HistoricalForwardCurve[2000,],type="l",lwd=2,xlim=plot_x_lim, ylim=plot_y_lim,col ="purple",
@@ -70,6 +70,7 @@ PC3_volatility = sqrt(PC3_lamda)*PC3_eigen_vector
 PC4_volatility = sqrt(PC4_lamda)*PC4_eigen_vector
 PC5_volatility = sqrt(PC5_lamda)*PC5_eigen_vector
 
+cat("b0=",median(PC1_volatility),"\n")
 PC1_volatility_fitted = function(x) {
   b0 = median(PC1_volatility)
   return(b0)

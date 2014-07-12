@@ -20,9 +20,6 @@ BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,C
   else if (GenType == "halton") {
     ZMatrix_gaussian = halton(NumberSimulation, dim = NumberCDS, normal = TRUE)
   }
-  else if (GenType == "torus") {
-    ZMatrix_gaussian = torus(NumberSimulation,dim = NumberCDS,normal = TRUE)
-  }
   else if (GenType == "nag-sobol") {
     ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
   }
