@@ -14849,11 +14849,102 @@ Model, hypothesis
 \end_layout
 
 \begin_layout Subsubsection
-Pricincipal component analysis
+Forward rate notation
 \end_layout
 
-\begin_layout Subsubsection*
-Forward rate notation
+\begin_layout Definition
+Forward rate
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula $F(t;T,S)$
+\end_inset
+
+ is the complete notation for the forward rate available at time t for the
+ period starting a time 
+\begin_inset Formula $T$
+\end_inset
+
+ (re-set or expiry time of the forward) and ending at time 
+\begin_inset Formula $S$
+\end_inset
+
+ (maturity or the loan/deposit or cashflow payment time)
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Instantenuous forward rate
+\end_layout
+
+\begin_layout Definition
+The instantenuous forward rate 
+\begin_inset Formula $f(t,T)$
+\end_inset
+
+, as seen from some time 
+\begin_inset Formula $t$
+\end_inset
+
+, start at time 
+\begin_inset Formula $T$
+\end_inset
+
+ and applies over an instant 
+\begin_inset Formula $\varDelta t\rightarrow0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula 
+\[
+F(t;T,S)\rightarrow f(t,T)\mbox{ when }S\rightarrow T^{+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+It is a number from a continusous process:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
+ & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+Forward rates are bootstrapped using actual or synthetic zero-coupon bonds
+ 
+\begin_inset Formula $Z(t;T)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The forward rates we obtain from Bank of England are expressed for maturities
+ (e.g.
+ tenors like 1M, 2M, 6M, 1Y) instead of maturity dates.
+ change from 
 \end_layout
 
 \begin_layout Standard
@@ -14868,6 +14959,8 @@ f(t,T)=\overline{f}(t,T-t)=\overline{f}(t,\tau)
 \end_layout
 
 \begin_layout Standard
+
+\color red
 where 
 \begin_inset Formula $\tau$
 \end_inset
@@ -14899,6 +14992,91 @@ d\overline{f}(t,\tau)
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Heath–Jarrow–Morton
+\end_layout
+
+\begin_layout Standard
+Instantenuous forward rate f(t,T), as seen from time t, starts at time T
+ and applies over an instant 
+\begin_inset Formula $\varDelta t\rightarrow0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is a number from a continusous process.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
+ & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In general, the N-dimensional SDE (multi-factor HJM) is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+df(t,T)=m(t,T)dt+\sum_{i=1}^{N}\nu_{i}(t,T)dX_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with the risk-neutral drift
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Multi-factor Musiela parametrization
+\end_layout
+
+\begin_layout Standard
+The forward rates we obtain from Bank of England are expressed for maturities
+ (e.g.
+ tenors like 3M, 6M, 1Y, 1Y) instead of maturity dates.
+ change from 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\overline{f}(t,\tau)=\left(\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{t}^{T}\overline{\nu}_{i}(t,s)\; ds+\frac{\partial\overline{f}(t,\tau)}{\partial\tau}\right)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Pricincipal component analysis
 \end_layout
 
 \begin_layout Subsubsection*
@@ -14966,48 +15144,30 @@ Obtain the covariance matrix
 \end_layout
 
 \begin_layout Subsubsection*
-Matrix decomposition via Jacobi transformation
+Principal component analysis idea
 \end_layout
 
 \begin_layout Standard
-Please see PCA Note.
- HJM Lecture Solutions also consider steps and properties of the matrix
- decomposition by Jacobi Transformation.
-\end_layout
-
-\begin_layout Standard
-PCA is carried out numerically, by nding the orthogonal representation to
- a covariance matrix of the original factors.
- This is known under the general terms of `matrix factorisation' and `matrix
- decomposition'.
- Orthogonal decomposition is specically known as `eigendecompo- sition'
- and more widespread spectral decomposition.
-\end_layout
-
-\begin_layout Standard
-Application of PCA to some data covariance matrix means spectral decomposition
- to
+We want to understand the factors that drive the evolution of the forward
+ curve.
+ We can identify these factors by decomposing the covariance matrix of differenc
+es (i.e compute the eigenvalues and eigenvectors of the covariance matrix).
+ 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\varSigma=V\Lambda V^{T}
+\varSigma=V\Lambda V^{-1}
 \]
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-where is a matrix with eigenvalues along its diagonal and zeros elsewhere,
- and V ec(V) is a matrix with eigenvectors in its columns.
- Eigenvalues must be positive 
-\begin_inset Formula $\lambda_{1}>\ldots>\lambda_{n}>0$
+where 
+\begin_inset Formula $\Lambda$
 \end_inset
 
-and are often ranked.
+ is the matrix with eigenvalues along its diagonal and zeros elsewhere
 \end_layout
 
 \begin_layout Standard
@@ -15025,54 +15185,17 @@ and are often ranked.
 \end_layout
 
 \begin_layout Standard
-Polynomial tting by cubic spline is a popular choice
-\end_layout
-
-\begin_layout Standard
-The alternatives to the cubic spline 
-\begin_inset Formula $\beta_{0}+\beta_{1}\tau+\beta_{2}\tau^{2}+\beta_{3}\tau^{3}$
+and 
+\begin_inset Formula $V$
 \end_inset
 
- are
-\end_layout
-
-\begin_layout Subsubsection
-Heath–Jarrow–Morton
-\end_layout
-
-\begin_layout Standard
-Instantenuous forward rate f(t,T), as seen from time t, starts at time T
- and applies over an instant 
-\begin_inset Formula $\varDelta t\rightarrow0$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-It is a number from a continusous proces.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
-f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
- & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In general, the N-dimensional SDE (multi-factor HJM) is as follows:
+ is a matrix with eigenvectors in its column
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-df(t,T)=m(t,T)dt+\sum_{i=1}^{N}\nu_{i}(t,T)dX_{i}
+V=\left(e^{(1)},\ldots,e^{(n)}\right)
 \]
 
 \end_inset
@@ -15081,13 +15204,44 @@ df(t,T)=m(t,T)dt+\sum_{i=1}^{N}\nu_{i}(t,T)dX_{i}
 \end_layout
 
 \begin_layout Standard
-with the risk-neutral drift
+The eigenvector 
+\begin_inset Formula $e^{(1)}$
+\end_inset
+
+ is associated to the eigenvalue 
+\begin_inset Formula $\lambda_{1}$
+\end_inset
+
+, the eigenvector 
+\begin_inset Formula $e^{(2)}$
+\end_inset
+
+ is associated to the eigenvalue 
+\begin_inset Formula $\lambda_{2}$
+\end_inset
+
+, etc.
+ The eigenvectors are orthogonal projections of the changes in data in direction
+s of minimum variance.
+ There are several ways to decompose matrices.
+ We choose the Jacobi method which is not very computationaly efficient
+ but has the advantage of keeping the structure of the original covariance
+ matrix.
+\end_layout
+
+\begin_layout Standard
+We select 
+\begin_inset Formula $k$
+\end_inset
+
+ eigenvectors that correspond to the largest eigenvalues to serve as volatility
+ functions:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
+\overline{\nu}_{i}(t,T)=\sqrt{\lambda_{i}}e^{(i)}
 \]
 
 \end_inset
@@ -15095,25 +15249,223 @@ m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
 
 \end_layout
 
-\begin_layout Subsubsection
-Multi-Factor Musiela Parametrization
+\begin_layout Remark*
+The first entry in any vector 
+\begin_inset Formula $e^{(i)}$
+\end_inset
+
+ represents the movement of the one-month rate (
+\begin_inset Formula $\tau=0.08$
+\end_inset
+
+), the second entry is the the two-month rate (
+\begin_inset Formula $\tau=0.17$
+\end_inset
+
+) and so on.
+\end_layout
+
+\begin_layout Subsubsection*
+Jacobi transformation
 \end_layout
 
 \begin_layout Standard
-The forward rates we obtain from Bank of England are expressed for maturities
- (e.g.
- tenors like 3M, 6M, 1Y, 1Y) instead of maturity dates.
+Jacobi transformation is a tractable numerical method to obtain eigenvalues
+ and eigenvectors (diagonalisation).
+ The main idea is to eliminate largest off-diagonal element by rotating
+ the matrix at each iteration.
+ The following steps describe the algorithm:
+\end_layout
+
+\begin_layout Enumerate
+Calculate the sum of the square of the elements of the upper triangle of
+ the input matrix 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Continue to next step if this sum is more than the expected tolerance; otherwise
+ stop recursive process and obtain the eigenvalues from the diagonal of
+ 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Identify the largest off-diagonal element 
+\begin_inset Formula $\sigma_{p,q}$
+\end_inset
+
+ of the matrix 
+\begin_inset Formula $\varSigma$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate the rotation matrix angle 
+\begin_inset Formula $\phi$
+\end_inset
+
+ required to eliminate 
+\begin_inset Formula $\sigma_{p,q}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\tan(2\phi)=\frac{2\sigma_{p,q}}{\sigma_{q,q}-\sigma_{p,p}}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Calculate the rotation matrix 
+\begin_inset Formula $P_{p,q}$
+\end_inset
+
+ as 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $P_{p,q}=$
+\end_inset
+
+
+\begin_inset Formula $\begin{pmatrix}1\\
+ & \ddots &  &  &  & 0\\
+ &  & \cos(\phi) & \cdots & \sin(\phi)\\
+ &  & \vdots & \ddots & \vdots\\
+ &  & -\sin(\phi) & \cdots & \cos(\phi)\\
+ & 0 &  &  &  & \ddots\\
+ &  &  &  &  &  & 1
+\end{pmatrix}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Calculate the matrix 
+\begin_inset Formula $\Sigma^{R}=(P_{p,q})^{T}\times\Sigma\times P_{p,q}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Loop back to step 1 and take 
+\begin_inset Formula $\Sigma^{R}$
+\end_inset
+
+as input (i.e.
+ 
+\begin_inset Formula $\Sigma=\Sigma^{R}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Remark*
+This method is computationaly inefficient as each rotation destroys zeros
+ obtained at previous step; however it achieves convergence.
+ The covariance matrix 
+\begin_inset Formula $\varSigma$
+\end_inset
+
+ becomes a diagonal matrix with eigen values in its diagonal:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-d\overline{f}(t,\tau)=\left(\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{t}^{T}\overline{\nu}_{i}(t,s)\; ds+\frac{\partial\overline{f}(t,\tau)}{\partial\tau}\right)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
+\Sigma\implies\Lambda=\begin{pmatrix}\lambda_{1}\\
+ & \ddots\\
+ &  & \lambda_{n}
+\end{pmatrix}
 \]
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Eigenvectors are recovered by iteratively multiplying the rotation matrix
+ 
+\begin_inset Formula $P_{p,q}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+V=P_{0}\times P_{1}\times\ldots\times P_{m}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of iterations required to reach the expected tolerance
+\end_layout
+
+\begin_layout Subsubsection*
+Volatility fitting
+\end_layout
+
+\begin_layout Standard
+As we have seen, HJM drift calculation requires an integration.
+ In order to perform an integration, we need to fit these volatility numbers
+ to a function.
+ Polynomial fitting by cubic spline is a popular choice.
+ It means finding a set of 
+\begin_inset Formula $(\beta_{0},\beta_{1},\beta_{2},\beta_{3})$
+\end_inset
+
+ for each 
+\begin_inset Formula $\tau$
+\end_inset
+
+ so that the function 
+\begin_inset Formula $\overline{\nu}(t,T)=\beta_{0}+\beta_{1}\tau+\beta_{2}\tau^{2}+\beta_{3}\tau^{3}$
+\end_inset
+
+approximates the values 
+\begin_inset Formula $\overline{\nu}_{i}(t,T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark*
+There are alternatives to to cubic spline fitting: multi splines or piecewise
+ cubic spline (fit parts of the curve with different splines) or a logarithmic
+ function 
+\begin_inset Formula $a+b\log\tau$
+\end_inset
+
+for the first component
 \end_layout
 
 \begin_layout Subsubsection
@@ -15331,10 +15683,10 @@ Principal Component Analysis
 \end_layout
 
 \begin_layout Standard
-The covariance between daily dierences has to be re-annualised by the factor
- of 252.The Bank of England's data provides rates as percentages, and therefore,
- we adjust covariance by 1 1002 .
- The total adjustment is 252 10;000 .
+The covariance between daily differences has to be re-annualised by the
+ factor of 252.The Bank of England's data provides rates as percentages,
+ and therefore, we adjust covariance by 1 1002 .
+ The total adjustment is 252 10;000.
 \end_layout
 
 \begin_layout Standard
@@ -15789,6 +16141,13 @@ Not a perfect fit
 \begin_layout Standard
 Report on this topic should discuss model risk that comes from calibraiton
  (tting) of volatility functions and discounting curve (if involved).
+\end_layout
+
+\begin_layout Standard
+
+\color red
+A general criterion is that a good t crosses axe X about the same points
+ as the tted function.
 \end_layout
 
 \begin_layout Subsubsection

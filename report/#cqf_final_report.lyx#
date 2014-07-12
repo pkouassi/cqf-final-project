@@ -14873,10 +14873,7 @@ Forward rate
 \end_layout
 
 \begin_layout Standard
-\begin_inset space \thinspace{}
-\end_inset
-
-
+fdg
 \end_layout
 
 \begin_layout Definition
@@ -14897,118 +14894,10 @@ The instantenuous forward rate
 \end_inset
 
  and applies over an instant 
-\begin_inset Formula $\varDelta t\rightarrow0$
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Definition
-\begin_inset Formula 
-\[
-F(t;T,S)\rightarrow f(t,T)\mbox{ when }S\rightarrow T^{+}
-\]
-
+\begin_inset Formula $\varDelta t$
 \end_inset
 
 
-\end_layout
-
-\begin_layout Definition
-It is a number from a continusous process:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
-f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
- & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Remark*
-Forward rates are bootstrapped using actual or synthetic zero-coupon bonds
- 
-\begin_inset Formula $Z(t;T)$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Heath–Jarrow–Morton
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Standard
-Instantenuous forward rate f(t,T), as seen from time t, starts at time T
- and applies over an instant 
-\begin_inset Formula $\varDelta t\rightarrow0$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-It is a number from a continusous process.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
-f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
- & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In general, the N-dimensional SDE (multi-factor HJM) is as follows:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-df(t,T)=m(t,T)dt+\sum_{i=1}^{N}\nu_{i}(t,T)dX_{i}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-with the risk-neutral drift
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Multi-factor Musiela parametrization
-\end_layout
-
-\begin_layout Standard
-TODO
 \end_layout
 
 \begin_layout Definition
@@ -15063,6 +14952,69 @@ d\overline{f}(t,\tau)
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Heath–Jarrow–Morton
+\end_layout
+
+\begin_layout Standard
+Instantenuous forward rate f(t,T), as seen from time t, starts at time T
+ and applies over an instant 
+\begin_inset Formula $\varDelta t\rightarrow0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is a number from a continusous proces.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+f(t,T) & = & -\lim_{\varDelta t\rightarrow0}\frac{\log Z(t;T+\varDelta t)-\log Z(t;T)}{\varDelta t}\\
+ & = & -\frac{\partial}{\partial T}\;\log\; Z(t;T)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In general, the N-dimensional SDE (multi-factor HJM) is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+df(t,T)=m(t,T)dt+\sum_{i=1}^{N}\nu_{i}(t,T)dX_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with the risk-neutral drift
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+m(t,T)=\sum_{i=1}^{N}\nu_{i}(t,T)\intop_{t}^{T}\nu_{i}(t,s)\; ds
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Multi-factor Musiela parametrization
 \end_layout
 
 \begin_layout Standard

@@ -120,6 +120,54 @@ ans27 = BasketCDSPricing_GaussianCopula(c(cc_entity1,
 #first_to_default.sobol = ans$basket_sim[250:100000,1]/ans$basket_sim[250:100000,6]
 #matplot(seq(250,100000),cbind(first_to_default.rnorm,first_to_default.sobol),type="l",log="x")
 
+#new batch to run
 
+ans28 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
+                                          CDS2_USD_XR_MARGINAL_CreditCurve,
+                                          CDS3_USD_XR_MARGINAL_CreditCurve,
+                                          CDS4_USD_XR_MARGINAL_CreditCurve,
+                                          CDS5_USD_XR_MARGINAL_CreditCurve),
+                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"halton")
+
+ans29 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
+                                          CDS2_USD_XR_MARGINAL_CreditCurve,
+                                          CDS3_USD_XR_MARGINAL_CreditCurve,
+                                          CDS4_USD_XR_MARGINAL_CreditCurve,
+                                          CDS5_USD_XR_MARGINAL_CreditCurve),
+                                        YieldCurve,CorrelationMatrix_GaussianCopula,0.40,1000000,"torus")
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.001*x)))
+cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
+ans30 = BasketCDSPricing_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.005*x)))
+cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
+ans31 = BasketCDSPricing_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.015*x)))
+cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
+ans32 = BasketCDSPricing_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.025*x)))
+cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
+ans33 = BasketCDSPricing_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.035*x)))
+cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
+ans34 = BasketCDSPricing_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
+
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.035*x)))
+cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
+ans35 = BasketCDSPricing_GaussianCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,1000000,"nag-sobol")
+
+ans36 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.20,1000000,"nag-sobol")
+
+ans37 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.70,1000000,"nag-sobol")
+
+ans38 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.80,1000000,"nag-sobol")
+
+ans39 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.90,1000000,"nag-sobol")
+
+ans40 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),0.99,1000000,"nag-sobol")
 
 

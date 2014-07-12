@@ -1,6 +1,6 @@
 is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1]) 
 
-package_list = c("fOptions")
+package_list = c("randtoolbox")
 
 for (i in seq(1,length(package_list))) {
   package = package_list[i]

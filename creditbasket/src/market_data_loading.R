@@ -46,18 +46,18 @@ end_date = as.Date("30-APR-2014","%d-%b-%Y")
 # CDS5_USD_XR = import_dataframe("PFE_USD_XR_29APR2013_30APR2014.csv")
 
 #weekly data
-# CDS1_USD_XR = import_dataframe("BMY_USD_XR_weekly_29APR2011_30APR2014.csv")
-# CDS2_USD_XR = import_dataframe("TMSNRC_USD_XR_weekly_29APR2011_30APR2014.csv")
-# CDS3_USD_XR = import_dataframe("HPQ_USD_XR_weekly_29APR2011_30APR2014.csv")
-# CDS4_USD_XR = import_dataframe("IBM_USD_XR_weekly_29APR2011_30APR2014.csv")
-# CDS5_USD_XR = import_dataframe("PFE_USD_XR_weekly_29APR2011_30APR2014.csv")
+CDS1_USD_XR = import_dataframe("BMY_USD_XR_weekly_29APR2011_30APR2014.csv")
+CDS2_USD_XR = import_dataframe("TMSNRC_USD_XR_weekly_29APR2011_30APR2014.csv")
+CDS3_USD_XR = import_dataframe("HPQ_USD_XR_weekly_29APR2011_30APR2014.csv")
+CDS4_USD_XR = import_dataframe("IBM_USD_XR_weekly_29APR2011_30APR2014.csv")
+CDS5_USD_XR = import_dataframe("PFE_USD_XR_weekly_29APR2011_30APR2014.csv")
 
 #daily 2Y data
-CDS1_USD_XR = import_dataframe("BMY_USD_XR_30APR2012_30APR2014.csv")
-CDS2_USD_XR = import_dataframe("TMSNRC_USD_XR_30APR2012_30APR2014.csv")
-CDS3_USD_XR = import_dataframe("HPQ_USD_XR_30APR2012_30APR2014.csv")
-CDS4_USD_XR = import_dataframe("IBM_USD_XR_30APR2012_30APR2014.csv")
-CDS5_USD_XR = import_dataframe("PFE_USD_XR_30APR2012_30APR2014.csv")
+# CDS1_USD_XR = import_dataframe("BMY_USD_XR_30APR2012_30APR2014.csv")
+# CDS2_USD_XR = import_dataframe("TMSNRC_USD_XR_30APR2012_30APR2014.csv")
+# CDS3_USD_XR = import_dataframe("HPQ_USD_XR_30APR2012_30APR2014.csv")
+# CDS4_USD_XR = import_dataframe("IBM_USD_XR_30APR2012_30APR2014.csv")
+# CDS5_USD_XR = import_dataframe("PFE_USD_XR_30APR2012_30APR2014.csv")
 
 
 #only keep data from Monday 6-May-2013 to Friday 23-May-2014

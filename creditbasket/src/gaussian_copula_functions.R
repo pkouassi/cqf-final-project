@@ -14,7 +14,14 @@ BasketCDSPricing_GaussianCopula = function(CreditCurveCollection,DiscountCurve,C
     ZMatrix_gaussian = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
   }
   else if (GenType == "sobol") {
-    ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+    ZMatrix_gaussian = sobol(NumberSimulation, dim = NumberCDS, normal = TRUE, scrambling = 3)
+    #ZMatrix_gaussian = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
+  }
+  else if (GenType == "halton") {
+    ZMatrix_gaussian = halton(NumberSimulation, dim = NumberCDS, normal = TRUE)
+  }
+  else if (GenType == "torus") {
+    ZMatrix_gaussian = torus(NumberSimulation,dim = NumberCDS,normal = TRUE)
   }
   else if (GenType == "nag-sobol") {
     ZMatrix_gaussian = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
