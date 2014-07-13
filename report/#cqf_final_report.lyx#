@@ -144,7 +144,7 @@ t Basket Crdit Default Swap).
  (Gaussian copulae and Student's t copulae).
  Section 2 addresses the pricing of various IBOR
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
@@ -12577,7 +12577,7 @@ Impact of the discount curve on the fair spread
 \end_layout
 
 \begin_layout Itemize
-CDS spread = 50 basis points
+CDS spread = 100 basis points
 \end_layout
 
 \begin_layout Itemize
@@ -12595,7 +12595,9 @@ Degree of freedom (for Student's t): 10
 \begin_layout Standard
 
 \color red
-Comments ???? explore granular 
+Comments ???? explore granular.
+ 1st and 1nd to default increase with interest rate but 3/4/5 to default
+ decrease with interest rate increase 
 \end_layout
 
 \begin_layout Standard
@@ -12748,7 +12750,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-5%
+4%
 \end_layout
 
 \end_inset
@@ -12793,7 +12795,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-5%
+4%
 \end_layout
 
 \end_inset
@@ -12813,7 +12815,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-42.6791
+80.9502
 \end_layout
 
 \end_inset
@@ -12822,7 +12824,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-42.9262
+81.4333
 \end_layout
 
 \end_inset
@@ -12831,7 +12833,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-43.17
+81.9212
 \end_layout
 
 \end_inset
@@ -12840,7 +12842,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-43.6827
+82.4140
 \end_layout
 
 \end_inset
@@ -12858,7 +12860,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-39.8855
+
 \end_layout
 
 \end_inset
@@ -12867,7 +12869,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-39.8275
+
 \end_layout
 
 \end_inset
@@ -12876,7 +12878,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-40.2818
+
 \end_layout
 
 \end_inset
@@ -12885,7 +12887,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-40.5920
+
 \end_layout
 
 \end_inset
@@ -12905,7 +12907,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-8.1186
+20.9834
 \end_layout
 
 \end_inset
@@ -12914,7 +12916,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-8.1230
+21.0026
 \end_layout
 
 \end_inset
@@ -12923,7 +12925,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-8.1272
+21.0217
 \end_layout
 
 \end_inset
@@ -12932,7 +12934,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-8.1356
+21.0406
 \end_layout
 
 \end_inset
@@ -12950,7 +12952,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-9.5513
+
 \end_layout
 
 \end_inset
@@ -12959,7 +12961,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-9.4597
+
 \end_layout
 
 \end_inset
@@ -12968,7 +12970,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-9.5547
+
 \end_layout
 
 \end_inset
@@ -12977,7 +12979,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-9.5998
+
 \end_layout
 
 \end_inset
@@ -12997,7 +12999,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.6561
+5.6333
 \end_layout
 
 \end_inset
@@ -13006,7 +13008,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.6524
+5.6216
 \end_layout
 
 \end_inset
@@ -13015,7 +13017,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.6486
+5.6097
 \end_layout
 
 \end_inset
@@ -13024,7 +13026,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.6410
+5.5976
 \end_layout
 
 \end_inset
@@ -13042,7 +13044,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.5188
+
 \end_layout
 
 \end_inset
@@ -13051,7 +13053,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.5091
+
 \end_layout
 
 \end_inset
@@ -13060,7 +13062,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.5337
+
 \end_layout
 
 \end_inset
@@ -13069,7 +13071,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.5866
+
 \end_layout
 
 \end_inset
@@ -13089,7 +13091,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2917
+1.2559
 \end_layout
 
 \end_inset
@@ -13098,7 +13100,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2905
+1.2511
 \end_layout
 
 \end_inset
@@ -13107,7 +13109,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2893
+1.2461
 \end_layout
 
 \end_inset
@@ -13116,7 +13118,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2868
+1.2412
 \end_layout
 
 \end_inset
@@ -13134,7 +13136,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.6117
+
 \end_layout
 
 \end_inset
@@ -13143,7 +13145,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.5856
+
 \end_layout
 
 \end_inset
@@ -13152,7 +13154,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.5911
+
 \end_layout
 
 \end_inset
@@ -13161,7 +13163,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.6021
+
 \end_layout
 
 \end_inset
@@ -13181,7 +13183,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0307
+0.1704
 \end_layout
 
 \end_inset
@@ -13190,7 +13192,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0305
+0.1695
 \end_layout
 
 \end_inset
@@ -13199,7 +13201,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0304
+0.1685
 \end_layout
 
 \end_inset
@@ -13208,7 +13210,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0300
+0.1676
 \end_layout
 
 \end_inset
@@ -13226,7 +13228,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0927
+
 \end_layout
 
 \end_inset
@@ -13235,7 +13237,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0849
+
 \end_layout
 
 \end_inset
@@ -13244,7 +13246,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0864
+
 \end_layout
 
 \end_inset
@@ -13253,7 +13255,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0983
+
 \end_layout
 
 \end_inset
@@ -13291,7 +13293,11 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Impact of yield curve
+Impact of yield curve on 
+\begin_inset Formula $1^{st}$
+\end_inset
+
+-to-default basket spread
 \end_layout
 
 \end_inset
@@ -15699,25 +15705,6 @@ Cap/Floor pricing
 \end_layout
 
 \begin_layout Definition
-Cap price
-\end_layout
-
-\begin_layout Definition
-A cap can be decomposed into caplets of shorter maturities:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\mbox{Cap}(t;T;K)=\sum_{i=1}^{n}\mbox{Cpl}_{i}(T_{i},T_{i+1},K)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Definition
 Caplet price
 \end_layout
 
@@ -15736,13 +15723,13 @@ A caplet is an interest option that pays a cashflow based on the value of
 \begin_inset Formula $T_{i+1})$
 \end_inset
 
- in arrears and therefore discounted:
+ in arrears and therefore discounted to the current time:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\mbox{Caplet}(t;T_{i};T_{i+1})=Z(t;T_{i+1})\times\max\left[L(T_{i},T_{i+1})-K,0\right]\times\tau\times N
+Z(0;T_{i+1})\times\max\left[L(T_{i},T_{i+1})-K,0\right]\times\tau\times N=Z(0;T_{i+1})\times\left(L(T_{i},T_{i+1})-K\right)^{+}\times\tau\times N
 \]
 
 \end_inset
@@ -15788,6 +15775,65 @@ where
 \end_layout
 
 \begin_layout Definition
+Cap price
+\end_layout
+
+\begin_layout Definition
+A 
+\begin_inset Formula $\mbox{Cap}(t;T;K)$
+\end_inset
+
+ starts at time 
+\begin_inset Formula $t$
+\end_inset
+
+ (beginning of first period) and matures at 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ It can be decomposed into 
+\begin_inset Formula $n$
+\end_inset
+
+ caplets of shorter maturities:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{Cap}(t;T;K)=\sum_{i=1}^{n}\mbox{Cpl}_{i}(T_{i},T_{i+1},K)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+If we assume 3M maturity caplets, we have 
+\begin_inset Formula $n=\frac{T-t}{4}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore, we can express the cap discounted payoff (price) as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{Cap}(t;T;K)=\sum_{i=1}^{n}Z(0,T_{i+1})\times\left(L(T_{i},T_{i+1})-K\right)^{+}\times\tau\times N
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
 Floor price
 \end_layout
 
@@ -15799,7 +15845,7 @@ The price of a floor can be obtained from the price of a cap using this
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\mbox{Cap}(t;T;K)-\mbox{Floor}(t;T;K)=N\sum_{i=1}^{n}(L(T_{i-1},Ti)\times\tau\times Z(0,T_{i})
+\mbox{Cap}(t;T;K)-\mbox{Floor}(t;T;K)=N\sum_{i=1}^{n}L(T_{i},T_{i+1})\times\tau\times Z(0,T_{i+1})
 \]
 
 \end_inset
@@ -15819,7 +15865,35 @@ The price of a floorlet can also obtained from the price of a caplet using
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\mbox{Caplet}(t;T_{i};T_{i+1})-\mbox{Floorlet}(t;T_{i};T_{i+1})=(L(T_{i-1},Ti)\times\tau\times Z(0,T_{i})\times N
+\mbox{Caplet}(T_{i};T_{i+1})-\mbox{Floorlet}(T_{i};T_{i+1})=L(T_{i},T_{i+1})\times\tau\times Z(0,T_{i+1})\times N
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Swaption pricing
+\end_layout
+
+\begin_layout Definition
+Vanilla payer swaption price
+\end_layout
+
+\begin_layout Definition
+We can write the discounted payoff of a payer swaption by considfering the
+ value of the underlying payer IRS at its first reset dat 
+\begin_inset Formula $t$
+\end_inset
+
+ (it is also maturity of the option embedded in the swaption):
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula 
+\[
+N\sum_{i=1}^{n}(L(T_{i},T_{i+1})-K)\times\tau\times Z(t,T_{i+1})
 \]
 
 \end_inset
@@ -15828,21 +15902,28 @@ The price of a floorlet can also obtained from the price of a caplet using
 \end_layout
 
 \begin_layout Definition
-be We also need to price simple interest rate options, such as caps and
- oors.
- A cap can be treated as a sum of caplets, each re-setting (expiring) at
- Ti and maturing at Ti+1.
- The rate is paid for the time i = Ti+1 to Ti.
- The amount of interest accrued is equal to L(Ti; Ti+1)(Ti+1 Ti) = fii
+The option will be exercised only if the above value is positive.
+ In order to obtain the swaption payoff at time 
+\begin_inset Formula $t$
+\end_inset
+
+, we need to apply the positive-part operator.
+ Discounting this payoff at time 
+\begin_inset Formula $t$
+\end_inset
+
+ to the current time, we obtain:
 \end_layout
 
-\begin_layout Standard
-In order to calculate the cash ow for a caplet for the notional capital
- of one, we use
-\end_layout
+\begin_layout Definition
+\begin_inset Formula 
+\[
+\mbox{PayerSwaption}(t;T;K)=N\times Z(0,t)\left(\sum_{i=1}^{n}(L(T_{i},T_{i+1})-K)\times\tau\times Z(t,T_{i+1})\right)^{+}
+\]
 
-\begin_layout Subsubsection
-Vanilla Payer Swaption pricing
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -15850,27 +15931,23 @@ Black76
 \end_layout
 
 \begin_layout Standard
-
-\color red
-A REVOIR
+The market quotes Caps/Floors and Swaptions in terms of implied volatility.
+ The below formula will help us to convert the prices we obtain via HJM
+ as Black76 implied volatilities.
 \end_layout
 
-\begin_layout Standard
-The formula is used to convert cap/floor prices to implied volatilities.
- The discussion below assumes that caplet prices are known However, in practice
- we strip caplet prices (3M period) from market-traded cap prices (1Y period).
- Prices are quoted in terms of implied volatility.
+\begin_layout Definition
+Caplet/Floorlet pricing with Black76
 \end_layout
 
-\begin_layout Standard
-Proposing that a caplet priced under LMM (lognormal factors) and Black's
- caplet price (market) are the same,
+\begin_layout Definition
+The price of a caplet using Black76 can be expressed as:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\mbox{Cpl}^{LMM}(0,T_{i},T_{i+1},K)=\mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})
+\mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})=Z(0,T_{i+1})\times\tau_{i}\times\mbox{Black76}(K,F_{i}(0),\zeta_{i})
 \]
 
 \end_inset
@@ -15879,21 +15956,17 @@ Proposing that a caplet priced under LMM (lognormal factors) and Black's
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
-\mbox{Cpl}^{LMM}(0,T_{i},T_{i+1},K) & = & \mbox{Cpl}^{Bl}(0,T_{i},T_{i+1},K,\zeta_{i})\\
- & = & Z(0,T_{i+1})\times\tau_{i}\times\mbox{Bl}(K,F_{i}(0),\zeta_{i})
-\end{eqnarray*}
-
+where 
+\begin_inset Formula $\mbox{Black76}(K,F_{i}(0),\zeta_{i})$
 \end_inset
 
-
+ is the Black formula defined as:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mbox{Bl}(K,F_{i}(0),\zeta_{i}) & = & \mathbb{E^{Q}}\left[F_{i}(t)-K\right]^{+}\\
+\mbox{Black76}(K,F_{i}(0),\zeta_{i}) & = & \mathbb{E^{Q}}\left[F_{i}(t)-K\right]^{+}\\
  & = & F_{i}(0)\Phi(d_{1})-K\Phi(d_{2})
 \end{eqnarray*}
 
@@ -15903,7 +15976,7 @@ Proposing that a caplet priced under LMM (lognormal factors) and Black's
 \end_layout
 
 \begin_layout Standard
-where
+with
 \end_layout
 
 \begin_layout Standard
@@ -15926,8 +15999,37 @@ in these formulae
 
 \end_layout
 
-\begin_layout Standard
-The formula is used to convert swaption prices to implied volatilities.
+\begin_layout Remark*
+The cap price is simply calculated as the sum of its captlet prices as we
+ have seen in definition 27
+\end_layout
+
+\begin_layout Definition
+Cap/Floor implied volatility with Black76
+\end_layout
+
+\begin_layout Definition
+We find the implied volatility using a simple root finding procedure (Bisection
+ or Newton-Raphson methods) applied on the cap price formula.
+ 
+\end_layout
+
+\begin_layout Remark*
+We assume that volatility is constant thoughout the cap; i.e.
+ all caplets are priced with the same volatility.
+\end_layout
+
+\begin_layout Definition
+Swaption pricing with Black76
+\end_layout
+
+\begin_layout Definition
+
+\color red
+A REVOIR
+\color inherit
+.
+ The price of a swaption using black76 can be expressed as:
 \end_layout
 
 \begin_layout Standard
@@ -15942,11 +16044,10 @@ The formula is used to convert swaption prices to implied volatilities.
 \end_layout
 
 \begin_layout Standard
-with 
 \begin_inset Formula 
 \begin{eqnarray*}
-d_{1} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)+\frac{\sigma^{2}(T_{\alpha}-t)}{2}}{sigma\sqrt{\left(T_{\alpha}-t\right)}}\\
-d_{2} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)-\frac{\sigma^{2}(T_{\alpha}-t)}{2}}{sigma\sqrt{\left(T_{\alpha}-t\right)}}
+d_{1} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)+\frac{\sigma^{2}(T_{\alpha}-t)}{2}}{\sigma\sqrt{\left(T_{\alpha}-t\right)}}\\
+d_{2} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)-\frac{\sigma^{2}(T_{\alpha}-t)}{2}}{\sigma\sqrt{\left(T_{\alpha}-t\right)}}
 \end{eqnarray*}
 
 \end_inset
@@ -17465,7 +17566,7 @@ Zero Coupond Bond pricing
 \end_layout
 
 \begin_layout Standard
-Zero Coupon Bond pricing follows the procedures described in the 
+Zero Coupon Bonds have been priced using the formula described in the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -17757,20 +17858,134 @@ Cap pricing
 \end_layout
 
 \begin_layout Standard
-30,000 simul
+The caps have been have been priced using the formula described in the 
+\begin_inset Quotes eld
+\end_inset
+
+Model and hypothesis
+\begin_inset Quotes erd
+\end_inset
+
+ section.
+ The pricing algorithm for one cap goes as follows:
 \end_layout
 
-\begin_layout Standard
-various maturities, caplet of 3M maturities
-\end_layout
-
-\begin_layout Itemize
-volatility smile 
-\color red
-(price and vol)??
+\begin_layout Enumerate
+For each simulation:
 \end_layout
 
 \begin_deeper
+\begin_layout Enumerate
+Calculate all the LIBOR rates required for the cap
+\end_layout
+
+\begin_layout Enumerate
+Price each caplet using the LIBOR rates (Definition 28)
+\end_layout
+
+\begin_layout Enumerate
+Calculate the cap price as the sum of the caplet prices (Definition 27)
+\end_layout
+
+\begin_layout Enumerate
+Store the cap price
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Once all simulations are completed, obtain the cap price by averaging the
+ cap price obtained for each simulation (expectation)
+\end_layout
+
+\begin_layout Enumerate
+Compute the implied volatility for the cap using Black76 
+\end_layout
+
+\begin_layout Standard
+I have assumed quaterly payments for the caps (i.e.
+ caplet maturity is 3M).
+ The following prices have been obtained after running 30,000 simulations.
+ I have priced caps for a wide range of strikes and swap tenors so that
+ we can observe the volatility skew and the term structure.
+\begin_inset Formula $\mbox{Cap}(t;T;K)$
+\end_inset
+
+ is the price as of today 
+\begin_inset Formula $(time=0$
+\end_inset
+
+) of a cap with strike 
+\begin_inset Formula $K$
+\end_inset
+
+ that start at time 
+\begin_inset Formula $t$
+\end_inset
+
+ and matures at times 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ This can be decomposed into 
+\begin_inset Formula $n$
+\end_inset
+
+ 3M caplets (
+\begin_inset Formula $n=\frac{T-t}{4}).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example*
+In the market, a 
+\begin_inset Formula $1\times2$
+\end_inset
+
+ cap is a 1 year cap starting in 1 year (
+\begin_inset Formula $\mbox{Cap}(1;2;K)$
+\end_inset
+
+ in our notation) can be decomposed into 4 caplets: [1,1.25], [1.25,1.5], [1.5,1.75]
+ and [1.75,2]
+\end_layout
+
+\begin_layout Remark*
+The first caplet is generally ignore for spot-starting cap because there
+ is uncertainty about the level of first LIBOR rate (it is already known).
+ 
+\end_layout
+
+\begin_layout Example*
+In the market, a one year cap starting from spot (
+\begin_inset Formula $\mbox{Cap}(0;1;K)$
+\end_inset
+
+ in our notation) can be decomposed into 3 caplets: [0.25,0.5], [0.5,0.75] and
+ [0.75,1]
+\end_layout
+
+\begin_layout Subsubsection*
+Volatility skew
+\end_layout
+
+\begin_layout Standard
+The below table shows the price (in basis point) and the implied volatility
+ (%) of a 
+\begin_inset Formula $1\times3$
+\end_inset
+
+ cap (2 year cap starting in one-year) for various strikes (0.1%,0.2%,0.5%,...,2%).
+ As for the caplets, cap prices increase when strike decreases because the
+ smaller the strike is, the larger cashflows the cap delivers.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="12">
@@ -17902,7 +18117,7 @@ Implied Volatility (%)
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mbox{Cap}(t,T,K)$
+\begin_inset Formula $\mbox{Cap}(t=1;T=3;K)$
 \end_inset
 
 
@@ -18235,9 +18450,45 @@ T
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\end_deeper
+\begin_layout Standard
+The plot (Figure 2.5) shows the price (in basis point) of 4 caps (
+\begin_inset Formula $1\times2$
+\end_inset
+
+,
+\begin_inset Formula $1\times3$
+\end_inset
+
+,
+\begin_inset Formula $1\times4$
+\end_inset
+
+ and 
+\begin_inset Formula $1\times5$
+\end_inset
+
+) for various strike.
+ When the caps are in the money, the relationship between the price and
+ the stike is almost linear.
+ We can also obeserve that the price of the cap increase with maturity;
+ this is inline with the definition of a cap price (e.g.
+ A 
+\begin_inset Formula $1\times5$
+\end_inset
+
+ cap can be decomposed into 16 caplets whereas a 
+\begin_inset Formula $1\times2$
+\end_inset
+
+ cap is only decomposed 
+\end_layout
+
 \begin_layout Itemize
 
 \color red
@@ -21315,7 +21566,7 @@ Convergence and stability
 
 \begin_layout Standard
 Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter,
- Faure).
+ Faure).30,000 simul
 \end_layout
 
 \begin_layout Standard
@@ -21355,43 +21606,6 @@ Convergence diagram for a cap price
 
 \end_inset
 
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename plot_convergence_diagram_swap.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Convergence diagram for a swap price (1*5)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 

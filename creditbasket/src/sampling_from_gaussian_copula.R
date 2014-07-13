@@ -159,7 +159,7 @@ ans29 = BasketCDSPricing_GaussianCopula(c(CDS1_USD_XR_MARGINAL_CreditCurve,
                                         YieldCurve,CorrelationMatrix_GaussianCopula,0.40,100,"torus")
 
 #to re-run
-nbsim=100
+nbsim=500000
 yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.001*x)))
 cc_100 = GetFlatCreditCurve(100,yieldcurve_flat)
 ans30 = BasketCDSPricing_GaussianCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.30,5),0.40,nbsim,"nag-sobol")
@@ -219,7 +219,7 @@ Y[,9] = ans38$basket_spreads
 Y[,10] = ans39$basket_spreads
 Y[,11] = ans40$basket_spreads
 
-matplot(X,t(Y)[,1],type="b",ylab="Basket spread (bp)",xlab="Interest rate (%)", col="black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5))
+matplot(X,t(Y)[,c(1)],type="b",ylab="Basket spread (bp)",xlab="Interest rate (%)", col="black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5))
 
 ####---------
 nbsim=100
@@ -257,4 +257,5 @@ Y[,7] = ans47$basket_spreads
 Y[,8] = ans48$basket_spreads
 Y[,9] = ans49$basket_spreads
 Y[,10] = ans50$basket_spreads
-matplot(X,t(Y)[,1:2],type="b",ylab="Basket spread (bp)",xlab="Recovery rate (%)", col="black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5))
+matplot(X,t(Y)[,c(1,2,3)],type="b",ylab="Basket spread (bp)",xlab="Recovery rate (%)", col="black", lty = c(1,2,3), pch = c(1,2,3))
+legend(72, 125, c("1st to default","2nd to default","3rd to default"), col = c("black"),       text.col = "black", lty = c(1,2,3,4,5), pch = c(1,2,3,4,5),merge = TRUE, bg = "gray90")
