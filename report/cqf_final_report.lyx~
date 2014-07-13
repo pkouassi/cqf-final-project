@@ -15627,7 +15627,7 @@ L(t;T)=-\frac{\log Z(t;T)}{T-t}
 \end_layout
 
 \begin_layout Definition
-Continuous compounded LIBOR rate in HJM
+Continuous compounded LIBOR rate in HJM (Musiela parametrisation)
 \end_layout
 
 \begin_layout Definition

@@ -84,16 +84,22 @@ ans_hjm4 = readRDS("D:/Temp/Simulation/ans_hjm1/ans_hjm4.rds")
 
 #plot convergence for 
 #1st to default
+saveRDS(ans_hjm2,"D:/temp/R-workspace/ans_hjm2.rds")
+saveRDS(ans_hjm4,"D:/temp/R-workspace/ans_hjm4.rds")
+saveRDS(ans_hjm4.1,"D:/temp/R-workspace/ans_hjm4.1.rds")
+
 step = 10
 nbobs = round(nrow(ans_hjm2$simulation)/step)
 sobol = rep(NA,nbobs)
 rnorm = rep(NA,nbobs)
+halton = rep(NA,nbobs)
 for (i in seq(1,nbobs)) {
   sobol[i] = mean(ans_hjm2$simulation[1:i*step,52])
   rnorm[i] = mean(ans_hjm4$simulation[1:i*step,52])
+  halton[i] = mean(ans_hjm4.1$simulation[1:i*step,52])
 }
-matplot(seq(1,nbobs)*step,cbind(rnorm,sobol),type="l",log="x",col=c("red","blue"),lty = c(3,1),xlab="Number of Simulations",ylab="Cap price")
-legend(460, 0.0096, c("Pseudo random number - rnorm()","Quasi random number - Sobol"), col = c("red","blue"), text.col = "black", lty = c(3,1,5),merge = TRUE, bg = "gray90")
+matplot(seq(1,nbobs)*step,cbind(rnorm,sobol,halton)*10000,type="l",log="x",col=c("red","blue","chartreuse3"),lty = 1,xlab="Number of Simulations",ylab="Cap price (bp)")
+legend(460, 157, c("Pseudo random number - rnorm()","Quasi random number - Sobol","Quasi random number - Halton"), col = c("red","blue","chartreuse3"), text.col = "black", lty = 1,merge = TRUE, bg = "gray90")
 
 #convergence diagram for a swap (1*5)
 step = 10

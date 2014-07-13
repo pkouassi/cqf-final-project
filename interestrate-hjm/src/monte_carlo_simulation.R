@@ -14,7 +14,7 @@ ans_hjm1.bis = HeathJarrowMortonPricing("bond",0,c(1,2,3,4,5),NA,ValuationDateFo
 # 
 # 
 
-nbsim_50000 = 100
+nbsim_50000 = 30000
 nbsim_10000 = 10000
 
 maturity_list = c(2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75,5)
@@ -34,6 +34,9 @@ timestamp = Sys.time()
 ans_hjm4 = HeathJarrowMortonPricing("cap",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"rnorm")
 cat("time to complete",Sys.time()-timestamp,"\n")
 
+timestamp = Sys.time()
+ans_hjm4.1 = HeathJarrowMortonPricing("cap",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"halton")
+cat("time to complete",Sys.time()-timestamp,"\n")
 
 
 
