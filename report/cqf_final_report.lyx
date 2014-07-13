@@ -15557,20 +15557,33 @@ for the first component
 Zero-Coupon Bond pricing
 \end_layout
 
-\begin_layout Standard
-Zero coupon bond (ZCB) price comes from the solution for dZ = Zrtdt, under
- the risk- neutral measure
+\begin_layout Definition*
+Zero coupon bond price in HJM
+\end_layout
+
+\begin_layout Definition*
+The ZCB price comes from the solution for 
+\begin_inset Formula $dZ=r(t)dt$
+\end_inset
+
+ under the risk- neutral measure:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-Z(t;T)=\mathbb{E^{Q}}\ensuremath{\left[\exp\left(-\int_{t}^{T}r_{s}\; ds\right)\right]=\exp\left(-\int_{t}^{T}\overline{f}(s,0)\; ds\right)}
-\]
+\begin{eqnarray*}
+Z(t;T) & = & \mathbb{E^{Q}}\ensuremath{\left[\exp\left(-\int_{t}^{T}r(s)\; ds\right)\right]}\\
+ & = & \mathbb{E^{Q}}\ensuremath{\left[\exp\left(-\int_{t}^{T}f(t,s)\; ds\right)\right]}\\
+ & = & \mathbb{E^{Q}}\ensuremath{\left[\exp\left(-\int_{0}^{\tau}\overline{f}(t,s)\; ds\right)\right]}
+\end{eqnarray*}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Subsubsection
+Libor pricing
 \end_layout
 
 \begin_layout Subsubsection
@@ -15791,6 +15804,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename forward_rate_term_struc_2011_2014.png
 	scale 50
@@ -15873,6 +15887,7 @@ I have decided to take 5 factors into account: all combined, they explain
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="5">
 <features rotate="0" tabularvalignment="middle">
@@ -16193,6 +16208,7 @@ The plot (Figure 2.2) shows the eigenvectors of the 5 principal components
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="5">
 <features rotate="0" tabularvalignment="middle">
@@ -16541,6 +16557,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_eigen_vectors.png
 	scale 50
@@ -16574,6 +16591,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_vol_fitted_function.png
 	scale 40
@@ -16608,38 +16626,17 @@ OIS Discounting
 \begin_layout Standard
 Discounting is a key aspect of pricing because interest rate derivatives
  are decomposable into cashflows.
- The usage of OIS rates to construct discount factors is compatible with
- the market model that relies on shifting numeraire 
-\begin_inset Formula $\mathbb{Q}(m)$
-\end_inset
-
- (a special account for which rate is fixed every night).
+ This implementation uses dual-curve pricing: one foreward/forecast curve
+ (that gauges an expectation of what short rate will be in the future) and
+ one discounting curve.
  I have used the GBP OIS spot curve obtained Bank Of England (UK OIS spot
  curve) which gives us discount rates (bootstrapped from overnight index
  swap rates) from for a wide range of maturities since 2009.
- Bank Of England provides us with OIS discount rates from 1 month to 5 years
- (every month in between); they don't provide us with OIS discount rates
- beyong 5 years 
-\end_layout
-
-\begin_layout Itemize
-Dual curve pricing (an account for which th
-\end_layout
-
-\begin_layout Itemize
-OIS spot curve available until 5Y - so we use it.
- after 5Y, we must use the OIS spread over LIBOR
-\end_layout
-
-\begin_layout Itemize
-Usage of OIS or SONIA rates to construct discount factors is compatible
- with the market model that relies on shifting numerarie Q(m) (an account
- for which rate is xed every night).
-\end_layout
-
-\begin_layout Itemize
-We are using the OIS spot curve that is available on the Bank of England
- website.
+ Bank Of England publishes OIS discount rates from 1 month up to to 5 years
+ (every month in between).
+ Liquidity in OIS contracts beyond 5 years is limited; therfore BOE publish
+ OIS curve only up to 5 years.
+ OIS curve over 5 years generally use OIS spread over LIBOR.
 \end_layout
 
 \begin_layout Standard
@@ -16649,6 +16646,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_ois_discount_curve.png
 	scale 50
@@ -16662,7 +16660,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-GBP OIS Discount Curve
+GBP OIS Spot curve
 \end_layout
 
 \end_inset
@@ -16680,11 +16678,633 @@ GBP OIS Discount Curve
 \end_layout
 
 \begin_layout Subsubsection
+Forward rates projection matrix
+\end_layout
+
+\begin_layout Standard
+Pricing of various interest rate derivatives instrument within the HJM framework
+ is performed through Monte Carlo simulations.
+ For each simulation, we use the HJM multi-factor stochastic differential
+ equation to generate a matrix that describes one possible evolation of
+ the forward curve starting from a given forward curve (the forward curve
+ on the valuation date).
+ This matrix has 60 columns (one column for each tenor from one-month to
+ 5 years - every month) and 
+\begin_inset Formula $n\times100$
+\end_inset
+
+ rows (where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of years for which we need to project the forward curve).
+ For instance, a one-year forward stating cap will require a projection
+ up to 1 year (i.e.
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of projection).
+ The timestep between each of this rows is 
+\begin_inset Formula $\delta t=0.01$
+\end_inset
+
+.The below matrix illustrates how this matrix is constructed.
+ The volatility of the HJM stochastic differential equation is calculated
+ as a sum of the volatility function of each factor times the brownian motion
+ of this factor.
+ The drift calculation requires an integration over the volatility functions
+ (not an issue since we are working with fitted cubic spline) and the calculatio
+n of the derivative 
+\begin_inset Formula $\frac{\partial\overline{f}(t,\tau)}{\partial\tau}$
+\end_inset
+
+.
+ This derivative is generally calculated as a forward difference on the
+ previous timestep, i.e 
+\begin_inset Formula $\frac{\partial\overline{f}(t,\tau)}{\partial\tau}=\frac{\overline{f}(t-\delta t,\tau+\delta\tau)-\overline{f}(t-\delta t,\tau)}{\delta\tau}$
+\end_inset
+
+; except for the column of the projection matrix (we can't go forward),
+ in this case, we calculate this derivative as a backward difference.
+ 
+\begin_inset Formula 
+\[
+d\overline{f}(t,\tau)=\overline{m}(t,T)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{m}(t,T)=\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{t}^{T}\overline{\nu}_{i}(t,s)\; ds+\frac{\partial\overline{f}(t,\tau)}{\partial\tau}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="7">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{2}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{3}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{4}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ldots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{60}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.01$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.02$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overline{f}(0.02,\frac{3}{12})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.03$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once the matrix is entirely populated, we perform the calculations required
+ (calculation of Bond price, Libor rates, Cap, etc.) and store the results.
+ We start then another simulation unless we have reached the number of simulatio
+ns required; in this case, we average all the results obtained for each
+ simulation to obtain the expectation (price) of the instruments we are
+ pricing.
+ 
+\end_layout
+
+\begin_layout Subsubsection
 Zero Coupond Bond pricing
 \end_layout
 
 \begin_layout Standard
-30,000 simulations.
+Zero Coupon Bond pricing follows the procedures described in the 
+\begin_inset Quotes eld
+\end_inset
+
+Model and hypothesis
+\begin_inset Quotes erd
+\end_inset
+
+ section.
+ The one-month rate 
+\begin_inset Formula $\overline{f}(t,\tau=0.08)$
+\end_inset
+
+ is taken as proxy for the spot rate 
+\begin_inset Formula $r(t)$
+\end_inset
+
+.
+ These are bond prices obtained after running 30,000 simulations.
+ As we can expect, a ZC bond starting today with 2 years maturity 
+\begin_inset Formula $Z(0;2)$
+\end_inset
+
+ has more value than a bond starting today with 5 years maturity 
+\begin_inset Formula $Z(0;5)$
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -16702,7 +17322,7 @@ Zero Coupond Bond pricing
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $Z(t,T)$
+\begin_inset Formula $Z(t;T)$
 \end_inset
 
 
