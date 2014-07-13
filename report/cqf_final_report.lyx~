@@ -15557,7 +15557,7 @@ for the first component
 Zero-Coupon Bond pricing
 \end_layout
 
-\begin_layout Definition*
+\begin_layout Definition
 Zero coupon bond price in HJM
 \end_layout
 
@@ -15583,11 +15583,208 @@ Z(t;T) & = & \mathbb{E^{Q}}\ensuremath{\left[\exp\left(-\int_{t}^{T}r(s)\; ds\ri
 \end_layout
 
 \begin_layout Subsubsection
-Libor pricing
+LIBOR pricing
+\end_layout
+
+\begin_layout Definition
+Continuous compounded LIBOR rate
+\end_layout
+
+\begin_layout Definition
+LIBOR is equal to the 
+\begin_inset Quotes eld
+\end_inset
+
+fixed
+\begin_inset Quotes erd
+\end_inset
+
+ yield of a future-starting fairly priced ZCB.
+ The LIBOR rate 
+\begin_inset Formula $L(t;T)$
+\end_inset
+
+ that resets at time 
+\begin_inset Formula $t$
+\end_inset
+
+ and is paid until maturity time 
+\begin_inset Formula $T$
+\end_inset
+
+ is expressed as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L(t;T)=-\frac{\log Z(t;T)}{T-t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Continuous compounded LIBOR rate in HJM
+\end_layout
+
+\begin_layout Definition
+Since we know 
+\begin_inset Formula $Z(t;T)=\exp(-\int_{t}^{T}f(t,s)\; ds)$
+\end_inset
+
+, we can derive the following:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+L(t;T) & = & -\frac{\log Z(t;T)}{T-t}\\
+ & = & -\frac{\log(\exp(-\int_{t}^{T}f(t,s)\; ds))}{T-t}\\
+ & = & \frac{1}{T-t}\int_{t}^{T}f(t,s)\; ds\\
+ & = & \frac{1}{\tau}\int_{0}^{\tau}\overline{f}(t,s)\; ds
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\tau=T-t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Simple annualised LIBOR rate
+\end_layout
+
+\begin_layout Definition
+The simple annualised LIBOR rate (i.e the standard LIBOR rate) can be expressed
+ as:
+\begin_inset Formula 
+\[
+L^{'}=m(e^{\frac{L}{m}}-1)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the couponding frequency
+\end_layout
+
+\begin_layout Remark*
+In our context, we work with 3M LIBOR.
+ Therefore, we have 
+\begin_inset Formula $L^{3M}=4(e^{\frac{L}{4}}-1)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
 Cap/Floor pricing
+\end_layout
+
+\begin_layout Definition
+Cap price
+\end_layout
+
+\begin_layout Definition
+A cap can be decomposed into caplets of shorter maturities:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mbox{Cap}(t;T;K)=\sum_{i=1}^{n}\mbox{Cpl}_{i}(T_{i},T_{i+1},K)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Caplet price
+\end_layout
+
+\begin_layout Definition
+A caplet is an interest option that pays a cashflow based on the value of
+ LIBOR at a reset time 
+\begin_inset Formula $T_{i}$
+\end_inset
+
+.
+ The cashflow is paid for the period from reset (
+\begin_inset Formula $T_{i})$
+\end_inset
+
+ to maturity (
+\begin_inset Formula $T_{i+1})$
+\end_inset
+
+ in arrears and therefore discounted:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z(t;T_{i+1})\times\max\left[L(T_{i},T_{i+1})-K,0\right]\times\tau\times N
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L(T_{i},T_{i+1})$
+\end_inset
+
+ is the forward LIBOR rate (simple annualised) that resets at 
+\begin_inset Formula $T_{i}$
+\end_inset
+
+ and matures at 
+\begin_inset Formula $T_{i+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tau=T_{i+1}-T_{i}$
+\end_inset
+
+ is the year fraction that converts the annualised rate to the period
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $N$
+\end_inset
+
+ is the notional (we will scaled to 
+\begin_inset Formula $1$
+\end_inset
+
+ going forward)
 \end_layout
 
 \begin_layout Standard
@@ -15601,17 +15798,6 @@ We also need to price simple interest rate options, such as caps and oors.
 \begin_layout Standard
 In order to calculate the cash ow for a caplet for the notional capital
  of one, we use
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-Z(t;T_{i+1})\times\max\left[L(T_{i},T_{i+1})-K,0\right]\times\tau
-\]
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -17300,10 +17486,11 @@ Model and hypothesis
 \end_inset
 
  has more value than a bond starting today with 5 years maturity 
-\begin_inset Formula $Z(0;2)$
+\begin_inset Formula $Z(0;5)$
 \end_inset
 
-)
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -17550,6 +17737,18 @@ NA
 
 \end_layout
 
+\begin_layout Remark*
+\begin_inset Formula $Z(0;1)\times Z(1;2)=0.9769137$
+\end_inset
+
+.
+ This is different from 
+\begin_inset Formula $Z(0;2)=0.9770264$
+\end_inset
+
+; it seems that there is an arbitrage opportunity with this pricing.
+\end_layout
+
 \begin_layout Subsubsection
 Cap pricing
 \end_layout
@@ -17558,8 +17757,14 @@ Cap pricing
 30,000 simul
 \end_layout
 
+\begin_layout Standard
+various maturities, caplet of 3M maturities
+\end_layout
+
 \begin_layout Itemize
-volatility smile
+volatility smile 
+\color red
+(price and vol)??
 \end_layout
 
 \begin_deeper
@@ -21447,6 +21652,13 @@ Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter,
 \end_layout
 
 \begin_layout Standard
+
+\color red
+Report on this topic should discuss model risk that comes from calibraiton
+ (tting) of volatility functions and discounting curve (if involved).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -21529,7 +21741,7 @@ Integration with NAG
 \end_layout
 
 \begin_layout Standard
-Numerical integration 
+Numerical integration for the drift
 \end_layout
 
 \begin_layout Standard

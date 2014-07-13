@@ -365,7 +365,8 @@ ComputeLIBORRates = function(matrix,timestep,t,T_array) {
    b2 = as.numeric(fit$coefficients["x2"])
    b3 = as.numeric(fit$coefficients["x3"])
    forward_curve_func = function(x) return(b0+b1*x+b2*x^2+b3*x^3)
-   forward_curve_integration_func = function (x) integrate(forward_curve_func,0,x)$value
+   #change libor formula
+   forward_curve_integration_func = function (x) (1/x)*integrate(forward_curve_func,0,x)$value
    
    return(sapply(T_array-t,forward_curve_integration_func))
 }
