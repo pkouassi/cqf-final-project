@@ -159,6 +159,7 @@ Black76SwaptionPricing = function(t,T,K,F,sigma) {
   for (i in seq(1,length(end_dates_array))) {
     value = value + (end_dates_array[i]-start_dates_array[i])*GetDiscountFactor(ValuationDateOISYieldCurve,end_dates_array[i])
   }
+  #cat("Black76:",Black76OptionPricing("call",F,K,t,sigma),"\n")
   value = value * Black76OptionPricing("call",F,K,t,sigma) 
   
 

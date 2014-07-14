@@ -197,42 +197,6 @@ LatexCommand tableofcontents
 
 \end_layout
 
-\begin_layout Section*
-Todo 
-\end_layout
-
-\begin_layout Standard
-The report should cover the following items:
-\end_layout
-
-\begin_layout Standard
-• A full mathematical description of the models employed as well as numerical
- methods.
- Include discussion and tests for accuracy.
- Inlcude discussion and tests for accuracy and convergence
-\end_layout
-
-\begin_layout Standard
-• Results presented using a plenty of tables and figures, together with
- sensible interpretation
-\end_layout
-
-\begin_layout Standard
-• Instructions on how to use the software if that's not obvious.
- The code must be thoroughly tested amd well documented
-\end_layout
-
-\begin_layout Standard
-• Pros and cons of a particular models and its implementation, together
- with possible improvements
-\end_layout
-
-\begin_layout Standard
-• Demonstrate “the specials” of you implementation, such as research, re-coding
- of numerical methods, using the “industrial-strength” libraries of C++,
- Python or NAG
-\end_layout
-
 \begin_layout Section
 Basket Credit Default Swap
 \end_layout
@@ -2070,7 +2034,7 @@ However the joint distribution for
 \begin_inset Formula $\tau_{k}\thicksim F_{k}(t_{1},t_{2},\ldots,t_{n})$
 \end_inset
 
- is unknow.
+ is unknown.
 \end_layout
 
 \begin_layout Standard
@@ -6654,6 +6618,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_correlation_stability_stock_log_return.png
 	scale 40
@@ -10370,16 +10335,11 @@ to default spread by 8 (
 \end_inset
 
  to default spread.
- We can observe that first-to-default spread is always lower than the CDS
- spread of any reference name.
  
-\color red
-Since the reference names are correlated, Why??? less invidual default,
- therefore less 1st default alone provide explanations ....
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
-shows 
+
 \end_layout
 
 \begin_layout Standard
@@ -10493,7 +10453,7 @@ Student T Copula
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $n{}^{th}$
+\begin_inset Formula $k{}^{th}$
 \end_inset
 
 to default 
@@ -11104,36 +11064,110 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
-
-\color red
-As default correlation increases to very high levels, spreads for different
- 
+The plot (Figure 1.12) shows that the impact of correlation of the 
 \begin_inset Formula $k^{th}$
 \end_inset
 
- to default instrument lapse.
- Why?
-\end_layout
+-to-defaut basket CDS spread.
+ Its highlights that correlation does not have the same impact on all 
+\begin_inset Formula $k^{th}$
+\end_inset
 
-\begin_layout Standard
+-to-defaut spread.
+ 
+\begin_inset Newline newline
+\end_inset
 
-\color red
-What are your levels of correlations obtained from changes in traded CDS
- price?
-\end_layout
 
-\begin_layout Standard
+\begin_inset Newline newline
+\end_inset
 
-\color red
-as correlation increases, less default alone and more group / joined defaults.
- therefore the first to default decrease and the 3/4/5 default increase.
-\end_layout
+We can observe that first-to-default spread of a basket with correlation
+ is always lower than the CDS spread of any reference name: this is related
+ to correlation.
+ In a basket of uncorrelated reference names (i.e.
+ equicorrelation = 0%), most of time, when one reference name defaults,
+ it defaults alone (i.e.
+ no other reference name defaults within the 5 years of the contract).
+ Intersections (several reference name defaulting in the same simulation)
+ are very rare.
+ In this case, the first-to-default spread is close to the CDS spread of
+ any of the reference name (i.e.
+ the risk of single-name CDS on the reference 
+\begin_inset Formula $A$
+\end_inset
 
-\begin_layout Standard
+ and the risk on a basket CDS composed of 5 reference names which have the
+ same credit curve as 
+\begin_inset Formula $A$
+\end_inset
 
-\color red
-second-to-default increase until a certain inflexion point (around 70%);
- after that the spread of the second-to-default decreases 
+ f the signle-name CDS are very close).
+ In a basket of correlated reference names, thing are different.
+ Intersections (i.e.
+ more than one reference name defaults within the the 5 years of the contract)
+ are going to increase; as a consequence, there will be less simulations
+ where only one default can be observed (but there will be more simulations
+ where more than one default can be observed).This explains why the spread
+ of the first-to-default will be lower than the spread of any CDS when the
+ reference names are correlated.
+ The higher the correlation the lower the spread of the first-to-default
+ basket CDS.
+\begin_inset Newline newline
+\end_inset
+
+The spread of 
+\begin_inset Formula $3^{rd}/4^{th}/5^{th}$
+\end_inset
+
+-to-default basket increases with correlation because as we have seen earlier,
+ the number of simulations with multiple defaults increase with correlation.
+\begin_inset Newline newline
+\end_inset
+
+Finally, the spread of the 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+to default basket increases with correlation until 
+\begin_inset Formula $\thicksim70\%$
+\end_inset
+
+ and then decrease slightly between 
+\begin_inset Formula $70\%$
+\end_inset
+
+ and 
+\begin_inset Formula $100\%$
+\end_inset
+
+.
+ The second-to-default combines the effect that we described for the first-to-de
+fault and for the 
+\begin_inset Formula $3^{rd}/4^{th}/5^{th}$
+\end_inset
+
+-to-default.
+ The second-to-default spread start to increase like the
+\begin_inset Formula $3^{rd}/4^{th}/5^{th}$
+\end_inset
+
+-to-default unitl 
+\begin_inset Formula $\thicksim70\%$
+\end_inset
+
+.
+ When correlation goes beyond 
+\begin_inset Formula $70\%$
+\end_inset
+
+, there are less and less simulations with only 2 defaults within the life
+ of the contract; therefore the spread of the second-to-default spread starts
+ to decrease.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -11247,7 +11281,7 @@ Student T Copula
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $n{}^{th}$
+\begin_inset Formula $k{}^{th}$
 \end_inset
 
 to default 
@@ -11863,9 +11897,38 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
+This plot (Figure 1.13) shows that all 
+\begin_inset Formula $k^{th}$
+\end_inset
 
-\color red
-explore larger recovery rate ????
+-to-default spread decreases when the recover rate increases.
+ When the recovery rate 
+\begin_inset Formula $R\rightarrow1$
+\end_inset
+
+, we have the loss given default 
+\begin_inset Formula $L=1-R\rightarrow0$
+\end_inset
+
+; as a consequence have the default leg 
+\begin_inset Formula $DL\rightarrow0$
+\end_inset
+
+; therefore 
+\begin_inset Formula $s^{k}\rightarrow0$
+\end_inset
+
+.
+ We can also observe that the increase in the recovery rate has the same
+ impact in percentage on all 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default spreads.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -11979,7 +12042,7 @@ Student T Copula
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $n{}^{th}$
+\begin_inset Formula $k{}^{th}$
 \end_inset
 
 to default 
@@ -12543,6 +12606,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_recovery_rate.png
 	scale 40
@@ -12594,11 +12658,24 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
+For this sensitivity analysis, we assume a constant interest rate thoughout
+ the yield cuve.
+ We can observe the observe that the increase in the the interest rate does
+ not have the sam impact on all 
+\begin_inset Formula $k^{th}$
+\end_inset
 
-\color red
-Comments ???? explore granular.
- 1st and 1nd to default increase with interest rate but 3/4/5 to default
- decrease with interest rate increase 
+-to-default spreads.
+ The first-to-default and second-to-default spreads increase with interest
+ rates but the 
+\begin_inset Formula $3^{rd}/4^{th}/5^{th}$
+\end_inset
+
+-to-default spreads decrease when interest rate increase.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -12712,7 +12789,7 @@ Student T Copula
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $n{}^{th}$
+\begin_inset Formula $k{}^{th}$
 \end_inset
 
 to default 
@@ -13270,11 +13347,6 @@ to default
 \end_layout
 
 \begin_layout Standard
-1st and 2nd to default spread increase.
- 3rd to default spread onwards decrease
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -13313,22 +13385,6 @@ Impact of yield curve on
 \end_inset
 
 
-\end_layout
-
-\begin_layout Subsubsection*
-Stress testing of correlation matrix
-\end_layout
-
-\begin_layout Standard
-
-\color red
-historical sampling of default correlation max, and
-\end_layout
-
-\begin_layout Standard
-
-\color red
-choice of the stress-testing levels of correlation.
 \end_layout
 
 \begin_layout Subsection
@@ -13444,79 +13500,88 @@ Numerical implementation
 Highlights
 \end_layout
 
-\begin_layout Itemize
-Integration with NAG library (professional routine).
-
-\color red
- identify closest positive definite correlation matrix using NAG???
+\begin_layout Standard
+The highlights of this implementation are:
 \end_layout
 
 \begin_layout Itemize
-Pricing code that allows pricing of 
+Integration with NAG Fortran library
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+I have used the NAG Fortran library 64 bit
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This free trial license has been graciously given by the Numerical Algorithms
+ Group
+\end_layout
+
+\end_inset
+
+ (FLW6I24DCL) because it can be integrated smoothly with R 64 bit.
+ I have created a R function which first initialize a low-discrepancy number
+ generator (NAG routine G05YLF) and then 
+\begin_inset Quotes eld
+\end_inset
+
+draw
+\begin_inset Quotes erd
+\end_inset
+
+ 
 \begin_inset Formula $n$
 \end_inset
 
- reference names basket
+ numbers for each dimension (NAG routine G05YJF).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The core pricing functions BasketCDSPricing_GaussianCopula() and BasketCDSPricin
+g_StudentTCopula() are generic enough to be to price 
+\begin_inset Formula $n$
+\end_inset
+
+ reference names baskets
+\end_layout
+
+\begin_layout Itemize
+Pricing functions return all 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default basket spreads together with the single-name CDS spread (can
+ be used for verification) and the results of the simulations which can
+ be used to produce convergence diagrams
 \end_layout
 
 \begin_layout Standard
-
-\color red
 There is also room for improvement in this implementation.
  Here are some improvement opportunities:
 \end_layout
 
 \begin_layout Itemize
-
-\color red
-Principal component analysis could be done on a covariance matrix which
- includes monthly instantaneous forwards between 0 and 5 years (instea dof
- just semi-annual instantaneous forwards)
+Usage of NAG routines (G02AAF) to calculate the nearest correlection matrix
+ (when the correlation matrix is not positive definite)
 \end_layout
 
 \begin_layout Itemize
-
-\color red
-Implement pricing algorithm in C++ to achieve better performance
+Credit curves could be bootstrapped asumming quaterly payments for CDS (bootstra
+pping is performed assuming annual payments)
 \end_layout
 
 \begin_layout Itemize
-Pros
+Basket CDS could be priced assumming quaterly payments
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Usage of NAG
-\end_layout
-
-\begin_layout Itemize
-
-\color red
-?????
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Cons
-\end_layout
-
-\begin_deeper
 \begin_layout Itemize
 Premium leg - annual payment.
  standard is quaterly
 \end_layout
 
-\begin_layout Itemize
-Default leg - should be in discrete time (quaterly payment) instead of continuou
-s time
-\end_layout
-
-\begin_layout Itemize
-Should be implemented in C++ for better object oriented design and faster
- computation (multithreading, etc.)
-\end_layout
-
-\end_deeper
 \begin_layout Subsubsection
 Algorithm
 \end_layout
@@ -14119,12 +14184,16 @@ Instructions and package description
 \end_layout
 
 \begin_layout Standard
-This program has been written using R (version 3.1.0, 64-bit) and Rstudio
- as IDE.
+T
+\color red
+his program has been written using R (version 3.1.0, 64-bit) and Rstudio as
+ IDE.
  In order to launch this program, please follow this procedure:
 \end_layout
 
 \begin_layout Enumerate
+
+\color red
 Copy the whole folder 
 \begin_inset Quotes eld
 \end_inset
@@ -14142,6 +14211,8 @@ creditbasket)
 \end_layout
 
 \begin_layout Enumerate
+
+\color red
 Open the file 
 \begin_inset Quotes eld
 \end_inset
@@ -14167,6 +14238,8 @@ master_program.R)
 \end_layout
 
 \begin_layout Enumerate
+
+\color red
 Update the value of the variable 
 \series bold
 current_dir
@@ -14176,15 +14249,21 @@ current_dir
 \end_layout
 
 \begin_layout Enumerate
+
+\color red
 Launch R
 \end_layout
 
 \begin_layout Enumerate
+
+\color red
 type: source ("C:/temp/creditbasket/src/master_program.R") (replace the path
  to master_program.R to match your environment)
 \end_layout
 
 \begin_layout Enumerate
+
+\color red
 The program will start.
 \end_layout
 
@@ -16090,42 +16169,6 @@ We assume that volatility is constant thoughout the cap; i.e.
  all caplets are priced with the same volatility.
 \end_layout
 
-\begin_layout Definition
-Swaption pricing with Black76
-\end_layout
-
-\begin_layout Definition
-
-\color red
-A REVOIR
-\color inherit
-.
- The price of a swaption using black76 can be expressed as:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\mbox{PayerSwaption}(t,T,\tau,K,\sigma_{\alpha,\beta})=\sum_{i=\alpha+1}^{\beta}\tau_{i}\times Z(t,T_{i+1})\times\left[S(t,\alpha,\beta)\Phi(d_{1})-K\Phi(d_{2})\right]
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
-d_{1} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)+\frac{\sigma^{2}(T_{\alpha}-t)}{2}}{\sigma\sqrt{\left(T_{\alpha}-t\right)}}\\
-d_{2} & = & \frac{\log\left(\frac{S(t,\alpha,\beta)}{K}\right)-\frac{\sigma^{2}(T_{\alpha}-t)}{2}}{\sigma\sqrt{\left(T_{\alpha}-t\right)}}
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Main result
 \end_layout
@@ -16909,6 +16952,16 @@ good fitting
 \end_inset
 
 .
+ The multivariate linear regression (power of 
+\begin_inset Formula $\tau$
+\end_inset
+
+) that we performed to find these fitted curves introduce model risk.
+ Adding more term (higher powers of 
+\begin_inset Formula $\tau$
+\end_inset
+
+) will increase in-sample accuracy of fit but might represent an overfitting.
 \end_layout
 
 \begin_layout Standard
@@ -18585,6 +18638,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_cap_volatility_smile.png
 	scale 40
@@ -18621,7 +18675,7 @@ Volatility surface
 
 \begin_layout Standard
 The below table displays the price (in basis point) and the implied volatility
- (%) of various 4 caps (
+ (%) of 4 caps (
 \begin_inset Formula $1\times2$
 \end_inset
 
@@ -18638,11 +18692,7 @@ The below table displays the price (in basis point) and the implied volatility
 \end_inset
 
 ) for various strikes.
- 
-\end_layout
-
-\begin_layout Standard
-As we have seen earlier, the price of a cap increases when the maturity
+ As we have seen earlier, the price of a cap increases when the maturity
  of the cap increases and the price of cap decreases when the strike increases.
  On the other hand, the implied volatility of the cap decreases when the
  maturity of the cap increases (implied volatility is an average of the
@@ -19484,43 +19534,6 @@ Cap volatility surface
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename cap_price_surface.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Cap price surface
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Swaption pricing
 \end_layout
@@ -19613,27 +19626,29 @@ I have assumed quaterly payments for the swaption.
 
 \end_layout
 
-\begin_layout Itemize
-volatility smile
+\begin_layout Subsubsection*
+Volatility skew
 \end_layout
 
-\begin_deeper
+\begin_layout Standard
+The below table displays the price (in basis point) of a 
+\begin_inset Formula $1\times3$
+\end_inset
+
+ swaption (1 year maturity option on a 2 year forward starting swap) for
+ various strikes (0.1%,0.2%,0.5%,...,2%).
+ Swaption prices increase when strike decreases.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="18">
+<lyxtabular version="3" rows="4" columns="6">
 <features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -19650,92 +19665,11 @@ volatility smile
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Price
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Implied Volatility
+Price (bp)
 \end_layout
 
 \end_inset
@@ -19768,33 +19702,6 @@ Implied Volatility
 \end_inset
 </cell>
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -19817,87 +19724,6 @@ Implied Volatility
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-K (%)
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -19935,33 +19761,6 @@ K (%)
 \end_inset
 </cell>
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -20017,119 +19816,11 @@ T
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-5
+2
 \end_layout
 
 \end_inset
@@ -20149,7 +19840,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+280.89
 \end_layout
 
 \end_inset
@@ -20158,7 +19849,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+261.29
 \end_layout
 
 \end_inset
@@ -20167,7 +19858,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+202.51
 \end_layout
 
 \end_inset
@@ -20176,115 +19867,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+104.82
 \end_layout
 
 \end_inset
@@ -20293,7 +19876,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.33
 \end_layout
 
 \end_inset
@@ -20306,32 +19889,73 @@ T
 
 \end_layout
 
-\end_deeper
 \begin_layout Standard
-instert plot
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plot_swaption_volatility_skew.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Swaption volatility skew
 \end_layout
 
-\begin_layout Itemize
-volatility surface
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Volatility surface
+\end_layout
+
+\begin_layout Standard
+The below table displays the price (in basis point) of 4 swaptions (
+\begin_inset Formula $1\times2$
+\end_inset
+
+,
+\begin_inset Formula $1\times3$
+\end_inset
+
+,
+\begin_inset Formula $1\times4$
+\end_inset
+
+ and 
+\begin_inset Formula $1\times5$
+\end_inset
+
+) for various strikes.
+ As we have seen earlier, the price of a swaption increases when the tenor
+ of the swap increases and the price of swaption decreases when the strike
+ increases.
+ 
+\end_layout
+
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="18">
+<lyxtabular version="3" rows="7" columns="6">
 <features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -20348,92 +19972,11 @@ volatility surface
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Price
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Implied Volatility
+Price (bp)
 \end_layout
 
 \end_inset
@@ -20466,33 +20009,6 @@ Implied Volatility
 \end_inset
 </cell>
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -20515,87 +20031,6 @@ Implied Volatility
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-K (%)
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -20633,33 +20068,6 @@ K (%)
 \end_inset
 </cell>
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -20715,119 +20123,11 @@ T
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-5
+2
 \end_layout
 
 \end_inset
@@ -20847,7 +20147,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+123.51
 \end_layout
 
 \end_inset
@@ -20856,7 +20156,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+113.63
 \end_layout
 
 \end_inset
@@ -20865,7 +20165,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+84.00
 \end_layout
 
 \end_inset
@@ -20874,115 +20174,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+36.58
 \end_layout
 
 \end_inset
@@ -20991,7 +20183,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -21011,7 +20203,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+280.89
 \end_layout
 
 \end_inset
@@ -21020,7 +20212,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+261.29
 \end_layout
 
 \end_inset
@@ -21029,7 +20221,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+202.51
 \end_layout
 
 \end_inset
@@ -21038,115 +20230,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+104.82
 \end_layout
 
 \end_inset
@@ -21155,7 +20239,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.33
 \end_layout
 
 \end_inset
@@ -21175,7 +20259,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+463.26
 \end_layout
 
 \end_inset
@@ -21184,7 +20268,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+434.16
 \end_layout
 
 \end_inset
@@ -21193,7 +20277,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+346.84
 \end_layout
 
 \end_inset
@@ -21202,115 +20286,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+201.31
 \end_layout
 
 \end_inset
@@ -21319,7 +20295,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2.72
 \end_layout
 
 \end_inset
@@ -21339,7 +20315,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+662.26
 \end_layout
 
 \end_inset
@@ -21348,7 +20324,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+623.87
 \end_layout
 
 \end_inset
@@ -21357,7 +20333,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+508.70
 \end_layout
 
 \end_inset
@@ -21366,115 +20342,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+316.76
 \end_layout
 
 \end_inset
@@ -21483,7 +20351,7 @@ T
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+11.60
 \end_layout
 
 \end_inset
@@ -21496,9 +20364,42 @@ T
 
 \end_layout
 
-\end_deeper
 \begin_layout Standard
-instert plot
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plot_swaption_price_3d.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Swaption price for various swap tenors and strikes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -21565,7 +20466,7 @@ Highlights
 \end_layout
 
 \begin_layout Standard
-The highlights of this implementation are summarized here:
+The highlights of this implementation are:
 \end_layout
 
 \begin_layout Itemize
@@ -21668,9 +20569,18 @@ ts (bonds, caps and swaptions) at the same time.
  It makes it easy to perform analysis 
 \end_layout
 
+\begin_layout Itemize
+The core pricing function HeathJarrowMortonPricing() returns simulation
+ results which can used to produce convergence diagrams
+\end_layout
+
 \begin_layout Standard
 There is also room for improvement in this implementation.
  Here are some improvement opportunities:
+\end_layout
+
+\begin_layout Itemize
+Complete implied volatility calculation for swaptions (it is done for caps)
 \end_layout
 
 \begin_layout Itemize
@@ -21809,12 +20719,40 @@ fit a cubic spline for each of these 5 volatility vectors
 \begin_layout Enumerate
 Monte carlo simulation to price IR derivatives - 
 \shape italic
-monte_carlo_simulation.R
+monte_carlo_simulation_functions.R
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
+generate pseudo-random numbers or low-discrepancy numbers
+\end_layout
 
+\begin_deeper
+\begin_layout Enumerate
+start to run simulation
+\end_layout
+
+\begin_layout Enumerate
+initialize and populate the HJM propagation matrix
+\end_layout
+
+\begin_layout Enumerate
+perform instrument specific calculation (caps, swaptions) using the propagation
+ matrix
+\end_layout
+
+\begin_layout Enumerate
+store the results
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+average simulation results to get instrument price as an expectation
+\end_layout
+
+\begin_layout Enumerate
+when required, convert instrument price to implied volatility using a root
+ find algorithm on Black76
 \end_layout
 
 \end_deeper
@@ -22577,6 +21515,18 @@ Conclusion
 
 \begin_layout Standard
 La conclusion ...
+\end_layout
+
+\begin_layout Standard
+se poser des problemes
+\end_layout
+
+\begin_layout Standard
+structurer une implementation
+\end_layout
+
+\begin_layout Standard
+faire des recherches
 \end_layout
 
 \begin_layout Standard

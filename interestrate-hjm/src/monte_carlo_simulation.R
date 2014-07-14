@@ -14,7 +14,7 @@ ans_hjm1.bis = HeathJarrowMortonPricing("bond",0,c(1,2,3,4,5),NA,ValuationDateFo
 # 
 # 
 
-nbsim_50000 = 30000
+nbsim_50000 = 100
 nbsim_10000 = 10000
 
 maturity_list = c(2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75,5)
@@ -60,6 +60,11 @@ cat("time to complete",Sys.time()-timestamp,"\n")
 timestamp = Sys.time()
 ans_hjm9 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim_50000,"sobol")
 cat("time to complete",Sys.time()-timestamp,"\n")
+
+matplot(strike_list*100,ans_hjm9$price[,c(1,5,9,13)]*10000,type="l",xlab="Strike",ylab="Price (bp)",col=c("black","blue","red","chartreuse3"),lty=1)
+legend(3.5, 650, c("2Y","3Y","4Y","5Y"), col = c("black","blue","red","chartreuse3"), text.col = "black", lty = 1,merge = TRUE, bg = "gray90")
+
+persp(strike_list*100, maturity_list, ans_hjm9$ive*100 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Price")
 
 persp(strike_list*100, maturity_list, ans_hjm9$price*10000 ,phi = 10, theta = 45,r=5, box = TRUE,  col = "lightblue",ticktype="detailed",nticks=4,shade=0.5, xlab="Strike",ylab="Maturity",zlab="Price")
 

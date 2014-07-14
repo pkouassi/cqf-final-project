@@ -436,10 +436,12 @@ ComputeForwardStartingParSwapPrice = function(matrix,timestep,t,T,DiscountCurve)
       fixed_leg = fixed_leg + 1*x*(end_dates_array[i]-start_dates_array[i])*(GetDiscountFactor(DiscountCurve,end_dates_array[i])/GetDiscountFactor(DiscountCurve,t))
       floating_leg = floating_leg + 1*libor_rates_quaterly_comp[i]*(end_dates_array[i]-start_dates_array[i])*(GetDiscountFactor(DiscountCurve,end_dates_array[i])/GetDiscountFactor(DiscountCurve,t))
     }
-    value = floating_leg - fixed_leg
+    #value = floating_leg - fixed_leg
+    value = GetDiscountFactor(DiscountCurve,t) * (floating_leg - fixed_leg)
   }
   
-  value = uniroot(tmpfunc,lower=-0.5,upper=0.5)$root
+  #value = uniroot(tmpfunc,lower=-0.5,upper=0.5)$root
+  value = uniroot(tmpfunc,lower=-5,upper=5)$root
   #cat("par swap:",value,"\n")
   
   return(value)  
