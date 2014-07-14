@@ -1,4 +1,12 @@
-#Compute Exact Defaut Time
+#==============================================================================
+# title           :monte_carlo_functions.R
+# description     :defines functions which will be used during Monte Carlo sim
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
+
+# Compute Exact Defaut Time
 ConvertToDefaultTime = function(CreditCurve,u_array) {
   #determine the year of default
   #by comparing abs(log(1-u_array[i])) and sum (sum of lambda_i*delta_ti)
@@ -32,7 +40,7 @@ ConvertToDefaultTime = function(CreditCurve,u_array) {
   return(exacttimeofdefault)
 }
 
-#compute premium leg value
+# Compute premium leg value
 ComputePremiumLeg = function(YieldCurve,NumberCDS,k,tau_arr) {
   #calculation is discretised per annum
   Maturity = 5

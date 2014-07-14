@@ -1,6 +1,12 @@
-# calculation correlation matrix using stock log return
+#==============================================================================
+# title           :stock_log_return_correlation_matrix.R
+# description     :calculates correlation matrix using stock log return
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
 
-# Get stock prices from Yahoo csv file and calculate daily log return
+# Get stock prices from Yahoo finance csv file and calculate daily log return
 GetStockLogReturn = function(filename,startdate,enddate) {
   stock.dataframe = read.csv(paste(getwd(),"/../data/",filename,sep=""),header = TRUE, stringsAsFactors = FALSE)  
   stock.dataframe$Date = as.Date(stock.dataframe$Date,"%Y-%m-%d")

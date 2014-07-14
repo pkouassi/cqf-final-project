@@ -9,9 +9,11 @@
 # Loading Historical Yield Curve
 HistoricalYieldCurveMatrix = parseHistoricalYieldCurve("/../data/HistoricYieldCurveWeekly2011-2014.csv")
 
+# Define tickers of the reference name in the basket CDS
+AssetTicker = c("BMY","TMSNRC","HPQ","IBM","PFE")
+
 # Loading Historical CDS spreads from markit files 
 # Markit files are not provided; only export with selected reference names are provided
-# AssetTicker = c("BMY","TMSNRC","HPQ","IBM","PFE")
 # start_date = as.Date("30-APR-2012","%d-%b-%Y")
 # end_date = as.Date("30-APR-2014","%d-%b-%Y")
 # CDS1_USD_XR=parseHistoricalCreditData("C://temp//markit",AssetTicker[1],"USD","XR",start_date,end_date)

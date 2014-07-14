@@ -37,7 +37,7 @@ source("stock_log_return_correlation_matrix.R")
 print(StockLogReturnCorrelationMatrix)
 
 # Estimate Marginal Hazard Rates (empirical marginal distributions)
-source("estimate_marginal_hazard_rates.R")
+source("calculate_marginal_hazard_rates.R")
 print(HazardRatesMatrix)
 
 # Load NAG library
