@@ -40,11 +40,6 @@ BasketCDSPricing_StudentTCopula = function(CreditCurveCollection,DiscountCurve,C
     ZMatrix_studentt = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
   }
   
-  #ZMatrix_studentt = matrix(rnorm(NumberSimulation*NumberCDS, mean = 0, sd = 1),ncol=NumberCDS,nrow=NumberSimulation,byrow=FALSE)
-  #using sobol numbers
-  ZMatrix_studentt = rnorm.sobol(n = NumberSimulation, dimension = NumberCDS , scrambling = 3)
-  #ZMatrix_studentt = quasirandom.nag(NumberSimulation,NumberCDS,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
-  
   YMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   XMatrix_studentt = matrix(data = NA,ncol=NumberCDS, nrow=NumberSimulation)
   ChiSquare = rchisq(NumberSimulation, DegreeFreedom)

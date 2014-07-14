@@ -66,7 +66,10 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     dX_array = matrix(rnorm(NumberSimulation*NumberPC*NumberOfTimesteps, mean = 0, sd = 1),nrow=NumberSimulation,ncol=NumberPC*NumberOfTimesteps,byrow=FALSE)
   }
   else if (GenType == "sobol") {
-    dX_array = rnorm.sobol(n = NumberSimulation, dimension = NumberPC*NumberOfTimesteps , scrambling = 3)
+    dX_array = sobol(NumberSimulation, dim = NumberPC*NumberOfTimesteps, normal = TRUE, scrambling = 3)
+  }
+  else if (GenType == "halton") {
+    dX_array = halton(NumberSimulation, dim = NumberPC*NumberOfTimesteps, normal = TRUE)
   }
   else if (GenType == "nag-sobol") {
     dX_array = quasirandom.nag(NumberSimulation,NumberPC*NumberOfTimesteps,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")

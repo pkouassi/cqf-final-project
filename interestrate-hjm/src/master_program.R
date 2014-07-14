@@ -1,4 +1,10 @@
-#master program. invoke all the other programs
+#==============================================================================
+# title           :master_program.R
+# description     :This script will invoke all the other R scipts
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
 
 #clear workspace
 rm(list = ls())
@@ -10,10 +16,10 @@ print("Program starting...")
 #set current directory
 setwd(current_dir)
 
-source("class_definition.R") # define classes
+# define classes
+source("class_definition.R") 
 #install / load dependencies
 source("install_register_packages.R") 
-#source("class_definition.R") # define classes
 #historical data loading, cleaning. Credit Curve Construction
 source("market_data_functions.R") 
 source("market_data_loading.R") 
