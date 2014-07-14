@@ -135,13 +135,16 @@ thispagestyle{empty}
 \begin_layout Abstract
 This final project consists of two sub-projects: Basket Credit Default Swap
  (Section 1) and Interest Rate Derivatives (Section 2).
- Section 1 addresses the pricing of Basket Credit Default Swaps (a.k.a k-th-defaul
-t Basket Crdit Default Swap).
+ Section 1 addresses the pricing of Basket Credit Default Swaps (a.k.a 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default Basket Credit Default Swap).
  We will see that correlation plays an important role in the pricing of
  these products (these products are generally traded by the correlation
  desk); we will therefore deep dive in the estimation of the correlation
- matrix and other input parameter before covering the sampling by copulae
- (Gaussian copulae and Student's t copulae).
+ matrix and other input parameters before covering the sampling by copula
+ (Gaussian copula and Student's t copula).
  Section 2 addresses the pricing of various IBOR
 \begin_inset Foot
 status open
@@ -150,7 +153,7 @@ status open
 Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
  interest rates at which banks offer to lend unsecured funds to other banks
  in interbank markets.
- LIBOR is the most famous reference but there are other (EURIBOR, SIBOR,
+ LIBOR is the most famous reference but there are others (EURIBOR, SIBOR,
  etc.)
 \end_layout
 
@@ -161,7 +164,7 @@ Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
  This framework relies on the estimation of historical forward rates volatility
  in order to simulate the evolution of the forward rates in the future.
  We will describe the principal component analysis (PCA) which will help
- us to identify the main factors which influance the volatility forward
+ us to identify the main factors which influence the volatility forward
  curve before covering the Monte Carlo simulation which projects the forward
  curve, compute the IBOR rates and price interest derivatives instruments.
 \begin_inset Newline newline
@@ -175,9 +178,9 @@ Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
 \series bold
 Keywords
 \series default
-: Basket Default Swaps, Monte Carlo method, Gaussian copulae, Student t
- copulae, Heath–Jarrow–Morton, Principal Component Analysis, Caps, Floors,
- Swpations
+: Basket Default Swaps, Monte Carlo method, Gaussian copula, Student t copula,
+ Heath–Jarrow–Morton, Principal Component Analysis, Zero Coupon Bonds, Caps,
+ Floors, Swaptions
 \end_layout
 
 \begin_layout Abstract
@@ -236,7 +239,8 @@ A basket default swap is like an insurance contract that offers protection
 \begin_inset Formula $k^{th}$
 \end_inset
 
- default occurs, protection payment We denote by 
+ default occurs, protection payment is triggered.
+ We denote by 
 \begin_inset Formula $s^{k^{th}}$
 \end_inset
 
@@ -264,16 +268,16 @@ We will study baskets with 5 reference names of 5 years maturity in order
 \end_inset
 
  references names.The appropriate default correlation and other input parameters
- are estimated from historical credit curves (probabilities of survival
- and hazard rates; historical credit spreads are used as input to bootstrap
+ are estimated from historical credit curves (survival probabilities and
+ hazard rates; historical credit spreads are used as input to bootstrap
  historical credit curves).The fair spread of the 
 \begin_inset Formula $k^{th}$
 \end_inset
 
 -to-default swap is calculated as an expectation over the joint distribution
- of default times and will be computed by sampling from copulae (using pseudo-ra
-ndom and low-discrepancy numbers).
- We will explore 2 types of elliptical (Gaussian and Student t copulas)
+ of default times and will be computed by sampling from copula (using pseudo-ran
+dom and low-discrepancy numbers).
+ We will explore two types of elliptical (Gaussian and Student's t copulas)
  and compare the results we obtain.
  We use a LIBOR curve as discount curve for the historical credit curve
  bootstrapping (used to estimate input parameters), the hazard rates bootstrappi
@@ -293,7 +297,7 @@ Default indicator function
 \end_layout
 
 \begin_layout Definition
-To model the arrival of a credit event we need to model an unknow random
+To model the arrival of a credit event we need to model an unknown random
  point in time 
 \begin_inset Formula $\tau\in\mathbb{R}_{+}$
 \end_inset
@@ -372,7 +376,7 @@ The inter-arrival times of Poisson processes (
 \end_layout
 
 \begin_layout Itemize
-Two or more jumps at excately the same time have probability zero
+Two or more jumps at exactly the same time have probability zero
 \end_layout
 
 \begin_layout Definition
@@ -380,7 +384,7 @@ Homogeneous Poisson process
 \end_layout
 
 \begin_layout Definition
-A homogeneous Poisson process is defined as a process with stationary independan
+A homogeneous Poisson process is defined as a process with stationary independen
 t increments and initial value of zero.
  The times between two consecutive jumps are independently and identically
  distributed as an exponential random variable with mean 
@@ -490,8 +494,9 @@ standard model
 \begin_inset Quotes erd
 \end_inset
 
- or JP Morgan approach in the literature) is based on the information set
- available in the market.
+ or J.P.
+ Morgan approach in the literature) is based on the information set available
+ in the market.
  In this section, we will describe the reduced form approach.
 \end_layout
 
@@ -504,12 +509,12 @@ Let us suppose that there are
 \begin_inset Formula $N$
 \end_inset
 
- perdiods, indexed by 
+ periods, indexed by 
 \begin_inset Formula $n=1,\ldots,N$
 \end_inset
 
 .
- Each perdiod is of length 
+ Each period is of length 
 \begin_inset Formula $\varDelta t,$
 \end_inset
 
@@ -567,7 +572,7 @@ stated as an annualized percentage of the nominal value of the contract.
 \begin_layout Standard
 \begin_inset Formula 
 \[
-PL_{N}=S_{N}\sum_{n=1}^{N}D(0,T_{n})Q(T_{n})(\varDelta t_{n})
+PL_{N}=S_{N}\sum_{n=1}^{N}D(0,T_{n})P(T_{n})(\varDelta t_{n})
 \]
 
 \end_inset
@@ -585,7 +590,7 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $Q(T_{n})$
+\begin_inset Formula $P(T_{n})$
 \end_inset
 
  is the survival probability up to time 
@@ -618,6 +623,10 @@ The expected loss payment in period
 
  and then defaulting in period 
 \begin_inset Formula $n$
+\end_inset
+
+ 
+\begin_inset Formula $(P(T_{n-1})-P(T_{n}))$
 \end_inset
 
 .
@@ -668,7 +677,7 @@ S_{N}=\frac{(1-R)\sum_{n=1}^{N}D(0,T_{n})(P(T_{n-1})-P(T_{n}))}{\sum_{n=1}^{N}D(
 \end_layout
 
 \begin_layout Subsubsection
-Bootstrapping survival probailities and hazard rates
+Bootstrapping survival probabilities and hazard rates
 \end_layout
 
 \begin_layout Standard
@@ -698,9 +707,9 @@ We have described previously how to calculate the spread
 \end_inset
 
  are not known).
- This is a typical example of inverse problem that we encounter often in
- quantitative finance.
- As in other similar cases, we will calculate the survival probabilities
+ This is a typical example of an inverse problem that we encounter often
+ in quantitative finance.
+ As in other similar situations, we will calculate the survival probabilities
  
 \begin_inset Formula $P(T_{n})$
 \end_inset
@@ -724,6 +733,7 @@ We have described previously how to calculate the spread
 \end_inset
 
 , etc.
+ This is a bootstrapping process.
 \end_layout
 
 \begin_layout Definition
@@ -762,7 +772,7 @@ with
 \begin_inset Formula $L$
 \end_inset
 
- the loss given defaut defined as 
+ the loss given default defined as 
 \begin_inset Formula $L=1-R$
 \end_inset
 
@@ -803,7 +813,7 @@ We can clearly see that
 \end_inset
 
 .
- This explains why we need to apply a bootsrapping process
+ This explains why we need to apply a bootstrapping process.
 \end_layout
 
 \begin_layout Definition*
@@ -826,8 +836,7 @@ We can calculate the non-cumulative hazard rate
 .
  We have seen earlier the relationship between the survival probability
  and the hazard rate in the case of an inhomogeneous Poisson process.
- This is the same relationship is if we assume the hazard rate function
- to be piecewise constant:
+ If we assume the hazard rate function to be piecewise constant:
 \end_layout
 
 \begin_layout Standard
@@ -883,7 +892,7 @@ log
 \end_layout
 
 \begin_layout Subsubsection
-Marginal default time// Converting uniform variables to exact default times
+Marginal default times
 \end_layout
 
 \begin_layout Standard
@@ -899,8 +908,11 @@ Sampling from copula will be described in detail later in this document
 \end_inset
 
  requires default times.
- The procedure will first generate a vector of correlated uniform variable
- 
+ The procedure will
+\end_layout
+
+\begin_layout Itemize
+First generate a vector of correlated uniform variable 
 \begin_inset Formula $(u_{1},\ldots u_{n})$
 \end_inset
 
@@ -908,15 +920,20 @@ Sampling from copula will be described in detail later in this document
 \begin_inset Formula $n$
 \end_inset
 
- is the number of reference names in the basket CDS.
- It will then need to convert this vector of correlated uniform variables
- 
+ is the number of reference names in the basket CDS
+\end_layout
+
+\begin_layout Itemize
+Then convert this vector of correlated uniform variables 
 \begin_inset Formula $(u_{1},\ldots u_{n})$
 \end_inset
 
- into a vector of default times.
- This section explains how the exact default time can be calculated using
- the hazard rates (non-cumulative) term strcuture of a given reference name.
+ into a vector of default times
+\end_layout
+
+\begin_layout Standard
+This section explains how the exact default time can be calculated using
+ the hazard rates (non-cumulative) term structure of a given reference name.
  
 \end_layout
 
@@ -954,7 +971,7 @@ u=F(\tau;\lambda_{\tau})=\begin{cases}
 \end_layout
 
 \begin_layout Standard
-By imversing the above equation, we obtain:
+By inverting the above equation, we obtain:
 \end_layout
 
 \begin_layout Standard
@@ -969,8 +986,8 @@ By imversing the above equation, we obtain:
 \end_layout
 
 \begin_layout Standard
-We have assumed hazard rate to piecewise constant when we bootstrapped the
- credit curve; therefore we don't have the exact value of 
+We have assumed hazard rates to be piecewise constant when we bootstrapped
+ the credit curve; therefore we don't have the exact value 
 \begin_inset Formula $\lambda_{\tau}$
 \end_inset
 
@@ -983,8 +1000,8 @@ for a given value of
 \end_inset
 
 ).
- We will therefore need to apply the following procedure to estimate the
- exact default time 
+ We will therefore need to apply a procedure to estimate the exact default
+ time 
 \begin_inset Formula $\tau$
 \end_inset
 
@@ -1029,8 +1046,7 @@ We iterate through the term structure of hazard rates by summing up
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
- i until the inequality begins to hold.
- 
+ i until the inequality begins to hold: 
 \begin_inset Formula 
 \[
 \tau=\inf\left\{ t>0:\log(1-u)\geq-\sum_{i=1}^{t}\lambda_{i}\varDelta t_{i}\right\} 
@@ -1038,8 +1054,11 @@ We iterate through the term structure of hazard rates by summing up
 
 \end_inset
 
-Where inf is the matematical operator that represent the infinimum of a
- set
+Where 
+\begin_inset Formula $\mbox{inf}$
+\end_inset
+
+ is the mathematical operator that represent the infinimum of a set
 \end_layout
 
 \begin_layout Remark*
@@ -1047,7 +1066,7 @@ If the inequality holds after adding
 \begin_inset Formula $\lambda_{n},$
 \end_inset
 
-then it means that 
+ then it means that 
 \begin_inset Formula $t_{n-1}<\tau<t_{n}$
 \end_inset
 
@@ -1059,11 +1078,11 @@ Exact default time
 \end_layout
 
 \begin_layout Definition
-We define the defaut time 
+We define the default time 
 \begin_inset Formula $\tau$
 \end_inset
 
-so that 
+ as 
 \begin_inset Formula $\tau=t_{n-1}+\delta t$
 \end_inset
 
@@ -1071,7 +1090,11 @@ so that
 \begin_inset Formula $\tau_{n}$
 \end_inset
 
- is the year of default and is the 
+ is the year of default and 
+\begin_inset Formula $\delta t$
+\end_inset
+
+ is the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1104,8 +1127,8 @@ Join distribution
 
 \begin_layout Standard
 The most important problem in the pricing of basket credit default swaps
- is the modelling of the joint default times.
- A marginal distribution of a random variable 
+ is the modeling of the joint default times.
+ The marginal distribution of a random variable 
 \begin_inset Formula $X$
 \end_inset
 
@@ -1190,7 +1213,11 @@ where
 \begin_inset Formula $\tau_{i}\leq t_{i}$
 \end_inset
 
-means a default event.
+means a default event on the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ reference name.
 \end_layout
 
 \begin_layout Standard
@@ -1199,14 +1226,14 @@ A multivariate joint distribution is a multidimensional analytical construction
 \begin_inset Formula $F(x_{1},\ldots,x_{n})=\mbox{Pr}(X_{1}\leq x_{1},\ldots,X_{n}\leq x_{n}$
 \end_inset
 
-)that is hard to work with especially in high dimension.
+) that is hard to work with, especially in high dimension.
  The better approach to isolate dependence structure among multiple variables
  is a copula.
  Copula approach separates the joint distribution into two parts:
 \end_layout
 
 \begin_layout Itemize
-marginal distributions for each variable
+the marginal distributions for each variable
 \end_layout
 
 \begin_layout Itemize
@@ -1222,7 +1249,7 @@ The joint distribution function of
 \begin_inset Formula $U_{1},\ldots,U_{n}$
 \end_inset
 
-is the Copula function:
+is the copula function:
 \end_layout
 
 \begin_layout Standard
@@ -1237,8 +1264,7 @@ C(u_{1},\ldots,u_{n};\varSigma_{\rho})
 \end_layout
 
 \begin_layout Standard
-where the dependance structure is defined by either a correlation matrix
- 
+where the dependance structure is defined by a correlation matrix 
 \begin_inset Formula $\varSigma_{\rho}$
 \end_inset
 
@@ -1282,11 +1308,11 @@ In order to obtain the expression for the copula function in terms of
 \begin_inset Formula $X_{1},\ldots,X_{n}$
 \end_inset
 
- with a flexible choice of marginal dsitribution 
+ with a flexible choice of marginal distribution 
 \begin_inset Formula $F_{1}(x_{1}),\ldots,F_{n}(x_{n})$
 \end_inset
 
-
+, we have:
 \end_layout
 
 \begin_layout Standard
@@ -1316,7 +1342,7 @@ Sklar proved that for every multivariate CDF
 \begin_inset Formula $F_{i}$
 \end_inset
 
-, there exist some copula fonction 
+, there exist some copula function 
 \begin_inset Formula $C$
 \end_inset
 
@@ -1496,11 +1522,11 @@ Convert the vector
 \end_layout
 
 \begin_layout Standard
-The benefit of the copula method is separation of:
+The benefit of the copula method is the separation between
 \end_layout
 
 \begin_layout Itemize
-dependance structure and
+the dependance structure and
 \end_layout
 
 \begin_layout Itemize
@@ -1512,18 +1538,18 @@ marginal distribution for the default time
 \end_layout
 
 \begin_layout Subsubsection
-Correlation matrix for Gaussian copulae
+Correlation matrix for Gaussian copula
 \end_layout
 
 \begin_layout Standard
-Gaussian copulae require linear correlation.
+Gaussian copula require linear correlation.
  Linear correlation is always estimated from normal variables.
  The following steps explain how to estimate the correlation matrix that
- can be used in sampling from Gaussian copulae:
+ can be used in sampling from Gaussian copula:
 \end_layout
 
 \begin_layout Enumerate
-Transfrom data 
+Transform data 
 \begin_inset Formula $\mathbf{X}$
 \end_inset
 
@@ -1536,7 +1562,7 @@ Transfrom data
 \end_inset
 
  is properly scaled 
-\begin_inset Formula $\in\left[0,1\right]$
+\begin_inset Formula $\mathbf{U}\in\left[0,1\right]$
 \end_inset
 
 and 
@@ -1555,7 +1581,7 @@ Apply inverse Normal CDF
 \end_layout
 
 \begin_layout Enumerate
-Calculate a linear correlation (Pearson) matrix 
+Calculate the linear correlation (Pearson correlation) matrix 
 \begin_inset Formula $\mathbf{\hat{\mathbf{\varSigma}}=\mbox{corr}(Z)}$
 \end_inset
 
@@ -1563,23 +1589,23 @@ Calculate a linear correlation (Pearson) matrix
 \end_layout
 
 \begin_layout Remark*
-Correlating returns by a linear measure (Pearson) assumes they are Normally
+Correlating data by a linear measure (Pearson) assumes the data is Normally
  distributed
 \end_layout
 
 \begin_layout Subsubsection
-Correlation matrix for Student's t copulae
+Correlation matrix for Student's t copula
 \end_layout
 
 \begin_layout Standard
-Student's t copulae require linear correlation (this is true for all elliptical
+Student's t copula requires linear correlation (this is true for all elliptical
  copulas).
  The following steps explain how to estimate the correlation matrix that
- can be used in sampling from Student's t copulae:
+ can be used in sampling from Student's t copula:
 \end_layout
 
 \begin_layout Enumerate
-Transfrom data matrix
+Transform data matrix
 \begin_inset Formula $\mathbf{X}$
 \end_inset
 
@@ -1595,11 +1621,11 @@ Transfrom data matrix
 \end_layout
 
 \begin_layout Enumerate
-Calculate correlation matrix 
+Calculate the correlation matrix 
 \begin_inset Formula $\hat{\sum}_{K}$
 \end_inset
 
- by applying Kendall's tau or another rank measure to 
+ by applying Kendall's tau (rank measure) to 
 \begin_inset Formula $U$
 \end_inset
 
@@ -1607,7 +1633,7 @@ Calculate correlation matrix
 \end_layout
 
 \begin_layout Enumerate
-Calculate a linear correlation matrix 
+Calculate the linear correlation matrix 
 \begin_inset Formula $\mathbf{\hat{\mathbf{\varSigma}}}$
 \end_inset
 
@@ -1615,11 +1641,11 @@ by applying the formula
 \begin_inset Formula $\rho=\sin(\frac{\pi}{2}\rho_{K})$
 \end_inset
 
-on each of the element 
+ on each of the element 
 \begin_inset Formula $\rho_{K}$
 \end_inset
 
-of the matrix
+ of the matrix
 \begin_inset Formula $\hat{\sum}_{K}$
 \end_inset
 
@@ -1627,7 +1653,7 @@ of the matrix
 \end_layout
 
 \begin_layout Subsubsection
-Maximum likelihood estimation for Student T copula
+Maximum likelihood estimation for Student's t copula
 \end_layout
 
 \begin_layout Standard
@@ -1689,16 +1715,20 @@ Calculate the log of Student's t copula density function using the input
 \end_layout
 
 \begin_layout Enumerate
-Add to the sum of log-likelihood for the previous days.
- Continue until T = NumberObservations
+Add to the sum of the log-likelihood for the previous days.
+ Continue until 
+\begin_inset Formula $T=\mbox{NumberObservations}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
-Sampling from Gaussian copulae
+Sampling from Gaussian copula
 \end_layout
 
 \begin_layout Standard
-The detailed procedure for sampling from Gaussian copulae is as follows:
+The detailed procedure for sampling from Gaussian copula is as follows:
 \end_layout
 
 \begin_layout Itemize
@@ -1788,22 +1818,28 @@ Convert the vector
 \end_layout
 
 \begin_layout Itemize
-Calculate the Default leg
+Calculate the default leg
 \end_layout
 
 \begin_layout Itemize
-Calculate the Premium leg
+Calculate the premium leg
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Obtain the expectation of the default leg by averaging the default leg values
- calculated for all simulations
+Obtain the expectation of the default leg 
+\begin_inset Formula $<DL>$
+\end_inset
+
+ by averaging the default leg values calculated across all simulations
 \end_layout
 
 \begin_layout Itemize
-Obtain the expectation of the premium leg by averaging the premium leg values
- calculated for all simulations
+Obtain the expectation of the premium leg 
+\begin_inset Formula $<PL>$
+\end_inset
+
+ by averaging the premium leg values calculated across all simulations
 \end_layout
 
 \begin_layout Itemize
@@ -1822,11 +1858,11 @@ Calculate the expectation of the fair spread as
 \end_layout
 
 \begin_layout Subsubsection
-Sampling from Student t copulae
+Sampling from Student t copula
 \end_layout
 
 \begin_layout Standard
-The detailed procedure for sampling from Student's t copulae is as follows:
+The detailed procedure for sampling from Student's t copula is as follows:
 \end_layout
 
 \begin_layout Itemize
@@ -1936,22 +1972,28 @@ Convert the vector
 \end_layout
 
 \begin_layout Itemize
-Calculate the Default leg
+Calculate the default leg
 \end_layout
 
 \begin_layout Itemize
-Calculate the Premium leg
+Calculate the premium leg
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Obtain the expectation of the default leg by averaging the default leg values
- calculated for all simulations
+Obtain the expectation of the default leg 
+\begin_inset Formula $<DL>$
+\end_inset
+
+ by averaging the default leg values calculated across all simulations
 \end_layout
 
 \begin_layout Itemize
-Obtain the expectation of the premium leg by averaging the premium leg values
- calculated for all simulations
+Obtain the expectation of the premium leg 
+\begin_inset Formula $<PL>$
+\end_inset
+
+ by averaging the premium leg values calculated across all simulations
 \end_layout
 
 \begin_layout Itemize
@@ -1979,11 +2021,11 @@ Theory
 
 \begin_layout Standard
 The par spread of the 
-\begin_inset Formula $k$
+\begin_inset Formula $k^{th}$
 \end_inset
 
--th to default swap is derived by equating the Default leg to the Premium
- leg under the risk neutral measure:
+-to-default swap is derived by equating the default leg to the premium leg
+ under the risk-neutral measure:
 \end_layout
 
 \begin_layout Standard
@@ -1999,15 +2041,19 @@ The par spread of the
 \end_layout
 
 \begin_layout Standard
-where m is the number of periods
+where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of periods
 \end_layout
 
 \begin_layout Standard
 We can therefore calculate the fair spread of the 
-\begin_inset Formula $k$
+\begin_inset Formula $k^{th}$
 \end_inset
 
--th to default basket CDS
+-to-default basket CDS
 \begin_inset Formula $s^{k}$
 \end_inset
 
@@ -2027,10 +2073,10 @@ s^{k}=\frac{<DL>}{<PL>}=\frac{(1-R)\times NP\sum_{i=1}^{m}Z(0,t_{i})(F_{k}(t_{i}
 
 \begin_layout Standard
 However the joint distribution for 
-\begin_inset Formula $k$
+\begin_inset Formula $k^{th}$
 \end_inset
 
--th to default time accross all reference names 
+-to-default time across all reference names 
 \begin_inset Formula $\tau_{k}\thicksim F_{k}(t_{1},t_{2},\ldots,t_{n})$
 \end_inset
 
@@ -2038,8 +2084,8 @@ However the joint distribution for
 \end_layout
 
 \begin_layout Standard
-The alternative formula for the fair spread uses the Loss function as an
- expectation over the join distribution 
+The alternative to calculate the fair spread is to use the Loss function
+ as an expectation over the join distribution 
 \begin_inset Formula $L_{k}=\mathbb{E}\left[F_{k}(t)\right]$
 \end_inset
 
@@ -2062,8 +2108,8 @@ s^{k}=\frac{(1-R)\times\sum_{i=1}^{m}Z(0,t_{i})(L_{i}-L_{i-1})}{NP\times\varDelt
 \end_layout
 
 \begin_layout Standard
-The fair spread calculation is carried out multiples and averaged (Monte-Carlo
- method)
+The fair spread calculation is carried out multiple times and averaged at
+ the end (Monte-Carlo method).
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2072,10 +2118,10 @@ Practical implementation
 
 \begin_layout Standard
 I have taken the following assumptions for the pricing of 
-\begin_inset Formula $k$
+\begin_inset Formula $k^{th}$
 \end_inset
 
--th to default basket CDS:
+-to-default basket CDS:
 \end_layout
 
 \begin_layout Itemize
@@ -2087,19 +2133,19 @@ Notional principal
 \end_layout
 
 \begin_layout Itemize
-Discrete-time annual payments for the Premium leg
+Discrete-time annual payments for the premium leg
 \end_layout
 
 \begin_layout Itemize
-Continuous-time payment for the Default leg
+Continuous-time payment for the default leg
 \end_layout
 
 \begin_layout Itemize
 Reference entities that have defaulted before 
-\begin_inset Formula $k$
+\begin_inset Formula $k^{th}$
 \end_inset
 
--th default are removed from the basket; each default will reduce the value
+ default are removed from the basket; each default will reduce the value
  of the portfolio by 
 \begin_inset Formula $\frac{1}{n}\times NP$
 \end_inset
@@ -2116,32 +2162,33 @@ Main result
 \end_layout
 
 \begin_layout Subsubsection
-Correlation matrix for gaussian copula
+Correlation matrix for Gaussian copula
 \end_layout
 
 \begin_layout Standard
 One of the most important step in pricing Basket Credit Default Swap is
  the estimation of the correlation matrix.
  The correlation matrix is generally obtained through historical sampling.
- Sereval ways to estimate the Gaussian correlation matrix have been researched:
+ Several ways to estimate the Gaussian correlation matrix have been researched:
 \end_layout
 
 \begin_layout Itemize
-Difference of default probabilities / Log difference of default probabilities
- (daily)
+Difference of default probabilities vs.
+ log difference of default probabilities
 \end_layout
 
 \begin_layout Itemize
-Hazard rates / Difference of hazard rates / Log difference of hazard rates
- (daily)
+Hazard rates vs.
+ difference of hazard rates vs.
+ log difference of hazard rates
 \end_layout
 
 \begin_layout Itemize
-Stock return (daily)
+Stock log returns
 \end_layout
 
 \begin_layout Itemize
-Weekly observation vs.
+Weekly observations vs.
  daily observations
 \end_layout
 
@@ -2153,7 +2200,17 @@ Methodology
 
 \begin_layout Standard
 Historical credit spreads have been obtained from Markit for year 2011 until
- today.
+ today
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+July 2014
+\end_layout
+
+\end_inset
+
+.
  We are looking at 5 credit entities which are all corporates head-quartered
  in the United States.
  The below table (Table 1)
@@ -2186,7 +2243,7 @@ No restructuring
 \end_inset
 
 .
- All CDS have been choosen with the restructuring clause 
+ All CDS have been chosen with the restructuring clause 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2194,7 +2251,8 @@ XR
 \begin_inset Quotes erd
 \end_inset
 
- because these are considered as the most liquid in the United States.
+ because these contracts are considered as the most liquid in the United
+ States.
 \begin_inset Newline newline
 \end_inset
 
@@ -2662,11 +2720,11 @@ Credit entities used for Basket CDS Pricing
 \begin_layout Standard
 Historical yield curves (discount factors) have been obtained from Bloomberg
  for year 2011 until today.
- I have only snapped one set of one curve per week (Fridays) to reduce the
- amount of market data required.
+ I have only snapped one curve per week (Fridays) to reduce the amount of
+ market data required.
  This seems to be a reasonable simplification considering the movements
- that can be observed in the yield curve over short period of time (week)
- and considering the sensitivity of credit curves to interest rates.
+ that can be observed in the yield curve over short period of time (one
+ week) and considering the sensitivity of credit curves to interest rates.
 \end_layout
 
 \begin_layout Standard
@@ -2686,14 +2744,14 @@ standard model
  Linear correlations (Pearson correlation) is then estimated on changes
  (difference or log difference) in the variable (default probability or
  hazard rates) or on stock log returns.
- 5Y maturity point has been choosen as reference point for default probability
+ 5Y maturity point has been chosen as reference point for default probability
  and hazard rates (i.e.
  hazard rates between 4Y and 5Y) because the 5Y CDS are generally the most
  liquid contracts.
 \end_layout
 
 \begin_layout Standard
-The proces to estimate the correlation matrix for Gaussian copula is the
+The process to estimate the correlation matrix for Gaussian copula is the
  one summarized in the 
 \begin_inset Quotes eld
 \end_inset
@@ -2797,9 +2855,9 @@ B 2 years of daily CDS spreads between 30/04/2012 to 30/04/2014
 \begin_layout Standard
 Daily 5Y default probabilities are obtained through the bootstrapping process.
  Differences (or log differences) are calculated for each day (except for
- the first one), finally this data is transformed to a standard normal data
- using the empirical CDF (Pearson correlation assumes normally distributed
- data)
+ the first one), finally this data is transformed to standard normal data
+ using the empirical CDF (Pearson correlation takes normally distributed
+ data as input).
 \end_layout
 
 \begin_layout Remark*
@@ -2886,10 +2944,10 @@ Bristol-Myers Squibb - 5Y default probability difference (Date origin in
 \begin_layout Standard
 As we have seen earlier, we have to convert our data to normal before we
  can calculate the linear correlation.
- We will get better results if our orginal data follows a distribution that
- is close to the normal distribution.
+ We will get better results if our original data follows a distribution
+ that is close to the normal distribution.
  The figure (Figure 1.3) plots the kernel density of differences and log
- differences 5Y default probabilities.
+ differences of 5Y default probabilities.
  We can observe that both distributions are relatively close from the normal
  distribution.
  
@@ -2935,18 +2993,18 @@ The correlation matrices estimated using 5Y Default Probability differences
 \series bold
 Rate set A
 \series default
- in Table 2 and 
+ and 
 \series bold
 Rate set B
 \series default
- in Table 3).
+ in Table 2).
  The correlations we obtain are all between -5% and 50%; must of them are
  positive or close to zero.
- The 2 hightest correlations we observe are for Bristol Myers Squibb/Pfizer
- and HP/IBM.
+ The two highest correlations we observe are for the pairs Bristol Myers
+ Squibb/Pfizer and HP/IBM.
  This makes senses these companies belong to the same industry sector: Healthcar
-e for Bristol Myers Squibb and Pfizer and Technology for IBM and HP.
- I have deliberately choosen a fifth corporate that belong to a third industry
+e for Bristol Myers Squibb/Pfizer and Technology for HP/IBM.
+ I have deliberately chosen a fifth corporate that belong to a third industry
  sector (Thomson Reuters belong to Consumer Services).
  We can see that Thomson Reuters has very small correlation with the 4 other
  corporates.
@@ -2975,6 +3033,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -3828,6 +3887,7 @@ PFE
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -4748,8 +4808,8 @@ reference "eq:hazard_rates"
 
 \end_inset
 
-); however when we plot its kernel density (Figure 1.5) we can see that its
- data is not normally distributed.
+); however when we plot their kernel density (Figure 1.5) we can see that
+ the data is not normally distributed (bimodal distribution).
  However hazard rates differences and log differences are close to a normal
  distribution.
  It is therefore suggested to work with differences (or the log differences)
@@ -4802,6 +4862,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -5678,7 +5739,7 @@ Gaussian correlation matrix for differences (left) and log differences (right)
 \begin_layout Subsubsection*
 
 \series bold
-Stock log return
+Stock log returns
 \end_layout
 
 \begin_layout Standard
@@ -6661,7 +6722,7 @@ I have snapped weekly CDS spreads data (Fridays) between 29/04/2011 and
  The estimated correlation matrix keeps some similarity with the one calculated
  with daily observations.
  For instance, the largest correlations are still observed for are observed
- for Bristol Myers Squibb/Pfizer and HP/IBM.
+ for the pairs Bristol Myers Squibb/Pfizer and HP/IBM.
  But there are also differences: we start to see correlations between Thomson
  Reuters and the other reference names whereas these correlation were always
  very close to zero with daily observations.
@@ -6701,8 +6762,8 @@ time
 \end_inset
 
 ; they probably reflect better base correlation.
- We will use compare the pricing results using daily and weekly data 5Y
- default probability log differences.
+ We will later compare the basket CDS pricing results using daily and weekly
+ data for 5Y default probability log differences.
 \end_layout
 
 \begin_layout Standard
@@ -6725,7 +6786,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-diff / log diff
+5Y Default Probability difference vs.
+ log difference (Weekly observations)
 \end_layout
 
 \end_inset
@@ -6745,6 +6807,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -7600,7 +7663,8 @@ PFE
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Weekly observations log diff / daily observation 2Y log diff
+Weekly observations log diff vs.
+ daily observation log difference (2 years)
 \end_layout
 
 \end_inset
@@ -7620,6 +7684,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_correlation_stability_weekly_pd.png
 	scale 40
@@ -7652,13 +7717,9 @@ status open
 Correlation matrix and degree of freedom for Student T copula
 \end_layout
 
-\begin_layout Subsubsection*
-Correlation matrix
-\end_layout
-
 \begin_layout Standard
-We used the same input data as for the correlation matrix for Gaussian copulae.
- The proces to estimate the correlation matrix for Student's t copula is
+We used the same input data as for the correlation matrix for Gaussian copula.
+ The process to estimate the correlation matrix for Student's t copula is
  the one summarized in the 
 \begin_inset Quotes eld
 \end_inset
@@ -7668,8 +7729,8 @@ Model and hypothesis
 \end_inset
 
  section.
- The correlations observed for Bristol Myers Squibb/Pfizer and HP/IBM are
- still among the largest.
+ The correlations observed for the pairs Bristol Myers Squibb/Pfizer and
+ HP/IBM are still among the largest (See Table 6 and Table 7).
 \end_layout
 
 \begin_layout Standard
@@ -7679,6 +7740,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -8556,6 +8618,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 
 \size scriptsize
 \begin_inset Tabular
@@ -9423,11 +9486,11 @@ Weekly observations - Kendall Tau (left) and Student T (right) correlation
 
 \end_inset
 
-Degree of freedom
+
 \end_layout
 
 \begin_layout Standard
-I have applied the maximum likelihood estimation procedure to calculate
+I have applied the maximum likelihood estimation (MLE) procedure to calculate
  the degree of freedom.
  The procedure is described in the 
 \begin_inset Quotes eld
@@ -9438,7 +9501,7 @@ Model and hypothesis
 \end_inset
 
  section.
- The degree of freedom has been calculed for daily observations and weekly
+ The degree of freedom has been calculated for daily observations and weekly
  observations; we obtain the below results:
 \end_layout
 
@@ -9560,7 +9623,7 @@ Spread calculation
 \end_layout
 
 \begin_layout Standard
-Sampling from Gaussian copulae and Student's t copulae follows the procedures
+Sampling from Gaussian copula and Student's t copula follows the procedure
  described in the 
 \begin_inset Quotes eld
 \end_inset
@@ -9587,9 +9650,15 @@ I have priced the
 \begin_inset Formula $k^{th}$
 \end_inset
 
- to default basket using the correlation matrix estimated from the weekly
- observations and using the correlation matrix estimated from the daily
- observations.
+-to-default basket using:
+\end_layout
+
+\begin_layout Enumerate
+the correlation matrix estimated from the weekly observations 
+\end_layout
+
+\begin_layout Enumerate
+and using the correlation matrix estimated from the daily observations.
  
 \begin_inset Newline newline
 \end_inset
@@ -9598,35 +9667,46 @@ The fair spread of the
 \begin_inset Formula $k^{th}$
 \end_inset
 
- to default basket decreases as k increases.
+-to-default basket decreases as 
+\begin_inset Formula $k$
+\end_inset
+
+ increases.
  As 
 \begin_inset Formula $k$
 \end_inset
 
  increases, the risk of default of the basket (i.e.
- at least 
+ risk of having at least 
 \begin_inset Formula $k$
 \end_inset
 
- reference name default within the basket) decreases.
- It is therefore logical that the protection premium's value (i.e fair spread)
- decreases.
- The spread of the first-to-default basket is higher with the Gaussian copulae
- than with the Student's t copulae.
+ reference names default within the basket) decreases.
+ It is therefore natural that the 
+\begin_inset Quotes eld
+\end_inset
+
+insurance
+\begin_inset Quotes erd
+\end_inset
+
+ premium (i.e basket fair spread) decreases.
+ The spread of the first-to-default basket is higher with the Gaussian copula
+ than with the Student's t copula.
  On the other hand, the spread of the 
 \begin_inset Formula $k^{th}$
 \end_inset
 
-to-default for 
+-to-default for 
 \begin_inset Formula $k>1$
 \end_inset
 
- are smaller with the Gaussian copulae than with the Student's t copulae.
+ are smaller with the Gaussian copula than with the Student's t copula.
  The t-distribution (when 
 \begin_inset Formula $\nu<25)$
 \end_inset
 
-has heavier tails than the normal distribution; it means that it is more
+ has heavier tails than the normal distribution; it means that it is more
  prone to producing values that fall far from its mean.
  I believe this explains why the the spread of 
 \begin_inset Formula $k^{th}$
@@ -9636,10 +9716,60 @@ to-default for
 \begin_inset Formula $k>1$
 \end_inset
 
- are higher with the Student's copule than with the Gaussian copulae.
+ are higher with the Student's t copula than with the Gaussian copula.
+\end_layout
+
+\begin_layout Remark*
+The first-to-default basket spreads (Gaussian and Student's t copulas) computed
+ with the 
+\begin_inset Quotes eld
+\end_inset
+
+weekly observations
+\begin_inset Quotes erd
+\end_inset
+
+ correlation matrix are lower than the first-to-default basket spreads computed
+ using 
+\begin_inset Quotes eld
+\end_inset
+
+daily observations” correlation matrix.
+ On the other hand, the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default spreads with 
+\begin_inset Formula $k\in\{2,3,4,5\}$
+\end_inset
+
+ computed with the “weekly observations” are higher than the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default spreads computed using “daily observations” correlation matrix.
+ This is because, on average the 
+\begin_inset Quotes eld
+\end_inset
+
+weekly
+\begin_inset Quotes erd
+\end_inset
+
+ correlation matrix's elements are higher than the elements of the 
+\begin_inset Quotes eld
+\end_inset
+
+daily
+\begin_inset Quotes erd
+\end_inset
+
+ correlation matrix.
+ More on this in the risk and sensitivity analysis (correlation impact).
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="8">
 <features rotate="0" tabularvalignment="middle">
@@ -10262,7 +10392,7 @@ This section explores the impacts of the model input parameters on the
 \begin_inset Formula $k^{th}$
 \end_inset
 
- to default fair spread.
+-to-default fair spread.
  We are moving one parameter at a time in order to clearly identify its
  impact; also we simplify the overall setup by taking the following assumptions:
 \end_layout
@@ -10301,12 +10431,12 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
-The decresase of credit quality of the individual reference names (i.e increase
+The decrease of credit quality of the individual reference names (i.e increase
  of their CDS spread) does not have the impact in all 
 \begin_inset Formula $k^{th}$
 \end_inset
 
-to default fair spread.
+-to-default fair spread (Figure 1.11).
  The bigger 
 \begin_inset Formula $k$
 \end_inset
@@ -10326,7 +10456,7 @@ to default spread by 8 (
 \begin_inset Formula $\frac{347.4121}{42.6791}\thicksim8$
 \end_inset
 
-) but it multiplies by 45(
+) but it multiplies by 45 (
 \begin_inset Formula $\frac{74.6040}{1.6561}\thicksim45$
 \end_inset
 
@@ -10335,7 +10465,6 @@ to default spread by 8 (
 \end_inset
 
  to default spread.
- 
 \begin_inset Newline newline
 \end_inset
 
@@ -10343,6 +10472,7 @@ to default spread by 8 (
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="10">
 <features rotate="0" tabularvalignment="middle">
@@ -11017,6 +11147,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_single_name_spread.png
 	scale 50
@@ -11030,7 +11161,11 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Impact of credit quality on kth to default fair spread (Gaussian copula)
+Impact of credit quality on 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default fair spread (Gaussian copula)
 \end_layout
 
 \end_inset
@@ -11064,11 +11199,11 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
-The plot (Figure 1.12) shows that the impact of correlation of the 
+The plot (Figure 1.12) shows that the impact of correlation on the 
 \begin_inset Formula $k^{th}$
 \end_inset
 
--to-defaut basket CDS spread.
+-to-defaut basket spread.
  Its highlights that correlation does not have the same impact on all 
 \begin_inset Formula $k^{th}$
 \end_inset
@@ -11089,7 +11224,7 @@ We can observe that first-to-default spread of a basket with correlation
  equicorrelation = 0%), most of time, when one reference name defaults,
  it defaults alone (i.e.
  no other reference name defaults within the 5 years of the contract).
- Intersections (several reference name defaulting in the same simulation)
+ Intersections (several reference names defaulting in the same simulation)
  are very rare.
  In this case, the first-to-default spread is close to the CDS spread of
  any of the reference name (i.e.
@@ -11102,15 +11237,15 @@ We can observe that first-to-default spread of a basket with correlation
 \begin_inset Formula $A$
 \end_inset
 
- f the signle-name CDS are very close).
- In a basket of correlated reference names, thing are different.
+ are very close).
+ In a basket of correlated reference names, things are different.
  Intersections (i.e.
- more than one reference name defaults within the the 5 years of the contract)
+ more than one reference name defaults within the 5 years of the contract)
  are going to increase; as a consequence, there will be less simulations
  where only one default can be observed (but there will be more simulations
- where more than one default can be observed).This explains why the spread
- of the first-to-default will be lower than the spread of any CDS when the
- reference names are correlated.
+ where more than one default can be observed).
+ This explains why the spread of the first-to-default will be lower than
+ the spread of any CDS when the reference names are correlated.
  The higher the correlation the lower the spread of the first-to-default
  basket CDS.
 \begin_inset Newline newline
@@ -11129,7 +11264,7 @@ Finally, the spread of the
 \begin_inset Formula $2^{nd}$
 \end_inset
 
-to default basket increases with correlation until 
+-to-default basket increases with correlation until 
 \begin_inset Formula $\thicksim70\%$
 \end_inset
 
@@ -11142,17 +11277,25 @@ to default basket increases with correlation until
 \end_inset
 
 .
- The second-to-default combines the effect that we described for the first-to-de
-fault and for the 
+ The 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+-to-default combines the effect that we described for the first-to-default
+ and for the 
 \begin_inset Formula $3^{rd}/4^{th}/5^{th}$
 \end_inset
 
 -to-default.
- The second-to-default spread start to increase like the
+ The 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+-to-default spread start to increase like the
 \begin_inset Formula $3^{rd}/4^{th}/5^{th}$
 \end_inset
 
--to-default unitl 
+-to-default until correlation
 \begin_inset Formula $\thicksim70\%$
 \end_inset
 
@@ -11171,6 +11314,7 @@ fault and for the
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="10">
 <features rotate="0" tabularvalignment="middle">
@@ -11845,6 +11989,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_impact_correlation.png
 	scale 50
@@ -11855,7 +12000,11 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Impact of correlation on kth to default fair spread (Gaussian copula)
+Impact of correlation on 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default fair spread (Gaussian copula)
 \end_layout
 
 \end_inset
@@ -11932,6 +12081,7 @@ This plot (Figure 1.13) shows that all
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="10">
 <features rotate="0" tabularvalignment="middle">
@@ -12658,10 +12808,10 @@ Degree of freedom (for Student's t): 10
 \end_layout
 
 \begin_layout Standard
-For this sensitivity analysis, we assume a constant interest rate thoughout
- the yield cuve.
- We can observe the observe that the increase in the the interest rate does
- not have the sam impact on all 
+For this sensitivity analysis, we assume a constant interest rate throughout
+ the yield curve.
+ We can observe that the increase in the the interest rate does not have
+ the same impact on all 
 \begin_inset Formula $k^{th}$
 \end_inset
 
@@ -12938,7 +13088,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+76.2095
 \end_layout
 
 \end_inset
@@ -12947,7 +13097,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+76.8693
 \end_layout
 
 \end_inset
@@ -12956,7 +13106,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+77.8725
 \end_layout
 
 \end_inset
@@ -12965,7 +13115,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+78.4327
 \end_layout
 
 \end_inset
@@ -13030,7 +13180,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+22.4999
 \end_layout
 
 \end_inset
@@ -13039,7 +13189,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+22.2040
 \end_layout
 
 \end_inset
@@ -13048,7 +13198,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+22.5190
 \end_layout
 
 \end_inset
@@ -13057,7 +13207,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+22.4182
 \end_layout
 
 \end_inset
@@ -13122,7 +13272,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6.8674
 \end_layout
 
 \end_inset
@@ -13131,7 +13281,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6.7687
 \end_layout
 
 \end_inset
@@ -13140,7 +13290,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6.8970
 \end_layout
 
 \end_inset
@@ -13149,7 +13299,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6.8895
 \end_layout
 
 \end_inset
@@ -13214,7 +13364,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.8482
 \end_layout
 
 \end_inset
@@ -13223,7 +13373,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.8547
 \end_layout
 
 \end_inset
@@ -13232,7 +13382,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.7479
 \end_layout
 
 \end_inset
@@ -13241,7 +13391,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.8930
 \end_layout
 
 \end_inset
@@ -13306,7 +13456,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.3160
 \end_layout
 
 \end_inset
@@ -13315,7 +13465,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.2774
 \end_layout
 
 \end_inset
@@ -13324,7 +13474,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.3041
 \end_layout
 
 \end_inset
@@ -13333,7 +13483,7 @@ to default
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.3147
 \end_layout
 
 \end_inset
@@ -13353,6 +13503,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_yieldcurve_impact_studentt.png
 	scale 40
@@ -13366,11 +13517,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Impact of yield curve on 
-\begin_inset Formula $1^{st}$
-\end_inset
-
--to-default basket spread
+Impact of yield curve on first-to-default basket spread
 \end_layout
 
 \end_inset
@@ -13429,7 +13576,7 @@ These algorithms are designed to take advantage of our knowledge of the
 
 \end_deeper
 \begin_layout Standard
-Monte carlo simulation using low-discrepancy numbers are, in theory, expected
+Monte Carlo simulation using low-discrepancy numbers are, in theory, expected
  to converge as 
 \end_layout
 
@@ -13466,6 +13613,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_rnorm_sobol_niederreiter.png
 	scale 45
@@ -13541,11 +13689,11 @@ draw
 \end_deeper
 \begin_layout Itemize
 The core pricing functions BasketCDSPricing_GaussianCopula() and BasketCDSPricin
-g_StudentTCopula() are generic enough to be to price 
+g_StudentTCopula() are generic enough to price baskets with 
 \begin_inset Formula $n$
 \end_inset
 
- reference names baskets
+ reference names
 \end_layout
 
 \begin_layout Itemize
@@ -13559,31 +13707,89 @@ Pricing functions return all
 \end_layout
 
 \begin_layout Standard
-There is also room for improvement in this implementation.
- Here are some improvement opportunities:
+The improvement opportunities in this implementation are:
 \end_layout
 
 \begin_layout Itemize
-Usage of NAG routines (G02AAF) to calculate the nearest correlection matrix
+Usage of NAG routines (G02AAF) to calculate the nearest correlation matrix
  (when the correlation matrix is not positive definite)
 \end_layout
 
 \begin_layout Itemize
-Credit curves could be bootstrapped asumming quaterly payments for CDS (bootstra
-pping is performed assuming annual payments)
+Credit curves could be bootstrapped assuming quarterly payments for CDS
+ (bootstrapping is performed assuming annual payments)
 \end_layout
 
 \begin_layout Itemize
-Basket CDS could be priced assumming quaterly payments
+Basket CDS could be priced assuming quarterly payments
 \end_layout
 
 \begin_layout Itemize
-Premium leg - annual payment.
- standard is quaterly
+Premium leg is calculated with annual payment.
+ Market practice is quarterly payments
 \end_layout
 
 \begin_layout Subsubsection
 Algorithm
+\end_layout
+
+\begin_layout Standard
+The algorithm implemented for this project (
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default basket pricing) an be summarized as follows:
+\end_layout
+
+\begin_layout Enumerate
+Load historical credit spreads and historical LIBOR curves - 
+\shape italic
+market_data_loading.R
+\end_layout
+
+\begin_layout Enumerate
+Bootstrap historical credit curve - 
+\shape italic
+credit_curve_bootstrapping_functions.R
+\end_layout
+
+\begin_layout Enumerate
+Calculate correlation matrix (Gaussian and Student's t copula) and degree
+ of freedom - 
+\shape italic
+default_probability_correlation_matrix.R
+\end_layout
+
+\begin_layout Enumerate
+Calculate correlation matrix from Stock log returns - 
+\shape italic
+stock_log_return_correlation_matrix.R
+\end_layout
+
+\begin_layout Enumerate
+Calculate marginal hazard rates - 
+\shape italic
+calculate_marginal_hazard_rates.R
+\end_layout
+
+\begin_layout Enumerate
+Price 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default spread using sample from Gaussian copula - 
+\shape italic
+sampling_from_gaussian_copula.R
+\end_layout
+
+\begin_layout Enumerate
+Price 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+-to-default spread using sample from Student's copula - 
+\shape italic
+sampling_from_student_t_copula.R
 \end_layout
 
 \begin_layout Subsubsection
@@ -13609,9 +13815,14 @@ Credit default swap spreads
 \begin_layout Standard
 Historical CDS spreads for the following entities have been obtained from
  Markit:
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="7">
 <features rotate="0" tabularvalignment="middle">
@@ -13662,7 +13873,7 @@ Tier
 \begin_layout Plain Layout
 
 \series bold
-Curreny
+Currency
 \end_layout
 
 \end_inset
@@ -14040,9 +14251,14 @@ Discounting curve
 \begin_layout Standard
 Historical discounting curves have been obtained from Bloomberg using the
  following Bloomberg Tickers:
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="2">
 <features rotate="0" tabularvalignment="middle">
@@ -14254,6 +14470,7 @@ The program will start.
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="17" columns="3">
 <features rotate="0" tabularvalignment="middle">
@@ -14708,7 +14925,7 @@ gaussian_copula_functions.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Defines main pricing functions for Gaussian copulae: Monte Carlo loop and
+Defines main pricing functions for Gaussian copula: Monte Carlo loop and
  kth-to-default basket spread pricing
 \end_layout
 
@@ -14742,7 +14959,7 @@ student_t_copula_functions.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Defines main pricing functions for Student's T copulae: Monte Carlo loop
+Defines main pricing functions for Student's T copula: Monte Carlo loop
  and kth-to-default basket spread pricing
 \end_layout
 
@@ -14782,7 +14999,7 @@ copula.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Calls above mentionned functions; display kth-to-default basket spread and
+Calls above mentioned functions; display kth-to-default basket spread and
  plots convergence diagrams
 \end_layout
 
@@ -14855,8 +15072,8 @@ data
 
 \size footnotesize
 Folder containing market data files.
- Various market data files for CDS spreads, stock returns historical yield
- curve
+ Various market data files for CDS spreads, stock returns and historical
+ yield curve
 \end_layout
 
 \end_inset
@@ -14885,13 +15102,13 @@ Introduction
 The Heath–Jarrow–Morton (HJM) framework is a framework that model the evolution
  of the yield curve by representing the evolution of the instantaneous forward
  rates.
- This model impose the no-arbitrage restriction: the drift can't be random
+ This model imposes the no-arbitrage restriction: the drift can't be random
  and depends on the volatility of forward rates.
  In HJM, volatility of forward rates is estimated from historical interest
  rate data (historical forward rates in our case).
  We will show how the principal component analysis is conducted (estimation
  and analysis of covariance matrices) to identify the major factors which
- influance the evolution of the yield curve before describing the projection
+ influence the evolution of the yield curve before describing the projection
  of the forward curve and the pricing of various interest rate derivatives
  instrument using Monte Carlo simulation (using pseudo-random and low-discrepanc
 y numbers).
@@ -14933,7 +15150,7 @@ Forward rate
 \begin_inset Formula $S$
 \end_inset
 
- (maturity or the loan/deposit or cashflow payment time)
+ (maturity or the loan/deposit or cash-flow payment time)
 \end_layout
 
 \begin_layout Standard
@@ -14944,7 +15161,7 @@ Forward rate
 \end_layout
 
 \begin_layout Definition
-Instantaneousforward rate
+Instantaneous forward rate
 \end_layout
 
 \begin_layout Definition
@@ -14980,7 +15197,7 @@ F(t;T,S)\rightarrow f(t,T)\mbox{ when }S\rightarrow T^{+}
 \end_layout
 
 \begin_layout Definition
-It is a number from a continusous process:
+It is a number from a continuous process:
 \end_layout
 
 \begin_layout Standard
@@ -15055,12 +15272,12 @@ The risk-neutral drift depends on volatility
 \end_layout
 
 \begin_layout Remark*
-A single-factor model for a spot interest rate cannot hope to capture the
- richness of the yield curves observed in practice.
+A single-factor model for a spot interest rate can't capture the richness
+ of the yield curves observed in practice.
  Generally speaking, a spot rate model with one source of randomness may
  be good at reflecting the overall level of a yield curve but fails when
  it comes to shifts in the yield curve that are substantially different
- at different maturities
+ at different maturities.
 \end_layout
 
 \begin_layout Definition*
@@ -15111,7 +15328,7 @@ Multi-factor means adding sources of randomness
 \end_inset
 
 .
- Foactos must be uncorrelated, otherwise their impact would be overlapping
+ Factors must be uncorrelated, otherwise their impact would be overlapping
  and the model would require cross-terms and estimation of correlations
  
 \begin_inset Formula $\mathbb{E}\left[dX_{i}dX_{j}\right]=\rho dt$
@@ -15125,11 +15342,11 @@ Musiela parametrization
 \end_layout
 
 \begin_layout Standard
-It is useful to model the volatity of the forward rate for various maturities
- (6 months, one year, two years, etc.) and not at each maturity dates (1
+It is useful to model the volatility of the forward rate for various maturities
+ (6 months, one year, two years, etc.) and not for each maturity dates (1
  Jan 2014, 1 Jun 2014, etc.).
- Therefore we need to re-parameterise the volatility, the drift and the
- stochastic differential equation as function of tenor time 
+ Therefore we need to re-parametrize the volatility, the drift and the stochasti
+c differential equation as function of tenor time 
 \begin_inset Formula $\tau=T-t$
 \end_inset
 
@@ -15138,7 +15355,11 @@ It is useful to model the volatity of the forward rate for various maturities
 \begin_inset Formula $\overline{\nu}$
 \end_inset
 
- the volatility function expressed as a function of tenor time:
+ the volatility function expressed as a function of tenor time 
+\begin_inset Formula $\tau$
+\end_inset
+
+:
 \end_layout
 
 \begin_layout Standard
@@ -15203,7 +15424,26 @@ The
 \begin_layout Standard
 \begin_inset Formula 
 \[
-d\overline{f}(t,\tau)=\left(\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{t}^{T}\overline{\nu}_{i}(t,s)\; ds+\frac{\partial\overline{f}(t,\tau)}{\partial\tau}\right)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
+d\overline{f}(t,\tau)=\overline{m}(t,\tau)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\overline{m}(t,\tau)$
+\end_inset
+
+ is the risk-neutral drift (expressed as a function of tenor time):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{m}(t,\tau)=\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{0}^{\tau}\overline{\nu}_{i}(t,s)\; ds+\frac{\partial\overline{f}(t,\tau)}{\partial\tau}
 \]
 
 \end_inset
@@ -15212,7 +15452,7 @@ d\overline{f}(t,\tau)=\left(\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)\intop_{t}^{
 \end_layout
 
 \begin_layout Remark*
-The model work with 
+The model works with 
 \begin_inset Formula $k<N$
 \end_inset
 
@@ -15220,7 +15460,8 @@ The model work with
 \begin_inset Formula $k$
 \end_inset
 
- independant factors represented by the uncorrelated Brownian Motions 
+ independent factors represented by their uncorrelated Brownian Motions
+ 
 \begin_inset Formula $dX_{i}$
 \end_inset
 
@@ -15228,7 +15469,7 @@ The model work with
 \end_layout
 
 \begin_layout Subsubsection
-Pricincipal component analysis
+Principal component analysis
 \end_layout
 
 \begin_layout Subsubsection*
@@ -15252,7 +15493,7 @@ Gather a
 \begin_inset Formula $m$
 \end_inset
 
- is the number of maturities).
+ is the number of tenor/maturities)
 \end_layout
 
 \begin_layout Enumerate
@@ -15261,7 +15502,7 @@ Calculate an
 \end_inset
 
  matrix of daily differences (log differences since we are using data in
- a low-rate regime - from June 2011 to May 2014)
+ a low-rate regime - market data from June 2011 to May 2014)
 \end_layout
 
 \begin_layout Enumerate
@@ -15270,11 +15511,16 @@ Calculate the covariance of the matrix of daily changes expressed in percentages
 \begin_inset Formula $\varSigma_{daily}$
 \end_inset
 
+.
  
+\begin_inset Formula $\varSigma_{daily}$
+\end_inset
+
+is a 
 \begin_inset Formula $(m\times m)$
 \end_inset
 
-
+ matrix
 \end_layout
 
 \begin_layout Enumerate
@@ -15282,7 +15528,7 @@ Obtain the covariance matrix
 \begin_inset Formula $\varSigma$
 \end_inset
 
- of (annualised and expressed in decimal) as follows:
+ of (annualized and expressed in decimal) as follows:
 \end_layout
 
 \begin_layout Standard
@@ -15304,7 +15550,11 @@ Principal component analysis idea
 We want to understand the factors that drive the evolution of the forward
  curve.
  We can identify these factors by decomposing the covariance matrix of differenc
-es (i.e compute the eigenvalues and eigenvectors of the covariance matrix).
+es 
+\begin_inset Formula $\varSigma$
+\end_inset
+
+ (i.e compute the eigenvalues and eigenvectors of the covariance matrix).
  
 \end_layout
 
@@ -15377,9 +15627,9 @@ The eigenvector
  The eigenvectors are orthogonal projections of the changes in data in direction
 s of minimum variance.
  There are several ways to decompose matrices.
- We choose the Jacobi method which is not very computationaly efficient
- but has the advantage of keeping the structure of the original covariance
- matrix.
+ We have chosen the Jacobi transformation which is not very computationally
+ efficient but has the advantage of keeping the structure of the original
+ covariance matrix.
 \end_layout
 
 \begin_layout Standard
@@ -15407,15 +15657,21 @@ The first entry in any vector
 \begin_inset Formula $e^{(i)}$
 \end_inset
 
- represents the movement of the one-month rate (
+ represents the movement of the one-month forward rate (
 \begin_inset Formula $\tau=0.08$
 \end_inset
 
-), the second entry is the the two-month rate (
-\begin_inset Formula $\tau=0.17$
+), the second entry represents the movement in the six-month forward rate
+ (
+\begin_inset Formula $\tau=0.5$
 \end_inset
 
-) and so on.
+), the third entry represents the movement of the one-year forward rate
+ 
+\begin_inset Formula $(\tau=1)$
+\end_inset
+
+ and so on.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -15424,7 +15680,7 @@ Jacobi transformation
 
 \begin_layout Standard
 Jacobi transformation is a tractable numerical method to obtain eigenvalues
- and eigenvectors (diagonalisation).
+ and eigenvectors (diagonalization).
  The main idea is to eliminate largest off-diagonal element by rotating
  the matrix at each iteration.
  The following steps describe the algorithm:
@@ -15479,6 +15735,14 @@ Calculate the rotation matrix angle
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+Therefore we obtain: 
+\begin_inset Formula $\phi=\frac{1}{2}\arctan\left(\frac{2\sigma_{p,q}}{\sigma_{q,q}-\sigma_{p,p}}\right)$
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -15519,7 +15783,7 @@ Calculate the matrix
 \end_layout
 
 \begin_layout Enumerate
-Loop back to step 1 and take 
+Go back to step 1 and take 
 \begin_inset Formula $\Sigma^{R}$
 \end_inset
 
@@ -15532,13 +15796,13 @@ as input (i.e.
 \end_layout
 
 \begin_layout Remark*
-This method is computationaly inefficient as each rotation destroys zeros
+This method is computationally inefficient as each rotation destroys zeros
  obtained at previous step; however it achieves convergence.
  The covariance matrix 
 \begin_inset Formula $\varSigma$
 \end_inset
 
- becomes a diagonal matrix with eigen values in its diagonal:
+ becomes a diagonal matrix with eigenvalues in its diagonal:
 \end_layout
 
 \begin_layout Standard
@@ -15588,37 +15852,38 @@ Volatility fitting
 \end_layout
 
 \begin_layout Standard
-As we have seen, HJM drift calculation requires an integration.
+As we have seen, HJM drift calculation requires an integration over the
+ volatility.
  In order to perform an integration, we need to fit these volatility numbers
  to a function.
- Polynomial fitting by cubic spline is a popular choice.
+ We are performing polynomial fitting by cubic spline.
  It means finding a set of 
 \begin_inset Formula $(\beta_{0},\beta_{1},\beta_{2},\beta_{3})$
 \end_inset
 
- for each 
+ for each power of
 \begin_inset Formula $\tau$
 \end_inset
 
  so that the function 
-\begin_inset Formula $\overline{\nu}(t,T)=\beta_{0}+\beta_{1}\tau+\beta_{2}\tau^{2}+\beta_{3}\tau^{3}$
+\begin_inset Formula $\overline{\nu}(t,\tau)=\beta_{0}+\beta_{1}\tau+\beta_{2}\tau^{2}+\beta_{3}\tau^{3}$
 \end_inset
 
 approximates the values 
-\begin_inset Formula $\overline{\nu}_{i}(t,T)$
+\begin_inset Formula $\overline{\nu}_{i}(t,\tau)$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Remark*
-There are alternatives to to cubic spline fitting: multi splines or piecewise
+There are alternatives to to cubic spline fitting: multi-spline / piecewise
  cubic spline (fit parts of the curve with different splines) or a logarithmic
  function 
 \begin_inset Formula $a+b\log\tau$
 \end_inset
 
-for the first component
+ for the first component
 \end_layout
 
 \begin_layout Subsubsection
@@ -15634,7 +15899,7 @@ The ZCB price comes from the solution for
 \begin_inset Formula $dZ=r(t)dt$
 \end_inset
 
- under the risk- neutral measure:
+ under the risk-neutral measure:
 \end_layout
 
 \begin_layout Standard
@@ -15655,7 +15920,7 @@ LIBOR pricing
 \end_layout
 
 \begin_layout Definition
-Continuous compounded LIBOR rate
+Continuously compounded LIBOR rate
 \end_layout
 
 \begin_layout Definition
@@ -15695,7 +15960,7 @@ L(t;T)=-\frac{\log Z(t;T)}{T-t}
 \end_layout
 
 \begin_layout Definition
-Continuous compounded LIBOR rate in HJM (Musiela parametrisation)
+Continuously compounded LIBOR rate in HJM (Musiela parametrization)
 \end_layout
 
 \begin_layout Definition
@@ -15729,11 +15994,11 @@ where
 \end_layout
 
 \begin_layout Definition
-Simple annualised LIBOR rate
+Simple annualized LIBOR rate
 \end_layout
 
 \begin_layout Definition
-The simple annualised LIBOR rate (i.e the standard LIBOR rate) can be expressed
+The simple annualized LIBOR rate (i.e the standard LIBOR rate) can be expressed
  as:
 \begin_inset Formula 
 \[
@@ -15750,7 +16015,7 @@ where
 \begin_inset Formula $m$
 \end_inset
 
- is the couponding frequency
+ is the compounding frequency
 \end_layout
 
 \begin_layout Remark*
@@ -15771,13 +16036,13 @@ Caplet price
 \end_layout
 
 \begin_layout Definition
-A caplet is an interest option that pays a cashflow based on the value of
- LIBOR at a reset time 
+A caplet is an interest option that pays a cash-flow based on the value
+ of LIBOR at a reset time 
 \begin_inset Formula $T_{i}$
 \end_inset
 
 .
- The cashflow is paid for the period from reset (
+ The cash-flow is paid for the period from reset (
 \begin_inset Formula $T_{i})$
 \end_inset
 
@@ -15785,7 +16050,8 @@ A caplet is an interest option that pays a cashflow based on the value of
 \begin_inset Formula $T_{i+1})$
 \end_inset
 
- in arrears and therefore discounted to the current time:
+ in arrears.
+ This cash-flow discounted to the current time can be expressed as:
 \end_layout
 
 \begin_layout Standard
@@ -15807,7 +16073,7 @@ where
 \begin_inset Formula $L(T_{i},T_{i+1})$
 \end_inset
 
- is the forward LIBOR rate (simple annualised) that resets at 
+ is the forward LIBOR rate (simple annualized) that resets at 
 \begin_inset Formula $T_{i}$
 \end_inset
 
@@ -15822,14 +16088,14 @@ where
 \begin_inset Formula $\tau=T_{i+1}-T_{i}$
 \end_inset
 
- is the year fraction that converts the annualised rate to the period
+ is the year fraction that converts the annualized rate to the period
 \end_layout
 
 \begin_layout Itemize
 \begin_inset Formula $N$
 \end_inset
 
- is the notional (we will scaled to 
+ is the notional (we will scale it to 
 \begin_inset Formula $1$
 \end_inset
 
@@ -15896,7 +16162,7 @@ Therefore, we can express the cap discounted payoff (price) as:
 \end_layout
 
 \begin_layout Remark*
-Buying a caop allows protection from increase in LIBOR rate:
+Buying a cap allows protection from increase in LIBOR rate:
 \end_layout
 
 \begin_layout Remark*
@@ -15959,8 +16225,8 @@ Vanilla payer swaption price
 \end_layout
 
 \begin_layout Definition
-We can write the discounted payoff of a payer swaption by considfering the
- value of the underlying payer IRS at its first reset dat 
+We can write the discounted payoff of a payer swaption by considering the
+ value of the underlying payer IRS at its first reset date 
 \begin_inset Formula $t$
 \end_inset
 
@@ -15985,7 +16251,7 @@ The option will be exercised only if the above value is positive.
 \end_inset
 
 , we need to apply the positive-part operator.
- Discounting this payoff at time 
+ Discounting this payoff from time 
 \begin_inset Formula $t$
 \end_inset
 
@@ -16010,7 +16276,7 @@ Black76
 \begin_layout Standard
 The market quotes Caps/Floors and Swaptions in terms of implied volatility.
  The below formula will help us to convert the prices we obtain via HJM
- as Black76 implied volatilities.
+ as Black76 implied volatility.
 \end_layout
 
 \begin_layout Definition
@@ -16069,7 +16335,11 @@ d_{2} & = & \frac{\log\frac{F}{K}-\frac{\zeta^{2}}{2}}{\zeta}
 \end_layout
 
 \begin_layout Standard
-in these formulae 
+where 
+\begin_inset Formula $\zeta^{2}$
+\end_inset
+
+ is defined as 
 \begin_inset Formula $\zeta^{2}=\zeta_{i}^{2}T_{i}$
 \end_inset
 
@@ -16077,8 +16347,8 @@ in these formulae
 \end_layout
 
 \begin_layout Remark*
-The cap price is simply calculated as the sum of its captlet prices as we
- have seen in definition 27
+The cap price is simply calculated as the sum of its caplet prices as we
+ have seen in definition 28.
 \end_layout
 
 \begin_layout Definition
@@ -16092,8 +16362,8 @@ We find the implied volatility using a simple root finding procedure (Bisection
 \end_layout
 
 \begin_layout Remark*
-We assume that volatility is constant thoughout the cap; i.e.
- all caplets are priced with the same volatility.
+We assume that volatility is constant throughout the cap; i.e.
+ all caplets are priced with the same volatility
 \end_layout
 
 \begin_layout Subsection
@@ -16106,13 +16376,13 @@ Principal Component Analysis
 
 \begin_layout Standard
 I have worked with 3 years of GBP historical forward curves obtained from
- Bank Of England (Bank Liability Curve constructed from LIBOR-linked instruments
+ Bank of England (Bank Liability Curve constructed from LIBOR-linked instruments
  between 01/06/2011 and 30/05/2014).
  For the principal component analysis, I have taken the one-month rate from
  the short-end file (one-month to five-year rates) and all the rates from
- the long-end file (6-months, 1-year, ...
- 25-years).
- The proces to calculate the covariance matrix is the one summarized in
+ the long-end file (6 months, 1 year, ...
+ 25 years).
+ The process to calculate the covariance matrix is the one summarized in
  the 
 \begin_inset Quotes eld
 \end_inset
@@ -16160,7 +16430,7 @@ GBP Forward rate term structure between June 2011 and May 2014
 \end_layout
 
 \begin_layout Standard
-Usign the Jacobi transformation on the covariance matrix 
+Using the Jacobi transformation on the covariance matrix 
 \begin_inset Formula $\varSigma$
 \end_inset
 
@@ -16215,6 +16485,19 @@ I have decided to take 5 factors into account: all combined, they explain
 
 , the weight and the cumulative weight for each of these principal components
  (factors).
+\end_layout
+
+\begin_layout Remark*
+\begin_inset Formula $\tau$
+\end_inset
+
+ is given as indication.
+ Orthogonal factors don't necessarily indicative come from the behavior
+ of the curve at a particular tenor/maturity.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -16521,21 +16804,29 @@ PC5
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 The plot (Figure 2.2) shows the eigenvectors of the 5 principal components
  that i have selected.
- The plot (Figure 2.3) shows the volatilities 
+ The plot (Figure 2.3) shows the volatility 
 \begin_inset Formula $\overline{\nu}_{i}(t,T)=\sqrt{\lambda_{i}}e^{(i)}$
 \end_inset
 
- and their fitted volatility function.
- The table table gives the parameters 
+ and their fitted volatility functions.
+ The below table gives the parameters 
 \begin_inset Formula $(\beta_{0},\beta_{1},\beta_{2},\beta_{3})$
 \end_inset
 
- for these functions.
+ for these functions:
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -16847,6 +17138,10 @@ PC5
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -16858,8 +17153,8 @@ parallel shift
 \begin_inset Quotes erd
 \end_inset
 
- for PC1; it defines the general shape of the yield curve and accounts for
- 68% of the changes in the yield curve on its own.
+ for the first principal component (PC1); it defines the general shape of
+ the yield curve and accounts for 68% of the changes in the yield curve.
  Finally, we can observe that the fitted functions are crossing the 
 \begin_inset Formula $x$
 \end_inset
@@ -16888,7 +17183,7 @@ good fitting
 \begin_inset Formula $\tau$
 \end_inset
 
-) will increase in-sample accuracy of fit but might represent an overfitting.
+) will increase in-sample accuracy of fit but might represent an over-fitting.
 \end_layout
 
 \begin_layout Standard
@@ -16912,7 +17207,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Eigen vectors for the 5 principal components
+Eigenvectors for the 5 principal components
 \end_layout
 
 \end_inset
@@ -16947,7 +17242,7 @@ status open
 
 \begin_layout Plain Layout
 Actual volatility vs.
- Fitted function
+ Cubic spline function
 \end_layout
 
 \end_inset
@@ -16966,17 +17261,17 @@ OIS Discounting
 
 \begin_layout Standard
 Discounting is a key aspect of pricing because interest rate derivatives
- are decomposable into cashflows.
- This implementation uses dual-curve pricing: one foreward/forecast curve
+ are decomposable into cash-flows.
+ This implementation uses dual-curve pricing: one forward/forecast curve
  (that gauges an expectation of what short rate will be in the future) and
  one discounting curve.
- I have used the GBP OIS spot curve obtained Bank Of England (UK OIS spot
- curve) which gives us discount rates (bootstrapped from overnight index
- swap rates) from for a wide range of maturities since 2009.
- Bank Of England publishes OIS discount rates from 1 month up to to 5 years
+ I have used the GBP OIS spot curve obtained from Bank Of England (UK OIS
+ spot curve) which gives us discount rates (bootstrapped from overnight
+ index swap rates) for a wide range of tenors/maturities since 2009.
+ Bank of England publishes OIS discount rates from 1 month up to to 5 years
  (every month in between).
- Liquidity in OIS contracts beyond 5 years is limited; therefore BOE only
- publishes OIS curve up to 5 years.
+ Liquidity in OIS contracts beyond 5 years is limited; therefore Bank of
+ England only publishes OIS curve up to 5 years.
  OIS curves over 5 years generally use OIS spread over LIBOR.
 \end_layout
 
@@ -17026,7 +17321,7 @@ Forward rates projection matrix
 Pricing of various interest rate derivatives instrument within the HJM framework
  is performed through Monte Carlo simulations.
  For each simulation, we use the HJM multi-factor stochastic differential
- equation to generate a matrix that describes one possible evolation of
+ equation to generate a matrix that describes one possible evolution of
  the forward curve starting from a given forward curve (the forward curve
  on the valuation date).
  This matrix has 60 columns (one column for each tenor from one-month to
@@ -17039,21 +17334,22 @@ Pricing of various interest rate derivatives instrument within the HJM framework
 \end_inset
 
  is the number of years for which we need to project the forward curve).
- For instance, a one-year forward stating cap will require a projection
+ For instance, a one-year forward starting cap will require a projection
  up to 1 year (i.e.
  
-\begin_inset Formula $n$
+\begin_inset Formula $100$
 \end_inset
 
  rows of projection).
- The timestep between each of this rows is 
+ The time-step between each of this rows is 
 \begin_inset Formula $\delta t=0.01$
 \end_inset
 
-.The below matrix illustrates how this matrix is constructed.
+.
+ The below matrix illustrates how the matrix is constructed.
  The volatility of the HJM stochastic differential equation is calculated
- as a sum of the volatility function of each factor times the brownian motion
- of this factor.
+ as a sum of the volatility functions of each factor multiplied by the Brownian
+ motion of this factor.
  The drift calculation requires an integration over the volatility functions
  (not an issue since we are working with fitted cubic spline) and the calculatio
 n of the derivative 
@@ -17062,13 +17358,18 @@ n of the derivative
 
 .
  This derivative is generally calculated as a forward difference on the
- previous timestep, i.e 
+ previous time-step, i.e 
 \begin_inset Formula $\frac{\partial\overline{f}(t,\tau)}{\partial\tau}=\frac{\overline{f}(t-\delta t,\tau+\delta\tau)-\overline{f}(t-\delta t,\tau)}{\delta\tau}$
 \end_inset
 
-; except for the column of the projection matrix (we can't go forward),
- in this case, we calculate this derivative as a backward difference.
- 
+; except for the last column of the projection matrix (we can't go forward),
+ in this case, we calculate this derivative as a backward difference: 
+\begin_inset Formula $\frac{\partial\overline{f}(t,\tau)}{\partial\tau}=\frac{\overline{f}(t-\delta t,\tau)-\overline{f}(t-\delta t,\tau-\delta\tau)}{\delta\tau}$
+\end_inset
+
+.
+ As we have seen previously, the HMJ multi-factor stochastic differential
+ equation (Musiela parametrization) is: 
 \begin_inset Formula 
 \[
 d\overline{f}(t,\tau)=\overline{m}(t,T)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\tau)dX_{i}
@@ -17088,9 +17389,14 @@ d\overline{f}(t,\tau)=\overline{m}(t,T)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\ta
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="7">
 <features rotate="0" tabularvalignment="middle">
@@ -17600,11 +17906,16 @@ d\overline{f}(t,\tau)=\overline{m}(t,T)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\ta
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Once the matrix is entirely populated, we perform the calculations required
- (calculation of Bond price, LIBOR rates, Cap, etc.) and store the results.
+ (calculation of Bond price, LIBOR rates, Cap, Swaptions, etc.) and store
+ the results.
  We start then another simulation unless we have reached the number of simulatio
 ns required; in this case, we average all the results obtained for each
  simulation to obtain the expectation (price) of the instruments we are
@@ -17613,7 +17924,7 @@ ns required; in this case, we average all the results obtained for each
 \end_layout
 
 \begin_layout Subsubsection
-Zero Coupond Bond pricing
+Zero Coupon Bond pricing
 \end_layout
 
 \begin_layout Standard
@@ -17653,6 +17964,7 @@ Model and hypothesis
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="6">
 <features rotate="0" tabularvalignment="middle">
@@ -17961,7 +18273,7 @@ Compute the implied volatility for the cap using Black76
 \end_layout
 
 \begin_layout Standard
-I have assumed quaterly payments for the caps (i.e.
+I have assumed quarterly payments for the caps (i.e.
  caplet maturity is 3M).
  The following prices have been obtained after running 30,000 simulations.
  I have priced caps for a wide range of strikes and maturities so that we
@@ -18011,8 +18323,8 @@ In the market, a
 \end_layout
 
 \begin_layout Remark*
-The first caplet is generally ignore for spot-starting cap because there
- is uncertainty about the level of first LIBOR rate (it is already known).
+The first caplet is generally ignored for spot-starting cap because there
+ is no uncertainty about the level of first LIBOR rate (it is already fixed).
  
 \end_layout
 
@@ -18030,14 +18342,14 @@ Volatility skew
 \end_layout
 
 \begin_layout Standard
-The below table displays the price (in basis point) and the implied volatility
+The below table displays the price (in basis points) and the implied volatility
  (%) of a 
 \begin_inset Formula $1\times3$
 \end_inset
 
  cap (2 year cap starting in one-year) for various strikes (0.1%,0.2%,0.5%,...,2%).
- As for the caplets (which are call on LIBOR), cap prices increase when
- strike decreases because the smaller the strike is, the larger cashflows
+ As for the caplets (which are calls on LIBOR), cap prices increase when
+ strike decreases because the smaller the strike is, the larger cash-flows
  the cap delivers.
  
 \begin_inset Newline newline
@@ -18047,6 +18359,7 @@ The below table displays the price (in basis point) and the implied volatility
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="12">
 <features rotate="0" tabularvalignment="middle">
@@ -18177,7 +18490,7 @@ Implied Volatility (%)
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mbox{Cap}(t=1;T=3;K)$
+\begin_inset Formula $\mbox{Cap}(t=1;T;K)$
 \end_inset
 
 
@@ -18517,7 +18830,7 @@ T
 \end_layout
 
 \begin_layout Standard
-The plot (Figure 2.5) shows the price (in basis point) of 4 caps (
+The plot (Figure 2.5) shows the price (in basis points) of 4 caps (
 \begin_inset Formula $1\times2$
 \end_inset
 
@@ -18533,10 +18846,10 @@ The plot (Figure 2.5) shows the price (in basis point) of 4 caps (
 \begin_inset Formula $1\times5$
 \end_inset
 
-) for various strike.
+) for various strikes.
  When the caps are in the money, the relationship between the price and
- the stike is almost linear.
- We can also obeserve that the price of the cap increase with maturity;
+ the strike is almost linear.
+ We can also observe that the price of the cap increases with maturity;
  this is inline with the definition of a cap price (e.g.
  A 
 \begin_inset Formula $1\times5$
@@ -18546,7 +18859,7 @@ The plot (Figure 2.5) shows the price (in basis point) of 4 caps (
 \begin_inset Formula $1\times2$
 \end_inset
 
- cap can only be decomposed into 4 caplets; it makes sens intuitively that
+ cap can only be decomposed into 4 caplets; it makes sense intuitively that
  the price of a 
 \begin_inset Formula $1\times5$
 \end_inset
@@ -18601,7 +18914,7 @@ Volatility surface
 \end_layout
 
 \begin_layout Standard
-The below table displays the price (in basis point) and the implied volatility
+The below table displays the price (in basis points) and the implied volatility
  (%) of 4 caps (
 \begin_inset Formula $1\times2$
 \end_inset
@@ -18624,7 +18937,7 @@ The below table displays the price (in basis point) and the implied volatility
  On the other hand, the implied volatility of the cap decreases when the
  maturity of the cap increases (implied volatility is an average of the
  volatility across the life of the cap).
- The implied volatility decreases when th strike increase.
+ The implied volatility decreases when the strike increases.
 \begin_inset Newline newline
 \end_inset
 
@@ -18632,6 +18945,7 @@ The below table displays the price (in basis point) and the implied volatility
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="12">
 <features rotate="0" tabularvalignment="middle">
@@ -18762,7 +19076,7 @@ Implied Volatility (%)
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mbox{Cap}(t,T,K)$
+\begin_inset Formula $\mbox{Cap}(t=1,T,K)$
 \end_inset
 
 
@@ -19438,6 +19752,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename cap_volatility_surface.png
 	scale 50
@@ -19466,8 +19781,7 @@ Swaption pricing
 \end_layout
 
 \begin_layout Standard
-The swaptions have been have been priced using the formula described in
- the 
+The swaptions have been priced using the formula described in the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -19503,11 +19817,16 @@ Once all simulations are completed, obtain the cap price by averaging the
 \end_layout
 
 \begin_layout Enumerate
-Compute the implied volatility for the swaption using Black76 
+Compute the implied volatility for the swaption using Black76
+\end_layout
+
+\begin_layout Remark*
+The step that computes the implied volatility for swaptions has not been
+ implemented
 \end_layout
 
 \begin_layout Standard
-I have assumed quaterly payments for the swaption.
+I have assumed quarterly payments for the swaption.
  The following prices have been obtained after running 30,000 simulations.
  I have priced swaptions for a wide range of strikes and swap tenors so
  that we can observe the volatility skew and the term structure.
@@ -19526,7 +19845,11 @@ I have assumed quaterly payments for the swaption.
 \begin_inset Formula $t$
 \end_inset
 
-.
+ (i.e the option expires at time 
+\begin_inset Formula $t$
+\end_inset
+
+).
  If the swaption is exercised, the swaption payer will enter a payer swap
  that starts at time 
 \begin_inset Formula $t$
@@ -19537,7 +19860,7 @@ I have assumed quaterly payments for the swaption.
 \end_inset
 
  (i.e.
- the maturity of the swap is 
+ the swap tenor is 
 \begin_inset Formula $T-t$
 \end_inset
 
@@ -19558,13 +19881,13 @@ Volatility skew
 \end_layout
 
 \begin_layout Standard
-The below table displays the price (in basis point) of a 
+The below table displays the price (in basis points) of a 
 \begin_inset Formula $1\times3$
 \end_inset
 
  swaption (1 year maturity option on a 2 year forward starting swap) for
  various strikes (0.1%,0.2%,0.5%,...,2%).
- Swaption prices increase when strike decreases.
+ Swaption prices increase when strike decreases (Figure 2.7).
  
 \begin_inset Newline newline
 \end_inset
@@ -19573,6 +19896,7 @@ The below table displays the price (in basis point) of a
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="6">
 <features rotate="0" tabularvalignment="middle">
@@ -19643,7 +19967,7 @@ Price (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mbox{Cap}(t,T,K)$
+\begin_inset Formula $\mbox{PayerSwaption}(t=1,T,K)$
 \end_inset
 
 
@@ -19856,7 +20180,7 @@ Volatility surface
 \end_layout
 
 \begin_layout Standard
-The below table displays the price (in basis point) of 4 swaptions (
+The below table displays the price (in basis points) of 4 swaptions (
 \begin_inset Formula $1\times2$
 \end_inset
 
@@ -19875,11 +20199,11 @@ The below table displays the price (in basis point) of 4 swaptions (
 ) for various strikes.
  As we have seen earlier, the price of a swaption increases when the tenor
  of the swap increases and the price of swaption decreases when the strike
- increases.
- 
+ increases (Figure 2.8)
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="6">
 <features rotate="0" tabularvalignment="middle">
@@ -19950,7 +20274,7 @@ Price (bp)
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mbox{PayerSwaption}(t,T,K)$
+\begin_inset Formula $\mbox{PayerSwaption}(t=1,T,K)$
 \end_inset
 
 
@@ -20335,17 +20659,17 @@ Convergence and stability
 
 \begin_layout Standard
 I have run 30,000 simulations using pseudo-random numbers (rnorm native
- function in R) and low-discrepancy numbers (Sobol and Halton).
+ function in R) and low-discrepancy numbers (Sobol).
  I could not use Niederreiter numbers because their maximum dimension in
- NAG is 318 (For one year projection - 100 timesteps - HJM requires a dimension
+ NAG is 318 (for one year projection - 100 time-steps - HJM requires a dimension
  of 
 \begin_inset Formula $500=100\times5$
 \end_inset
 
  where 5 is the number of factors in use).With this data, i obtain a convergence
- diagram that compares the convergence of these 3 types of numbers.
- The simulations that use pseudo-random number appears to be the slowest
- to converge.
+ diagram that compares the convergence of these 2 types of numbers.
+ The simulations that use low-discrepancy numbers clearly converges faster
+ than the simulations that use pseudo-random numbers.
 \end_layout
 
 \begin_layout Standard
@@ -20355,6 +20679,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename plot_cap_convergence_diagram.png
 	scale 40
@@ -20369,9 +20694,7 @@ status open
 
 \begin_layout Plain Layout
 Pseudo-random vs.
- Sobol vs.
- Niederreiter vs.
- Halton convergence diagram for a cap price
+ Sobol convergence diagram for a cap price
 \end_layout
 
 \end_inset
@@ -20440,7 +20763,7 @@ Numerical integration for the drift
 Calculation of the HJM drift requires integration over the volatility fitted
  function.
  I have used R native numerical integration capabilities instead of using
- the trapezium rule integration which works but is computationaly inefficient.
+ the trapezium rule integration which works but is computationally inefficient.
 \end_layout
 
 \end_deeper
@@ -20465,18 +20788,18 @@ In HJM, one of the way to calculate the LIBOR rates is to integrate over
 
 \end_deeper
 \begin_layout Itemize
-Multi-threading to improve performance
+Multithreading to improve performance
 \end_layout
 
 \begin_deeper
 \begin_layout Standard
 One of the drawback of HJM is its poor performance.
- Populating the projection matrix for each simulation uses a lot of computating
- power (not to mention when we perform complex / heavy calculation when
- we use this matrix).
- R software is typically a single-threaded package; i have used R packages
- like doPararallel, plyr and foreach to make the calculation multi-threaded
- so that it can use all the processors available on my computer.
+ Populating the projection matrix for each simulation uses a lot of computing
+ power (not to mention when we perform complex / heavy calculations with
+ this matrix).
+ R software is a single-threaded package; i have used R packages like doPararall
+el, plyr and foreach to make the calculation multithreaded so that it can
+ use all the processors available on my computer.
 \end_layout
 
 \end_deeper
@@ -20486,7 +20809,7 @@ Dual-curve pricing
 
 \begin_deeper
 \begin_layout Standard
-I have used the UK OIS discount curve to discount cashflows
+I have used the UK OIS discount curve to discount cash-flows
 \end_layout
 
 \end_deeper
@@ -20502,18 +20825,18 @@ The core pricing function HeathJarrowMortonPricing() returns simulation
 \end_layout
 
 \begin_layout Standard
-There is also room for improvement in this implementation.
- Here are some improvement opportunities:
+There are also improvement opportunities in this implementation:
 \end_layout
 
 \begin_layout Itemize
-Complete implied volatility calculation for swaptions (it is done for caps)
+Complete implied volatility calculation for swaptions (it is only done for
+ caps)
 \end_layout
 
 \begin_layout Itemize
 Principal component analysis could be done on a covariance matrix which
- includes monthly instantaneous forwards between 0 and 5 years (instea dof
- just semi-annual instantaneous forwards)
+ includes monthly instantaneous forwards between 0 and 5 years (instead
+ of just semi-annual instantaneous forwards)
 \end_layout
 
 \begin_layout Itemize
@@ -20573,7 +20896,7 @@ http://www.bankofengland.co.uk/statistics/Pages/yieldcurve/archive.aspx
  The one-month rate was taken from the short-end data set, the rest of the
  data came from the full curve data set.
  Minimum data clean-up (exclude public holidays) was required as the data
- has already been cleansed by Bank of England.
+ is already cleansed by Bank of England.
  
 \end_layout
 
@@ -20587,10 +20910,10 @@ Pricing is performed using 30-May-2014 as valuation date.
  (UK OIS spot curve).
  Discounting rates are given for tenors from 0 to 5 years (data for every
  six months).
- Liquidity in OIS contracts beyond 5 years is limited; therefore BOE only
- publishes OIS curve up to 5 years.
+ Liquidity in OIS contracts beyond 5 years is limited; therefore Bank of
+ England only publishes OIS curve up to 5 years.
  Minimum data clean-up (exclude public holidays) was required as the data
- has already been cleansed by Bank of England.
+ is already cleansed by Bank of England.
  
 \end_layout
 
@@ -20626,7 +20949,7 @@ calculate covariance matrix
 \end_layout
 
 \begin_layout Enumerate
-diagonalise the covariance matrix using Jacobi transformation (obtain eigenvalue
+diagonalize the covariance matrix using Jacobi transformation (obtain eigenvalue
 s and eigenvectors)
 \end_layout
 
@@ -20644,7 +20967,7 @@ fit a cubic spline for each of these 5 volatility vectors
 
 \end_deeper
 \begin_layout Enumerate
-Monte carlo simulation to price IR derivatives - 
+Monte Carlo simulation to price IR derivatives - 
 \shape italic
 monte_carlo_simulation_functions.R
 \end_layout
@@ -21224,7 +21547,7 @@ _simulation_functions.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Main pricing functions: Monte Carlo loop and bond pricing, libor calculation,
+Main pricing functions: Monte Carlo loop and bond pricing, LIBOR calculation,
  cap/caplet pricing and swaption pricing within one simulation matrix
 \end_layout
 
@@ -21264,7 +21587,7 @@ _simulation.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Calls above mentionned functions; plots volatility surfaces and convergence
+Calls above mentioned functions; plots volatility surfaces and convergence
  diagrams
 \end_layout
 
@@ -21441,19 +21764,21 @@ Conclusion
 \end_layout
 
 \begin_layout Standard
-La conclusion ...
-\end_layout
+Working on these two topics for the Final CQF Project has been a very exiting
+ and enriching experience.
+ It helps to get a 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Standard
-se poser des problemes
-\end_layout
+feel
+\begin_inset Quotes erd
+\end_inset
 
-\begin_layout Standard
-structurer une implementation
-\end_layout
-
-\begin_layout Standard
-faire des recherches
+ of the amount of work and the type of work (research, analysis, etc.) required
+ to implement industrial strength models in a production environment.
+ It will certainly help me to structure my work on future assignments as
+ quantitative analyst/developer.
+ 
 \end_layout
 
 \begin_layout Standard
