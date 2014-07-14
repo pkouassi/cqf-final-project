@@ -1,3 +1,12 @@
+#==============================================================================
+# title           :market_data_functions.R
+# description     :Define functions tha load hist forward curve and OIS curve
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
+
+# Parse Bank of England - BLC forward curve (short end and longend) -- all dates
 parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   #shortend_filename = "/../data/ukblc05_mdaily_fwdcurve_shortend.csv"
   #longend_filename = "/../data/ukblc05_mdaily_fwdcurve_longend.csv"
@@ -5,7 +14,7 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   forward_curve_longend=read.csv(paste(getwd(),longend_filename,sep=""), skip=3,header = TRUE,stringsAsFactors = FALSE)  
   date_format = "%d %b %y"
   
-  #count number of observations
+  # count number of observations
   k=0
   for (i in seq(1,nrow(forward_curve_longend))) {
     date = as.Date(forward_curve_longend[i,1],date_format)
@@ -17,19 +26,19 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   }
   nbrecords = k
   
-  #initialze matrix
+  # initialize matrix
   HistoricalForwardCurve = matrix(NA,nrow=nbrecords,ncol=51,byrow = TRUE);
   colnames(HistoricalForwardCurve) = c(0.08, seq(0.5,25,by=0.5))
   DateForwardCurve =  rep(as.Date("01 Jan 70",date_format),nbrecords)
   
-  #populate matrix
-  #we asumme that short-end file and long-end have same data structure and same dates
+  # populate matrix
+  # we asumme that short-end file and long-end have same data structure and same dates
   k=1
   for (i in seq(1,nrow(forward_curve_longend))) {
     date = as.Date(forward_curve_longend[i,1],date_format)
     if (!is.na(date)) {
       if (!is.na(forward_curve_longend[i,2]) & forward_curve_shortend[i,2] != "") {    
-        #make sure date are aligned between the shortend file and longend file
+        # make sure date are aligned between the shortend file and longend file
         if (forward_curve_shortend[i,1] == forward_curve_longend[i,1]) {
           DateForwardCurve[k] = date
           HistoricalForwardCurve[k,1] = as.numeric(forward_curve_shortend[i,2])
@@ -41,7 +50,7 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
         k = k+1   
       }
       else {      
-        #cat("No forward curve data for", format(as.Date(forward_curve_longend[i,1],date_format),date_format),"\n")
+        # cat("No forward curve data for", format(as.Date(forward_curve_longend[i,1],date_format),date_format),"\n")
       }
     }
   }
@@ -50,6 +59,7 @@ parseHistoricalForwardCurve = function(shortend_filename,longend_filename) {
   return(list(date=DateForwardCurve,forwardcurve=HistoricalForwardCurve))
 }
 
+# Parse Bank of England - BLC forward curve (short end and longend) for one specific date
 parseForwardCurve = function(date,shortend_filename,longend_filename) {
   #date = as.Date("2014-05-30","%Y-%m-%d")
   #shortend_filename ="/../data/ukblc05_mdaily_fwdcurve_shortend.csv"
@@ -59,20 +69,14 @@ parseForwardCurve = function(date,shortend_filename,longend_filename) {
   forward_curve_shortend[,1] = as.Date(forward_curve_shortend[,1],date_format)
   forward_curve_shortend = forward_curve_shortend[-1,] #suppress first line that does not contain data
   
-  #initialize the vectors
+  # initialize the vectors
   ForwardCurve = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])
   ForwardCurveDate = seq(1/12,5,by=1/12)
   
-  #ForwardCurve = matrix(NA,nrow=1,ncol=(ncol(forward_curve_shortend)-1),byrow = TRUE);
-  #colnames(ForwardCurve) = 
-
-  #populate matrix
-  #ForwardCurve[1,] = as.numeric(forward_curve_shortend[forward_curve_shortend[,1] == date,2:ncol(forward_curve_shortend)])  
-  
   return(list(time=ForwardCurveDate,rate=ForwardCurve))
-  return()
 }
 
+# Parse Bank of England - OIS spot curve for one specific date
 parseOISSpotCurve = function(date,ois_spotcurve_filename) {
   #date = as.Date("2014-05-30","%Y-%m-%d")
   #ois_spotcurve_filename ="/../data/ukois09_mdaily_spotcurve.csv"
@@ -95,14 +99,14 @@ parseOISSpotCurve = function(date,ois_spotcurve_filename) {
   
   ois_spot_curve = ois_spot_curve[1:nbrecords,] #filter blank records at the end of the file
   
-  #initialize the vectors
+  # initialize the vectors
   OISSpotCurve = as.numeric(ois_spot_curve[ois_spot_curve[,1] == date,2:ncol(ois_spot_curve)])  
   OISSpotCurveDate = seq(1/12,5,by=1/12)
   
   return(list(time=OISSpotCurveDate,rate=OISSpotCurve))
 }
 
-#retrieve discount factor for a specific date
+# retrieve discount factor for a specific date
 GetDiscountFactor = function(YieldCurve,t) {
   min_time = min(YieldCurve@time)
   min_time_index = which.min(YieldCurve@time)
@@ -137,7 +141,7 @@ GetDiscountFactor = function(YieldCurve,t) {
   return (result)  
 }
 
-#Vectorized version of GetDiscountFactor
+# Vectorized version of GetDiscountFactor
 GetDiscountFactorVector = function(YieldCurve,t_array){
   return(sapply(t_array,GetDiscountFactor,YieldCurve=YieldCurve))
 }

@@ -1,10 +1,18 @@
+#==============================================================================
+# title           :monte_carlo_simulation_functions.R
+# description     :Core function that price bonds, caps, swaptions
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
+
 HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputData,DiscountCurve,NumberSimulation=10000,GenType="rnorm") {
-  #parallel computing set-up
+  # parallel computing set-up
   cl = makeCluster(detectCores())
   registerDoParallel(cl)
   cat("Number of core(s) to be used for calculation:",getDoParWorkers(),"\n")
   
-  #set parameters for HJM framework
+  # set parameters for HJM framework
   NumberPC = 5
   MaxMaturity = 5
   maturityBucket = 1/12
@@ -12,14 +20,14 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     NumberOfYear = max(T_array) #bond price computation requires projection of forward rates until T
   }
   else {
-    #other products only require projection of forward rates until t
+    # other products only require projection of forward rates until t
     NumberOfYear = t
   }
   
   timestep = 0.01 #size of timestep for projection
   NumberOfTimesteps = NumberOfYear/timestep
   
-  MaturityList = seq(1/12,MaxMaturity,by=maturityBucket) #1M rate is taken as proxy for Maturity=0
+  MaturityList = seq(1/12,MaxMaturity,by=maturityBucket)
   drift = rep(NA,length(MaturityList))
   volatility_1 = rep(NA,length(MaturityList))
   volatility_2 = rep(NA,length(MaturityList))
@@ -37,21 +45,21 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     volatility_5[j] = PC5_volatility_fitted(MaturityList[j])
   }
   
-  #create function to populate HJM matrix (performance reason)
+  # create function to populate HJM matrix (performance reason)
   populate_row = function(i,mat,dX) {
     result = rep(NA,ncol(mat))
     #cat("row above:",mat[i-1,],"\n")
     #cat("j:",seq(1,ncol(mat)-1),"\n")
     for (j in seq(1,ncol(mat)-1)) 
     {
-      #Equation: F + drift*dt+SUM(vol*dX_i)*SQRT(dt)+dF/dtau*dt
+      # Equation: F + drift*dt+SUM(vol*dX_i)*SQRT(dt)+dF/dtau*dt
       result[j] = mat[i-1,j] + drift[j]*timestep + 
         sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3],volatility_4[j]*dX[i-1,4],volatility_5[j]*dX[i-1,5])*sqrt(timestep) +
         ((mat[i-1,j+1]-mat[i-1,j])/(maturityBucket))*timestep 
     }
     
-    #Last row 
-    #use backward difference for dF/dTau on last column
+    # Last row 
+    # use backward difference for dF/dTau on last column
     result[ncol(mat)] = mat[i-1,j] + drift[j]*timestep + 
       sum(volatility_1[j]*dX[i-1,1],volatility_2[j]*dX[i-1,2],volatility_3[j]*dX[i-1,3],volatility_4[j]*dX[i-1,4],volatility_5[j]*dX[i-1,5])*sqrt(timestep) +
       ((mat[i-1,j]-mat[i-1,j-1])/(
@@ -86,7 +94,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
   
   # Monte Carlo loop
   Result = foreach(k=1:NumberSimulation, .combine=rbind, .export=c("ComputeBondPrice","ComputeLIBORRates","ComputeCapPrice","ComputeCapletPrice","GetDiscountFactor","ComputeForwardStartingParSwapPrice","ComputePayerSwaptionPrice")) %dopar% {
-    #for (k in seq(1,NumberSimulation)) {    
+    # for (k in seq(1,NumberSimulation)) {    
     if (k%%(NumberSimulation/20) == 0) cat((k/NumberSimulation)*100,"% ...\n")
     # matrix init
     mat = matrix(NA, nrow=(NumberOfTimesteps+1),ncol=length(MaturityList),byrow = TRUE);
@@ -110,7 +118,6 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
     else if (instrument == "cap") {
       # Code for cap
       # We need the forward rates from t+0.25 to T
-      #libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,1,seq(1.25,5.00,by=0.25))
       libor_continuously_compounded_array = ComputeLIBORRates(mat,timestep,t,seq(t+0.25,max(T_array),by=0.25))
       libor_simply_compounded_array = 4*(exp(libor_continuously_compounded_array/4)-1) #3M compounding
       
@@ -186,7 +193,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       }
     }
     
-    #implied volatility computation
+    # Implied volatility computation
     libor_T = seq(t+0.25,max(T_array),by=0.25)
     libor = rep(NA,length(libor_T))
     if (length(libor_T) == 1) {
@@ -248,7 +255,7 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       }
     }
     
-    #implied volatility computation
+    # Implied volatility computation
     swap = rep(NA,length(T_array))
     if (length(T_array) == 1) {
       cat("Swap[",t,",",T_array,"]=",swap <- mean(Result[,"swap"]),"\n")
@@ -259,64 +266,21 @@ HeathJarrowMortonPricing = function(instrument,t,T_array,K_array,ForwardInputDat
       }
     }
     
-    iv = matrix(NA,nrow=length(K_array),ncol=length(T_array))
-    #print(price)
-    for (l in seq(1,length(T_array))) {
-      #cat("T=",T_array[l],"\n")
-      #  libor_list = libor[1:((T_array[l]-t)/0.25)]
-      #print(libor_list)
-      
-      for (j in seq(1,length(K_array))) {
-        #cat("l=",l,"j=",j,"\n")
-        #cat("t=",t,"T=",T=T_array[l],"K=",K_array[j],"swap=",swap[l],"premium=",price[j,l],"\n")
-        iv[j,l] = Black76SwaptionImpliedVolatility(t,T_array[l],K_array[j],swap[l],price[j,l])  
-      }
-    }
-    #print(iv)
+#     iv = matrix(NA,nrow=length(K_array),ncol=length(T_array))
+#     for (l in seq(1,length(T_array))) {    
+#       for (j in seq(1,length(K_array))) {
+#         iv[j,l] = Black76SwaptionImpliedVolatility(t,T_array[l],K_array[j],swap[l],price[j,l])  
+#       }
+#     }
     
-    return(list(price=price,iv=iv,swap=swap,simulation=simulation_array))
+    return(list(price=price,swap=swap,simulation=simulation_array))
   }
   
 }
 
-#Trapezium rule / integration
- integral_trapezium_rule = function(f,x0,xn,N) {
-  dx = (xn-x0)/N
-  
-  #0.5 * dx * ((y0 + yn) + 2 (y1 + y2 + ... + yn-1))
-  result = 0
-  
-  #yo / yn
-  #cat("y0:",f(x0),"\n")
-  #cat("yn:",f(xn),"\n")
-  result = result + 0.5 * f(x0) + 0.5 * f(xn)
-  
-  #y1 ... yn-1
-  for (i in seq(1,N-1)) {
-    #cat("y(",x0 + i*dx,"):",f(x0 + i*dx),"\n")
-    result = result + f(x0 + i*dx)  
-  }
-  
-  #multiply by dx
-  result = result * dx
-  
-  return(result)
-}
-
-#PC1_volatility_fitted = function(Tau) {
-#   return(0.0064306548)
-# }
- 
-# PC2_volatility_fitted = function(Tau) {
-#   return(-0.0035565431 + Tau*(-0.0005683999) + Tau^2 * 0.0001181915 + Tau^3 * (-0.0000035939))
-# }
- 
-# PC3_volatility_fitted = function(Tau) {
-#   return(-0.0047506715 + Tau * 0.0017541783 + Tau ^ 2 * (-0.0001415249) + Tau ^ 3 * 0.0000031274)
-# }
- 
+# Calculate the dirft (without the the part df/dtau) 
 M = function(Tau) {
-   # This funciton carries out integration for all principal factors. 
+   # This function carries out integration for all principal factors. 
    # It uses the fact that volatility is function of time in HJM model
    
    if (Tau == 0) {
@@ -326,25 +290,25 @@ M = function(Tau) {
      dTau = 0.01
      NumberOfSlice = floor(Tau/dTau)
      
-     #M1 / M2 / M3
-     #M1 = integral_trapezium_rule(PC1_volatility_fitted,0,Tau,NumberOfSlice)
-     #M2 = integral_trapezium_rule(PC2_volatility_fitted,0,Tau,NumberOfSlice)
-     #M3 = integral_trapezium_rule(PC3_volatility_fitted,0,Tau,NumberOfSlice)
+     #M1 / M2 / M3 / M4 / M5
      M1 = integrate(PC1_volatility_fitted_vector,0,Tau)$value
      M2 = integrate(PC2_volatility_fitted_vector,0,Tau)$value
      M3 = integrate(PC3_volatility_fitted_vector,0,Tau)$value
+     M4 = integrate(PC4_volatility_fitted_vector,0,Tau)$value
+     M5 = integrate(PC5_volatility_fitted_vector,0,Tau)$value
      
-     return(PC1_volatility_fitted(Tau)*M1+PC2_volatility_fitted(Tau)*M2+PC3_volatility_fitted(Tau)*M3)
+     return(PC1_volatility_fitted(Tau)*M1+PC2_volatility_fitted(Tau)*M2+PC3_volatility_fitted(Tau)*M3+PC4_volatility_fitted(Tau)*M4+PC5_volatility_fitted(Tau)*M5)
    }
 }
- 
+
+# Compute Bond price
 ComputeBondPrice = function(matrix,timestep,t, T) {
-   #row 1 of the matrix is the valuation forward curve
-   #row 2 is forward curve for valuation date + 1*timestep
-   #row 3 is forward curve for valuation date + 2*timestep
-   #first column of the matrix is the 1M forward which we use as proxy for r(t) (spot rate)
-   #Compute the bond price which start at time t and matures at time T 
-   #by integrating over the first column 
+   # row 1 of the matrix is the valuation forward curve
+   # row 2 is forward curve for valuation date + 1*timestep
+   # row 3 is forward curve for valuation date + 2*timestep
+   # first column of the matrix is the 1M forward which we use as proxy for r(t) (spot rate)
+   # Compute the bond price which start at time t and matures at time T 
+   # by integrating over the first column 
    t_index = t/timestep+1
    T_index = T/timestep+1  
    #cat("t_index:",t_index,"\n")
@@ -352,6 +316,7 @@ ComputeBondPrice = function(matrix,timestep,t, T) {
    return(exp(-1*sum((matrix[t_index:T_index,1])*timestep)))  
  }
  
+# Compute Libor rates
 ComputeLIBORRates = function(matrix,timestep,t,T_array) {
    t_index = t/timestep+1
    #cat("t_index:",t_index,"\n")
@@ -368,16 +333,17 @@ ComputeLIBORRates = function(matrix,timestep,t,T_array) {
    b2 = as.numeric(fit$coefficients["x2"])
    b3 = as.numeric(fit$coefficients["x3"])
    forward_curve_func = function(x) return(b0+b1*x+b2*x^2+b3*x^3)
-   #change libor formula
+   # libor formula: L = 1/tau * integral_0_tau(forward_curve)
    forward_curve_integration_func = function (x) (1/x)*integrate(forward_curve_func,0,x)$value
    
    return(sapply(T_array-t,forward_curve_integration_func))
 }
 
+# Compute cap price
 ComputeCapPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
-  #A cap can be decomposed into quaterly caplets 
-  #if t=0, the first caplet is skipped (no uncertainty)
-  #i.e a 1Y cap that starts at t=0 can be decomposed into 3 caplets (0.25-0.5, 0.5-0.75, 0.75-1.0)
+  # A cap can be decomposed into quaterly caplets 
+  # if t=0, the first caplet is skipped (no uncertainty)
+  # i.e a 1Y cap that starts at t=0 can be decomposed into 3 caplets (0.25-0.5, 0.5-0.75, 0.75-1.0)
   
   #define cashflows
   if (t == 0) {
@@ -411,21 +377,21 @@ ComputeCapPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
   return(value)
 }
  
- 
+# Compute caplet price 
 ComputeCapletPrice = function(t_start,t_end,K,libor,DiscountCurve) {
   #cat("libor=",libor,"/DF=",GetDiscountFactor(ValuationDateOISYieldCurve,t_end),"/Tau=",t_end-t_start,"\n")
   value = max(libor-K,0)*GetDiscountFactor(DiscountCurve,t_end)*(t_end-t_start)
   return(value)
 } 
  
-
+# Compute par swap rate for forward starting IRS
 ComputeForwardStartingParSwapPrice = function(matrix,timestep,t,T,DiscountCurve) {
-  #define cashflows. Fixed vs. Floating Swap with 3M frequency
+  # define cashflows. Fixed vs. Floating Swap with 3M frequency
   start_dates_array = seq(t,T-0.25,by=0.25)
   end_dates_array = seq(t+0.25,T,by=0.25)
   
-  #calculate libor rates (continuously componded) for each libor_date
-  #for 1*2 swap, we need 4 libor rates: [1,1.25], [1.25,1.50], [1.50,1.75], [1.75,2]
+  # calculate libor rates (continuously componded) for each libor_date
+  # for 1*2 swap, we need 4 libor rates: [1,1.25], [1.25,1.50], [1.50,1.75], [1.75,2]
   libor_rates_cont_comp = ComputeLIBORRates(matrix,timestep,t,end_dates_array)
   libor_rates_quaterly_comp = 4*(exp(libor_rates_cont_comp/4)-1)
   
@@ -450,6 +416,7 @@ ComputeForwardStartingParSwapPrice = function(matrix,timestep,t,T,DiscountCurve)
   return(value)  
 }  
  
+# Compute payer swaption price
 ComputePayerSwaptionPrice = function(matrix,timestep,t,T,K,DiscountCurve) {
   #Swaption pricing 
   #define cashflows

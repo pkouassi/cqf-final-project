@@ -1,4 +1,15 @@
-#quasirandom.nag(100,5,"sobol","C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll")
+#==============================================================================
+# title           :nag_library_wrapper.R
+# description     :define a wrapper around some NAG 64bit library functions
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
+
+# NAG Fortran library 64 bit (flw6i24dcl) needs to be installed in order to use these functions
+# On the development machine, NAG Fortran library 64 bit is installed at this path:
+# C://Program Files//NAG//FL24//flw6i24dcl//bin//FLW6I24DC_nag.dll"
+
 
 quasirandom.nag = function(n, dimension, gentype, dllpathname){
   #Fortran NAG library loading
