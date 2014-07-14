@@ -1,3 +1,11 @@
+#==============================================================================
+# title           :class_definition.R
+# description     :Defines common classes
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
+
 #YielcCurve
 setClass("YieldCurve",
          representation(

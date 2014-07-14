@@ -1,5 +1,12 @@
-#Credit Curve Bootstrapping
+#==============================================================================
+# title           :credit_curve_bootstrapping_functions.R
+# description     :Define function that bootstrap credit curve
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
 
+# Credit Curve Bootstrapping
 BootstrapCreditCurve = function (CDSCollection,RecoveryRate,YieldCurve) {
   #Credit Curve initialization
   CreditCurve = new ("CreditCurve", time = rep(NA,length(CDSCollection)), survivalprobability = rep(NA,length(CDSCollection)), hazardrate=rep(NA,length(CDSCollection)))
@@ -42,25 +49,12 @@ BootstrapCreditCurve = function (CDSCollection,RecoveryRate,YieldCurve) {
     }
   }
   
-  #DisplayCreditCurve = as.data.frame(matrix(ncol=5, nrow=length(CDSCollection)))
-  #names(DisplayCreditCurve) = c("Time", "MarketSpread","DF", "SurvivalProbability","HazardRate")
-  #for (i in seq(1,length(CDSCollection)) ) {
-  #  DisplayCreditCurve$Time[i] = CreditCurve@time[i] 
-  #  DisplayCreditCurve$MarketSpread[i] = CreditCurve@spread[i] 
-  #  DisplayCreditCurve$DF[i] = GetDiscountFactor(YieldCurve,CreditCurve@time[i]) 
-  #  DisplayCreditCurve$SurvivalProbability[i] = CreditCurve@survivalprobability[i] 
-  #  DisplayCreditCurve$HazardRate[i] = CreditCurve@hazardrate[i] 
-  #}  
-  #print(DisplayCreditCurve)
-  
   return(CreditCurve)
 }
 
 
-#gather historical yield curve
-#bootstrap credit curve for 1y data
-#IBM / first date
-
+# Gather historical yield curve
+# Bootstrap credit curve in the past
 BootstrapHistoricCreditCurve = function(HistCDSData,HistYieldCurve) {
   RecoveryRate = 0.40
   HistCreditCurve = matrix(list(),nrow(HistCDSData),3)

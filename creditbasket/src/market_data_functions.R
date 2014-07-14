@@ -1,4 +1,12 @@
-#Function that parse market data files (Markit) to fetch Historical CDS spreads 
+#==============================================================================
+# title           :market_data_functions.R
+# description     :Defines function that load his cds spreads and yield curve
+# author          :Bertrand Le Nezet
+# date            :20140713
+# version         :1.0    
+#==============================================================================
+
+# Function that parse market data files (Markit) to fetch Historical CDS spreads 
 parseHistoricalCreditData = function(pathname,ticker,ccy,docclause,start_date,end_date,frequency="daily") {
   files = list.files(path=pathname, pattern="*.csv", full.names=TRUE, recursive=FALSE)
   files_within_date_range = rep(NA,length(files))
@@ -71,8 +79,8 @@ parseHistoricalCreditData = function(pathname,ticker,ccy,docclause,start_date,en
   return(MarketData)
 }
 
-#Function that parse market data files (Bloomberg) to fetch Historical Yield Curve
-#We have only weekly data (fridays)
+# Function that parse market data files (Bloomberg) to fetch Historical Yield Curve
+# We have only weekly data (fridays)
 parseHistoricalYieldCurve = function(filename) {  
   historic_yielcurve=read.csv(paste(getwd(),filename,sep=""), header = TRUE,stringsAsFactors = FALSE)
   
