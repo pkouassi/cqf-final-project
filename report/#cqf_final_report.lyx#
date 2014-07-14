@@ -112,7 +112,7 @@ Bertrand Le Nézet
 January 2014 Cohort
 \end_layout
 
-\begin_layout Date
+\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -176,7 +176,8 @@ Interbank Offered Rate (IBOR) are daily reference rates based on the averaged
 Keywords
 \series default
 : Basket Default Swaps, Monte Carlo method, Gaussian copulae, Student t
- copulae
+ copulae, Heath–Jarrow–Morton, Principal Component Analysis, Caps, Floors,
+ Swpations
 \end_layout
 
 \begin_layout Abstract
@@ -307,7 +308,7 @@ We will study baskets with 5 reference names of 5 years maturity in order
 
 -to-default swap is calculated as an expectation over the joint distribution
  of default times and will be computed by sampling from copulae (using pseudo-ra
-ndom and quasi-random numbers).
+ndom and low-discrepancy numbers).
  We will explore 2 types of elliptical (Gaussian and Student t copulas)
  and compare the results we obtain.
  We use a LIBOR curve as discount curve for the historical credit curve
@@ -10351,7 +10352,7 @@ to default fair spread.
 \end_inset
 
 is (Figure 1.11).
- For instant the increase of the CDS spread from 50 basis points to 500
+ For instance the increase of the CDS spread from 50 basis points to 500
  basis points multiplies the 
 \begin_inset Formula $1^{st}$
 \end_inset
@@ -13336,35 +13337,70 @@ Convergence and stability
 
 \begin_layout Standard
 I have run 1,000,000 simulations using pseudo-random numbers (rnorm native
- function in R) and quasi-random numbers (Sobol, Niederreiter) through the
- NAG library.
- With this data, i have a convergence diagram that compares the convergence
+ function in R) and low-discrepancy numbers (Sobol, Niederreiter and Halton).
+ With this data, i obtain a convergence diagram that compares the convergence
  of these 3 types of numbers.
  The simulation that uses pseudo-random number is the slowest to converge:
  we can still observe significant variation in spread after 300,000 simulations.
  On the other hand, simulations that use Sobol and Niederreiter numbers
  seem to stabilize after 100,000 simulations.
+\end_layout
 
-\color red
- See Peter jackel lecture for more comments.
+\begin_layout Itemize
+Pseudo-random number generators can be used as number pipelines.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+These generators have no built-in mechanism for sampling efficiency (each
+ draw has no knowledge of the previous draw).
+ They typically lead to clusters and gaps which may or may not be desirable.
+ They emulate randomness.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Low-discrepancy number generators 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+These algorithms are designed to take advantage of our knowledge of the
+ dimensionality and ordering of importance of the given simulation problem
+ at hand.
+ It is an holistic scheme aiming for as little randomness as possible.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Monte carlo simulation using low-discrepancy numbers are, in theory, expected
+ to converge as 
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\[
+\thicksim c(d)\frac{(\log N)^{d}}{N}
+\]
 
-\color red
-Add Halton using r?
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-
-\color red
-Comments on accuracy???
+whereas the convergence using pseudo-random numbers is, expected to be
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\[
+\thicksim\frac{1}{\sqrt{N}}
+\]
 
-\color red
-include graph in color??? close-up on the end???
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -13384,7 +13420,10 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Sobol / Niederreiter / Rnorm convergence diagram
+Pseudo-random vs.
+ Sobol vs.
+ Niederreiter vs.
+ Halton convergence diagram for a first-to-default Basket CDS
 \end_layout
 
 \end_inset
@@ -13420,6 +13459,64 @@ Pricing code that allows pricing of
  reference names basket
 \end_layout
 
+\begin_layout Standard
+
+\color red
+There is also room for improvement in this implementation.
+ Here are some improvement opportunities:
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+Principal component analysis could be done on a covariance matrix which
+ includes monthly instantaneous forwards between 0 and 5 years (instea dof
+ just semi-annual instantaneous forwards)
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+Implement pricing algorithm in C++ to achieve better performance
+\end_layout
+
+\begin_layout Itemize
+Pros
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Usage of NAG
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+?????
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Cons
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Premium leg - annual payment.
+ standard is quaterly
+\end_layout
+
+\begin_layout Itemize
+Default leg - should be in discrete time (quaterly payment) instead of continuou
+s time
+\end_layout
+
+\begin_layout Itemize
+Should be implemented in C++ for better object oriented design and faster
+ computation (multithreading, etc.)
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Algorithm
 \end_layout
@@ -14017,47 +14114,6 @@ Discount factor (LIBOR curve) for 5Y
 
 \end_layout
 
-\begin_layout Subsubsection
-Pros and Cons
-\end_layout
-
-\begin_layout Itemize
-Pros
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Usage of NAG
-\end_layout
-
-\begin_layout Itemize
-
-\color red
-?????
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Cons
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Premium leg - annual payment.
- standard is quaterly
-\end_layout
-
-\begin_layout Itemize
-Default leg - should be in discrete time (quaterly payment) instead of continuou
-s time
-\end_layout
-
-\begin_layout Itemize
-Should be implemented in C++ for better design object oriented design and
- faster computation (multithreading, etc.)
-\end_layout
-
-\end_deeper
 \begin_layout Subsubsection
 Instructions and package description
 \end_layout
@@ -14821,7 +14877,7 @@ Introduction
 
 \begin_layout Standard
 The Heath–Jarrow–Morton (HJM) framework is a framework that model the evolution
- of the yield curve by representing the evolution of the instantenuous forward
+ of the yield curve by representing the evolution of the instantaneous forward
  rates.
  This model impose the no-arbitrage restriction: the drift can't be random
  and depends on the volatility of forward rates.
@@ -14831,8 +14887,8 @@ The Heath–Jarrow–Morton (HJM) framework is a framework that model the evolut
  and analysis of covariance matrices) to identify the major factors which
  influance the evolution of the yield curve before describing the projection
  of the forward curve and the pricing of various interest rate derivatives
- instrument using Monte Carlo simulation (using pseudo-random and quasi-random
- numbers).
+ instrument using Monte Carlo simulation (using pseudo-random and low-discrepanc
+y numbers).
  We use an OIS
 \begin_inset Foot
 status open
@@ -14882,11 +14938,11 @@ Forward rate
 \end_layout
 
 \begin_layout Definition
-Instantenuous forward rate
+Instantaneousforward rate
 \end_layout
 
 \begin_layout Definition
-The instantenuous forward rate 
+The instantaneous forward rate 
 \begin_inset Formula $f(t,T)$
 \end_inset
 
@@ -14951,7 +15007,7 @@ Single-factor HJM model
 \end_layout
 
 \begin_layout Definition
-The stochastic differential equation for an instantenuous forward rate is
+The stochastic differential equation for an instantaneous forward rate is
  written as:
 \end_layout
 
@@ -15095,7 +15151,7 @@ Single-factor HJM model (Musiela parametrization)
 \end_layout
 
 \begin_layout Definition
-The stochastic differential equation for an instantenuous forward rate (expresse
+The stochastic differential equation for an instantaneous forward rate (expresse
 d as a function of tenor time) is written as:
 \begin_inset Formula 
 \[
@@ -15650,7 +15706,7 @@ Since we know
 L(t;T) & = & -\frac{\log Z(t;T)}{T-t}\\
  & = & -\frac{\log(\exp(-\int_{t}^{T}f(t,s)\; ds))}{T-t}\\
  & = & \frac{1}{T-t}\int_{t}^{T}f(t,s)\; ds\\
- & = & \frac{1}{\tau}\int_{0}^{\tau}\overline{f}(t,s)\; ds\\
+ & = & \frac{1}{\tau}\int_{0}^{\tau}\overline{f}(t,s)\; ds
 \end{eqnarray*}
 
 \end_inset
@@ -15826,6 +15882,21 @@ Therefore, we can express the cap discounted payoff (price) as:
 \begin_inset Formula 
 \[
 \mbox{Cap}(t;T;K)=\sum_{i=1}^{n}Z(0,T_{i+1})\times\left(L(T_{i},T_{i+1})-K\right)^{+}\times\tau\times N
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+Buying a caop allows protection from increase in LIBOR rate:
+\end_layout
+
+\begin_layout Remark*
+\begin_inset Formula 
+\[
+L-(L-K)^{+}=\min(L,K)
 \]
 
 \end_inset
@@ -16924,9 +16995,9 @@ Discounting is a key aspect of pricing because interest rate derivatives
  swap rates) from for a wide range of maturities since 2009.
  Bank Of England publishes OIS discount rates from 1 month up to to 5 years
  (every month in between).
- Liquidity in OIS contracts beyond 5 years is limited; therfore BOE publish
- OIS curve only up to 5 years.
- OIS curve over 5 years generally use OIS spread over LIBOR.
+ Liquidity in OIS contracts beyond 5 years is limited; therefore BOE only
+ publishes OIS curve up to 5 years.
+ OIS curves over 5 years generally use OIS spread over LIBOR.
 \end_layout
 
 \begin_layout Standard
@@ -17553,7 +17624,7 @@ d\overline{f}(t,\tau)=\overline{m}(t,T)dt+\sum_{i=1}^{k}\overline{\nu}_{i}(t,\ta
 
 \begin_layout Standard
 Once the matrix is entirely populated, we perform the calculations required
- (calculation of Bond price, Libor rates, Cap, etc.) and store the results.
+ (calculation of Bond price, LIBOR rates, Cap, etc.) and store the results.
  We start then another simulation unless we have reached the number of simulatio
 ns required; in this case, we average all the results obtained for each
  simulation to obtain the expectation (price) of the instruments we are
@@ -17595,6 +17666,10 @@ Model and hypothesis
 
 .
  
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -17839,6 +17914,10 @@ NA
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Remark*
@@ -17880,11 +17959,11 @@ Calculate all the LIBOR rates required for the cap
 \end_layout
 
 \begin_layout Enumerate
-Price each caplet using the LIBOR rates (Definition 28)
+Price each caplet using the LIBOR rates (Definition 27)
 \end_layout
 
 \begin_layout Enumerate
-Calculate the cap price as the sum of the caplet prices (Definition 27)
+Calculate the cap price as the sum of the caplet prices (Definition 28)
 \end_layout
 
 \begin_layout Enumerate
@@ -17905,8 +17984,8 @@ Compute the implied volatility for the cap using Black76
 I have assumed quaterly payments for the caps (i.e.
  caplet maturity is 3M).
  The following prices have been obtained after running 30,000 simulations.
- I have priced caps for a wide range of strikes and swap tenors so that
- we can observe the volatility skew and the term structure.
+ I have priced caps for a wide range of strikes and maturities so that we
+ can observe the volatility skew and the term structure.
 \begin_inset Formula $\mbox{Cap}(t;T;K)$
 \end_inset
 
@@ -17971,14 +18050,15 @@ Volatility skew
 \end_layout
 
 \begin_layout Standard
-The below table shows the price (in basis point) and the implied volatility
+The below table displays the price (in basis point) and the implied volatility
  (%) of a 
 \begin_inset Formula $1\times3$
 \end_inset
 
  cap (2 year cap starting in one-year) for various strikes (0.1%,0.2%,0.5%,...,2%).
- As for the caplets, cap prices increase when strike decreases because the
- smaller the strike is, the larger cashflows the cap delivers.
+ As for the caplets (which are call on LIBOR), cap prices increase when
+ strike decreases because the smaller the strike is, the larger cashflows
+ the cap delivers.
  
 \begin_inset Newline newline
 \end_inset
@@ -18486,14 +18566,16 @@ The plot (Figure 2.5) shows the price (in basis point) of 4 caps (
 \begin_inset Formula $1\times2$
 \end_inset
 
- cap is only decomposed 
-\end_layout
+ cap can only be decomposed into 4 caplets; it makes sens intuitively that
+ the price of a 
+\begin_inset Formula $1\times5$
+\end_inset
 
-\begin_layout Itemize
+ cap is higher than the price of a 
+\begin_inset Formula $1\times2$
+\end_inset
 
-\color red
-the more an option is in the money the larger cashflow it delivers.
- the relationship is almost linear (same as with the caplet)
+ cap).
 \end_layout
 
 \begin_layout Standard
@@ -18533,15 +18615,45 @@ Cap volatility skew
 
 \end_layout
 
+\begin_layout Subsubsection*
+Volatility surface
+\end_layout
+
 \begin_layout Standard
-instert plot
+The below table displays the price (in basis point) and the implied volatility
+ (%) of various 4 caps (
+\begin_inset Formula $1\times2$
+\end_inset
+
+,
+\begin_inset Formula $1\times3$
+\end_inset
+
+,
+\begin_inset Formula $1\times4$
+\end_inset
+
+ and 
+\begin_inset Formula $1\times5$
+\end_inset
+
+) for various strikes.
+ 
 \end_layout
 
-\begin_layout Itemize
-volatility surface
+\begin_layout Standard
+As we have seen earlier, the price of a cap increases when the maturity
+ of the cap increases and the price of cap decreases when the strike increases.
+ On the other hand, the implied volatility of the cap decreases when the
+ maturity of the cap increases (implied volatility is an average of the
+ volatility across the life of the cap).
+ The implied volatility decreases when th strike increase.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="12">
@@ -19336,9 +19448,12 @@ T
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\end_deeper
 \begin_layout Standard
 \begin_inset Float figure
 wide false
@@ -19407,269 +19522,95 @@ Cap price surface
 \end_layout
 
 \begin_layout Subsubsection
-Swap pricing
+Swaption pricing
 \end_layout
 
 \begin_layout Standard
-explain notation
+The swaptions have been have been priced using the formula described in
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+Model and hypothesis
+\begin_inset Quotes erd
+\end_inset
+
+ section.
+ The pricing algorithm for one cap goes as follows:
+\end_layout
+
+\begin_layout Enumerate
+For each simulation:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calculate all the LIBOR rates required for the cap
+\end_layout
+
+\begin_layout Enumerate
+Calculate the swaption price (Definition 31)
+\end_layout
+
+\begin_layout Enumerate
+Store the swaption price
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Once all simulations are completed, obtain the cap price by averaging the
+ swaption price obtained for each simulation (expectation)
+\end_layout
+
+\begin_layout Enumerate
+Compute the implied volatility for the swaption using Black76 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="5">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
+I have assumed quaterly payments for the swaption.
+ The following prices have been obtained after running 30,000 simulations.
+ I have priced swaptions for a wide range of strikes and swap tenors so
+ that we can observe the volatility skew and the term structure.
+\begin_inset Formula $\mbox{PayerSwption}(t;T;K)$
+\end_inset
 
-\begin_layout Plain Layout
-\begin_inset Formula $\mbox{SwapParSpread}(t,T)$
+ is the price as of today 
+\begin_inset Formula $(time=0$
+\end_inset
+
+) of a swaption with strike 
+\begin_inset Formula $K$
+\end_inset
+
+ that expires at time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ If the swaption is exercised, the swaption payer will enter a payer swap
+ that starts at time 
+\begin_inset Formula $t$
+\end_inset
+
+ and matures at times 
+\begin_inset Formula $T$
+\end_inset
+
+ (i.e.
+ the maturity of the swap is 
+\begin_inset Formula $T-t$
+\end_inset
+
+).
+ This swap has 
+\begin_inset Formula $n$
+\end_inset
+
+ period of 3M each (
+\begin_inset Formula $n=\frac{T-t}{4}).$
 \end_inset
 
 
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-T (%)
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-t
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0087
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0183
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0298
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0424
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-NA
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0131
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0255
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0389
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-NA
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-NA
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0161
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0301
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-European swaptions
 \end_layout
 
 \begin_layout Itemize
@@ -21565,20 +21506,18 @@ Convergence and stability
 \end_layout
 
 \begin_layout Standard
-Comparison between Pseudo-random and Quasi random numbers (Sobol, Niederreiter,
- Faure).30,000 simul
-\end_layout
+I have run 30,000 simulations using pseudo-random numbers (rnorm native
+ function in R) and low-discrepancy numbers (Sobol and Halton).
+ I could not use Niederreiter numbers because their maximum dimension in
+ NAG is 318 (For one year projection - 100 timesteps - HJM requires a dimension
+ of 
+\begin_inset Formula $500=100\times5$
+\end_inset
 
-\begin_layout Standard
-===> Niederreiter not applicable because it's limited to 318 dimension (in
- nag lib)
-\end_layout
-
-\begin_layout Standard
-
-\color red
-Report on this topic should discuss model risk that comes from calibraiton
- (tting) of volatility functions and discounting curve (if involved).
+ where 5 is the number of factors in use).With this data, i obtain a convergence
+ diagram that compares the convergence of these 3 types of numbers.
+ The simulations that use pseudo-random number appears to be the slowest
+ to converge.
 \end_layout
 
 \begin_layout Standard
@@ -21601,7 +21540,10 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Convergence diagram for a cap price
+Pseudo-random vs.
+ Sobol vs.
+ Niederreiter vs.
+ Halton convergence diagram for a cap price
 \end_layout
 
 \end_inset
@@ -21623,29 +21565,136 @@ Highlights
 \end_layout
 
 \begin_layout Standard
-Integration with NAG
+The highlights of this implementation are summarized here:
 \end_layout
 
+\begin_layout Itemize
+Integration with NAG Fortran library
+\end_layout
+
+\begin_deeper
 \begin_layout Standard
+I have used the NAG Fortran library 64 bit
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This free trial license has been graciously given by the Numerical Algorithms
+ Group
+\end_layout
+
+\end_inset
+
+ (FLW6I24DCL) because it can be integrated smoothly with R 64 bit.
+ I have created a R function which first initialize a low-discrepancy number
+ generator (NAG routine G05YLF) and then 
+\begin_inset Quotes eld
+\end_inset
+
+draw
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ numbers for each dimension (NAG routine G05YJF).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
 Numerical integration for the drift
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
+Calculation of the HJM drift requires integration over the volatility fitted
+ function.
+ I have used R native numerical integration capabilities instead of using
+ the trapezium rule integration which works but is computationaly inefficient.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
 Numerical integration to calculate LIBOR
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
+In HJM, one of the way to calculate the LIBOR rates is to integrate over
+ the forward curve (
+\begin_inset Formula $L(t;T)=\frac{1}{\tau}\int_{0}^{\tau}\overline{f}(t,s)\; ds)$
+\end_inset
+
+.
+ I have fitted a cubic spline on the forward rate curve.
+ The result is quite precise since we have a lot of data points (we have
+ forwards for each month).
+ Finally, i perform numerical integration over this cubic spline to calculate
+ the LIBOR rates.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
 Multi-threading to improve performance
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
-Can calculate surface 
+One of the drawback of HJM is its poor performance.
+ Populating the projection matrix for each simulation uses a lot of computating
+ power (not to mention when we perform complex / heavy calculation when
+ we use this matrix).
+ R software is typically a single-threaded package; i have used R packages
+ like doPararallel, plyr and foreach to make the calculation multi-threaded
+ so that it can use all the processors available on my computer.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Dual-curve pricing 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+I have used the UK OIS discount curve to discount cashflows
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The core pricing function HeathJarrowMortonPricing() can price several instrumen
+ts (bonds, caps and swaptions) at the same time.
+ It makes it easy to perform analysis 
 \end_layout
 
 \begin_layout Standard
+There is also room for improvement in this implementation.
+ Here are some improvement opportunities:
+\end_layout
 
-\color red
-Newton-Raphson to calculate Implied Volatility
+\begin_layout Itemize
+Principal component analysis could be done on a covariance matrix which
+ includes monthly instantaneous forwards between 0 and 5 years (instea dof
+ just semi-annual instantaneous forwards)
+\end_layout
+
+\begin_layout Itemize
+Get a 
+\begin_inset Quotes eld
+\end_inset
+
+longer
+\begin_inset Quotes erd
+\end_inset
+
+ OIS spot curve (use OIS spread over LIBOR beyond 5 years for instance)
+ in order to price caps and swaptions with maturities beyond 5 years
+\end_layout
+
+\begin_layout Itemize
+Implement pricing algorithm in C++ to achieve better performance and get
+ a cleaner object oriented design
 \end_layout
 
 \begin_layout Subsubsection
@@ -21653,8 +21702,59 @@ Market data
 \end_layout
 
 \begin_layout Standard
-GBP historical forward curves obtained from Bank Of England..
- website
+Two types of market data have been required for this implementation:
+\end_layout
+
+\begin_layout Itemize
+Historical instantaneous forward curve
+\end_layout
+
+\begin_layout Itemize
+OIS spot curve
+\end_layout
+
+\begin_layout Subsubsection*
+Historical instantaneous forward curve
+\end_layout
+
+\begin_layout Standard
+Historical instantaneous forward rate have been downloaded from the Bank
+ of England website
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+http://www.bankofengland.co.uk/statistics/Pages/yieldcurve/archive.aspx
+\end_layout
+
+\end_inset
+
+ (BLC - Commercial bank liability curve).
+ Data comes as two data sets: one for the short-end of the curve (0-5 years;
+ data for each month) and one for the full curve (0-25 years; data for every
+ six months).
+ The one-month rate was taken from the short-end data set, the rest of the
+ data came from the full curve data set.
+ Minimum data clean-up (exclude public holidays) was required as the data
+ has already been cleansed by Bank of England.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+OIS spot curve
+\end_layout
+
+\begin_layout Standard
+Pricing is performed using 30-May-2014 as valuation date.
+ The OIS spot curve has been downloaded from the Bank of England website
+ (UK OIS spot curve).
+ Discounting rates are given for tenors from 0 to 5 years (data for every
+ six months).
+ Liquidity in OIS contracts beyond 5 years is limited; therefore BOE only
+ publishes OIS curve up to 5 years.
+ Minimum data clean-up (exclude public holidays) was required as the data
+ has already been cleansed by Bank of England.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -21667,29 +21767,32 @@ The algorithm implemented for this project (Interest Rate Derivatives using
 \end_layout
 
 \begin_layout Enumerate
-Load 
+Load historical forward rates (LIBOR forward curve) and OIS discount rates
+ (OIS spot curve) - 
+\shape italic
+market_data_loading.R
 \end_layout
 
-\begin_layout Subsubsection
-Pros and Cons
+\begin_layout Enumerate
+Perform principal component analysis - 
+\shape italic
+principal_component_analysis.R
 \end_layout
 
-\begin_layout Standard
-Cons: did not use monthly forward for PCA
+\begin_deeper
+\begin_layout Enumerate
+calculate historical log differences instantaneous forward rates matrix
 \end_layout
 
-\begin_layout Standard
-Cons: very computing intensive
+\begin_layout Enumerate
+calculate covariance matrix
 \end_layout
 
-\begin_layout Standard
-Pro: numerical integration instead of trapezium rule
+\begin_layout Enumerate
+diagonalise the covaria
 \end_layout
 
-\begin_layout Standard
-Pro: dual-curve - OIS
-\end_layout
-
+\end_deeper
 \begin_layout Subsubsection
 Instructions and package description
 \end_layout

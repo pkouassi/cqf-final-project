@@ -4,7 +4,7 @@ quasirandom.nag = function(n, dimension, gentype, dllpathname){
   #Fortran NAG library loading
   dyn.load(dllpathname)
   
-  #initialization of the quasi-random generator
+  #initialization of the low-discrepancy number generator
   if (gentype == "sobol") {
     genid = 1
   }
@@ -25,7 +25,7 @@ quasirandom.nag = function(n, dimension, gentype, dllpathname){
   ifail = 1
   ans_init = .Fortran("G05YLF",genid=as.integer(genid),idim=as.integer(idim),iref=iref,liref=as.integer(liref),iskip=as.integer(1),ifail=as.integer(ifail))
   
-  #generation of the quasi-random numbers
+  #generation of the low-discrepancy numbers
   xmean = rep(0,idim)
   std = rep(1,idim)
   quas = matrix(numeric(1),n,idim)
