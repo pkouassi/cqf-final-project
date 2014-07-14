@@ -14184,16 +14184,12 @@ Instructions and package description
 \end_layout
 
 \begin_layout Standard
-T
-\color red
-his program has been written using R (version 3.1.0, 64-bit) and Rstudio as
- IDE.
+This program has been written using R (version 3.1.0, 64-bit) and Rstudio
+ as IDE.
  In order to launch this program, please follow this procedure:
 \end_layout
 
 \begin_layout Enumerate
-
-\color red
 Copy the whole folder 
 \begin_inset Quotes eld
 \end_inset
@@ -14211,8 +14207,6 @@ creditbasket)
 \end_layout
 
 \begin_layout Enumerate
-
-\color red
 Open the file 
 \begin_inset Quotes eld
 \end_inset
@@ -14238,8 +14232,6 @@ master_program.R)
 \end_layout
 
 \begin_layout Enumerate
-
-\color red
 Update the value of the variable 
 \series bold
 current_dir
@@ -14249,27 +14241,21 @@ current_dir
 \end_layout
 
 \begin_layout Enumerate
-
-\color red
 Launch R
 \end_layout
 
 \begin_layout Enumerate
-
-\color red
 type: source ("C:/temp/creditbasket/src/master_program.R") (replace the path
  to master_program.R to match your environment)
 \end_layout
 
 \begin_layout Enumerate
-
-\color red
 The program will start.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="18" columns="3">
+<lyxtabular version="3" rows="17" columns="3">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="left" valignment="top" width="3cm">
 <column alignment="left" valignment="top" width="4cm">
@@ -14321,7 +14307,7 @@ Description
 \size footnotesize
 .
 \backslash
-interestrate-hjm
+creditbasket
 \end_layout
 
 \end_inset
@@ -14356,7 +14342,7 @@ Top folder
 \size footnotesize
 .
 \backslash
-interestrate-hjm
+creditbasket
 \backslash
 src
 \end_layout
@@ -14516,8 +14502,8 @@ market_data_functions.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Defines the function that loads the forward curve (BLC) and the OIS spot
- curve
+Defines the function that loads the historical CDS spreads and the historical
+ discount curve
 \end_layout
 
 \end_inset
@@ -14550,7 +14536,7 @@ market_data_loading.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Loads historical forward curve (short and long end) and load OIS spot curve
+Loads historical CDS spreads and the historical discount curve
 \end_layout
 
 \end_inset
@@ -14572,13 +14558,13 @@ Loads historical forward curve (short and long end) and load OIS spot curve
 \begin_layout Plain Layout
 
 \size footnotesize
-jacobi_transformation
+credit_curve_bootstrapping_
 \end_layout
 
 \begin_layout Plain Layout
 
 \size footnotesize
-_functions.R
+functions.R
 \end_layout
 
 \end_inset
@@ -14589,7 +14575,41 @@ _functions.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Defines functions required for the Jacobi transformation
+Defines the functions that bootstrap credit curve
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+default_probability_correlation_matrix.R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Estimate Gaussian correlation matrix, Student's T correlation matrix and
+ degree of freedom
 \end_layout
 
 \end_inset
@@ -14611,13 +14631,7 @@ Defines functions required for the Jacobi transformation
 \begin_layout Plain Layout
 
 \size footnotesize
-principal_component
-\end_layout
-
-\begin_layout Plain Layout
-
-\size footnotesize
-_analysis.R
+estimate_marginal_hazard_rates.R
 \end_layout
 
 \end_inset
@@ -14628,41 +14642,7 @@ _analysis.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Performs principal component analysis
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-black76.R
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Defines Black76 function, cap/caplets and swaptions pricing functions that
- use Black76
+Calculate marginal hazard rates
 \end_layout
 
 \end_inset
@@ -14717,13 +14697,7 @@ Defines a function that allows R to call the NAG Fortran 64 bit library
 \begin_layout Plain Layout
 
 \size footnotesize
-monte_carlo
-\end_layout
-
-\begin_layout Plain Layout
-
-\size footnotesize
-_simulation_functions.R
+gaussian_copula_functions.R
 \end_layout
 
 \end_inset
@@ -14734,8 +14708,8 @@ _simulation_functions.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Main pricing functions: Monte Carlo loop and bond pricing, libor calculation,
- cap/caplet pricing and swaption pricing within one simulation matrix
+Defines main pricing functions for Gaussian copulae: Monte Carlo loop and
+ kth-to-default basket spread pricing
 \end_layout
 
 \end_inset
@@ -14757,13 +14731,7 @@ Main pricing functions: Monte Carlo loop and bond pricing, libor calculation,
 \begin_layout Plain Layout
 
 \size footnotesize
-monte_carlo
-\end_layout
-
-\begin_layout Plain Layout
-
-\size footnotesize
-_simulation.R
+student_t_copula_functions.R
 \end_layout
 
 \end_inset
@@ -14774,45 +14742,8 @@ _simulation.R
 \begin_layout Plain Layout
 
 \size footnotesize
-Calls above mentionned functions; plots volatility surfaces and convergence
- diagrams
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-.
-\backslash
-interestrate-hjm
-\backslash
-data
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Folder containing market data files
+Defines main pricing functions for Student's T copulae: Monte Carlo loop
+ and kth-to-default basket spread pricing
 \end_layout
 
 \end_inset
@@ -14834,13 +14765,13 @@ Folder containing market data files
 \begin_layout Plain Layout
 
 \size footnotesize
-ukblc05_mdaily_
+sampling_from_gaussian_
 \end_layout
 
 \begin_layout Plain Layout
 
 \size footnotesize
-fwdcurve_shortend.csv
+copula.R
 \end_layout
 
 \end_inset
@@ -14851,7 +14782,8 @@ fwdcurve_shortend.csv
 \begin_layout Plain Layout
 
 \size footnotesize
-BOE BLC forward curve (short end)
+Calls above mentionned functions; display kth-to-default basket spread and
+ plots convergence diagrams
 \end_layout
 
 \end_inset
@@ -14873,13 +14805,7 @@ BOE BLC forward curve (short end)
 \begin_layout Plain Layout
 
 \size footnotesize
-ukblc05_mdaily_
-\end_layout
-
-\begin_layout Plain Layout
-
-\size footnotesize
-fwdcurve_longend.csv
+sampling_from_student_t_copula.R
 \end_layout
 
 \end_inset
@@ -14890,7 +14816,8 @@ fwdcurve_longend.csv
 \begin_layout Plain Layout
 
 \size footnotesize
-BOE BLC forward curve (long end)
+Calls above mentionned functions; display kth-to-default basket spread and
+ plots convergence diagrams
 \end_layout
 
 \end_inset
@@ -14902,6 +14829,21 @@ BOE BLC forward curve (long end)
 
 \begin_layout Plain Layout
 
+\size footnotesize
+.
+\backslash
+creditbasket
+\backslash
+data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -14912,24 +14854,9 @@ BOE BLC forward curve (long end)
 \begin_layout Plain Layout
 
 \size footnotesize
-ukois09_mdaily_
-\end_layout
-
-\begin_layout Plain Layout
-
-\size footnotesize
-spotcurve.csv
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-BOE OIS spot curve
+Folder containing market data files.
+ Various market data files for CDS spreads, stock returns historical yield
+ curve
 \end_layout
 
 \end_inset
@@ -21578,6 +21505,7 @@ G.
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
+label "2"
 key "key-2"
 
 \end_inset
@@ -21597,25 +21525,38 @@ C# for Financial Market
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-key "key-1"
+label "3"
+key "key-3"
 
 \end_inset
 
 J.
- H
+ Hull
 \shape italic
-ull.
- Options, Futures, and Other Derivatives
+.
+ Options, Futures, and Other Derivatives.
+ 
+\shape default
+Pearson Education
 \end_layout
 
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-key "key-1"
+label "4"
+key "key-4"
 
 \end_inset
 
-Duffie [1998]
+D.
+ Brigo and F.
+ Mercurio.
+ 
+\shape italic
+Interest Rate Models – Theory and Practice
+\shape default
+.
+ Springer
 \end_layout
 
 \end_body
