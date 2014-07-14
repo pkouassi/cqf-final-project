@@ -60,21 +60,22 @@ ans_student11 = BasketCDSPricing_StudentTCopula(c(cc_100,cc_100,cc_100,cc_100,cc
 ans_student12 = BasketCDSPricing_StudentTCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.60,1000000,"nag-sobol")
 
 #yield curve
+nbsim=100000
 yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.01*x)))
-cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
-ans_student13 = BasketCDSPricing_StudentTCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,1000000,"nag-sobol")
+cc_100 = GetFlatCreditCurve(100,yieldcurve_flat)
+ans_student13 = BasketCDSPricing_StudentTCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,nbsim,"nag-sobol")
 
 yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.02*x)))
-cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
-ans_student14 = BasketCDSPricing_StudentTCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,1000000,"nag-sobol")
+cc_100 = GetFlatCreditCurve(100,yieldcurve_flat)
+ans_student14 = BasketCDSPricing_StudentTCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,nbsim,"nag-sobol")
 
 yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.03*x)))
-cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
-ans_student15 = BasketCDSPricing_StudentTCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,1000000,"nag-sobol")
+cc_100 = GetFlatCreditCurve(100,yieldcurve_flat)
+ans_student15 = BasketCDSPricing_StudentTCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,nbsim,"nag-sobol")
 
-yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.05*x)))
-cc_50 = GetFlatCreditCurve(50,yieldcurve_flat)
-ans_student16 = BasketCDSPricing_StudentTCopula(c(cc_50,cc_50,cc_50,cc_50,cc_50),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,1000000,"nag-sobol")
+yieldcurve_flat = new ("YieldCurve", time = c(1,2,3,4,5), discountfactor = sapply(seq(1,5),function (x) exp(-0.04*x)))
+cc_100 = GetFlatCreditCurve(100,yieldcurve_flat)
+ans_student16 = BasketCDSPricing_StudentTCopula(c(cc_100,cc_100,cc_100,cc_100,cc_100),yieldcurve_flat,UniformCorrelationMatrix(0.3,5),deg_freedom,0.40,nbsim,"nag-sobol")
 
 
 # X = c(1,2,4,5)
