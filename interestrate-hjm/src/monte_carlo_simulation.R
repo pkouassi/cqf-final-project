@@ -58,9 +58,6 @@ ans_hjm4 = HeathJarrowMortonPricing("cap",1,maturity_list,strike_list,ValuationD
 # Requires NAG
 #ans_hjm5 = HeathJarrowMortonPricing("swap",1,c(2,3,4,5),NA,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim,"nag-sobol")
 
-# Cap pricing using halton
-ans_hjm6 = HeathJarrowMortonPricing("cap",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim,"halton")
-
 #==============================================================================
 # Swap pricing - 100 simulations (to keep it fast for the demo)
 #==============================================================================
@@ -90,8 +87,6 @@ persp(strike_list*100, maturity_list, ans_hjm8$price*10000 ,phi = 10, theta = 45
 # Swaption pricing using rnorm
 ans_hjm9 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim,"rnorm")
 
-# Swaption pricing using halton
-ans_hjm10 = HeathJarrowMortonPricing("swaption",1,maturity_list,strike_list,ValuationDateForwardCurve$rate/100,ValuationDateOISYieldCurve,nbsim,"halton")
 
 
 
