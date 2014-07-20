@@ -1,0 +1,260 @@
+%% LyX 2.1.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english,noae]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{esint}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+<<echo=F>>=
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+@
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\title{Quantitative Finance - Formula Sheet}
+
+\maketitle
+
+\subsection*{Transition probability functions}
+
+
+\subsubsection*{Forward Kolmogorov Equation (Fokker-Plank equation)}
+
+The variable $y$ takes the value $y'$ at time $t'$ but how did
+it get there?
+
+\includegraphics{pasted1}
+
+$\frac{\partial p}{\partial t'}=c^{2}\frac{\partial^{2}p}{\partial y'^{2}}$
+
+This equation is to be used if there is some special state now and
+you want to know what could happen later. For example, you know the
+current value of $y$ and you want ot knwo the distribution of value
+at some later date.
+
+This is a partial differential equation for $p$ as a function of
+2 independent variables $y'$ and $t$'. $y$ and $t$ are rather
+like parameters in this problem.
+
+
+\subsubsection*{Backward Kolmogorov Equation}
+
+The backward equation will be usefull if we want to calculate probabilities
+of reaching a specified final state from various initial state.
+
+\includegraphics{pasted2}
+
+$\frac{\partial p}{\partial t}+c^{2}\frac{\partial^{2}p}{\partial y{}^{2}}=0$
+
+
+\subsubsection*{Solving Kolmogorov Equation - to review}
+
+
+\subsubsection*{Forward Kolmogorov Equation }
+
+Consider an arbitrary random walk for the the variable $y$:
+
+$dy=A(y,t)dt,+B(y,t)dX$
+
+The transition probability density function $p(y,t,y',t')$ is defined
+by
+
+$\mbox{Prob}\left(a<y'<b\mbox{at time }t'|y\mbox{ at time }t\right)=\int_{a}^{b}p(y,t,y',t')dy'$
+
+(that's the probability that the random variable $y'$ lies between
+$a$ and $b$ at the time $t'$ ikn the future, given that it started
+out with values $y$ at time $t$)
+
+FKE for this arbitrary random walk: $\frac{\partial p}{\partial t'}=\frac{1}{2}\frac{\partial^{2}}{\partial y'^{2}}(B(y',t')^{2}p)-\frac{\partial}{\partial y'}(A(y',t')p)$
+
+
+\subsubsection*{Steady-state distribution}
+
+Some random walks have a stead-state distribution
+
+In the long run, as $t'\rightarrow\infty$, the distribution $p(y,t;y',t')$
+as a function of $y'$ settles down to be independant of the starting
+state $y$ and $t$.
+
+If $p_{\infty}$ exists, the it satisfies the Forward Kolmogorov Equation
+(FKE) with the time dependant term $\frac{\partial p_{\infty}}{\partial t}=0$
+
+i.e. $\frac{1}{2}\frac{\partial^{2}}{\partial y'^{2}}(B(y',t')^{2}p_{\infty})-\frac{\partial}{\partial y'}(A(y',t')p_{\infty})=0$
+
+
+\subsection*{Stochastic calculus}
+
+
+\subsubsection*{Brownian Motion}
+
+$X$ is the ``end result'' of a random walk, up to time $t$. $dX$
+is the increment in X over $dt$
+
+$dX\thicksim\sqrt{dt}$
+
+$dX^{2}$ term becomes $dt$
+
+$dX_{1}dX_{2}=\rho dt$
+
+In stochastic calculus, there are 2 variables: the time $t$ and the
+Brownian motion $X$.
+
+$dF=\ldots dt+\ldots dX$
+
+
+\subsubsection*{Ito's Lemma for $F(X)$ ; $X(t)$ being the standard Brownian motion }
+
+$dF=\frac{dF}{dX}dX+\frac{1}{2}\frac{d^{2}F}{dX^{2}}dt$
+
+$F(X(t))=f(X(0))+\int_{0}^{t}\frac{dF}{dX}(X(\tau))dX(\tau)+\frac{1}{2}\int_{0}^{t}\frac{d^{2}F}{dX^{2}}(X(\tau))d\tau$
+
+
+\subsubsection*{Ito's Lemma for $F(X,t)$; $X(t)$ being the standard Brownian motion }
+
+$dF=\frac{dF}{dt}dt+\frac{dF}{dX}dX+\frac{1}{2}\frac{d^{2}F}{dX^{2}}dt$
+
+
+\subsubsection*{Ito's Lemma for $F(S)$; $S(t)$ being a Brownian motion ($dS=a(S)dt+b(S)dX)$}
+
+$dF=\left[a(S)\frac{dF}{dt}+\frac{1}{2}b(S)^{2}\frac{d^{2}F}{dS{}^{2}}\right]dt+b(S)\frac{dF}{dS}dX$
+
+
+\subsubsection*{Ito's Lemma for $F(St)$; $S(t)$ being a Brownian motion ($dS=a(S,t)dt+b(S,t)dX)$}
+
+$dF=\frac{dF}{dt}dt+\frac{dF}{dS_{1}}dS_{1}+\frac{dF}{dS_{2}}dS_{2}+\frac{1}{2}b_{1}^{2}\frac{\partial^{2}F}{\partial S_{1}^{2}}+\frac{1}{2}b_{2}^{2}\frac{\partial^{2}F}{\partial S_{2}^{2}}+\rho b_{1}b_{2}\frac{\partial^{2}F}{\partial S_{1}\partial S_{2}}$
+
+$dF=\frac{dF}{dt}dt+\frac{dF}{dS}dX+\frac{1}{2}\sigma^{2}S^{2}\frac{d^{2}F}{dS{}^{2}}dt$
+
+
+\subsubsection*{Special case}
+
+
+\subsubsection*{S geometric Brownian motion ($dS=\mu Sdt+\sigma SdX)$ and $F=\log(S)$}
+
+$dF=(\mu-\frac{1}{2}\sigma^{2})dt+\sigma dX$
+
+$S(t)=S_{0}\exp((\mu-\frac{1}{2}\sigma^{2})t+\sigma X(t))$
+
+Stochastic differential equations
+
+
+\subsubsection*{Probability measure}
+
+\includegraphics{prob_measure}
+
+
+\subsubsection*{Probabilities and Expectations}
+
+$\mathbb{E}[h(X)]=\int_{\mathbb{R}}h(x)p(x)\; dx=\int_{\mathbb{R}}h(x)\; d(P(x))$
+
+where p if the PDF and P is the CDF
+
+example:
+
+$h(x)=\left[x-K\right]^{+}=\max\left[x-K,0\right]$
+
+i.e. $\mathbb{E}\left[\left[x-K\right]^{+}\right]=\int_{-\infty}^{\infty}\left[x-K\right]^{+}\; d(P(x))=\int_{K}^{\infty}(x-K)\; d(P(x))=\frac{1}{\sqrt{2\pi\sigma}}\int_{K}^{\infty}(x-K)\exp\left\{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\right\} dx$
+
+
+\subsubsection*{Properties of Conditional Expectations}
+\begin{enumerate}
+\item Linearity
+
+
+$\mathbb{E}\left[aX+bY|\mathcal{F}\right]=a\mathbb{E}\left[X|\mathcal{F}\right]+b\mathbb{E}\left[Y|\mathcal{F}\right]$
+
+\item Tower property (i.e Iterated Expectations):
+
+
+If $\mathcal{F\subset\mathcal{G}}$, $\mathbb{E}\left[\mathbb{E}\left[X|\mathcal{G}\right]|\mathcal{F}\right]=\mathbb{E}\left[X|\mathcal{F}\right]$
+
+\item Special case of Tower property
+
+
+$\mathbb{E}\left[\mathbb{E}\left[X|\mathcal{F}\right]\right]=\mathbb{E}\left[X\right]$
+(``no filtration'' is always a smaller set than any filtration)
+
+\item Taking out what is known
+
+
+if $X$ is $\mathcal{F}$-measurable, then the value of $X$ is known
+once we know $\mathcal{F}$. Therefore, $\mathbb{E}[X|\mathcal{F}]=X$
+
+\item Taking out what is known (2)
+
+
+by extension, if $X$ is $\mathcal{F}$-measurable but not $Y$, $\mathbb{E}[XY|\mathcal{F}]=X\mathbb{E}[Y|\mathcal{F}]$
+
+\item Independance
+
+
+if $X$ is independent from $\mathcal{F}$, then knowing $\mathcal{F}$
+is useless to predict the value of $X$. Hence, $\mathbb{E}[X|\mathcal{F}]=\mathbb{E}[X]$
+
+\item Positivity
+
+
+if $X\geq0$ then $\mathbb{E}[X|\mathcal{F}]\geq0]$
+
+\item Jensen's Inequaltiy
+
+
+let $f$ be a convex function, then $f(\mathbb{E}[X|\mathcal{F}])\leq\mathbb{E}\left[f(X)|F\right]$
+
+\end{enumerate}
+
+\subsubsection*{Martingales}
+\begin{itemize}
+\item Martingales as a class of stochastic process
+\item Exponentional martingales, whoch are a specific and extremly useful
+example of martingale
+\item Equivalent martingale measures, where we look for a probability measure
+$\mathbb{Q}$ such that a given stochastic process $S(t)$ is a martingales
+under $\mathbb{Q}$regardless of its nature under $\mathbb{P}$.The
+correspondance between the measures $\mathbb{P}$and$\mathbb{Q}$
+is done through a change of measure.
+\end{itemize}
+
+\subsubsection*{Proving that a discrete time process is a martingale}
+
+This is done in 2 steps:
+\begin{enumerate}
+\item show that the expectation exists, i.e. $\mathbb{E}\left[|X_{n}|\right]<\infty$
+\item show that the process is driftless, i.e. $\mathbb{E}\left[X_{n}|\mathcal{F}_{m}\right]=X_{m}$
+for $m<n$
+\end{enumerate}
+\includegraphics{discrete_time_martingale}
+
+
+\subsubsection*{ftless }
+
+\Sexpr{mean(seq(1,77))}
+
+«echo=TRUE, results="verbatim"»= 
+x <- 1:10 mean(x) 
+@
+
+
+Binomial models
+
+Balck-Scholes and Greeks
+
+All numerical methods (Finite difference, Monte carlo)
+
+Exotics
+
+Interest rate modelling
+
+Stock vol and Jump diffusion
+\end{document}

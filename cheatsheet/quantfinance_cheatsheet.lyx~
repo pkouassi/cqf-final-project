@@ -182,6 +182,130 @@ The backward equation will be usefull if we want to calculate probabilities
 Solving Kolmogorov Equation - to review
 \end_layout
 
+\begin_layout Subsubsection*
+Forward Kolmogorov Equation 
+\end_layout
+
+\begin_layout Standard
+Consider an arbitrary random walk for the the variable 
+\begin_inset Formula $y$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dy=A(y,t)dt,+B(y,t)dX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The transition probability density function 
+\begin_inset Formula $p(y,t,y',t')$
+\end_inset
+
+ is defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mbox{Prob}\left(a<y'<b\mbox{at time }t'|y\mbox{ at time }t\right)=\int_{a}^{b}p(y,t,y',t')dy'$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(that's the probability that the random variable 
+\begin_inset Formula $y'$
+\end_inset
+
+ lies between 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ at the time 
+\begin_inset Formula $t'$
+\end_inset
+
+ ikn the future, given that it started out with values 
+\begin_inset Formula $y$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+FKE for this arbitrary random walk: 
+\begin_inset Formula $\frac{\partial p}{\partial t'}=\frac{1}{2}\frac{\partial^{2}}{\partial y'^{2}}(B(y',t')^{2}p)-\frac{\partial}{\partial y'}(A(y',t')p)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Steady-state distribution
+\end_layout
+
+\begin_layout Standard
+Some random walks have a stead-state distribution
+\end_layout
+
+\begin_layout Standard
+In the long run, as 
+\begin_inset Formula $t'\rightarrow\infty$
+\end_inset
+
+, the distribution 
+\begin_inset Formula $p(y,t;y',t')$
+\end_inset
+
+ as a function of 
+\begin_inset Formula $y'$
+\end_inset
+
+ settles down to be independant of the starting state 
+\begin_inset Formula $y$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $p_{\infty}$
+\end_inset
+
+ exists, the it satisfies the Forward Kolmogorov Equation (FKE) with the
+ time dependant term 
+\begin_inset Formula $\frac{\partial p_{\infty}}{\partial t}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $\frac{1}{2}\frac{\partial^{2}}{\partial y'^{2}}(B(y',t')^{2}p_{\infty})-\frac{\partial}{\partial y'}(A(y',t')p_{\infty})=0$
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Stochastic calculus
 \end_layout
@@ -237,6 +361,13 @@ end result
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula $dX_{1}dX_{2}=\rho dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 In stochastic calculus, there are 2 variables: the time 
 \begin_inset Formula $t$
 \end_inset
@@ -274,6 +405,13 @@ Ito's Lemma for
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula $F(X(t))=f(X(0))+\int_{0}^{t}\frac{dF}{dX}(X(\tau))dX(\tau)+\frac{1}{2}\int_{0}^{t}\frac{d^{2}F}{dX^{2}}(X(\tau))d\tau$
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection*
 Ito's Lemma for 
 \begin_inset Formula $F(X,t)$
@@ -295,7 +433,7 @@ Ito's Lemma for
 
 \begin_layout Subsubsection*
 Ito's Lemma for 
-\begin_inset Formula $F(S,t)$
+\begin_inset Formula $F(S)$
 \end_inset
 
 ; 
@@ -303,14 +441,14 @@ Ito's Lemma for
 \end_inset
 
  being a Brownian motion (
-\begin_inset Formula $dS=μSdt+σSdX)$
+\begin_inset Formula $dS=a(S)dt+b(S)dX)$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $dF=\frac{dF}{dt}dt+\frac{dF}{dS}dS+\frac{1}{2}\sigma^{2}S^{2}\frac{d^{2}F}{dS{}^{2}}dt$
+\begin_inset Formula $dF=\left[a(S)\frac{dF}{dt}+\frac{1}{2}b(S)^{2}\frac{d^{2}F}{dS{}^{2}}\right]dt+b(S)\frac{dF}{dS}dX$
 \end_inset
 
 
@@ -318,7 +456,59 @@ Ito's Lemma for
 
 \begin_layout Subsubsection*
 Ito's Lemma for 
-\begin_inset Formula $F(S_{1},\ldots,S_{d},t)$
+\begin_inset Formula $F(St)$
+\end_inset
+
+; 
+\begin_inset Formula $S(t)$
+\end_inset
+
+ being a Brownian motion (
+\begin_inset Formula $dS=a(S,t)dt+b(S,t)dX)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dF=\frac{dF}{dt}dt+\frac{dF}{dS_{1}}dS_{1}+\frac{dF}{dS_{2}}dS_{2}+\frac{1}{2}b_{1}^{2}\frac{\partial^{2}F}{\partial S_{1}^{2}}+\frac{1}{2}b_{2}^{2}\frac{\partial^{2}F}{\partial S_{2}^{2}}+\rho b_{1}b_{2}\frac{\partial^{2}F}{\partial S_{1}\partial S_{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dF=\frac{dF}{dt}dt+\frac{dF}{dS}dX+\frac{1}{2}\sigma^{2}S^{2}\frac{d^{2}F}{dS{}^{2}}dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Special case
+\end_layout
+
+\begin_layout Subsubsection*
+S geometric Brownian motion (
+\begin_inset Formula $dS=μSdt+σSdX)$
+\end_inset
+
+ and 
+\begin_inset Formula $F=\log(S)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dF=(\mu-\frac{1}{2}\sigma^{2})dt+\sigma dX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S(t)=S_{0}\exp((\mu-\frac{1}{2}\sigma^{2})t+\sigma X(t))$
 \end_inset
 
 
@@ -328,16 +518,893 @@ Ito's Lemma for
 Stochastic differential equations
 \end_layout
 
-\begin_layout Standard
-Steady-state distribution
+\begin_layout Subsubsection*
+Probability measure
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename prob_measure.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Probabilities and Expectations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}[h(X)]=\int_{\mathbb{R}}h(x)p(x)\; dx=\int_{\mathbb{R}}h(x)\; d(P(x))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where p if the PDF and P is the CDF
+\end_layout
+
+\begin_layout Standard
+example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $h(x)=\left[x-K\right]^{+}=\max\left[x-K,0\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $\mathbb{E}\left[\left[x-K\right]^{+}\right]=\int_{-\infty}^{\infty}\left[x-K\right]^{+}\; d(P(x))=\int_{K}^{\infty}(x-K)\; d(P(x))=\frac{1}{\sqrt{2\pi\sigma}}\int_{K}^{\infty}(x-K)\exp\left\{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\right\} dx$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Properties of Conditional Expectations
+\end_layout
+
+\begin_layout Enumerate
+Linearity
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}\left[aX+bY|\mathcal{F}\right]=a\mathbb{E}\left[X|\mathcal{F}\right]+b\mathbb{E}\left[Y|\mathcal{F}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Tower property (i.e Iterated Expectations):
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+If 
+\begin_inset Formula $\mathcal{F\subset\mathcal{G}}$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{E}\left[\mathbb{E}\left[X|\mathcal{G}\right]|\mathcal{F}\right]=\mathbb{E}\left[X|\mathcal{F}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Special case of Tower property
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}\left[\mathbb{E}\left[X|\mathcal{F}\right]\right]=\mathbb{E}\left[X\right]$
+\end_inset
+
+ (
+\begin_inset Quotes eld
+\end_inset
+
+no filtration
+\begin_inset Quotes erd
+\end_inset
+
+ is always a smaller set than any filtration)
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Taking out what is known
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+if 
+\begin_inset Formula $X$
+\end_inset
+
+ is 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+-measurable, then the value of 
+\begin_inset Formula $X$
+\end_inset
+
+ is known once we know 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+.
+ Therefore, 
+\begin_inset Formula $\mathbb{E}[X|\mathcal{F}]=X$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Taking out what is known (2)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+by extension, if 
+\begin_inset Formula $X$
+\end_inset
+
+ is 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+-measurable but not 
+\begin_inset Formula $Y$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{E}[XY|\mathcal{F}]=X\mathbb{E}[Y|\mathcal{F}]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Independance
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+if 
+\begin_inset Formula $X$
+\end_inset
+
+ is independent from 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+, then knowing 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+ is useless to predict the value of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Hence, 
+\begin_inset Formula $\mathbb{E}[X|\mathcal{F}]=\mathbb{E}[X]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Positivity
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+if 
+\begin_inset Formula $X\geq0$
+\end_inset
+
+ then 
+\begin_inset Formula $\mathbb{E}[X|\mathcal{F}]\geq0]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Jensen's Inequaltiy
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+let 
+\begin_inset Formula $f$
+\end_inset
+
+ be a convex function, then 
+\begin_inset Formula $f(\mathbb{E}[X|\mathcal{F}])\leq\mathbb{E}\left[f(X)|F\right]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
 Martingales
 \end_layout
 
+\begin_layout Itemize
+Martingales as a class of stochastic process
+\end_layout
+
+\begin_layout Itemize
+Exponentional martingales, whoch are a specific and extremly useful example
+ of martingale
+\end_layout
+
+\begin_layout Itemize
+Equivalent martingale measures, where we look for a probability measure
+ 
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+ such that a given stochastic process 
+\begin_inset Formula $S(t)$
+\end_inset
+
+ is a martingales under 
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+regardless of its nature under 
+\begin_inset Formula $\mathbb{P}$
+\end_inset
+
+.The correspondance between the measures 
+\begin_inset Formula $\mathbb{P}$
+\end_inset
+
+and
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+ is done through a change of measure.
+\end_layout
+
+\begin_layout Subsubsection*
+Proving that a discrete time process is a martingale
+\end_layout
+
 \begin_layout Standard
+This is done in 2 steps:
+\end_layout
+
+\begin_layout Enumerate
+show that the expectation exists, i.e.
+ 
+\begin_inset Formula $\mathbb{E}\left[|X_{n}|\right]<\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+show that the process is driftless, i.e.
+ 
+\begin_inset Formula $\mathbb{E}\left[X_{n}|\mathcal{F}_{m}\right]=X_{m}$
+\end_inset
+
+ for 
+\begin_inset Formula $m<n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename discrete_time_martingale.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Supermartingale / Submartingale
+\end_layout
+
+\begin_layout Standard
+A discrete time stochastic process 
+\begin_inset Formula $\left\{ M_{t}:t=0,\ldots,T\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+such that 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+is 
+\begin_inset Formula $\mathcal{F}_{t}$
+\end_inset
+
+-measurable for 
+\begin_inset Formula $t=0,\ldots,Y$
+\end_inset
+
+ is a supermartingale (submartingale) if 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbb{E}\left[|M_{t}|\right]<\infty$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+and 
+\begin_inset Formula $\mathbb{E}\left[X_{n}|\mathcal{F}_{m}\right]\leq X_{m}$
+\end_inset
+
+ (supermartingale) or 
+\begin_inset Formula $\mathbb{E}\left[X_{n}|\mathcal{F}_{m}\right]\geq X_{m}$
+\end_inset
+
+ (submartingale) 
+\end_layout
+
+\begin_layout Subsubsection*
+Markov vs.
+ Martingale
+\end_layout
+
+\begin_layout Standard
+Markov processes and martingales are not synonymous.
+ The martingale property states that the expected value at time t + 1 is
+ the value realized at time t.
+ The process is 
+\series bold
+driftless
+\series default
+.
+ The Markov property implies that the expected value at time t + 1 does
+ not depend on the history (trajectory) up to time t, but it may depend
+ on the value at time t.
+ The process is 
+\series bold
+memoryless
+\series default
+ (no path dependence).
+\end_layout
+
+\begin_layout Subsubsection*
+Martingale in conitnusous time
+\end_layout
+
+\begin_layout Standard
+A discrete time stochastic process 
+\begin_inset Formula $\left\{ M_{t}:t\in\mathbb{R}^{+}\right\} $
+\end_inset
+
+such that 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ is 
+\begin_inset Formula $\mathcal{F}_{t}$
+\end_inset
+
+-measurable for 
+\begin_inset Formula $t\in\mathbb{R}^{+}$
+\end_inset
+
+ is a martingale if
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbb{E}\left[|M_{t}|\right]<\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbb{E}\left[M_{t}|\mathcal{F}_{s}\right]=M_{s}$
+\end_inset
+
+ for 
+\begin_inset Formula $0\leq s\leq t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+A Brownian Motion is a Martingale
+\end_layout
+
+\begin_layout Standard
+The Levy characterization defines a Brownian motion as a stochastic process
+ 
+\begin_inset Formula $X(t)$
+\end_inset
+
+ that satisfies the following conditions:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $X(0)=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+the sample paths 
+\begin_inset Formula $t\mapsto X(t)$
+\end_inset
+
+ are continuous
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+independent increments
+\series default
+: for 
+\begin_inset Formula $t_{1}<t_{2}<t_{3}<t_{4}$
+\end_inset
+
+ the increments 
+\begin_inset Formula $X_{t_{4}}-X_{t_{3}}$
+\end_inset
+
+and 
+\begin_inset Formula $X_{t_{2}}-X_{t_{1}}$
+\end_inset
+
+ are independent
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+normally distributed increments
+\series default
+: 
+\begin_inset Formula $X_{t}-X_{s}\thicksim N(0,|t-s|)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Ito Integrals are Martingales (Martingale Representation Theorem)
+\end_layout
+
+\begin_layout Standard
+if 
+\begin_inset Formula $M$
+\end_inset
+
+ is a martingale, then there exists a function 
+\begin_inset Formula $g(t,X_{t})$
+\end_inset
+
+ satisfying technical condition such that 
+\begin_inset Formula $M_{T}=M_{0}+\int_{0}^{T}g(t,X_{t})\; dX_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Expecation of Ito Integrals
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}\left[\int_{0}^{T}g(t,X_{t})\; dX_{t}\right]=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Fubini's theorem
+\end_layout
+
+\begin_layout Standard
+We can usually exchange the order of integration between the time integral
+ and the expectation so that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}\left[\int_{0}^{T}f(X_{t})\; dt\right]=\int_{0}^{T}\mathbb{E}\left[f(X_{t})\right]\; dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Properties of Ito Integrals
+\end_layout
+
+\begin_layout Enumerate
+Linearity 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\int_{0}^{T}(\alpha f(t)+\beta g(t))dX_{t}=\int_{0}^{T}\alpha f(t)dX_{t}+\int_{0}^{T}\beta g(t)dX_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Itô isometry
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}\left[|\int_{0}^{T}f(t)dX_{t}|^{2}\right]=\mathbb{E}\left[\int_{0}^{T}|f(t)|^{2}dt\right]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Martingale
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}\left[\int_{0}^{T}f(t)dX_{t}|\mathcal{F}_{s}\right]=\int_{0}^{s}f(t)\; dX_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Proving that a Continuous Time Stochastic Process is a Martingale
+\end_layout
+
+\begin_layout Standard
+Let's consider some stochastic process 
+\begin_inset Formula $Y(t)$
+\end_inset
+
+ solving the following SDE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dY(t)=f(t)dt+g(t)dX(t)$
+\end_inset
+
+ with 
+\begin_inset Formula $Y(0)=Y_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Y(t)$
+\end_inset
+
+ is a martingale if an only if 
+\begin_inset Formula $\forall t\; f(t)=0$
+\end_inset
+
+; i.e 
+\begin_inset Formula $dY(t)=g(t)dX(t)$
+\end_inset
+
+ (
+\begin_inset Formula $Y$
+\end_inset
+
+ has to be driftless)
+\end_layout
+
+\begin_layout Subsubsection*
+Exponential martingales
+\end_layout
+
+\begin_layout Standard
+Let's consider some stochastic process 
+\begin_inset Formula $Y(t)$
+\end_inset
+
+ solving the following SDE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dY(t)=f(t)dt+g(t)dX(t)$
+\end_inset
+
+ with 
+\begin_inset Formula $Y(0)=Y_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We define a new process 
+\begin_inset Formula $Z(t)=e^{Y(t)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Z(t)$
+\end_inset
+
+ is a martingale only if it is a driftless process, this is only possible
+ if 
+\begin_inset Formula $f(t)=-\frac{1}{2}g^{2}(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because the stochastic process Z(t) is the exponential of another process
+ (namely Y (t)) and because it is a martingale, we call Z(t) an exponential
+ martingale.
+\end_layout
+
+\begin_layout Subsubsection*
 Binomial models
+\end_layout
+
+\begin_layout Itemize
+This is equivalent to saying that the stock growth rate is irrelevant for
+ option pricing
+\end_layout
+
+\begin_layout Itemize
+The stock volatility is very important in the valuation of options
+\end_layout
+
+\begin_layout Itemize
+Delta hedging means choosing Δ such that the portfolio value does not depend
+ on the direction of the stock
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\varDelta=\frac{\mbox{Range of option payoffs}}{\mbox{Range of stock prices}}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Properties of the 
+\begin_inset Quotes eld
+\end_inset
+
+real
+\begin_inset Quotes erd
+\end_inset
+
+ world:
+\end_layout
+
+\begin_layout Itemize
+We know all about delta hedging and risk elimination
+\end_layout
+
+\begin_layout Itemize
+We are very sensitive to risk, and expect greater return for taking risk
+\end_layout
+
+\begin_layout Itemize
+We don’t value options by taking expectations
+\end_layout
+
+\begin_layout Standard
+Properties of the 
+\begin_inset Quotes eld
+\end_inset
+
+risk-neutral
+\begin_inset Quotes erd
+\end_inset
+
+ world:
+\end_layout
+
+\begin_layout Itemize
+We don’t care about risk, and don’t expect any extra return for taking unnecessa
+ry risk
+\end_layout
+
+\begin_layout Itemize
+We don’t ever need to estimate probabilities of events happening
+\end_layout
+
+\begin_layout Itemize
+We believe that everything is priced using simple expectations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename binomial.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let’s choose them so that they have the same mean and standard deviation
+ as our earlier lognormal random walk!
+\end_layout
+
+\begin_layout Standard
+u, v and p will therefore be related to μ and σ.
+\end_layout
+
+\begin_layout Standard
+mean/drift: 
+\begin_inset Formula $μSδt=puS+(1\text{−}p)vS\text{−}S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+variance: 
+\begin_inset Formula $\sigma^{2}S^{2}δt=S^{2}(p(u\text{−}1\text{−}(pu+(1\text{−}p)v\text{−}1))^{2}+(1-p)(v-1-(pu+(1\text{−}p)v\text{−}1))^{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here is one (approximate) solution:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $u=1+\sigma\sqrt{δt}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $v=1-\sigma\sqrt{δt}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $p=\frac{1}{2}+\frac{\mu\sqrt{δt}}{2\sigma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We choose 
+\begin_inset Formula $\varDelta$
+\end_inset
+
+ to that the portfolio 
+\begin_inset Formula $(V+\varDelta S)$
+\end_inset
+
+ has the same value if S goes up or down.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V^{+}\text{−Δ}uS=V^{-}\text{−Δ}vS$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $\text{Δ}=\frac{V^{+}-V^{-}}{(u-v)S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Present value:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{1}{1+r\delta t}\left(V^{+}-u\times\frac{V^{+}-V^{-}}{(u-v)}\right)=\frac{1}{1+r\delta t}\left(V^{-}-v\times\frac{V^{+}-V^{-}}{(u-v)}\right)=V-\varDelta S=V-\frac{V^{+}-V^{-}}{(u-v)}\times S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We obtain:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V=\frac{V^{+}-V^{-}}{u-v}+\frac{1}{1+r\delta t}\frac{(uV^{-}-vV^{+})}{(u-v)}$
+\end_inset
+
+or 
+\begin_inset Formula $V=\frac{1}{1+r\delta t}(p'V^{+}+(1-p')V^{-})$
+\end_inset
+
+ where 
+\begin_inset Formula $p'=\frac{1}{2}+\frac{r\sqrt{\delta t}}{2\sigma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We call p' the risk-neutral probability.
+ It’s like the real probability, but the real probability if the drift rate
+ were r instead of μ.
+\end_layout
+
+\begin_layout Remark*
+Observe that the risk-free interest plays two roles in option valuation.
+ It’s used once for discounting to give present value, and it’s used as
+ the drift rate in the asset price random walk.
+\end_layout
+
+\begin_layout Remark*
+\begin_inset Graphics
+	filename binomial_tree.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+if 
+\begin_inset Formula $δt\text{→}0$
+\end_inset
+
+, we obtain the pricing equation 
+\begin_inset Formula $\frac{\text{\partial V}}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+rS\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -358,10 +1425,6 @@ Interest rate modelling
 
 \begin_layout Standard
 Stock vol and Jump diffusion
-\end_layout
-
-\begin_layout Standard
-
 \end_layout
 
 \end_body
