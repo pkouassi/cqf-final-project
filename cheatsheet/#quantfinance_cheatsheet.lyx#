@@ -104,7 +104,7 @@ The variable
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename pasted1.png
+	filename FKE.png
 
 \end_inset
 
@@ -164,7 +164,7 @@ The backward equation will be usefull if we want to calculate probabilities
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename pasted2.png
+	filename BKE.png
 
 \end_inset
 
@@ -1415,7 +1415,7 @@ if
 Black-Scholes 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsection*
 Black-Scholes assumptions:
 \end_layout
 
@@ -1467,19 +1467,1499 @@ There are no arbitrage opportunities
 \end_layout
 
 \begin_layout Standard
-,jb
+Construct the portfolio 
+\begin_inset Formula $\Pi=V(St,t)-\varDelta S$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-and Greeks
+Use Ito to calculate 
+\begin_inset Formula $dV=\frac{\partial V}{\partial t}dt+\frac{\partial V}{\partial S}dS+\frac{1}{2}\frac{\partial^{2}V}{\partial S^{2}}dS^{2}=\left(\frac{\partial V}{\partial t}dt+\frac{\partial V}{\partial S}dS+\frac{1}{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt+\sigma S\frac{\partial V}{\partial S}dW$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-All numerical methods (Finite difference, Monte carlo)
+Then, we obtain 
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}dt+\frac{\partial V}{\partial S}dS+\frac{1}{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt+\sigma S\frac{\partial V}{\partial S}dW-\varDelta(\mu Sdt+\sigma SdW)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
+We choose 
+\begin_inset Formula $\varDelta$
+\end_inset
+
+ so that 
+\begin_inset Formula $d\Pi$
+\end_inset
+
+ does not contain risk (i.e.
+ term in from of 
+\begin_inset Formula $dW$
+\end_inset
+
+ become zero): 
+\begin_inset Formula $\varDelta=\frac{\partial V}{\partial S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Them we obtain 
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}dt+\frac{1}{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By using the no-arbitrage argument, we say that our portfolio 
+\begin_inset Formula $\Pi$
+\end_inset
+
+ grows like money in the bank, i.e.
+ it grows by 
+\begin_inset Formula $r\Pi dt$
+\end_inset
+
+ during 
+\begin_inset Formula $dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We obtain then 
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}dt+\frac{1}{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt=r\Pi dt=r(V-\varDelta S)dt=r\left(V-S\frac{\partial V}{\partial S}\right)dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ we obtain the BSE = 
+\begin_inset Formula $\frac{\text{\partial V}}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+rS\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To solve the Black-Scholes PDE we need to impose suitable boundary and nal
+ conditions.
+ Until we do so the BSE knows nothing about what kind of option we are pricing.
+\end_layout
+
+\begin_layout Standard
+If we remind ourselves of the structure of this equation, i.e.
+ .rst order in time and second order in asset price - this tells us that
+ we need one time condition and two boundary conditions.
+\end_layout
+
+\begin_layout Enumerate
+Final Condition provides information on t: This is called the Payoff.
+\end_layout
+
+\begin_layout Enumerate
+Boundary Condition tells us something about the underlying for two values
+ of S.
+ In this case we choose 
+\begin_inset Formula $S=0$
+\end_inset
+
+ and 
+\begin_inset Formula $S\rightarrow\infty$
+\end_inset
+
+ (i.e.
+ when the underlying becomes large).
+\end_layout
+
+\begin_layout Subsection*
+Options on dividend-paying equities
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\text{\partial V}}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+(r-D)S\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+ where 
+\begin_inset Formula $D$
+\end_inset
+
+ is the dividend yield (pay 
+\begin_inset Formula $DSdt$
+\end_inset
+
+ dividend for each time-step 
+\begin_inset Formula $dt$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Subsection*
+Curreny Options
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\text{\partial V}}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+(r-r_{f})S\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+ where 
+\begin_inset Formula $r_{f}$
+\end_inset
+
+ is the foreign rate 
+\end_layout
+
+\begin_layout Subsection*
+Commodity options
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\text{\partial V}}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+(r+q)S\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+ where 
+\begin_inset Formula $q$
+\end_inset
+
+ is the cost of carry
+\end_layout
+
+\begin_layout Subsection*
+Solving the Black-Scholes equation
+\end_layout
+
+\begin_layout Standard
+Three main steps:
+\end_layout
+
+\begin_layout Itemize
+Turn the BSE into a one dimensional heat equation by a series of transformations
+\end_layout
+
+\begin_layout Itemize
+Use a known solution of the heat equation called the fundamental solution
+\end_layout
+
+\begin_layout Itemize
+Reverse the transformations
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Call option
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mbox{Payoff}(S)=\max(S-E,0)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{call}(S,t)=SN(d_{1})-Ee^{-r(T-t)}N(d_{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d_{1}=\frac{log(S/E)+(r+\frac{1}{2}\sigma^{2})(T-t)}{\sigma\sqrt{T-t}}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{2}=\frac{log(S/E)+(r-\frac{1}{2}\sigma^{2})(T-t)}{\sigma\sqrt{T-t}}=d_{1}-\sigma\sqrt{T-t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $N(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}e^{-\frac{1}{2}\phi^{2}}d\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename call_options.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Call Option (ATM forward)
+\end_layout
+
+\begin_layout Standard
+Within the FX world At-The-Money-Forward (ATMF) options are the most heavily
+ traded.
+ When an option is struck ATMF, it means that the strike 
+\begin_inset Formula $E=Se^{(r-r_{f})\tau}$
+\end_inset
+
+ where 
+\begin_inset Formula $\tau=T-t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+it then simplifies 
+\begin_inset Formula $d_{1}$
+\end_inset
+
+and 
+\begin_inset Formula $d_{2}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d_{1}=\frac{1}{2}\sigma\sqrt{\tau}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{2}=-\frac{1}{2}\sigma\sqrt{\tau}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using the Kendall and Stuart (1943) approximation of the Normal CDF, we
+ obtain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $C(S,t)\thickapprox0.4Se^{-r_{f}(T-t)}\sigma\sqrt{T-t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Put option
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mbox{Payoff}(S)=\max(E-S,0)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{put}(S,t)=-SN(-d_{1})+Ee^{-r(T-t)}N(-d_{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename put_options.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Put-call parity
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $C-P=S-Ee^{-r(T-t)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Binary options
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mbox{Payoff}(S)=\mathcal{H}(S)=\begin{cases}
+1 & S(T)\geq E\\
+0 & \mbox{otherwise}
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename binary_options.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Cash-or-nothing
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $C=e^{-r_{d}\tau}N(d_{2})$
+\end_inset
+
+ Foreign call / Domestic put
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $P=e^{-r_{d}\tau}N(-d_{2})$
+\end_inset
+
+ Foreign put / Domestic call
+\end_layout
+
+\begin_layout Standard
+Asset-or-nothing
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $C=e^{-r_{d}\tau}N(d_{1})$
+\end_inset
+
+ Foreign call / Domestic put
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $P=e^{-r_{d}\tau}N(-d_{1})$
+\end_inset
+
+ Foreign put / Domestic call
+\end_layout
+
+\begin_layout Section
+The Greeks
+\end_layout
+
+\begin_layout Subsection*
+Delta
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename delta.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Gamma
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename gamma.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Numerical methods
+\end_layout
+
+\begin_layout Subsection*
+Monte Carlo
+\end_layout
+
+\begin_layout Standard
+The fair value of an option is the present vgalue of the expected payoff
+ at expiry under the risk-neutral random walk for the underlying.
+ 
+\end_layout
+
+\begin_layout Standard
+The risk-neutral random walk for 
+\begin_inset Formula $S$
+\end_inset
+
+ is: 
+\begin_inset Formula $dS=rSdt+\sigma SdX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Justification:
+\end_layout
+
+\begin_layout Itemize
+Binomial method
+\end_layout
+
+\begin_layout Itemize
+Black-Scholes Equation similar to backward Kolmogorow equation
+\end_layout
+
+\begin_layout Itemize
+Martingale theory
+\end_layout
+
+\begin_layout Standard
+We can therefore write: 
+\begin_inset Formula $\mbox{option value }=e^{-r(t-r)}\mathbb{E}\left[\mbox{payoff}(S)\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The algorithm:
+\end_layout
+
+\begin_layout Enumerate
+Simulate the risk-neutral random walk starting at today's value of the asset
+ over the required horizon.
+ This gives one realization of the underlying price path
+\end_layout
+
+\begin_layout Enumerate
+For this realization, calculate the option payoff
+\end_layout
+
+\begin_layout Enumerate
+perform many more such realization over the time horizon
+\end_layout
+
+\begin_layout Enumerate
+calculate the average payoff over all realizations
+\end_layout
+
+\begin_layout Enumerate
+tke the present value of this average, this is the option value
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+One giant leap: works in special cases
+\end_layout
+
+\begin_layout Standard
+For the lognormal random walk we are lucky that we can find a simple and
+ exact time stepping algorithm.
+\end_layout
+
+\begin_layout Standard
+We can write the risk-neutral stochastic differential equation for 
+\begin_inset Formula $S$
+\end_inset
+
+ in the form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d(\log S)=(r-\frac{1}{2}\sigma^{2})dt+\sigma dX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This can be integrated exactly to give
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S(t)=S(0)\exp((r-\frac{1}{2}\sigma^{2})t+\sigma\int_{0}^{t}dX)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Simulating the entire path: a method that always works
+\end_layout
+
+\begin_layout Standard
+Price paths are simulated using a discrete version of the SDE for 
+\begin_inset Formula $S:$
+\end_inset
+
+ 
+\begin_inset Formula $\delta S=rS\delta t+\sigma S\sqrt{\delta t}\times\phi$
+\end_inset
+
+ where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is drawn from the standard normal distribution
+\end_layout
+
+\begin_layout Standard
+This way of simulating the time series is called the Eurler method.
+ 
+\end_layout
+
+\begin_layout Standard
+There are two (at least) sources of error in the Monte Carlo method:
+\end_layout
+
+\begin_layout Itemize
+If the size of the time-step is 
+\begin_inset Formula $\delta t$
+\end_inset
+
+, the we may introduce errors of 
+\begin_inset Formula $\mathcal{O}(\delta t)$
+\end_inset
+
+ by virtue of the discrete approximation to continuous events
+\end_layout
+
+\begin_layout Itemize
+Because we are only simulation a finite number of an infinitie number of
+ possible paths, the error due to using 
+\begin_inset Formula $N$
+\end_inset
+
+ realizations od the asset price paths is 
+\begin_inset Formula $\mathcal{O}(\frac{1}{\sqrt{N}})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Advantages of Monte Carlo simulations:
+\end_layout
+
+\begin_layout Itemize
+The mathematics that you need to perform can be very basic
+\end_layout
+
+\begin_layout Itemize
+correlation can be easily modeled and it is easy to price options on many
+ assets (high-dimensional contracts)
+\end_layout
+
+\begin_layout Itemize
+it is computationally quite efficient in high dimensions
+\end_layout
+
+\begin_layout Itemize
+there is plenty of software available; spreadsheets function that will suffice
+ for mos the time
+\end_layout
+
+\begin_layout Itemize
+to get better accuracym just run more simulations
+\end_layout
+
+\begin_layout Standard
+Disadvantages of Monte Carlo simulations:
+\end_layout
+
+\begin_layout Itemize
+The method is very slow, you need a lot of simulations to get an accurate
+ answer
+\end_layout
+
+\begin_layout Itemize
+Finding the greks can be hard
+\end_layout
+
+\begin_layout Itemize
+the method does not cope well with early exercise
+\end_layout
+
+\begin_layout Subsection*
+Finite difference methods
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename finite_diff_grid.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Approximation of theta:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial t}(S,t)\thickapprox\frac{V_{i}^{k}-V_{i}^{k+1}}{\delta t}+\mathcal{O}(\delta t)$
+\end_inset
+
+ (forward difference)
+\end_layout
+
+\begin_layout Standard
+Approximation of delta: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}(S,t)\thickapprox\frac{V_{i+1}^{k}-V_{i}^{k}}{\delta S}+\mathcal{O}(\delta S)$
+\end_inset
+
+ (forward difference)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}(S,t)\thickapprox\frac{V_{i}^{k}-V_{i-1}^{k}}{\delta S}+\mathcal{O}(\delta S)$
+\end_inset
+
+ (backward difference)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}(S,t)\thickapprox\frac{V_{i+1}^{k}-V_{i-1}^{k}}{2\delta S}+\mathcal{O}(\delta S^{2})$
+\end_inset
+
+ (central difference)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename diff_types.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Approximation of gamma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}(S,t)\thickapprox\frac{V_{i+1}^{k}-2V_{i}^{k}+V_{i-1}^{k}}{\delta S^{2}}+\mathcal{O}(\delta S^{2})$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Final conditions and payoffs
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(S,T)=\mbox{Payoff}(S)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $V_{i}^{0}=\mbox{Payoff}(i\delta S)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for instance, for a call option: 
+\begin_inset Formula $V_{i}^{0}=\max(i\delta S-E,0)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Boundary conditions
+\end_layout
+
+\begin_layout Enumerate
+Call option at 
+\begin_inset Formula $S=0$
+\end_inset
+
+, 
+\begin_inset Formula $S=0$
+\end_inset
+
+.
+ Thus, we set 
+\begin_inset Formula $V_{0}^{k}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Call option for large S, the call value asymptotes to 
+\begin_inset Formula $S-Ee^{-r(T-t)}$
+\end_inset
+
+.
+ Thus, we set 
+\begin_inset Formula $V_{i}^{k}=I\delta S-Ee^{-rk\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Put option at 
+\begin_inset Formula $S=0$
+\end_inset
+
+, 
+\begin_inset Formula $V=Ee^{-r(T-t)}$
+\end_inset
+
+.
+ Thus, we set 
+\begin_inset Formula $V_{i}^{k}=Ee^{-rk\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Put option for large S, the option become worthless.
+ Thus, we set 
+\begin_inset Formula $V_{i}^{k}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+General condition at 
+\begin_inset Formula $S=0$
+\end_inset
+
+.
+ the diffusion and the dift term 
+\begin_inset Quotes eld
+\end_inset
+
+switch off
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\begin_inset Formula $\frac{\partial V}{\partial t}(0,t)-rV(0,t)=0$
+\end_inset
+
+.
+ Thus, we set 
+\begin_inset Formula $V_{0}^{k}=(1-r\delta t)V_{0}^{k-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+General condition at infinity.
+ the option has a pay that is linear in the underlying, i.e.
+ 
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}(S,t)\rightarrow0$
+\end_inset
+
+ as 
+\begin_inset Formula $S\rightarrow\infty$
+\end_inset
+
+.
+ Thus, we set 
+\begin_inset Formula $V_{i}^{k}=2V_{i-1}^{k}-V_{i-2}^{k}$
+\end_inset
+
+ (linear extrapolation)
+\end_layout
+
+\begin_layout Subsection*
+Finite Difference - Explicit scheme
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial t}+a(S,t)\frac{\partial^{2}V}{\partial S^{2}}+b(S,t)\frac{\partial V}{\partial S}+c(S,t)V=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+we use the above approximations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{V_{i}^{k}-V_{i}^{k+1}}{\delta t}+a_{i}^{k}\times\frac{V_{i+1}^{k}-2V_{i}^{k}+V_{i-1}^{k}}{\delta S^{2}}+b_{i}^{k}\times\frac{V_{i+1}^{k}-V_{i-1}^{k}}{2\delta S}+c_{i}^{k}\times V_{i}^{k}=\mathcal{O}(\delta t,\delta S^{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is an equation for 
+\begin_inset Formula $V_{i}^{k+1}$
+\end_inset
+
+ (at time 
+\begin_inset Formula $k+1$
+\end_inset
+
+) given 3 option values at time 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename explicit_scheme.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Advantages of the explicit method:
+\end_layout
+
+\begin_layout Itemize
+It is very easy to program and hard to make mistakes
+\end_layout
+
+\begin_layout Itemize
+When it does fo unstable it is usually quite obvious
+\end_layout
+
+\begin_layout Itemize
+It copes well with coefficients that are asset and/or time dependnet
+\end_layout
+
+\begin_layout Itemize
+it copes very well with early exercise
+\end_layout
+
+\begin_layout Itemize
+it can be used for modern option-pricing models
+\end_layout
+
+\begin_layout Standard
+The disadvantage of the explicit method:
+\end_layout
+
+\begin_layout Itemize
+it is slower than Monte Carlo in high dimensions
+\end_layout
+
+\begin_layout Subsection*
+Finite Difference - Implicit scheme
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename implicit_scheme.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The BSE discretized and re-arranged gives us:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $a_{n}\times V_{n-1}^{m-1}+b_{n}\times V_{n}^{m-1}+c_{n}\times V_{n+1}^{m-1}=V_{n}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $a_{n}=-\frac{1}{2}(\sigma^{2}n^{2}-n(r-D))\delta t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $b_{n}=1+(\sigma^{2}n^{2}+r)\delta t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $c_{n}=-\frac{1}{2}(\sigma^{2}n^{2}+n(r-D))\delta t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This scheme has the same degree of accuracy than than the explict scheme
+ 
+\begin_inset Formula $\mathcal{O}(\delta t,\delta S^{2})$
+\end_inset
+
+ but its attraction lies in its stability: it is stable for all values of
+ 
+\begin_inset Formula $\delta t$
+\end_inset
+
+.
+ we say this scheme is 
+\bar under
+unconditionally stable
+\bar default
+.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Boundary conditions
+\end_layout
+
+\begin_layout Standard
+At 
+\begin_inset Formula $S=0$
+\end_inset
+
+, i.e 
+\begin_inset Formula $n=0$
+\end_inset
+
+, the BSE necomes 
+\begin_inset Formula $(1+r\delta t)V_{0}^{m-1}=V_{0}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At 
+\begin_inset Formula $n=N$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $S\rightarrow\infty$
+\end_inset
+
+, we use vanishing gamma 
+\begin_inset Formula $\Gamma\thicksim\frac{V_{n-1}^{m-1}-2V_{n}^{m-1}+V_{n+1}^{m-1}}{\delta S^{2}}=0$
+\end_inset
+
+.
+ Upon re-arranging, 
+\begin_inset Formula $V_{n+1}^{m-1}=2V_{n}^{m-1}-V_{n-1}^{m-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+we hten obtain a 
+\begin_inset Quotes eld
+\end_inset
+
+special
+\begin_inset Quotes erd
+\end_inset
+
+ BSE: 
+\begin_inset Formula $\hat{a}_{N}\times V_{N-1}^{m-1}+\hat{b}_{N}\times V_{n}^{m-1}=V_{N}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\hat{a}_{n}=N(r-D)\delta t$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{b}_{n}=1-(N-(r-d)-r)\delta t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename implicit_scheme_matrix.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For each time-step, we must solve: 
+\begin_inset Formula $A\times V^{m-1}=V^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Finite Difference - Crank-Nicolson scheme
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename crank_nicolson_scheme.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Crank-Nicolson method whilst being unconditionally stable has the additional
+ advantage that it is also second order accurate in time i.e.
+ 
+\begin_inset Formula $\mathcal{O}(\delta t^{2},\delta S^{2})$
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Standard
+Consider a PDE being satisfied at the midpoint 
+\begin_inset Formula $(n\delta S,(m-\frac{1}{2})\delta t)$
+\end_inset
+
+ and replace 
+\begin_inset Formula $V_{s}$
+\end_inset
+
+ and 
+\begin_inset Formula $V_{SS}$
+\end_inset
+
+ by means of FD approximation at the 
+\begin_inset Formula $m^{th}$
+\end_inset
+
+ and the 
+\begin_inset Formula $(m-1)^{th}$
+\end_inset
+
+ time-steps, i.e.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{1}{2}(m+(m-1))\rightarrow(m-\frac{1}{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The method is regarded as an equally weighted average of the explicit and
+ the the implicit schemes with advantage over both individual cases due
+ to accuracy being 
+\begin_inset Formula $\mathcal{O}(\delta t^{2})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The resulting difference equation is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $a_{n}\times V_{n-1}^{m-1}+b_{n}\times V_{n}^{m-1}+c_{n}\times V_{n+1}^{m-1}=A_{n}\times V_{n-1}^{m}+B_{n}\times V_{n}^{m}+C_{n}\times V_{n+1}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the matrix inversion problem we solve is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $A\times V^{m-1}=B\times V_{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Finite Difference - The 
+\begin_inset Formula $\theta$
+\end_inset
+
+-Method
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $\theta$
+\end_inset
+
+-method is a generalisation of the Crank-Nicolson scheme to obtain a weigthed
+ average of the two schemes with a weighted parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ such that 
+\begin_inset Formula $\theta\in[0,1].$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $\theta\times\mbox{implicit}+(1-\theta)\times\mbox{explicit}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $a_{n}\times V_{n-1}^{m-1}+b_{n}\times V_{n}^{m-1}+c_{n}\times V_{n+1}^{m-1}=A_{n}\times V_{n-1}^{m}+B_{n}\times V_{n}^{m}+C_{n}\times V_{n+1}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note: The Crank-Nicolson method is the 
+\begin_inset Formula $\theta$
+\end_inset
+
+-method with 
+\begin_inset Formula $\theta=\frac{1}{2}-\frac{\delta S^{2}}{12\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Milstein correction
+\end_layout
+
+\begin_layout Standard
+We have seen:
+\end_layout
+
+\begin_layout Standard
+Euler-Maruyana: 
+\begin_inset Formula $S_{t+\delta t}=S_{t}(1+r\delta t+\sigma\phi\sqrt{\delta t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Milstein: 
+\begin_inset Formula $S_{t+\delta t}=S_{t}(1+r\delta t+\sigma\phi\sqrt{\delta t}+\frac{1}{2}\sigma^{2}(\phi^{2}-1)\delta t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+\begin_inset Formula $\frac{1}{2}\sigma^{2}(\phi^{2}-1)\delta t$
+\end_inset
+
+ is called the Milstein correction
+\end_layout
+
+\begin_layout Subsection*
+Monte Carlo Integration
+\end_layout
+
+\begin_layout Enumerate
+Suppose 
+\begin_inset Formula $h()$
+\end_inset
+
+ is some fuction such that 
+\begin_inset Formula $f\;:\;[0,1]\rightarrow\mathbb{R}$
+\end_inset
+
+.
+ The problem is to evaluate the integral 
+\begin_inset Formula $I=\int_{0}^{1}h(x)dx$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We have 
+\begin_inset Formula $I=\int_{0}^{1}h(x)dx=\int_{0}^{1}h(u)p(u)du$
+\end_inset
+
+ where 
+\begin_inset Formula $p(u)$
+\end_inset
+
+ is the probability density function of a uniformly random variable 
+\begin_inset Formula $U(0,1)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Suppose 
+\begin_inset Formula $f()$
+\end_inset
+
+ is some fuction such that 
+\begin_inset Formula $f\;:\;[a,b]\rightarrow\mathbb{R}$
+\end_inset
+
+.
+ The problem is to evaluate the integral 
+\begin_inset Formula $I=\int_{a}^{b}f(x)dx$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Change of variable to convert 
+\begin_inset Formula $[a,b]$
+\end_inset
+
+ into 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+, i.e.
+ substitution 
+\begin_inset Formula $y=\frac{(x-a)}{(b-a)}$
+\end_inset
+
+.
+ which gives 
+\begin_inset Formula $dy=dx/(b-a)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e we have 
+\begin_inset Formula $I=(b-a)\mathbb{E}\left[f(U\times(b-a)+a\right]$
+\end_inset
+
+ where 
+\begin_inset Formula $U\thicksim U(0,1)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Suppose 
+\begin_inset Formula $g()$
+\end_inset
+
+ is some fuction such that 
+\begin_inset Formula $g\;:\;[0,\infty]\rightarrow\mathbb{R}$
+\end_inset
+
+.The problem is to evaluate the integral 
+\begin_inset Formula $I=\int_{0}^{\infty}g(x)dx$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Change of variable to convert 
+\begin_inset Formula $[0,\infty]$
+\end_inset
+
+ into 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+[0,1], i.e.
+ subsitution
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $y=\frac{1}{1+x}$
+\end_inset
+
+.
+ which gives 
+\begin_inset Formula $dy=-dx/(1+x)^{2}=-y^{2}dx$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+i.e we have 
+\begin_inset Formula $I=\int_{0}^{1}\frac{g(\frac{1}{y}-1)}{y^{2}}dy=\mathbb{E}\left[\frac{g(\frac{1}{U}-1)}{U^{2}}\right]$
+\end_inset
+
+= where 
+\begin_inset Formula $U\thicksim U(0,1)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection*
+Gaussian Integrals
+\end_layout
+
+\begin_layout Standard
+Use the fact that, 
+\begin_inset Formula $\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\exp(-x^{2}/2)dx=1$
+\end_inset
+
+ (it's the probability density function of the standard normal distribution)
+ to calculate integrals like 
+\begin_inset Formula $J=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f(x)\exp(-x^{2}/2)dx$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $J$
+\end_inset
+
+ can estimated using monte carlo simualation.
+ i.e.
+ 
+\begin_inset Formula $J=\mathbb{E}\left[f(X)\right]\thicksim J_{N}=\frac{1}{N}\sum_{n=1}^{N}x_{n}^{2}$
+\end_inset
+
+with 
+\begin_inset Formula $x_{n}\thicksim N(0,1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Exotics
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename exotics.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Continous arithmetic average
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Discrete arithmetic average
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $A_{M}=\frac{I_{M}}{M}=\frac{1}{M}\sum_{k=1}^{M}S(t_{k})$
+\end_inset
+
+ where 
+\begin_inset Formula $M$
+\end_inset
+
+ is tht total number of sampling dates
+\end_layout
+
+\begin_layout Standard
+updating rule: 
+\begin_inset Formula $A_{i}=\frac{1}{i}S(t_{i})+\frac{i-1}{i}A_{i-1}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
