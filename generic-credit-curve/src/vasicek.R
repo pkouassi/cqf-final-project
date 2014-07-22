@@ -64,13 +64,19 @@ legend("bottomright",col=c("red","blue"),lty=1,legend=c("Y_CDF","Y_PDF"))
 #Sample test
 
 
+# GCC_Fin = data.frame(
+#   Rating = c("CCC","B","BB","BBB","A","AA","AAA"),
+#   SurvivalProbability = c(NA,0.7339,0.8694,0.8977,0.9121,0.9658,0.9835), 
+#   AttachementPoint = c(0,0.03,0.07,0.15,0.20,0.30,0.50),
+#   DettachmentPoint = c(0.03,0.07,0.15,0.20,0.30,0.50,0.70)
+# )  
+
 GCC_Fin = data.frame(
   Rating = c("CCC","B","BB","BBB","A","AA","AAA"),
   SurvivalProbability = c(NA,0.7339,0.8694,0.8977,0.9121,0.9658,0.9835), 
-  AttachementPoint = c(0,0.03,0.07,0.15,0.20,0.30,0.50),
-  DettachmentPoint = c(0.03,0.07,0.15,0.20,0.30,0.50,0.70)
-)  
-
+  AttachementPoint = c(0,0.1,0.2,0.3,0.4,0.5,0.6),
+  DettachmentPoint = c(0.1,0.2,0.3,0.4,0.5,0.6,0.7)
+) 
 
 #------- tests
 vasicekCDF(0.07,p,rho)
@@ -110,7 +116,7 @@ est_p = res$par[1]
 est_rho = res$par[2]
 
 #estimation of CCC Survival Probability
-vasicekCDF(0.03,est_p,est_rho)
+vasicekCDF(0.1,est_p,est_rho)
 
 #non linear least square
 xdata = c(0.07,0.15,0.20,0.30,0.50,0.70)
@@ -120,7 +126,7 @@ plot(xdata,ydata,type="l")
 p1 = 0.03 #probability p
 p2 = 0.5 # correlation rho
 
-fit = 
+
 
 
 

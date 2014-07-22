@@ -3026,8 +3026,337 @@ Loop back options
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 Interest rate modelling
+\end_layout
+
+\begin_layout Subsection*
+General knowledge
+\end_layout
+
+\begin_layout Standard
+IRS par swap at time 
+\begin_inset Formula $t$
+\end_inset
+
+: 
+\begin_inset Formula $r_{swap}=\frac{1-Z(t,T_{N})}{\tau\sum_{i=1}^{N}Z(t,T_{i})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename swap.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename swap2.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Various approaches to interest-rate modeling:
+\end_layout
+
+\begin_layout Itemize
+Deterministic
+\end_layout
+
+\begin_layout Itemize
+Black '76 (bonds are assumed to have a log-normal random walk)
+\end_layout
+
+\begin_layout Itemize
+Stochastic spot rate (spot rate models)
+\end_layout
+
+\begin_layout Itemize
+Multi factor
+\end_layout
+
+\begin_layout Itemize
+Heath, Jarrow & Morton
+\end_layout
+
+\begin_layout Itemize
+LIBOR Market Model
+\end_layout
+
+\begin_layout Subsection*
+Spot-rate models
+\end_layout
+
+\begin_layout Standard
+Define 
+\begin_inset Formula $\Pi=V_{1}-\varDelta V_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hence we get 
+\begin_inset Formula $d\Pi=\frac{\partial V{}_{1}}{\partial t}dt+\frac{\partial V_{1}}{\partial r}dr+\frac{1}{2}w^{2}\frac{\partial^{2}V_{1}}{\partial r^{2}}dt-\varDelta\left(\frac{\partial V{}_{2}}{\partial t}dt+\frac{\partial V_{2}}{\partial r}dr+\frac{1}{2}w^{2}\frac{\partial^{2}V_{2}}{\partial r^{2}}dt\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We choose 
+\begin_inset Formula $\varDelta=\frac{\frac{\partial V_{1}}{\partial r}}{\frac{\partial V_{2}}{\partial r}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using no arbitrage argument, we say 
+\begin_inset Formula $d\Pi=r\Pi dt=r(V_{1}-\varDelta V_{2})dt=r(V_{1}-\frac{\frac{\partial V_{1}}{\partial r}}{\frac{\partial V_{2}}{\partial r}}V_{2})dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+we obtain 
+\begin_inset Formula $\frac{\frac{\partial V{}_{1}}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V_{1}}{\partial r^{2}}dt-rV_{1}}{\frac{\partial V_{1}}{\partial r}}=\frac{\frac{\partial V{}_{2}}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V_{2}}{\partial r^{2}}dt-rV_{2}}{\frac{\partial V_{2}}{\partial r}}$
+\end_inset
+
+ (independent of 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+We then conclude that the expression (subscript dropped) is 
+\begin_inset Formula $\frac{\frac{\partial V}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V}{\partial r^{2}}dt-rV}{\frac{\partial V}{\partial r}}=a(r,t)$
+\end_inset
+
+ (function or 
+\begin_inset Formula $r$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+we write 
+\begin_inset Formula $a(r,t)=w(r,t)\lambda(r,t)-u(r,t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fixed-income pricing equation become therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial V}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V}{\partial r^{2}}+(u-\lambda w)\frac{\partial V}{\partial r}-rV=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The four terms in this equation represent the following:
+\end_layout
+
+\begin_layout Itemize
+time decay (
+\begin_inset Formula $\frac{\partial V}{\partial t}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+diffusion (
+\begin_inset Formula $w^{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+drift (
+\begin_inset Formula $u-\lambda w$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+discounting (
+\begin_inset Formula $-rV$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+For fixed-income products, the real growth of the spot interest rate may
+ be 
+\begin_inset Formula $u(r,t)$
+\end_inset
+
+ but we price as if it were 
+\begin_inset Formula $u(r,t)-\lambda(r,t)w(r,t)$
+\end_inset
+
+ (risk adjusted drift rate).
+\end_layout
+
+\begin_layout Standard
+In return for taking the risk the portfolio profits by 
+\begin_inset Formula $\lambda dt$
+\end_inset
+
+ per unit of risk 
+\begin_inset Formula $dX$
+\end_inset
+
+.
+ The function 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is called the market price of risk.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Final condition for a ZCB:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(r,T)=1$
+\end_inset
+
+ (redemption value scaled to 1)
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Relationship between pruices and expectations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(r,t)=\mathbb{E}\left[\exp\left(-\int_{t}^{T}r(\tau)d\tau\right)\times\mbox{Payoff}\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+One-factor models
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial V}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V}{\partial r^{2}}+(u-\lambda w)\frac{\partial V}{\partial r}-rV=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Affine solutions for a ZCB of the form 
+\begin_inset Formula $V(r,t;T)=\exp(A(t)-rB(t))$
+\end_inset
+
+ can be found
+\end_layout
+
+\begin_layout Subsection*
+Multi-factor models 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+dr=udt+wdX_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+dl=pdt+qdX_{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial V}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V}{\partial r^{2}}dt+\frac{1}{2}q^{2}\frac{\partial^{2}V}{\partial l^{2}}dt+\frac{1}{2}\rho wq\frac{\partial^{2}V}{\partial r\partial l}dt+(u-\lambda w)\frac{\partial V}{\partial r}+(p-\lambda_{l}q)\frac{\partial V}{\partial l}-rV=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The risk-adjustred drift rates are: 
+\begin_inset Formula $u-\lambda w$
+\end_inset
+
+ and 
+\begin_inset Formula $p-\lambda_{l}q$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Affine solution for a ZCB of the form 
+\begin_inset Formula $V(r,t;T)=\exp(A(t)-rB(t)-lC(t))$
+\end_inset
+
+ can be found
+\end_layout
+
+\begin_layout Subsection*
+Calibration
 \end_layout
 
 \begin_layout Standard
