@@ -2692,13 +2692,19 @@ How to resolve the inverting matrix problem:
 \end_layout
 
 \begin_layout Itemize
-solved directly
+solved directly (LU decomposition)
 \end_layout
 
 \begin_layout Itemize
-or iteratively using the Gauss-Seidel Method
+or iteratively (Jacovi, Gauss-Seidel or SOR)
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+dg
+\end_layout
+
+\end_deeper
 \begin_layout Subsection*
 Finite Difference - Crank-Nicolson scheme
 \end_layout
@@ -3577,11 +3583,15 @@ We then conclude that the expression (subscript dropped) is
 \begin_inset Formula $t$
 \end_inset
 
+, not dependent on 
+\begin_inset Formula $T_{i}$
+\end_inset
+
 )
 \end_layout
 
 \begin_layout Standard
-we write 
+without loss of generality, we decide to write 
 \begin_inset Formula $a(r,t)=w(r,t)\lambda(r,t)-u(r,t)$
 \end_inset
 
@@ -3637,6 +3647,55 @@ discounting (
 \end_inset
 
 )
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Market Price of Risk
+\end_layout
+
+\begin_layout Standard
+Imagine that you hold an unhedged position in one bond with maturity date
+ 
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In a time step 
+\begin_inset Formula $dt$
+\end_inset
+
+ this bond changes in value:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dV=\left(\frac{\partial V}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V}{\partial r^{2}}+u\frac{\partial V}{\partial r}\right)dt+w\frac{\partial V}{\partial r}dX$
+\end_inset
+
+ (Ito applied on 
+\begin_inset Formula $v(r,t)$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+Therefore, we obtain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dV=\left(rV+\lambda w\frac{\partial V}{\partial r}\right)dt+w\frac{\partial V}{\partial r}dX$
+\end_inset
+
+ (using the fact that 
+\begin_inset Formula $\frac{\partial V}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}V}{\partial r^{2}}+u\frac{\partial V}{\partial r}-rV=rV+\lambda w\frac{\partial V}{\partial r}$
+\end_inset
+
+; from the Brond Pricing Equation)
 \end_layout
 
 \begin_layout Standard
@@ -3718,6 +3777,15 @@ Affine solutions for a ZCB of the form
  can be found
 \end_layout
 
+\begin_layout Standard
+\begin_inset Graphics
+	filename one-factor-spot-rate.png
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Multi-factor models 
 \end_layout
@@ -3780,6 +3848,18 @@ Calibration
 \end_layout
 
 \begin_layout Standard
+A faire...a creser
+\end_layout
+
+\begin_layout Standard
+HJM
+\end_layout
+
+\begin_layout Standard
+LMM
+\end_layout
+
+\begin_layout Section
 Stock vol and Jump diffusion
 \end_layout
 
