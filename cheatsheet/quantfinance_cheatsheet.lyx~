@@ -306,6 +306,53 @@ i.e.
 
 \end_layout
 
+\begin_layout Standard
+Tips:
+\end_layout
+
+\begin_layout Itemize
+Use the fact that, if there is a steady state probability distribution 
+\begin_inset Formula $p_{\infty}$
+\end_inset
+
+, then the time dependant term 
+\begin_inset Formula $\frac{\partial p_{\infty}}{\partial t}=0$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Use the fact the 
+\begin_inset Formula $p_{\infty}$
+\end_inset
+
+ is probability density function; as such its integral over 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ is 1
+\end_layout
+
+\begin_layout Itemize
+Use the fact that when 
+\begin_inset Formula $y\rightarrow\infty$
+\end_inset
+
+(becomes large), we have 
+\begin_inset Formula $\begin{cases}
+p_{\infty}(y) & \rightarrow0\\
+\frac{\partial p_{\infty}}{\partial y} & \rightarrow0
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Don't forget constant of integration
+\end_layout
+
 \begin_layout Section
 Stochastic calculus
 \end_layout
@@ -903,7 +950,7 @@ memoryless
 \end_layout
 
 \begin_layout Subsubsection*
-Martingale in conitnusous time
+Martingale in continuous time
 \end_layout
 
 \begin_layout Standard
@@ -2119,6 +2166,28 @@ Finite difference methods
 \end_layout
 
 \begin_layout Standard
+Grid definition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta S=\frac{S^{*}}{N}$
+\end_inset
+
+ where 
+\begin_inset Formula $S^{*}\gg E$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta t=\frac{T}{M}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Approximation of theta:
 \end_layout
 
@@ -2324,27 +2393,64 @@ Finite Difference - Explicit scheme
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial t}\thicksim\frac{V_{n}^{m}-V_{n}^{m-1}}{\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}\thicksim\frac{V_{n+1}^{m}-V_{n-1}^{m}}{2\delta S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}\thicksim\frac{V_{n+1}^{m}-2V_{n}^{m}+V_{n-1}^{m}}{\delta S^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note: We define 
+\begin_inset Formula $V_{n}^{m-1}$
+\end_inset
+
+as a function of 
+\begin_inset Formula $V_{n+1}^{m},V_{n}^{m},V_{n-1}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 we use the above approximations:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\frac{V_{i}^{k}-V_{i}^{k+1}}{\delta t}+a_{i}^{k}\times\frac{V_{i+1}^{k}-2V_{i}^{k}+V_{i-1}^{k}}{\delta S^{2}}+b_{i}^{k}\times\frac{V_{i+1}^{k}-V_{i-1}^{k}}{2\delta S}+c_{i}^{k}\times V_{i}^{k}=\mathcal{O}(\delta t,\delta S^{2})$
+\begin_inset Formula $\frac{V_{n}^{m}-V_{n}^{m-1}}{\delta t}+a_{n}^{m}\times\frac{V_{n+1}^{m}-2V_{n}^{m}+V_{n-1}^{m}}{\delta S^{2}}+b_{n}^{m}\times\frac{V_{n+1}^{m}-V_{n-1}^{m}}{2\delta S}+c_{n}^{m}\times V_{n}^{m}=\mathcal{O}(\delta t,\delta S^{2})$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
+Backward 
+\end_layout
+
+\begin_layout Standard
 This is an equation for 
-\begin_inset Formula $V_{i}^{k+1}$
+\begin_inset Formula $V_{i}^{m-1}$
 \end_inset
 
- (at time 
-\begin_inset Formula $k+1$
+ (time 
+\begin_inset Formula $m-1$
 \end_inset
 
 ) given 3 option values at time 
-\begin_inset Formula $k$
+\begin_inset Formula $m$
 \end_inset
 
 .
@@ -2399,6 +2505,27 @@ Finite Difference - Implicit scheme
 \begin_inset Graphics
 	filename implicit_scheme.png
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial t}\thicksim\frac{V_{n}^{m}-V_{n}^{m-1}}{\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}\thicksim\frac{V_{n+1}^{m-1}-V_{n-1}^{m-1}}{2\delta S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}\thicksim\frac{V_{n+1}^{m-1}-2V_{n}^{m-1}+V_{n-1}^{m-1}}{\delta S^{2}}$
 \end_inset
 
 
@@ -2491,20 +2618,24 @@ At
 \begin_inset Formula $S\rightarrow\infty$
 \end_inset
 
+, 
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}(S,t)\rightarrow\infty$
+\end_inset
+
 , we use vanishing gamma 
 \begin_inset Formula $\Gamma\thicksim\frac{V_{n-1}^{m-1}-2V_{n}^{m-1}+V_{n+1}^{m-1}}{\delta S^{2}}=0$
 \end_inset
 
 .
  Upon re-arranging, 
-\begin_inset Formula $V_{n+1}^{m-1}=2V_{n}^{m-1}-V_{n-1}^{m-1}$
+\begin_inset Formula $V_{N+1}^{m-1}=2V_{N}^{m-1}-V_{N-1}^{m-1}$
 \end_inset
 
-
+ (linear interpolation)
 \end_layout
 
 \begin_layout Standard
-we hten obtain a 
+we then obtain a 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2548,7 +2679,24 @@ For each time-step, we must solve:
 \begin_inset Formula $A\times V^{m-1}=V^{m}$
 \end_inset
 
+, i.e.
+ 
+\begin_inset Formula $V^{m-1}=A^{-1}\times V^{m},$
+\end_inset
 
+
+\end_layout
+
+\begin_layout Standard
+How to resolve the inverting matrix problem:
+\end_layout
+
+\begin_layout Itemize
+solved directly
+\end_layout
+
+\begin_layout Itemize
+or iteratively using the Gauss-Seidel Method
 \end_layout
 
 \begin_layout Subsection*
@@ -2934,7 +3082,279 @@ Exotics
 \end_layout
 
 \begin_layout Standard
-Continous arithmetic average
+
+\series bold
+Continously sampled arithmetic average
+\end_layout
+
+\begin_layout Standard
+The final payoff is a function of 
+\begin_inset Formula $A=\frac{1}{T}\int_{0}^{T}S(\tau)\; d\tau$
+\end_inset
+
+ but the running average, and hence our new state variable is 
+\begin_inset Formula $A=\frac{1}{T}\int_{0}^{t}S(\tau)\; d\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We need a theory for options with payoff depending on integrals.
+\end_layout
+
+\begin_layout Standard
+We start by assuming that the underlying asset follows the lo-normal random
+ walk: 
+\begin_inset Formula $dS=\mu Sdt+\sigma SdX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Imagine a contract that pays off at expiry 
+\begin_inset Formula $T$
+\end_inset
+
+ an amount that is a funciton of the path taken by the asset between time
+ zero and expiry.
+\end_layout
+
+\begin_layout Standard
+Let us suppose that this path-dependent quantity can be represented by an
+ integral of some function of the asset over the perdio zero to 
+\begin_inset Formula $T$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I(T)=\int_{0}^{T}f(S,\tau)\; d\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for an arithmetic average, we have 
+\begin_inset Formula $f\equiv S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for a geometric average, we have 
+\begin_inset Formula $f\equiv\log S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You might think that we need to model and remember 
+\begin_inset Formula $S$
+\end_inset
+
+ at every single moment between now and expiration.
+\end_layout
+
+\begin_layout Standard
+One can imagine that the value of the option is thertefore not only a function
+ of 
+\begin_inset Formula $S$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+, but also a function of 
+\begin_inset Formula $I$
+\end_inset
+
+; 
+\begin_inset Formula $I$
+\end_inset
+
+ will be our new independent variable, called a 
+\series bold
+state variable
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(S,t)\rightarrow V(S,I,t)$
+\end_inset
+
+ i.e.
+ adds an extra dimension
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I(t)=\int_{0}^{t}f(S,\tau)\; d\tau$
+\end_inset
+
+ i.e.
+ 
+\begin_inset Formula $dI=f(S,t)dt$
+\end_inset
+
+ (note: 
+\begin_inset Formula $I$
+\end_inset
+
+ is a smooth function except at discontinuities of f and its SDE has no
+ stochastic term, i.e only a drift)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Pi=V(S,I,t)-\varDelta S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the change is this portfolio is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt+\frac{\partial V}{\partial I}dI+\left(\frac{\partial V}{\partial S}-\varDelta\right)dS$
+\end_inset
+
+ (no diffusion term 
+\begin_inset Formula $\frac{\partial^{2}V}{\partial I{}^{2}}$
+\end_inset
+
+because no stochastic term in 
+\begin_inset Formula $dI$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt+\frac{\partial V}{\partial I}f(S,t)dt+\left(\frac{\partial V}{\partial S}-\varDelta\right)dS$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because, it is a traded asset, we can hedge (we work in complete market),
+ we can set 
+\begin_inset Formula $\varDelta=\frac{\partial V}{\partial S}$
+\end_inset
+
+ to eliminate the risk
+\end_layout
+
+\begin_layout Standard
+now, using the no arbitrage argument, we can say that 
+\begin_inset Formula $d\Pi=r\Pi dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $\left(\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+\frac{\partial V}{\partial I}f(S,t)\right)=r\Pi dt=r(V(S,I,t)-\varDelta S)dt=r(V-\frac{\partial V}{\partial S}S)dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ the BSE for Asian Options 
+\begin_inset Formula $\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+\frac{\partial V}{\partial I}f(S,t)+rS\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+ (where 
+\begin_inset Formula $f$
+\end_inset
+
+ depends on the sampling method)
+\end_layout
+
+\begin_layout Standard
+This is to be solved sbject to 
+\begin_inset Formula $V(S,I,t)=\mbox{Payoff}(S,I)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Example : 
+\end_layout
+
+\begin_layout Standard
+Payoff for the continuously sampled arithmetic average strike call option
+ is 
+\begin_inset Formula $\max(S-\frac{1}{T}\int_{0}^{T}S(\tau)d\tau,0)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This can be written as 
+\begin_inset Formula $I(T)\max(R-\frac{1}{T},0)$
+\end_inset
+
+ where 
+\begin_inset Formula $I(t)=\int_{0}^{t}S(\tau)d\tau$
+\end_inset
+
+ and 
+\begin_inset Formula $R(t)=\frac{S(t)}{\int_{0}^{t}S(\tau)d\tau}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In vierw of the form of the payoff function, it seems plausible tothat the
+ option value takes the form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(S,I,t)=I(t)W(R,t)$
+\end_inset
+
+ with 
+\begin_inset Formula $R(t)=\frac{S(t)}{I(t)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We find that 
+\begin_inset Formula $W$
+\end_inset
+
+ satisfies the following PDE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial W}{\partial t}+\frac{1}{2}\sigma^{2}R^{2}\frac{\partial^{2}W}{\partial R^{2}}+R(r-R)\frac{\partial W}{\partial R}-(r-R)W=0$
+\end_inset
+
+ with final condition 
+\begin_inset Formula $W(R,T)=\max\left(R-\frac{1}{T},0\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

@@ -2166,6 +2166,28 @@ Finite difference methods
 \end_layout
 
 \begin_layout Standard
+Grid definition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta S=\frac{S^{*}}{N}$
+\end_inset
+
+ where 
+\begin_inset Formula $S^{*}\gg E$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta t=\frac{T}{M}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Approximation of theta:
 \end_layout
 
@@ -2371,27 +2393,64 @@ Finite Difference - Explicit scheme
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial t}\thicksim\frac{V_{n}^{m}-V_{n}^{m-1}}{\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}\thicksim\frac{V_{n+1}^{m}-V_{n-1}^{m}}{2\delta S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}\thicksim\frac{V_{n+1}^{m}-2V_{n}^{m}+V_{n-1}^{m}}{\delta S^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note: We define 
+\begin_inset Formula $V_{n}^{m-1}$
+\end_inset
+
+as a function of 
+\begin_inset Formula $V_{n+1}^{m},V_{n}^{m},V_{n-1}^{m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 we use the above approximations:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\frac{V_{i}^{k}-V_{i}^{k+1}}{\delta t}+a_{i}^{k}\times\frac{V_{i+1}^{k}-2V_{i}^{k}+V_{i-1}^{k}}{\delta S^{2}}+b_{i}^{k}\times\frac{V_{i+1}^{k}-V_{i-1}^{k}}{2\delta S}+c_{i}^{k}\times V_{i}^{k}=\mathcal{O}(\delta t,\delta S^{2})$
+\begin_inset Formula $\frac{V_{n}^{m}-V_{n}^{m-1}}{\delta t}+a_{n}^{m}\times\frac{V_{n+1}^{m}-2V_{n}^{m}+V_{n-1}^{m}}{\delta S^{2}}+b_{n}^{m}\times\frac{V_{n+1}^{m}-V_{n-1}^{m}}{2\delta S}+c_{n}^{m}\times V_{n}^{m}=\mathcal{O}(\delta t,\delta S^{2})$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
+Backward 
+\end_layout
+
+\begin_layout Standard
 This is an equation for 
-\begin_inset Formula $V_{i}^{k+1}$
+\begin_inset Formula $V_{i}^{m-1}$
 \end_inset
 
- (at time 
-\begin_inset Formula $k+1$
+ (time 
+\begin_inset Formula $m-1$
 \end_inset
 
 ) given 3 option values at time 
-\begin_inset Formula $k$
+\begin_inset Formula $m$
 \end_inset
 
 .
@@ -2446,6 +2505,27 @@ Finite Difference - Implicit scheme
 \begin_inset Graphics
 	filename implicit_scheme.png
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial t}\thicksim\frac{V_{n}^{m}-V_{n}^{m-1}}{\delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial V}{\partial S}\thicksim\frac{V_{n+1}^{m-1}-V_{n-1}^{m-1}}{2\delta S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}\thicksim\frac{V_{n+1}^{m-1}-2V_{n}^{m-1}+V_{n-1}^{m-1}}{\delta S^{2}}$
 \end_inset
 
 
@@ -2538,20 +2618,24 @@ At
 \begin_inset Formula $S\rightarrow\infty$
 \end_inset
 
+, 
+\begin_inset Formula $\frac{\partial^{2}V}{\partial S^{2}}(S,t)\rightarrow\infty$
+\end_inset
+
 , we use vanishing gamma 
 \begin_inset Formula $\Gamma\thicksim\frac{V_{n-1}^{m-1}-2V_{n}^{m-1}+V_{n+1}^{m-1}}{\delta S^{2}}=0$
 \end_inset
 
 .
  Upon re-arranging, 
-\begin_inset Formula $V_{n+1}^{m-1}=2V_{n}^{m-1}-V_{n-1}^{m-1}$
+\begin_inset Formula $V_{N+1}^{m-1}=2V_{N}^{m-1}-V_{N-1}^{m-1}$
 \end_inset
 
-
+ (linear interpolation)
 \end_layout
 
 \begin_layout Standard
-we hten obtain a 
+we then obtain a 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2595,9 +2679,32 @@ For each time-step, we must solve:
 \begin_inset Formula $A\times V^{m-1}=V^{m}$
 \end_inset
 
+, i.e.
+ 
+\begin_inset Formula $V^{m-1}=A^{-1}\times V^{m},$
+\end_inset
+
 
 \end_layout
 
+\begin_layout Standard
+How to resolve the inverting matrix problem:
+\end_layout
+
+\begin_layout Itemize
+solved directly (LU decomposition)
+\end_layout
+
+\begin_layout Itemize
+or iteratively (Jacovi, Gauss-Seidel or SOR)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+dg
+\end_layout
+
+\end_deeper
 \begin_layout Subsection*
 Finite Difference - Crank-Nicolson scheme
 \end_layout
@@ -3184,13 +3291,75 @@ i.e.
 
 \begin_layout Standard
 This is to be solved sbject to 
-\begin_inset Formula $V(S,I,T)=\mbox{Payoff}(S,I)$
+\begin_inset Formula $V(S,I,t)=\mbox{Payoff}(S,I)$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
+
+\series bold
+Example : 
+\end_layout
+
+\begin_layout Standard
+Payoff for the continuously sampled arithmetic average strike call option
+ is 
+\begin_inset Formula $\max(S-\frac{1}{T}\int_{0}^{T}S(\tau)d\tau,0)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This can be written as 
+\begin_inset Formula $I(T)\max(R-\frac{1}{T},0)$
+\end_inset
+
+ where 
+\begin_inset Formula $I(t)=\int_{0}^{t}S(\tau)d\tau$
+\end_inset
+
+ and 
+\begin_inset Formula $R(t)=\frac{S(t)}{\int_{0}^{t}S(\tau)d\tau}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In vierw of the form of the payoff function, it seems plausible tothat the
+ option value takes the form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(S,I,t)=I(t)W(R,t)$
+\end_inset
+
+ with 
+\begin_inset Formula $R(t)=\frac{S(t)}{I(t)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We find that 
+\begin_inset Formula $W$
+\end_inset
+
+ satisfies the following PDE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{\partial W}{\partial t}+\frac{1}{2}\sigma^{2}R^{2}\frac{\partial^{2}W}{\partial R^{2}}+R(r-R)\frac{\partial W}{\partial R}-(r-R)W=0$
+\end_inset
+
+ with final condition 
+\begin_inset Formula $W(R,T)=\max\left(R-\frac{1}{T},0\right)$
+\end_inset
+
 
 \end_layout
 
