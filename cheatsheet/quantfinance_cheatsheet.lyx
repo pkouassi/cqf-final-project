@@ -306,6 +306,53 @@ i.e.
 
 \end_layout
 
+\begin_layout Standard
+Tips:
+\end_layout
+
+\begin_layout Itemize
+Use the fact that, if there is a steady state probability distribution 
+\begin_inset Formula $p_{\infty}$
+\end_inset
+
+, then the time dependant term 
+\begin_inset Formula $\frac{\partial p_{\infty}}{\partial t}=0$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Use the fact the 
+\begin_inset Formula $p_{\infty}$
+\end_inset
+
+ is probability density function; as such its integral over 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ is 1
+\end_layout
+
+\begin_layout Itemize
+Use the fact that when 
+\begin_inset Formula $y\rightarrow\infty$
+\end_inset
+
+(becomes large), we have 
+\begin_inset Formula $\begin{cases}
+p_{\infty}(y) & \rightarrow0\\
+\frac{\partial p_{\infty}}{\partial y} & \rightarrow0
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Don't forget constant of integration
+\end_layout
+
 \begin_layout Section
 Stochastic calculus
 \end_layout
@@ -903,7 +950,7 @@ memoryless
 \end_layout
 
 \begin_layout Subsubsection*
-Martingale in conitnusous time
+Martingale in continuous time
 \end_layout
 
 \begin_layout Standard
@@ -2934,7 +2981,217 @@ Exotics
 \end_layout
 
 \begin_layout Standard
-Continous arithmetic average
+
+\series bold
+Continously sampled arithmetic average
+\end_layout
+
+\begin_layout Standard
+The final payoff is a function of 
+\begin_inset Formula $A=\frac{1}{T}\int_{0}^{T}S(\tau)\; d\tau$
+\end_inset
+
+ but the running average, and hence our new state variable is 
+\begin_inset Formula $A=\frac{1}{T}\int_{0}^{t}S(\tau)\; d\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We need a theory for options with payoff depending on integrals.
+\end_layout
+
+\begin_layout Standard
+We start by assuming that the underlying asset follows the lo-normal random
+ walk: 
+\begin_inset Formula $dS=\mu Sdt+\sigma SdX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Imagine a contract that pays off at expiry 
+\begin_inset Formula $T$
+\end_inset
+
+ an amount that is a funciton of the path taken by the asset between time
+ zero and expiry.
+\end_layout
+
+\begin_layout Standard
+Let us suppose that this path-dependent quantity can be represented by an
+ integral of some function of the asset over the perdio zero to 
+\begin_inset Formula $T$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I(T)=\int_{0}^{T}f(S,\tau)\; d\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for an arithmetic average, we have 
+\begin_inset Formula $f\equiv S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for a geometric average, we have 
+\begin_inset Formula $f\equiv\log S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You might think that we need to model and remember 
+\begin_inset Formula $S$
+\end_inset
+
+ at every single moment between now and expiration.
+\end_layout
+
+\begin_layout Standard
+One can imagine that the value of the option is thertefore not only a function
+ of 
+\begin_inset Formula $S$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+, but also a function of 
+\begin_inset Formula $I$
+\end_inset
+
+; 
+\begin_inset Formula $I$
+\end_inset
+
+ will be our new independent variable, called a 
+\series bold
+state variable
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V(S,t)\rightarrow V(S,I,t)$
+\end_inset
+
+ i.e.
+ adds an extra dimension
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I(t)=\int_{0}^{t}f(S,\tau)\; d\tau$
+\end_inset
+
+ i.e.
+ 
+\begin_inset Formula $dI=f(S,t)dt$
+\end_inset
+
+ (note: 
+\begin_inset Formula $I$
+\end_inset
+
+ is a smooth function except at discontinuities of f and its SDE has no
+ stochastic term, i.e only a drift)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Pi=V(S,I,t)-\varDelta S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the change is this portfolio is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt+\frac{\partial V}{\partial I}dI+\left(\frac{\partial V}{\partial S}-\varDelta\right)dS$
+\end_inset
+
+ (no diffusion term 
+\begin_inset Formula $\frac{\partial^{2}V}{\partial I{}^{2}}$
+\end_inset
+
+because no stochastic term in 
+\begin_inset Formula $dI$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d\Pi=\left(\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}\right)dt+\frac{\partial V}{\partial I}f(S,t)dt+\left(\frac{\partial V}{\partial S}-\varDelta\right)dS$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because, it is a traded asset, we can hedge (we work in complete market),
+ we can set 
+\begin_inset Formula $\varDelta=\frac{\partial V}{\partial S}$
+\end_inset
+
+ to eliminate the risk
+\end_layout
+
+\begin_layout Standard
+now, using the no arbitrage argument, we can say that 
+\begin_inset Formula $d\Pi=r\Pi dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ 
+\begin_inset Formula $\left(\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+\frac{\partial V}{\partial I}f(S,t)\right)=r\Pi dt=r(V(S,I,t)-\varDelta S)dt=r(V-\frac{\partial V}{\partial S}S)dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+i.e.
+ the BSE for Asian Options 
+\begin_inset Formula $\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}V}{\partial S^{2}}+\frac{\partial V}{\partial I}f(S,t)+rS\frac{\partial V}{\partial S}-rV=0$
+\end_inset
+
+ (where 
+\begin_inset Formula $f$
+\end_inset
+
+ depends on the sampling method)
+\end_layout
+
+\begin_layout Standard
+This is to be solved sbject to 
+\begin_inset Formula $V(S,I,T)=\mbox{Payoff}(S,I)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Standard

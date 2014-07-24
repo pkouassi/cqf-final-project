@@ -903,7 +903,7 @@ memoryless
 \end_layout
 
 \begin_layout Subsubsection*
-Martingale in conitnusous time
+Martingale in continuous time
 \end_layout
 
 \begin_layout Standard
@@ -3349,14 +3349,14 @@ The risk-adjustred drift rates are:
 
 \begin_layout Standard
 Affine solution for a ZCB of the form 
+\begin_inset Formula $V(r,t;T)=\exp(A(t)-rB(t)-lC(t))$
+\end_inset
+
+ can be found
 \end_layout
 
-\begin_layout Standard
-/ tractable models 
-\end_layout
-
-\begin_layout Standard
-dfg
+\begin_layout Subsection*
+Calibration
 \end_layout
 
 \begin_layout Standard
