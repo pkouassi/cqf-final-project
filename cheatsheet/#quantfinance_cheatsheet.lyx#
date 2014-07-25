@@ -195,7 +195,7 @@ Consider an arbitrary random walk for the the variable
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $dy=A(y,t)dt,+B(y,t)dX$
+\begin_inset Formula $dy=A(y,t)dt+B(y,t)dX$
 \end_inset
 
 
@@ -780,7 +780,7 @@ if
 
 \end_deeper
 \begin_layout Enumerate
-Jensen's Inequaltiy
+Jensen's Inequality
 \end_layout
 
 \begin_deeper
@@ -806,7 +806,7 @@ Martingales as a class of stochastic process
 \end_layout
 
 \begin_layout Itemize
-Exponentional martingales, whoch are a specific and extremly useful example
+Exponentional martingales, which are a specific and extremely useful example
  of martingale
 \end_layout
 
@@ -932,16 +932,24 @@ Markov vs.
 
 \begin_layout Standard
 Markov processes and martingales are not synonymous.
- The martingale property states that the expected value at time t + 1 is
+ 
+\end_layout
+
+\begin_layout Itemize
+The martingale property states that the expected value at time t + 1 is
  the value realized at time t.
  The process is 
 \series bold
 driftless
 \series default
 .
- The Markov property implies that the expected value at time t + 1 does
- not depend on the history (trajectory) up to time t, but it may depend
- on the value at time t.
+ 
+\end_layout
+
+\begin_layout Itemize
+The Markov property implies that the expected value at time t + 1 does not
+ depend on the history (trajectory) up to time t, but it may depend on the
+ value at time t.
  The process is 
 \series bold
 memoryless
@@ -1154,7 +1162,7 @@ Let's consider some stochastic process
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $dY(t)=f(t)dt+g(t)dX(t)$
+\begin_inset Formula $dY(t)=f(t)\; dt+g(t)\; dX(t)$
 \end_inset
 
  with 
@@ -1196,7 +1204,7 @@ Let's consider some stochastic process
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $dY(t)=f(t)dt+g(t)dX(t)$
+\begin_inset Formula $dY(t)=f(t)\; dt+g(t)\; dX(t)$
 \end_inset
 
  with 
@@ -1601,14 +1609,14 @@ i.e.
 \end_layout
 
 \begin_layout Standard
-To solve the Black-Scholes PDE we need to impose suitable boundary and nal
+To solve the Black-Scholes PDE we need to impose suitable boundary and final
  conditions.
  Until we do so the BSE knows nothing about what kind of option we are pricing.
 \end_layout
 
 \begin_layout Standard
 If we remind ourselves of the structure of this equation, i.e.
- .rst order in time and second order in asset price - this tells us that
+ first order in time and second order in asset price - this tells us that
  we need one time condition and two boundary conditions.
 \end_layout
 
@@ -2699,12 +2707,6 @@ solved directly (LU decomposition)
 or iteratively (Jacovi, Gauss-Seidel or SOR)
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-dg
-\end_layout
-
-\end_deeper
 \begin_layout Subsection*
 Finite Difference - Crank-Nicolson scheme
 \end_layout
@@ -3717,7 +3719,7 @@ Therefore, we obtain
 \begin_inset Formula $\lambda dt$
 \end_inset
 
-; excess amount)
+; excess amount that market expects as compensation)
 \end_layout
 
 \begin_layout Standard
@@ -3808,6 +3810,92 @@ Affine solutions for a ZCB of the form
 
 \end_layout
 
+\begin_layout Standard
+Tips to solve such equations:
+\end_layout
+
+\begin_layout Itemize
+Substitute 
+\begin_inset Formula $V(r,t;T)=\exp(A(t)-rB(t))$
+\end_inset
+
+ into the PDE
+\end_layout
+
+\begin_layout Itemize
+Group terms by power of 
+\begin_inset Formula $r$
+\end_inset
+
+ and obtain 2 differential equations (in 
+\series bold
+
+\begin_inset Formula $A(t)$
+\end_inset
+
+ 
+\series default
+and
+\series bold
+ 
+\begin_inset Formula $B(t)$
+\end_inset
+
+
+\series default
+).
+ Solve the equation that contains only 
+\begin_inset Formula $B(t)$
+\end_inset
+
+ and its derivatives first (or 
+\begin_inset Formula $A(t)$
+\end_inset
+
+ and its derivatives)
+\end_layout
+
+\begin_layout Itemize
+Use the fact that 
+\begin_inset Formula $V(T,.T)=1$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $\forall r\;\exp(A(T)-rB(T))=1$
+\end_inset
+
+; i.e 
+\begin_inset Formula $A(T)=B(T)=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Don't forget integration constant when integrating
+\end_layout
+
+\begin_layout Itemize
+Alternatively integrate between 
+\begin_inset Formula $t$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ (calculation is simpified because we know the value of 
+\begin_inset Formula $A(T)$
+\end_inset
+
+ and 
+\begin_inset Formula $B(T)$
+\end_inset
+
+)
+\end_layout
+
 \begin_layout Subsection*
 Multi-factor models 
 \end_layout
@@ -3869,20 +3957,368 @@ Affine solution for a ZCB of the form
 Calibration
 \end_layout
 
-\begin_layout Standard
-A faire...a creser
+\begin_layout Subsubsection*
+Ho & Lee
 \end_layout
 
 \begin_layout Standard
-HJM
+\begin_inset Formula $Z(t,T)=\exp\left(A(t;T)-rB(t;T)\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $A(t;T)=-\int_{t}^{T}\eta(s)(T-s)\; ds+\frac{1}{6}c^{2}(T-t)^{3}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-LMM
+To match the market and theoretical bond prices, we must solve 
+\begin_inset Formula $Z_{M}(t^{*},T)=\exp\left(A(t^{*};T)-r^{*}(t^{*};T)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Taking logarithms of this and rearranging slightly, we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\int_{t^{*}}^{T}\eta^{*}(s)(T-s)\; ds=-\log\left(Z_{M}(t^{*},T)\right)-r^{*}(t^{*};T)+\frac{1}{6}c^{2}(T-t^{*})^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\eta^{*}(s)=c^{2}(t-t^{*})-\frac{\partial^{2}}{\partial^{2}}\log(Z_{M}(t^{*};t))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tips to calculate 
+\begin_inset Formula $\eta^{*}(s)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Differentiate 2 times with respect to 
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Hull & White (extended Vasicek)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dr=(\eta(t)-\gamma r)dt+cdX$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Z(r,t;T)=\exp\left(A(t;T)-rB(t;T)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $A(t;T)=-\int_{t}^{T}\eta(s)B(s;T)\; ds+\frac{c^{2}}{2\gamma^{2}}\left(T-t+\frac{2}{\gamma}e^{-\gamma(T-t)}-\frac{1}{2\gamma}e^{-2\gamma(T-t)}-\frac{3}{2\gamma}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $B(t;T)=\frac{1}{\gamma}(1-e^{-\gamma(T-t)})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To fit the yield curve at time 
+\begin_inset Formula $,t^{*}$
+\end_inset
+
+we must make 
+\begin_inset Formula $\eta^{*}(t)$
+\end_inset
+
+ satisfy:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $-\int_{t}^{T}\eta(s)B(s;T)\; ds+\frac{c^{2}}{2\gamma^{2}}\left(T-t+\frac{2}{\gamma}e^{-\gamma(T-t)}-\frac{1}{2\gamma}e^{-2\gamma(T-t)}-\frac{3}{2\gamma}\right)=\log\left(Z_{M}(t^{*};T)\right)+r^{*}B(t^{*},T)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Calibration in pratice
+\end_layout
+
+\begin_layout Standard
+In practice, we do not have a differentiable yield curve, instead we have
+ finite number of bond prices.
+ Just some dots, one per maturity.
+\end_layout
+
+\begin_layout Standard
+To get a unique 
+\begin_inset Quotes eld
+\end_inset
+
+solution
+\begin_inset Quotes erd
+\end_inset
+
+ for 
+\begin_inset Formula $\eta(t)$
+\end_inset
+
+ we have to make some assumptions about its structure.
+ 
+\end_layout
+
+\begin_layout Standard
+Example: 
+\begin_inset Formula $\eta(t)$
+\end_inset
+
+ is piecewise constant; 
+\begin_inset Formula $\eta(t)$
+\end_inset
+
+ is piecewise linear and continuous, etc.
+\end_layout
+
+\begin_layout Subsection*
+Time series analysis
+\end_layout
+
+\begin_layout Standard
+We assume a spot rate model of the form: 
+\begin_inset Formula $dr=u(r)dt+w(r)dX$
+\end_inset
+
+ where 
+\begin_inset Formula $w(r)=vr^{\beta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Three key stages:
+\end_layout
+
+\begin_layout Enumerate
+By differencing spot rate time series data, we determine the volatility
+ dependence on the spot rate 
+\begin_inset Formula $w(r)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We use 
+\begin_inset Formula $\mathbb{E}\left[(\delta r)^{2}\right]=v^{2}r^{2\beta}\delta t$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Plot 
+\begin_inset Formula $\log\mathbb{E}\left[(\delta r)^{2}\right]$
+\end_inset
+
+ against 
+\begin_inset Formula $\log r$
+\end_inset
+
+ and deduct 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+ because 
+\begin_inset Formula $\log\mathbb{E}\left[(\delta r)^{2}\right]=\log(v^{2}r^{2\beta}\delta t)=\log(v^{2}\delta t)+2\beta\times\log(r)$
+\end_inset
+
+ (i.e.
+ the slope is 
+\begin_inset Formula $2\beta$
+\end_inset
+
+, and intercept is 
+\begin_inset Formula $\log(v^{2}\delta t)$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+By examining the steady-state probability density function for the sport
+ rate, we determine the functional form of the drift rate 
+\begin_inset Formula $u(r)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Find the steady-state solution (method explained earlier)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $u(r)=v^{2}\beta r^{2\beta-1}+v^{2}\frac{1}{2}r^{2\beta}\frac{d}{dr}\log p_{\infty}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can detemine a plausible funciton form for 
+\begin_inset Formula $p_{\infty}(r)$
+\end_inset
+
+ from the one-month US LIBOR rates.
+\end_layout
+
+\begin_layout Standard
+Our choice for 
+\begin_inset Formula $p_{\infty}(r)$
+\end_inset
+
+ is 
+\begin_inset Formula $\frac{1}{ar\sqrt{2\pi}}\exp\left(-\frac{1}{2a^{2}}(\log(\frac{r}{\overline{r}}))^{2}\right)$
+\end_inset
+
+.
+ From this we find 
+\begin_inset Formula $a$
+\end_inset
+
+, 
+\begin_inset Formula $\overline{r}$
+\end_inset
+
+ and then 
+\begin_inset Formula $u(r)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+We examine the slope of the yield curve to determine the market price of
+ risk 
+\begin_inset Formula $\lambda(r)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Slope of the yield curve and the market price of risk
+\end_layout
+
+\begin_layout Standard
+There is no information about the market price of risk in the spot-rate
+ process.
+ Such information is containted within instruments of finite (not infinitesimal)
+ maturity.
+\end_layout
+
+\begin_layout Standard
+We will examine the short end of the curve of this information.
+\end_layout
+
+\begin_layout Standard
+We know that zero-coupon bonds satisfy 
+\begin_inset Formula $\frac{\partial Z}{\partial t}+\frac{1}{2}w^{2}\frac{\partial^{2}Z}{\partial r^{2}}+(u-\lambda w)\frac{\partial Z}{\partial r}-rZ=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Look for a solution for small times ot maturity of the form 
+\begin_inset Formula $Z\thicksim1+a(r)(T-t)+b(r)(T-t)^{2}+\ldots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substitute in the PDE, identify value for 
+\begin_inset Formula $a(r)$
+\end_inset
+
+ and 
+\begin_inset Formula $b(r)$
+\end_inset
+
+ so that 
+\begin_inset Formula $Z$
+\end_inset
+
+ is a solution of the PDE
+\end_layout
+
+\begin_layout Standard
+Calculate 
+\begin_inset Formula $\log Z(r,t;T)$
+\end_inset
+
+ using 
+\begin_inset Formula $Z(r,t;T)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use the formula
+\begin_inset Formula $Yield(r,t;T)=\frac{-\log Z(r,t;T)}{(T-t)}$
+\end_inset
+
+ to approxime the yield
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Yield(r,t;T)=\frac{-\log Z(r,t;T)}{(T-t)}=r+\frac{1}{2}(\eta-\gamma r)(T-t)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
-Stock vol and Jump diffusion
+Jump diffusion
+\end_layout
+
+\begin_layout Section
+Stochastic volatility
 \end_layout
 
 \end_body
